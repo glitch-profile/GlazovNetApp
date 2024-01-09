@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Глазов.NET</string>
+
+    <string name="api_response_server_error">Ошибка на сервере.\nСообщение: </string>
+    <string name="api_response_error">"Ошибка запроса.\nКод ошибки: "</string>
+    <string name="api_response_unknown_error">Неизвестная ошибка.</string>
+    <string name="api_response_server_not_available">Сервер не доступен</string>
+
+</resources>
