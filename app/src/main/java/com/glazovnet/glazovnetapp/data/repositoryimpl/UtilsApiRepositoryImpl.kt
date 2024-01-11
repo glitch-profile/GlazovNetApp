@@ -1,7 +1,7 @@
 package com.glazovnet.glazovnetapp.data.repositoryimpl
 
-import com.example.glazovnetadminapp.entity.authDto.AuthDataDto
-import com.example.glazovnetadminapp.entity.authDto.AuthResponse
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthDataDto
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthResponse
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.data.entity.ApiResponseDto
 import com.glazovnet.glazovnetapp.domain.repository.UtilsApiRepository
@@ -47,6 +47,7 @@ class UtilsApiRepositoryImpl @Inject constructor(
         } catch (e: ConnectTimeoutException) {
             Resource.Error(R.string.api_response_server_not_available)
         } catch (e: Exception) {
+            e.printStackTrace()
             Resource.Error(R.string.api_response_unknown_error)
         }
     }

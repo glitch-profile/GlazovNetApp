@@ -1,7 +1,7 @@
 package com.glazovnet.glazovnetapp.domain.usecase
 
-import com.example.glazovnetadminapp.entity.authDto.AuthDataDto
-import com.example.glazovnetadminapp.entity.authDto.AuthResponse
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthDataDto
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthResponse
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.domain.utils.Resource
