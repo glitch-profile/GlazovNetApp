@@ -13,6 +13,7 @@ import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -33,12 +34,14 @@ class UtilsApiRepositoryImpl @Inject constructor(
 
     override suspend fun login(authData: AuthDataDto): Resource<AuthResponse> {
         return try {
-            val response: ApiResponseDto<AuthResponse> = client.post(LOGIN_PATH) {
+            val response: ApiResponseDto<AuthResponse?> = client.post(LOGIN_PATH) {
                 contentType(ContentType.Application.Json)
                 setBody(authData)
             }.body()
-            if (response.status) Resource.Success(data = response.data)
-            else Resource.Error(R.string.api_response_server_error, response.message)
+            if (response.status) Resource.Success(data = response.data!!)
+            else if (response.message == "user not found") {
+                Resource.Error(R.string.login_response_user_not_found)
+            } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: ResponseException) {
             Resource.Error(R.string.api_response_error, e.response.status.toString())
         } catch (e: ConnectTimeoutException) {
@@ -72,4 +75,11 @@ class UtilsApiRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getIntroImageUrl(): String {
+        return try {
+            client.get("$PATH/get-intro-image-url").body()
+        } catch (e: Exception) {
+            ""
+        }
+    }
 }

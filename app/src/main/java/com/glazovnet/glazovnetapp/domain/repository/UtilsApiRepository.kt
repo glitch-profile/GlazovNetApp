@@ -11,4 +11,6 @@ interface UtilsApiRepository {
 
     suspend fun uploadImage(file: File, token: String): Resource<List<String>>
 
+    suspend fun getIntroImageUrl(): String
+
 }
