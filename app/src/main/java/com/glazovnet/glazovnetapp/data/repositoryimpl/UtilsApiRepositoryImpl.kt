@@ -1,9 +1,9 @@
 package com.glazovnet.glazovnetapp.data.repositoryimpl
 
-import com.glazovnet.glazovnetapp.data.entity.auth.AuthDataDto
-import com.glazovnet.glazovnetapp.data.entity.auth.AuthResponse
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.data.entity.ApiResponseDto
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthDataDto
+import com.glazovnet.glazovnetapp.data.entity.auth.AuthResponse
 import com.glazovnet.glazovnetapp.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import io.ktor.client.HttpClient
