@@ -2,7 +2,6 @@ package com.glazovnet.glazovnetapp.presentation.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -59,7 +58,7 @@ fun DesignedTextField(
             unfocusedLabelColor = unfocusedColor,
             unfocusedTextColor = unfocusedColor,
             unfocusedLeadingIconColor = unfocusedColor,
-            unfocusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
             unfocusedPlaceholderColor = unfocusedColor,
 
             focusedLabelColor = primaryColor,
