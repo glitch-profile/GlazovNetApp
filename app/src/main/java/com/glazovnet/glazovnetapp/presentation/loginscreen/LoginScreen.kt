@@ -40,6 +40,8 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.presentation.components.DesignedTextField
 
+private const val SIDE_PADDING = 16
+
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -70,14 +72,14 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 8.dp)
+            .padding(vertical = SIDE_PADDING.dp)
     ) {
         val cardsBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
         val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = SIDE_PADDING.dp)
                 .background(
                     color = cardsBackgroundColor,
                     shape = MaterialTheme.shapes.medium
@@ -91,11 +93,11 @@ fun LoginScreen(
                 contentDescription = null)
         }
         Spacer(modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = SIDE_PADDING.dp)
                 .background(
                     color = cardsBackgroundColor,
                     shape = MaterialTheme.shapes.medium
@@ -106,11 +108,11 @@ fun LoginScreen(
                 navController = navController
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = SIDE_PADDING.dp)
                 .background(
                     color = cardsBackgroundColor,
                     shape = MaterialTheme.shapes.medium
@@ -126,11 +128,11 @@ fun LoginScreen(
             Column(
                 Modifier.fillMaxWidth()
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = SIDE_PADDING.dp)
                         .background(
                             color = errorCardBackgroundColor,
                             shape = MaterialTheme.shapes.medium
