@@ -21,7 +21,7 @@ fun OffsetDateTime.getLocalizedOffsetString(
         localDate.plusDays(1L) -> stringResource(id = R.string.util_date_time_converter_yesterday)
         else -> localDate.format(
             DateTimeFormatter.ofPattern(daysPattern)
-        ) + " - "
+        ) + " -"
     }
     val time = localDateTime.format(
         DateTimeFormatter.ofPattern(timePattern)

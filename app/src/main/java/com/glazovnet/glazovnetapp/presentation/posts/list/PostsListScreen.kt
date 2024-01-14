@@ -52,7 +52,7 @@ fun PostsListScreen(
                         .fillMaxSize(),
                     content = {
                         item {
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                         items(
                             items = state.value.data!!,
@@ -65,7 +65,7 @@ fun PostsListScreen(
                                     TODO()
                                 }
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
                 )
