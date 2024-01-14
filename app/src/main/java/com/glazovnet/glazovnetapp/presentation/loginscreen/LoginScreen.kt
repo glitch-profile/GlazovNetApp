@@ -181,7 +181,7 @@ private fun AuthForm(
                     viewModel.login(
                         isAsAdmin = false,
                         onLoginSuccessfully = {
-                            TODO()
+                            navController.navigate("posts-list-screen") //TODO
                         }
                     ) 
                 }
@@ -197,7 +197,7 @@ private fun AuthForm(
         DesignedCheckBox(
             isChecked = isSaveAuthData,
             onStateChanges = { viewModel.editIsSaveAuthData(it) },
-            label = stringResource(id = R.string.remember_user_text)
+            label = stringResource(id = R.string.login_remember_user_text)
         )
     }
 }
@@ -220,7 +220,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = true,
                     onLoginSuccessfully = {
-                        TODO()
+                        navController.navigate("posts-list-screen") //TODO
                     }
                 )
             },
@@ -233,7 +233,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = false,
                     onLoginSuccessfully = {
-                        TODO()
+                        navController.navigate("posts-list-screen") //TODO
                     }
                 ) 
             },

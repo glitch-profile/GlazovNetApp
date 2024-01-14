@@ -18,11 +18,12 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "api/posts"
 
-class PostsApiRepositoryImpl(
+class PostsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): PostsApiRepository {
     override suspend fun getAllPosts(token: String): Resource<List<PostModel>> {

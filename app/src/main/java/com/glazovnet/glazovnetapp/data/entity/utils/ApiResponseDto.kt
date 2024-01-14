@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.data.entity
+package com.glazovnet.glazovnetapp.data.entity.utils
 
 import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
