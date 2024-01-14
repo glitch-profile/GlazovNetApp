@@ -1,8 +1,10 @@
 package com.glazovnet.glazovnetapp.di
 
 import com.glazovnet.glazovnetapp.data.repositoryimpl.LocalUserAuthDataRepositoryImpl
+import com.glazovnet.glazovnetapp.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.UtilsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.domain.repository.UtilsApiRepository
 import dagger.Binds
 import dagger.Module
@@ -25,5 +27,11 @@ abstract class RepositoryModule {
     abstract fun bindsUtilsApiRepository(
         utilsApiRepositoryImpl: UtilsApiRepositoryImpl
     ): UtilsApiRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsPostsRepository(
+        postsApiRepositoryImpl: PostsApiRepositoryImpl
+    ): PostsApiRepository
 
 }
