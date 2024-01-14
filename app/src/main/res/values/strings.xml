@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">Glazov.NET</string>
 
+    <!-- API RESPONSES -->
     <string name="api_response_server_error">Server error. Response message: </string>
     <string name="api_response_error">Request error. Error code: </string>
     <string name="api_response_unknown_error">Unknown error</string>
     <string name="api_response_server_not_available">Server not available</string>
 
+    <!-- LOGIN SCREEN -->
     <string name="login_screen_username_text">Username</string>
     <string name="login_screen_password_text">Password</string>
-    <string name="remember_user_text">Remember me</string>
+    <string name="login_remember_user_text">Remember me</string>
     <string name="login_screen_login_as_user_button">Login</string>
     <string name="login_screen_login_as_admin_button">Login as administrator</string>
     <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
     <string name="login_response_user_not_found">User not found. Check if the data entered is correct.</string>
+
+    <!-- UTILITIES -->
+    <string name="util_date_time_converter_today">Today at</string>
+    <string name="util_date_time_converter_yesterday">Yesterday at</string>
+
+    <!-- REUSABLE -->
+    <string name="reusable_text_loading">Loading…</string>
 </resources>

@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.GlazovNetAppTheme
 import com.glazovnet.glazovnetapp.presentation.loginscreen.LoginScreen
+import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +39,10 @@ class MainActivity : ComponentActivity() {
                             composable("login-screen") {
                                 LoginScreen(navController = navController)
                             }
+                        }
+
+                        composable("posts-list-screen") {
+                            PostsListScreen()
                         }
                     }
                 }
