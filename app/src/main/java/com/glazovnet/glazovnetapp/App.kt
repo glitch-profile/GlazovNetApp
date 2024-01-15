@@ -15,7 +15,7 @@ class App: Application(), ImageLoaderFactory {
             .memoryCachePolicy(CachePolicy.ENABLED)
             .memoryCache {
                 MemoryCache.Builder(this)
-                    .maxSizePercent(0.05)
+                    .maxSizePercent(0.075)
                     .build()
             }
             .build()

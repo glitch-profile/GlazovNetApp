@@ -55,7 +55,6 @@ fun LoginScreen(
     ) {
         val imageUrl = viewModel.introImageUrl.collectAsState().value
         if (imageUrl.isNotEmpty()) {
-            println(imageUrl)
             AsyncImage(
                 modifier = Modifier
                     .fillMaxSize(),
