@@ -20,6 +20,11 @@
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>
 
+    <!-- COMPONENTS -->
+    <string name="comp_image_picker_label">Select image</string>
+
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
+    <string name="reusable_text_clear">Clear</string>
+
 </resources>

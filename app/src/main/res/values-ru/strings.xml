@@ -21,6 +21,10 @@
     <string name="util_date_time_converter_today">Сегодня в</string>
     <string name="util_date_time_converter_yesterday">Вчера в </string>
 
+    <!-- COMPONENTS -->
+    <string name="comp_image_picker_label">Выбрать изображение</string>
+
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Загрузка…</string>
+    <string name="reusable_text_clear">Очистить</string>
 </resources>
