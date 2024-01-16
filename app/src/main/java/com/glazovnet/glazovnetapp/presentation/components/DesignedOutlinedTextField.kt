@@ -64,7 +64,7 @@ fun DesignedOutlinedTextField(
             unfocusedLabelColor = unfocusedColor,
             unfocusedTextColor = unfocusedColor,
             unfocusedLeadingIconColor = unfocusedColor,
-            unfocusedBorderColor = Color.LightGray,
+            unfocusedBorderColor = unfocusedColor,
             unfocusedPlaceholderColor = unfocusedColor,
 
             focusedLabelColor = primaryColor,

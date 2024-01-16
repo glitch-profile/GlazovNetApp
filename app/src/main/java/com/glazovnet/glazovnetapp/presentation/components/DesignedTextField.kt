@@ -58,7 +58,7 @@ fun DesignedTextField(
             unfocusedLabelColor = unfocusedColor,
             unfocusedTextColor = unfocusedColor,
             unfocusedLeadingIconColor = unfocusedColor,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+            unfocusedIndicatorColor = unfocusedColor,
             unfocusedPlaceholderColor = unfocusedColor,
 
             focusedLabelColor = primaryColor,

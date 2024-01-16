@@ -23,6 +23,7 @@ fun DesignedCheckBox(
     label: String? = null,
     primaryColor: Color = MaterialTheme.colorScheme.primary
 ) {
+    val unfocusedColor = primaryColor.copy(alpha = 0.7f)
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -31,13 +32,14 @@ fun DesignedCheckBox(
             checked = isChecked,
             onCheckedChange = {onStateChanges.invoke(it)},
             colors = CheckboxDefaults.colors(
-                uncheckedColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                uncheckedColor = unfocusedColor,
+                checkedColor = primaryColor
             )
         )
         if (label != null) {
             val textColor by animateColorAsState(
                 if (isChecked) primaryColor
-                else primaryColor.copy(alpha = 0.7f),
+                else unfocusedColor,
                 label = "CheckboxTextColorAnimation"
             )
             Spacer(modifier = Modifier.width(8.dp))
