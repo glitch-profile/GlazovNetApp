@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -49,7 +52,7 @@ fun ImagePicker(
     modifier: Modifier = Modifier,
     imageUri: Uri?,
     onNewImageSelected: (uri: Uri?) -> Unit,
-    shape: Shape = MaterialTheme.shapes.medium,
+    shape: Shape = RoundedCornerShape(4.dp),
     color: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -62,6 +65,15 @@ fun ImagePicker(
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         onNewImageSelected.invoke(it)
     }
+    val borderColor by animateColorAsState(
+        targetValue = if (isImageSelected) contentColor
+        else contentColor.copy(alpha = 0.7f),
+        label = "ImagePickerBorderColorAnimation"
+    )
+    val borderRadius by animateDpAsState(
+        targetValue = if (isImageSelected) 2.dp else 1.dp,
+        label = "ImagePickerBorderWidthAnimation"
+    )
 
     LaunchedEffect(key1 = imageUri) {
         fun getImageName(filePath: String): String {
@@ -83,7 +95,7 @@ fun ImagePicker(
         modifier = modifier,
         shape = shape,
         color = color,
-        border = BorderStroke(1.dp, Color.LightGray),
+        border = BorderStroke(borderRadius, borderColor),
         contentColor = contentColor
     ) {
         Crossfade(targetState = isImageSelected, label = "imagePickerStateTransition") {
