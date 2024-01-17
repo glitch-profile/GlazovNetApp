@@ -5,6 +5,7 @@ import com.glazovnet.glazovnetapp.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.domain.usecase.AuthUseCase
 import com.glazovnet.glazovnetapp.domain.usecase.PostsUseCase
+import com.glazovnet.glazovnetapp.domain.usecase.UtilsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,11 +29,19 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideUtilsUseCase(
+        utilsApiRepository: UtilsApiRepository,
+        localUserAuthDataRepository: LocalUserAuthDataRepository
+    ): UtilsUseCase {
+        return UtilsUseCase(utilsApiRepository, localUserAuthDataRepository)
+    }
+
+    @Provides
+    @Singleton
     fun providePostsUseCase(
         postsApiRepository: PostsApiRepository,
         localUserAuthDataRepository: LocalUserAuthDataRepository
     ): PostsUseCase {
         return PostsUseCase(postsApiRepository, localUserAuthDataRepository)
     }
-
 }
