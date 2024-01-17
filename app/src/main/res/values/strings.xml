@@ -16,6 +16,11 @@
     <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
     <string name="login_response_user_not_found">User not found. Check if the data entered is correct.</string>
 
+    <!-- EDIT POSTS SCREEN -->
+    <string name="edit_post_add_result_success">The post was successfully uploaded.</string>
+    <string name="edit_post_edit_result_success">The post has been successfully updated.</string>
+    <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>

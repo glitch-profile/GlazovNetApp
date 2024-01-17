@@ -17,6 +17,11 @@
     <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
     <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных.</string>
 
+    <!-- EDIT POSTS SCREEN -->
+    <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
+    <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
+    <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>
     <string name="util_date_time_converter_yesterday">Вчера в </string>
