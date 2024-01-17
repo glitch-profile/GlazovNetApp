@@ -180,7 +180,7 @@ private fun AuthForm(
                     viewModel.login(
                         isAsAdmin = false,
                         onLoginSuccessfully = {
-                            navController.navigate("posts-list-screen") //TODO
+                            navController.navigate("home-screen") //TODO
                         }
                     ) 
                 }
@@ -219,7 +219,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = true,
                     onLoginSuccessfully = {
-                        navController.navigate("posts-list-screen") //TODO
+                        navController.navigate("home-screen") //TODO
                     }
                 )
             },
@@ -232,7 +232,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = false,
                     onLoginSuccessfully = {
-                        navController.navigate("posts-list-screen") //TODO
+                        navController.navigate("home-screen") //TODO
                     }
                 ) 
             },

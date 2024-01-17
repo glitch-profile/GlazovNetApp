@@ -25,12 +25,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
 import com.glazovnet.glazovnetapp.presentation.components.ImagePicker
 
 @Composable
 fun EditPostScreen(
+    navController: NavController,
     postId: String?,
     viewModel: EditPostViewModel = hiltViewModel()
 ) {

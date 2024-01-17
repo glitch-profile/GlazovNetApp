@@ -12,12 +12,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.GlazovNetAppTheme
+import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.presentation.homescreen.HomeScreen
 import com.glazovnet.glazovnetapp.presentation.loginscreen.LoginScreen
+import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,19 +34,14 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = "login-graph"
+                        startDestination = "login-screen"
                     ) {
-                        navigation(
-                            startDestination = "login-screen",
-                            route = "login-graph"
-                        ) {
-                            composable("login-screen") {
-                                LoginScreen(navController = navController)
-                            }
+                        composable("login-screen") {
+                            LoginScreen(navController = navController)
                         }
 
-                        composable("posts-list-screen") {
-                            PostsListScreen()
+                        composable("home-screen") {
+                            HomeScreen()
                         }
                     }
                 }
