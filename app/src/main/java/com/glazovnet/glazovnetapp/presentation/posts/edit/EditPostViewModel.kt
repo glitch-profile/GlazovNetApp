@@ -38,9 +38,16 @@ class EditPostViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
 
-    fun loadPostData(postId: String) {
-        viewModelScope.launch {
-
+    fun loadPostData(postId: String?) {
+        if (postId !== null) {
+            viewModelScope.launch {
+                _state.update { it.copy(isLoading = true) }
+                val result = postsUseCase.getPostById(postId)
+                if (result is Resource.Success) {
+                    _state.update { it.copy(data = result.data) }
+                }
+                _state.update { it.copy(isLoading = false) }
+            }
         }
     }
 
