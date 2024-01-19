@@ -32,4 +32,5 @@
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Загрузка…</string>
     <string name="reusable_text_clear">Очистить</string>
+    <string name="reusable_text_save">Сохранить</string>
 </resources>

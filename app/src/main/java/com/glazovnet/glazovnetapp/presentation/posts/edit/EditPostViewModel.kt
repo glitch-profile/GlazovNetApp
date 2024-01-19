@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
@@ -38,6 +39,13 @@ class EditPostViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
 
+    private var _postTitle = MutableStateFlow("")
+    val postTitle = _postTitle.asStateFlow()
+    private var _postText = MutableStateFlow("")
+    val postText = _postText.asStateFlow()
+    private var _postImageUri = MutableStateFlow<Uri?>(null)
+    val postImageUri = _postImageUri.asStateFlow()
+
     fun loadPostData(postId: String?) {
         if (postId !== null) {
             viewModelScope.launch {
@@ -45,13 +53,34 @@ class EditPostViewModel @Inject constructor(
                 val result = postsUseCase.getPostById(postId)
                 if (result is Resource.Success) {
                     _state.update { it.copy(data = result.data) }
+                    _postTitle.update { result.data?.title ?: "" }
+                    _postText.update { result.data?.text ?: "" }
+                    _postImageUri.update { result.data?.image?.imageUrl?.toUri() }
                 }
                 _state.update { it.copy(isLoading = false) }
             }
         }
     }
 
-    fun updatePost(
+    fun updatePostTitle(title: String) {
+        _postTitle.update { title }
+    }
+    fun updatePostText(text: String) {
+        _postText.update { text }
+    }
+    fun updatePostImageUri(uri: Uri?) {
+        _postImageUri.update { uri }
+    }
+
+    fun uploadPost(context: Context) {
+        if (state.value.data != null) {
+            updatePost(context, postTitle.value, postText.value, postImageUri.value)
+        } else {
+            addNewPost(context, postTitle.value, postText.value, postImageUri.value)
+        }
+    }
+
+    private fun updatePost(
         context: Context,
         postTitle: String,
         postText: String,
@@ -93,7 +122,7 @@ class EditPostViewModel @Inject constructor(
         }
     }
 
-    fun addNewPost(
+    private fun addNewPost(
         context: Context,
         postTitle: String,
         postText: String,

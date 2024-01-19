@@ -31,5 +31,6 @@
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
     <string name="reusable_text_clear">Clear</string>
+    <string name="reusable_text_save">Save</string>
 
 </resources>
