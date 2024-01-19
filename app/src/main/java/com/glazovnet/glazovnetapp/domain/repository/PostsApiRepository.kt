@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.domain.repository
 
-import com.glazovnet.glazovnetapp.data.entity.posts.PostModelDto
 import com.glazovnet.glazovnetapp.domain.models.posts.PostModel
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 
