@@ -40,10 +40,10 @@ fun HomeScreen() {
         ) {
             navigation(
                 route = "posts-graph",
-                startDestination = "edit-posts-screen" //TODO
+                startDestination = "posts-list-screen" //TODO
             ) {
                 composable("posts-list-screen") {
-                    PostsListScreen()
+                    PostsListScreen(navController = secondaryNavController)
                 }
                 composable(
                     route = "edit-posts-screen?postId={postId}",
