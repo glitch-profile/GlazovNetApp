@@ -49,7 +49,11 @@ class MainActivity: ComponentActivity() {
                         }
                         composable("login-screen") {
                             LoginScreen(
-                                navController = navController
+                                onNavigateToHomeScreen = {
+                                    navController.navigate("home-screen") {
+                                        popUpTo("login-screen") {inclusive = true}
+                                    }
+                                }
                             )
                         }
 
