@@ -2,7 +2,6 @@ package com.glazovnet.glazovnetapp.presentation.homescreen
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.calculateTargetValue
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -18,11 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavHostController
@@ -97,7 +94,7 @@ fun HomeScreen() {
                     this.scaleY = scale
                     this.scaleX = scale
                     this.shape = RoundedCornerShape(cornerRadius)
-                    this.shadowElevation = 6f
+                    this.shadowElevation = 12f
                 }
                 .draggable(
                     draggableState,
@@ -129,7 +126,6 @@ fun HomeScreen() {
                     }
                 )
                 .fillMaxSize(),
-            shadowElevation = 6.dp
         ) {
             ScreenContents(
                 modifier = Modifier
