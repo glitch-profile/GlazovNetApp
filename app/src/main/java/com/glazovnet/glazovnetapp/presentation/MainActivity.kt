@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.GlazovNetAppTheme
 import com.glazovnet.glazovnetapp.presentation.homescreen.HomeScreen
 import com.glazovnet.glazovnetapp.presentation.loginscreen.LoginScreen
+import com.glazovnet.glazovnetapp.presentation.startscreen.StartScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,10 +30,27 @@ class MainActivity: ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = "login-screen"
+                        startDestination = "start-screen"
                     ) {
+                        composable("start-screen") {
+                            StartScreen(
+                                navController = navController,
+                                onNavigateToHomeScreen = {
+                                    navController.navigate("home-screen") {
+                                        popUpTo("start-screen") {inclusive = true}
+                                    }
+                                },
+                                onNavigateToLoginScreen = {
+                                    navController.navigate(route = "login-screen") {
+                                        popUpTo("start-screen") {inclusive = true}
+                                    }
+                                }
+                            )
+                        }
                         composable("login-screen") {
-                            LoginScreen(navController = navController)
+                            LoginScreen(
+                                navController = navController
+                            )
                         }
 
                         composable("home-screen") {
