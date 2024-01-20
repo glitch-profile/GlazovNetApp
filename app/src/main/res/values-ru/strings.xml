@@ -17,7 +17,14 @@
     <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
     <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных.</string>
 
+    <!-- POSTS LIST SCREEN -->
+    <string name="posts_list_screen_name">Новости</string>
+
     <!-- EDIT POSTS SCREEN -->
+    <string name="add_post_screen_name">Добавить пост</string>
+    <string name="edit_post_screen_name">Редактировать пост</string>
+    <string name="edit_post_post_title_placeholder">Заголовок поста</string>
+    <string name="esit_post_post_text_placeholder">Текст поста</string>
     <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
     <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>

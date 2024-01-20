@@ -12,14 +12,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,10 +48,11 @@ import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextFi
 import com.glazovnet.glazovnetapp.presentation.components.ImagePicker
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPostScreen(
-    navController: NavController,
     postId: String?,
+    onBackPressed: () -> Unit,
     viewModel: EditPostViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
@@ -51,99 +61,117 @@ fun EditPostScreen(
     val postText = viewModel.postText.collectAsState()
     val imageUri = viewModel.postImageUri.collectAsState()
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(key1 = lifecycleOwner) {
-        val observer = LifecycleEventObserver{ _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                viewModel.loadPostData(postId)
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+    LaunchedEffect(null) {
+        viewModel.loadPostData(postId)
     }
 
-    Column(
-        modifier = Modifier
-        .fillMaxSize()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = if (state.value.data != null) stringResource(id = R.string.edit_post_screen_name)
+                        else stringResource(id = R.string.add_post_screen_name)
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            onBackPressed.invoke()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .padding(it)
         ) {
-            if (state.value.isLoading) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
-            } else {
-                Spacer(modifier = Modifier.height(8.dp))
-                if (state.value.stringResourceId != null) {
-                    Text(
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                if (state.value.isLoading) {
+                    LoadingIndicator(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    )
+                } else {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    if (state.value.stringResourceId != null) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            text = stringResource(id = state.value.stringResourceId!!)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                    DesignedOutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        text = stringResource(id = state.value.stringResourceId!!)
+                        text = postTitle.value,
+                        onTextEdit = {viewModel.updatePostTitle(it)},
+                        placeholder = "Post title",
+                        minLines = 2,
+                        maxLines = 3,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Sentences,
+                            autoCorrect = true,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        )
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    DesignedOutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        text = postText.value,
+                        onTextEdit = {viewModel.updatePostText(it)},
+                        placeholder = "Post text",
+                        minLines = 3,
+                        maxLines = 5,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Sentences,
+                            autoCorrect = true,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ImagePicker(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(160.dp)
+                            .padding(horizontal = 16.dp),
+                        imageUri = imageUri.value,
+                        onNewImageSelected = {viewModel.updatePostImageUri(it)}
+                    )
                 }
-                DesignedOutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = postTitle.value,
-                    onTextEdit = {viewModel.updatePostTitle(it)},
-                    placeholder = "Post title",
-                    minLines = 2,
-                    maxLines = 3,
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences,
-                        autoCorrect = true,
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                DesignedOutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    text = postText.value,
-                    onTextEdit = {viewModel.updatePostText(it)},
-                    placeholder = "Post text",
-                    minLines = 3,
-                    maxLines = 5,
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences,
-                        autoCorrect = true,
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ImagePicker(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .padding(horizontal = 16.dp),
-                    imageUri = imageUri.value,
-                    onNewImageSelected = {viewModel.updatePostImageUri(it)}
-                )
             }
+            BottomActionBar(
+                onClearButtonClick = {
+                    viewModel.updatePostTitle(state.value.data?.title ?: "")
+                    viewModel.updatePostText(state.value.data?.text ?: "")
+                    viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
+                },
+                onConfirmButtonClick = { viewModel.uploadPost(context) },
+                isConfirmButtonEnabled = !state.value.isLoading && postTitle.value.isNotBlank() && postText.value.isNotBlank()
+            )
         }
-        BottomActionBar(
-            onClearButtonClick = {
-                viewModel.updatePostTitle(state.value.data?.title ?: "")
-                viewModel.updatePostText(state.value.data?.text ?: "")
-                viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
-            },
-            onConfirmButtonClick = { viewModel.uploadPost(context) },
-            isConfirmButtonEnabled = !state.value.isLoading && postTitle.value.isNotBlank() && postText.value.isNotBlank()
-        )
     }
 }
 

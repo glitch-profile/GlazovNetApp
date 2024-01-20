@@ -44,7 +44,7 @@ private const val SIDE_PADDING = 16
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
+    onNavigateToHomeScreen: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val loginState = viewModel.loginState.collectAsState().value
@@ -104,7 +104,7 @@ fun LoginScreen(
         ) {
             AuthForm(
                 viewModel = viewModel,
-                navController = navController
+                onNavigateToHomeScreen = onNavigateToHomeScreen
             )
         }
         Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
@@ -119,8 +119,8 @@ fun LoginScreen(
         ) {
             ActionButtonsForm(
                 isButtonsEnabled = !loginState.isLoading,
-                viewModel = viewModel,
-                navController = navController
+                onNavigateToHomeScreen = onNavigateToHomeScreen,
+                viewModel = viewModel
             )
         }
         AnimatedVisibility(visible = ( loginState.message != null || loginState.stringResourceId != null )) {
@@ -150,7 +150,7 @@ fun LoginScreen(
 
 @Composable
 private fun AuthForm(
-    navController: NavController,
+    onNavigateToHomeScreen: () -> Unit,
     viewModel: LoginViewModel
 ) {
     val username = viewModel.username.collectAsState().value
@@ -180,7 +180,7 @@ private fun AuthForm(
                     viewModel.login(
                         isAsAdmin = false,
                         onLoginSuccessfully = {
-                            navController.navigate("home-screen") //TODO
+                            onNavigateToHomeScreen.invoke()
                         }
                     ) 
                 }
@@ -204,7 +204,7 @@ private fun AuthForm(
 @Composable
 private fun ActionButtonsForm(
     isButtonsEnabled: Boolean,
-    navController: NavController,
+    onNavigateToHomeScreen: () -> Unit,
     viewModel: LoginViewModel
 ) {
     Row(
@@ -219,7 +219,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = true,
                     onLoginSuccessfully = {
-                        navController.navigate("home-screen") //TODO
+                        onNavigateToHomeScreen.invoke()
                     }
                 )
             },
@@ -232,7 +232,7 @@ private fun ActionButtonsForm(
                 viewModel.login(
                     isAsAdmin = false,
                     onLoginSuccessfully = {
-                        navController.navigate("home-screen") //TODO
+                        onNavigateToHomeScreen.invoke()
                     }
                 ) 
             },
