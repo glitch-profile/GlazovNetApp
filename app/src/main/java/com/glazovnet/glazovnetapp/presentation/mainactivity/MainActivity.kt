@@ -1,8 +1,9 @@
-package com.glazovnet.glazovnetapp.presentation
+package com.glazovnet.glazovnetapp.presentation.mainactivity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,11 +14,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.GlazovNetAppTheme
 import com.glazovnet.glazovnetapp.presentation.homescreen.HomeScreen
 import com.glazovnet.glazovnetapp.presentation.loginscreen.LoginScreen
-import com.glazovnet.glazovnetapp.presentation.startscreen.StartScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,23 +32,8 @@ class MainActivity: ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = "start-screen"
+                        startDestination = viewModel.getStartDestination()
                     ) {
-                        composable("start-screen") {
-                            StartScreen(
-                                navController = navController,
-                                onNavigateToHomeScreen = {
-                                    navController.navigate("home-screen") {
-                                        popUpTo("start-screen") {inclusive = true}
-                                    }
-                                },
-                                onNavigateToLoginScreen = {
-                                    navController.navigate(route = "login-screen") {
-                                        popUpTo("start-screen") {inclusive = true}
-                                    }
-                                }
-                            )
-                        }
                         composable("login-screen") {
                             LoginScreen(
                                 onNavigateToHomeScreen = {
@@ -58,7 +45,17 @@ class MainActivity: ComponentActivity() {
                         }
 
                         composable("home-screen") {
-                            HomeScreen()
+                            HomeScreen(
+                                onNavigateToLoginScreen = {
+                                    viewModel.logout()
+                                    val currentRoute = navController.currentBackStackEntry?.destination?.route
+                                    navController.navigate("login-screen") {
+                                        if (currentRoute != null) {
+                                            popUpTo(currentRoute) {inclusive = true}
+                                        }
+                                    }
+                                }
+                            )
                         }
                     }
                 }
