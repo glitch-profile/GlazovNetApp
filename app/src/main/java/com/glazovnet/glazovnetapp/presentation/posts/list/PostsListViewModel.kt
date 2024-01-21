@@ -3,6 +3,7 @@ package com.glazovnet.glazovnetapp.presentation.posts.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.domain.models.posts.PostModel
+import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.domain.usecase.PostsUseCase
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
@@ -15,14 +16,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostsListViewModel @Inject constructor(
-    private val postsUseCase: PostsUseCase
+    private val postsUseCase: PostsUseCase,
+    private val userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<List<PostModel>>())
     val state = _state.asStateFlow()
+    private val _isAdmin = MutableStateFlow(false)
+    val isAdmin = _isAdmin.asStateFlow()
 
     init {
-        getAllPosts()
+        _isAdmin.update { userAuthDataRepository.getIsUserAsAdmin() ?: false }
     }
 
     fun getAllPosts() {

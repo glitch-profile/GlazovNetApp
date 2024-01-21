@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.presentation.posts.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,11 +36,13 @@ import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostsListScreen(
-    navController: NavController,
-    navigationButtonPressed: () -> Unit,
+    onNavigationButtonPressed: () -> Unit,
+    onNavigationToPostDetails: (postId: String) -> Unit,
+    onNavigationToEditPostScreen: (postId: String?) -> Unit,
     viewModel: PostsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
+    val isUserAnAdmin = viewModel.isAdmin.collectAsState()
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(key1 = lifecycleOwner) {
@@ -63,13 +68,27 @@ fun PostsListScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navigationButtonPressed.invoke()
+                            onNavigationButtonPressed.invoke()
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Menu,
                             contentDescription = null
                         )
+                    }
+                },
+                actions = {
+                    AnimatedVisibility(visible = !state.value.isLoading) {
+                        IconButton(onClick = {
+                            if (!state.value.isLoading) viewModel.getAllPosts()
+                        }) {
+                            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
+                        }
+                    }
+                    if (isUserAnAdmin.value) {
+                        IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
+                        }
                     }
                 }
             )
@@ -103,7 +122,7 @@ fun PostsListScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     post = it,
                                     onClick = {
-                                        navController.navigate("edit-posts-screen?postId=${it.id}")
+                                        onNavigationToEditPostScreen.invoke(it.id) //TODO
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
