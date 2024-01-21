@@ -31,6 +31,7 @@
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>
+    <string name="util_nav_drawer_logout">Logout</string>
 
     <!-- COMPONENTS -->
     <string name="comp_image_picker_label">Select image</string>

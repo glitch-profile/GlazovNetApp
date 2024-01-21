@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -31,16 +33,22 @@ private val items = listOf<NavigationDrawerItemData>(
     )
 
 )
+private val logoutItem = NavigationDrawerItemData(
+    stringResource = R.string.util_nav_drawer_logout,
+    icon = Icons.Default.ExitToApp,
+    route = "login-screen"
+)
 
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
-    onNavigate: (route: String) -> Unit
+    onNavigateOnHomeScreen: (route: String) -> Unit,
+    onNavigateOnMainScreen: (route: String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.Center
     ) {
         var selectedItemIndexed by rememberSaveable {
@@ -50,14 +58,32 @@ fun NavigationDrawer(
             NavigationDrawerItem(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
                     .height(62.dp),
                 data = item,
                 onClick = {
-                    onNavigate.invoke(it)
+                    onNavigateOnHomeScreen.invoke(it)
                     selectedItemIndexed = index
                 },
                 isSelected = index == selectedItemIndexed
             )
         }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+        NavigationDrawerItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(62.dp),
+            data = logoutItem,
+            onClick = {
+                onNavigateOnMainScreen.invoke(it)
+            },
+            isSelected = false
+        )
+
     }
 }

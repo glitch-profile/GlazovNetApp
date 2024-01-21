@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,7 +36,9 @@ import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToLoginScreen: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,13 +78,16 @@ fun HomeScreen() {
         }
 
         NavigationDrawer(
-            onNavigate = { route ->
+            onNavigateOnHomeScreen = { route ->
                 val currentRoute = secondaryNavController.currentBackStackEntry?.destination?.route
                 secondaryNavController.navigate(route) {
                     if (currentRoute != null) {
                         popUpTo(currentRoute) {inclusive = true}
                     }
                 }
+            },
+            onNavigateOnMainScreen = {
+                onNavigateToLoginScreen.invoke()
             }
         )
         Surface(
@@ -90,7 +96,8 @@ fun HomeScreen() {
                     this.clip = true
                     this.translationX = translationX.value
                     val scale: Float = lerp(1f, 0.85f, translationX.value / drawerWidth)
-                    val cornerRadius = androidx.compose.ui.unit.lerp(0.dp, 12.dp, translationX.value / drawerWidth)
+                    val cornerRadius =
+                        androidx.compose.ui.unit.lerp(0.dp, 12.dp, translationX.value / drawerWidth)
                     this.scaleY = scale
                     this.scaleX = scale
                     this.shape = RoundedCornerShape(cornerRadius)
@@ -156,8 +163,9 @@ private fun ScreenContents(
         ) {
             composable("posts-list-screen") {
                 PostsListScreen(
-                    navController = navController,
-                    navigationButtonPressed = { toggleNavigationDrawer.invoke() }
+                    onNavigationButtonPressed = { toggleNavigationDrawer.invoke() },
+                    onNavigationToEditPostScreen =  { (navController.navigate("edit-posts-screen?postId=$it")) },
+                    onNavigationToPostDetails = { TODO() }
                 )
             }
             composable(

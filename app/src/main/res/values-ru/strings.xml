@@ -32,6 +32,7 @@
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>
     <string name="util_date_time_converter_yesterday">Вчера в </string>
+    <string name="util_nav_drawer_logout">Выйти из аккаунта</string>
 
     <!-- COMPONENTS -->
     <string name="comp_image_picker_label">Выбрать изображение</string>
