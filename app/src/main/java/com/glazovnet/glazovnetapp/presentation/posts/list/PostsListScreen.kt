@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -57,47 +60,45 @@ fun PostsListScreen(
         }
     }
 
-    Scaffold(
+    Column(
         modifier = Modifier
-            .fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.posts_list_screen_name))
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            onNavigationButtonPressed.invoke()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = null
-                        )
+            .fillMaxSize()
+            .statusBarsPadding()
+    ) {
+        TopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.posts_list_screen_name))
+            },
+            navigationIcon = {
+                IconButton(
+                    onClick = {
+                        onNavigationButtonPressed.invoke()
                     }
-                },
-                actions = {
-                    AnimatedVisibility(visible = !state.value.isLoading) {
-                        IconButton(onClick = {
-                            if (!state.value.isLoading) viewModel.getAllPosts()
-                        }) {
-                            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
-                        }
-                    }
-                    if (isUserAnAdmin.value) {
-                        IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
-                        }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = null
+                    )
+                }
+            },
+            actions = {
+                AnimatedVisibility(visible = !state.value.isLoading) {
+                    IconButton(onClick = {
+                        if (!state.value.isLoading) viewModel.getAllPosts()
+                    }) {
+                        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
                 }
-            )
-        }
-    ) {
+                if (isUserAnAdmin.value) {
+                    IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
+                    }
+                }
+            }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
         ) {
             if (state.value.isLoading) {
                 LoadingIndicator(
@@ -115,7 +116,7 @@ fun PostsListScreen(
                             .fillMaxSize(),
                         content = {
                             items(
-                                items = state.value.data!!,
+                                items = state.value.data!!.dropLast(1),
                                 key = { it.id }
                             ) {
                                 PostCard(
@@ -126,6 +127,20 @@ fun PostsListScreen(
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            item { 
+                                with(state.value.data!!.last()) {
+                                    PostCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        post = this,
+                                        onClick = {
+                                            onNavigationToEditPostScreen.invoke(this.id)
+                                        }
+                                    )
+                                }
+                            }
+                            item { 
+                                Spacer(modifier = Modifier.navigationBarsPadding())
                             }
                         }
                     )
