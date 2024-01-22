@@ -2,6 +2,15 @@ package com.glazovnet.glazovnetapp.presentation.loginscreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.EaseInOutQuad
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,8 +30,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -48,6 +60,18 @@ fun LoginScreen(
 ) {
     val loginState = viewModel.loginState.collectAsState().value
 
+    val infiniteTransition = rememberInfiniteTransition()
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.5f,
+        animationSpec = infiniteRepeatable(
+            tween(
+                durationMillis = 45_000,
+                easing = EaseInOut
+            ),
+            repeatMode = RepeatMode.Reverse)
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +80,12 @@ fun LoginScreen(
         if (imageUrl.isNotEmpty()) {
             AsyncImage(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        transformOrigin = TransformOrigin.Center
+                    },
                 alignment = Alignment.Center,
                 contentScale = ContentScale.Crop,
                 model = ImageRequest.Builder(LocalContext.current)
