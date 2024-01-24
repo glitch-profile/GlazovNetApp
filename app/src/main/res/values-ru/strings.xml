@@ -6,7 +6,8 @@
     <string name="api_response_server_error">Ошибка на сервере. Сообщение: </string>
     <string name="api_response_error">"Ошибка запроса. Код ошибки: "</string>
     <string name="api_response_unknown_error">Неизвестная ошибка.</string>
-    <string name="api_response_server_not_available">Сервер не доступен</string>
+    <string name="api_response_server_not_available">Сервер не доступен.</string>
+    <string name="api_response_websocket_no_connection">Не удалось установить соединение.</string>
 
     <!-- LOGIN SCREEN -->
     <string name="login_screen_username_text">Имя пользователя</string>

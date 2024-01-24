@@ -6,6 +6,7 @@
     <string name="api_response_error">Request error. Error code: </string>
     <string name="api_response_unknown_error">Unknown error</string>
     <string name="api_response_server_not_available">Server not available</string>
+    <string name="api_response_websocket_no_connection">Could not establish a connection</string>
 
     <!-- LOGIN SCREEN -->
     <string name="login_screen_username_text">Username</string>
