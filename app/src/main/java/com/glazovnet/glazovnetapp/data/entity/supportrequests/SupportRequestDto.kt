@@ -11,6 +11,7 @@ import java.time.ZoneId
 data class SupportRequestDto(
     val id: String,
     val creatorId: String,
+    val creatorName: String,
     val associatedSupportId: String?,
     val title: String,
     val description: String,

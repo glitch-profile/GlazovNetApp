@@ -13,6 +13,7 @@ fun SupportRequestModel.toSupportRequestDto(): SupportRequestDto {
     return SupportRequestDto(
         id = this.id,
         creatorId = this.creatorId,
+        creatorName = this.creatorName,
         associatedSupportId = this.associatedSupportId,
         title = this.title,
         description = this.description,
@@ -29,6 +30,7 @@ fun SupportRequestDto.toSupportRequestModel(): SupportRequestModel {
     return SupportRequestModel(
         id = this.id,
         creatorId = this.creatorId,
+        creatorName = this.creatorName,
         associatedSupportId = this.associatedSupportId,
         title = this.title,
         description = this.description,
