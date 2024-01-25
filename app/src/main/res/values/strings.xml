@@ -29,6 +29,16 @@
     <string name="edit_post_edit_result_success">The post has been successfully updated.</string>
     <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
 
+    <!-- REQUESTS SCREEN -->
+    <string name="request_screen_tab_active_text">Opened</string>
+    <string name="request_screen_tab_solved_text">Solved</string>
+    <string name="request_screen_request_status_not_reviewed_text">Not reviewed</string>
+    <string name="request_screen_request_status_in_progress_text">Active</string>
+    <string name="request_screen_request_status_solved_text">Closed</string>
+
+    <!-- CHAT BUBBLE -->
+    <string name="chat_bubble_screen_sender_name_self">You</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>
