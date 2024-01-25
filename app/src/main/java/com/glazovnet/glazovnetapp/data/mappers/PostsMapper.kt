@@ -6,7 +6,7 @@ import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
 
-fun PostModelDto.toPostModelDto(): PostModel {
+fun PostModelDto.toPostModel(): PostModel {
     val postCreationTimestamp = OffsetDateTime.ofInstant(
         Instant.ofEpochSecond(this.creationDate),
         ZoneId.systemDefault()
@@ -20,7 +20,7 @@ fun PostModelDto.toPostModelDto(): PostModel {
     )
 }
 
-fun PostModel.toPostModelDto(): PostModelDto {
+fun PostModel.toPostModel(): PostModelDto {
     val postCreationDate = this.creationDateTime?.toEpochSecond() ?: 0L
     return PostModelDto(
         id = this.id,
