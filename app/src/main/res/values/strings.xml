@@ -30,11 +30,20 @@
     <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
 
     <!-- REQUESTS SCREEN -->
+    <string name="request_screen_name">Support requests</string>
     <string name="request_screen_tab_active_text">Opened</string>
     <string name="request_screen_tab_solved_text">Solved</string>
     <string name="request_screen_request_status_not_reviewed_text">Not reviewed</string>
     <string name="request_screen_request_status_in_progress_text">Active</string>
     <string name="request_screen_request_status_solved_text">Closed</string>
+    <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here.</string>
+    <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically.</string>
+    <string name="request_screen_add_request_button_text">Create new request</string>
+
+    <!-- REQUEST CARD -->
+    <string name="request_card_status_text">Status:</string>
+    <string name="request_card_creation_date_text">Created at</string>
+    <string name="request_card_created_by_text">Created by</string>
 
     <!-- CHAT BUBBLE -->
     <string name="chat_bubble_screen_sender_name_self">You</string>

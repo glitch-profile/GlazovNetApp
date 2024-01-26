@@ -31,11 +31,20 @@
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>
 
     <!-- REQUESTS SCREEN -->
+    <string name="request_screen_name">Запросы в поддержку</string>
     <string name="request_screen_tab_active_text">Открытые</string>
     <string name="request_screen_tab_solved_text">Решенные</string>
     <string name="request_screen_request_status_not_reviewed_text">Не рассмотрен</string>
     <string name="request_screen_request_status_in_progress_text">Решается</string>
     <string name="request_screen_request_status_solved_text">Закрыт</string>
+    <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь.</string>
+    <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически.</string>
+    <string name="request_screen_add_request_button_text">Создать запрос</string>
+
+    <!-- REQUEST CARD -->
+    <string name="request_card_status_text">Статус:</string>
+    <string name="request_card_creation_date_text">Создан</string>
+    <string name="request_card_created_by_text">Автор:</string>
 
     <!-- CHAT BUBBLE -->
     <string name="chat_bubble_screen_sender_name_self">Вы</string>

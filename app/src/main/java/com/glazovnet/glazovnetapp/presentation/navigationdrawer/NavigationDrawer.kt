@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
@@ -24,12 +25,12 @@ private val items = listOf<NavigationDrawerItemData>(
     NavigationDrawerItemData(
         stringResource = R.string.posts_list_screen_name,
         icon = Icons.Default.DateRange,
-        route = "posts-list-screen"
+        route = "posts-graph"
     ),
     NavigationDrawerItemData(
-        stringResource = R.string.add_post_screen_name,
-        icon = Icons.Default.List,
-        route = "edit-posts-screen"
+        stringResource = R.string.request_screen_name,
+        icon = Icons.Default.Build,
+        route = "support-graph"
     )
 
 )

@@ -32,6 +32,7 @@ import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawerState
 import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
+import com.glazovnet.glazovnetapp.presentation.supportscreen.requests.RequestsListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -176,6 +177,18 @@ private fun ScreenContents(
                     onBackPressed = {
                         navController.popBackStack()
                     }
+                )
+            }
+        }
+        navigation(
+            route = "support-graph",
+            startDestination = "requests-list-screen"
+        ) {
+            composable("requests-list-screen") {
+                RequestsListScreen(
+                    onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
+                    onAddNewRequestClicked = { /*TODO*/ },
+                    onRequestClicked = { /*TODO*/ }
                 )
             }
         }
