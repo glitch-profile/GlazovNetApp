@@ -15,27 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
 import java.time.OffsetDateTime
-
-@Preview
-@Composable
-fun ChatBubblePreview() {
-    ChatBubble(
-        senderName = "Кораблев Иван",
-        text = "Привет! Пойдешь в диз?",
-        timestamp = OffsetDateTime.now(),
-        isOwnMessage = true,
-        isNeedToShowAuthor = true
-    )
-}
 
 @Composable
 fun ChatBubble(
@@ -63,8 +48,7 @@ fun ChatBubble(
         Column {
             Text(
                 modifier = Modifier
-                    //.padding(horizontal = 8.dp)
-                    .align(Alignment.End),
+                    .align(if (isOwnMessage) Alignment.End else Alignment.Start),
                 text = if (!isOwnMessage) senderName
                 else stringResource(id = R.string.chat_bubble_screen_sender_name_self),
                 style = MaterialTheme.typography.titleSmall,
