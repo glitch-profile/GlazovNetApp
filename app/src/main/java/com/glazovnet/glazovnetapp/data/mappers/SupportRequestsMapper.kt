@@ -1,8 +1,8 @@
 package com.glazovnet.glazovnetapp.data.mappers
 
 import com.glazovnet.glazovnetapp.data.entity.supportrequests.SupportRequestDto
-import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestsStatus
-import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestsStatus.Companion.convertToIntCode
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus.Companion.convertToIntCode
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -35,6 +35,6 @@ fun SupportRequestDto.toSupportRequestModel(): SupportRequestModel {
         title = this.title,
         description = this.description,
         creationDate = convertedCreationDate,
-        status = RequestsStatus.getFromIntCode(this.status)
+        status = RequestStatus.getFromIntCode(this.status)
     )
 }

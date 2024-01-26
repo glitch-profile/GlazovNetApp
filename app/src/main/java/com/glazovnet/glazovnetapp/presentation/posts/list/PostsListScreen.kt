@@ -109,7 +109,10 @@ fun PostsListScreen(
                 )
             } else {
                 if (state.value.stringResourceId != null) {
-                    Text(text = stringResource(id = state.value.stringResourceId!!))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = state.value.stringResourceId!!))
                 }
                 if (state.value.data != null) {
                     LazyColumn(

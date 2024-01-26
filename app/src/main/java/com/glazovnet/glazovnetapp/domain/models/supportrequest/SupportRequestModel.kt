@@ -10,5 +10,5 @@ data class SupportRequestModel(
     val title: String,
     val description: String,
     val creationDate: OffsetDateTime? = null,
-    val status: RequestsStatus = RequestsStatus.Active
+    val status: RequestStatus = RequestStatus.NotReviewed
 )
