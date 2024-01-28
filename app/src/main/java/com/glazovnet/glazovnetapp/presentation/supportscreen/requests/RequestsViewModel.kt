@@ -33,10 +33,6 @@ class RequestsViewModel @Inject constructor(
         else getAllRequests()
     }
 
-    private fun getRequestsForUser() {
-
-    }
-
     private fun getAllRequests() {
         viewModelScope.launch {
             _state.update {
