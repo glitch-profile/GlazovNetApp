@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -29,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,12 +52,14 @@ import coil.request.ImageRequest
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.presentation.components.DesignedTextField
+import kotlinx.coroutines.flow.collectLatest
 
 private const val SIDE_PADDING = 16
 
 @Composable
 fun LoginScreen(
     onNavigateToHomeScreen: () -> Unit,
+    onNeedToShowMessage: (message: Int) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val loginState = viewModel.loginState.collectAsState().value
@@ -71,6 +75,12 @@ fun LoginScreen(
             ),
             repeatMode = RepeatMode.Reverse)
     )
+
+    LaunchedEffect(key1 = loginState.stringResourceId) {
+        viewModel.messageString.collectLatest {
+            onNeedToShowMessage.invoke(it)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -100,7 +110,8 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = SIDE_PADDING.dp)
-            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .windowInsetsPadding(WindowInsets.safeDrawing),
+        verticalArrangement = Arrangement.Bottom
     ) {
         val cardsBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
         val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
@@ -152,28 +163,29 @@ fun LoginScreen(
                 viewModel = viewModel
             )
         }
-        AnimatedVisibility(visible = ( loginState.message != null || loginState.stringResourceId != null )) {
-            Column(
-                Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = SIDE_PADDING.dp)
-                        .background(
-                            color = errorCardBackgroundColor,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                ) {
-                    ErrorMessageScreen(
-                        stringResourceMessage = loginState.stringResourceId,
-                        message = loginState.message
-                    )
-                }
-
-            }
-        }
+//        AnimatedVisibility(visible = ( loginState.message != null || loginState.stringResourceId != null )) {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//                Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = SIDE_PADDING.dp)
+//                        .background(
+//                            color = errorCardBackgroundColor,
+//                            shape = MaterialTheme.shapes.medium
+//                        )
+//                ) {
+//                    ErrorMessageScreen(
+//                        stringResourceMessage = loginState.stringResourceId,
+//                        message = loginState.message
+//                    )
+//                }
+//
+//            }
+//        }
     }
 }
 
