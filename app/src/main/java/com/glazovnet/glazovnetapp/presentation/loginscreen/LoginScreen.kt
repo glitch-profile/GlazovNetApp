@@ -76,7 +76,7 @@ fun LoginScreen(
             repeatMode = RepeatMode.Reverse)
     )
 
-    LaunchedEffect(key1 = loginState.stringResourceId) {
+    LaunchedEffect(Unit) {
         viewModel.messageString.collectLatest {
             onNeedToShowMessage.invoke(it)
         }
@@ -114,7 +114,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Bottom
     ) {
         val cardsBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
-        val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
+//        val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -283,31 +283,31 @@ private fun ActionButtonsForm(
         }
     }
 }
-
-@Composable
-private fun ErrorMessageScreen(
-    stringResourceMessage: Int?,
-    message: String?
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .animateContentSize()
-    ) {
-        if (stringResourceMessage != null) {
-            Text(
-                text = stringResource(id = stringResourceMessage),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onErrorContainer
-            )
-        }
-        if (message != null) {
-            Text(
-                text = message,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-                maxLines = 2
-            )
-        }
-    }
-}
+//
+//@Composable
+//private fun ErrorMessageScreen(
+//    stringResourceMessage: Int?,
+//    message: String?
+//) {
+//    Column(
+//        modifier = Modifier
+//            .padding(8.dp)
+//            .animateContentSize()
+//    ) {
+//        if (stringResourceMessage != null) {
+//            Text(
+//                text = stringResource(id = stringResourceMessage),
+//                style = MaterialTheme.typography.bodyLarge,
+//                color = MaterialTheme.colorScheme.onErrorContainer
+//            )
+//        }
+//        if (message != null) {
+//            Text(
+//                text = message,
+//                style = MaterialTheme.typography.titleMedium,
+//                color = MaterialTheme.colorScheme.onErrorContainer,
+//                maxLines = 2
+//            )
+//        }
+//    }
+//}

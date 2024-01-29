@@ -33,12 +33,14 @@ import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawerState
 import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
+import com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails.RequestDetailsScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requests.RequestsListScreen
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
-    onNavigateToLoginScreen: () -> Unit
+    onNavigateToLoginScreen: () -> Unit,
+    onNeedToShowMessage: (messageResource: Int) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -141,7 +143,8 @@ fun HomeScreen(
                 navController = secondaryNavController,
                 toggleNavigationDrawer = {
                     toggleDrawerState()
-                }
+                },
+                onNeedToShowMessage = onNeedToShowMessage
             )
         }
     }
@@ -151,7 +154,8 @@ fun HomeScreen(
 private fun ScreenContents(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    toggleNavigationDrawer: () -> Unit
+    toggleNavigationDrawer: () -> Unit,
+    onNeedToShowMessage: (messageResource: Int) -> Unit
 ) {
     NavHost(
         modifier = modifier,
@@ -160,13 +164,14 @@ private fun ScreenContents(
     ) {
         navigation(
             route = "posts-graph",
-            startDestination = "posts-list-screen" //TODO
+            startDestination = "posts-list-screen"
         ) {
             composable("posts-list-screen") {
                 PostsListScreen(
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() },
                     onNavigationToEditPostScreen =  { (navController.navigate("edit-posts-screen?postId=$it")) },
-                    onNavigationToPostDetails = { TODO() }
+                    onNavigationToPostDetails = { TODO() },
+                    onNeedToShowMessage = onNeedToShowMessage
                 )
             }
             composable(
@@ -177,7 +182,8 @@ private fun ScreenContents(
                     postId = backStackEntry.arguments?.getString("postId"),
                     onBackPressed = {
                         navController.popBackStack()
-                    }
+                    },
+                    onNeedToShowMessage = onNeedToShowMessage
                 )
             }
         }
@@ -189,7 +195,9 @@ private fun ScreenContents(
                 RequestsListScreen(
                     onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
                     onAddNewRequestClicked = { /*TODO*/ },
-                    onRequestClicked = { /*TODO*/ }
+                    onRequestClicked = {requestId ->
+                        navController.navigate("request-details-screen/$requestId")
+                    }
                 )
             }
             composable(
@@ -200,7 +208,20 @@ private fun ScreenContents(
                     }
                 )
             ) {
-
+                RequestDetailsScreen(
+                    requestId = it.arguments?.getString("request-id") ?: "",
+                    onNavigationButtonPressed = { navController.popBackStack() },
+                    onOpenChatButtonPressed = { /*TODO*/ })
+            }
+            composable(
+                route = "request-chat-screen/{request-id}",
+                arguments = listOf(
+                    navArgument("request-id") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                TODO()
             }
         }
     }

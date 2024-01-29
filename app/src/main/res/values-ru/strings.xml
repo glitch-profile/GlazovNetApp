@@ -3,11 +3,11 @@
     <string name="app_name">Глазов.NET</string>
 
     <!-- API RESPONSES -->
-    <string name="api_response_server_error">Ошибка на сервере. Сообщение: </string>
-    <string name="api_response_error">"Ошибка запроса. Код ошибки: "</string>
-    <string name="api_response_unknown_error">Неизвестная ошибка.</string>
-    <string name="api_response_server_not_available">Сервер не доступен.</string>
-    <string name="api_response_websocket_no_connection">Не удалось установить соединение.</string>
+    <string name="api_response_server_error">Возникла внутренняя ошибка на сервере</string>
+    <string name="api_response_error">Ошибка запроса. Пожалуйста, попробуйте снова</string>
+    <string name="api_response_unknown_error">Неизвестная ошибка</string>
+    <string name="api_response_server_not_available">Сервер недоступен</string>
+    <string name="api_response_websocket_no_connection">Не удалось установить соединение</string>
 
     <!-- LOGIN SCREEN -->
     <string name="login_screen_username_text">Имя пользователя</string>
@@ -16,7 +16,7 @@
     <string name="login_screen_login_as_user_button">Войти</string>
     <string name="login_screen_login_as_admin_button">Войти как администратор</string>
     <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
-    <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных.</string>
+    <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">Новости</string>

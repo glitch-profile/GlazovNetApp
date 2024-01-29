@@ -8,8 +8,10 @@ import com.glazovnet.glazovnetapp.domain.usecase.PostsUseCase
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,52 +19,39 @@ import javax.inject.Inject
 @HiltViewModel
 class PostsListViewModel @Inject constructor(
     private val postsUseCase: PostsUseCase,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<List<PostModel>>())
     val state = _state.asStateFlow()
-    private val _isAdmin = MutableStateFlow(false)
-    val isAdmin = _isAdmin.asStateFlow()
+    private val _messageStringResource = Channel<Int>()
+    val messageStringResource = _messageStringResource.receiveAsFlow()
 
-    init {
-        _isAdmin.update { userAuthDataRepository.getIsUserAsAdmin() ?: false }
-    }
+    val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
 
     fun getAllPosts() {
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    isLoading = true,
-                    stringResourceId = null,
-                    message = null
+                    isLoading = true
                 )
             }
             when (val result = postsUseCase.getAllPosts()) {
                 is Resource.Success -> {
                     _state.update {
-                        if (result.data != null) {
-                            it.copy(
-                                data = result.data,
-                                isLoading = false
-                            )
-                        } else {
-                            it.copy(
-                                isLoading = false,
-                                stringResourceId = result.stringResourceId,
-                                message = result.message
-                            )
-                        }
+                        it.copy(
+                            data = result.data,
+                            isLoading = false
+                        )
                     }
                 }
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
-                            stringResourceId = result.stringResourceId,
-                            message = result.message
+                            isLoading = false
                         )
                     }
+                    _messageStringResource.send(result.stringResourceId!!)
                 }
             }
         }

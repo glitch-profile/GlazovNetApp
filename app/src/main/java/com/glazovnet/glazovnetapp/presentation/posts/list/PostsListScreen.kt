@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -34,6 +35,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,10 +43,11 @@ fun PostsListScreen(
     onNavigationButtonPressed: () -> Unit,
     onNavigationToPostDetails: (postId: String) -> Unit,
     onNavigationToEditPostScreen: (postId: String?) -> Unit,
+    onNeedToShowMessage: (messageResource: Int) -> Unit,
     viewModel: PostsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isUserAnAdmin = viewModel.isAdmin.collectAsState()
+    val isUserAnAdmin = viewModel.isAdmin
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(key1 = lifecycleOwner) {
@@ -56,6 +59,12 @@ fun PostsListScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.messageStringResource.collectLatest {
+            onNeedToShowMessage.invoke(it)
         }
     }
 
@@ -89,7 +98,7 @@ fun PostsListScreen(
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
                 }
-                if (isUserAnAdmin.value) {
+                if (isUserAnAdmin) {
                     IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
                     }
@@ -108,12 +117,12 @@ fun PostsListScreen(
                         .fillMaxWidth()
                 )
             } else {
-                if (state.value.stringResourceId != null) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = state.value.stringResourceId!!))
-                }
+//                if (state.value.stringResourceId != null) {
+//                    Text(
+//                        modifier = Modifier
+//                            .padding(horizontal = 16.dp),
+//                        text = stringResource(id = state.value.stringResourceId!!))
+//                }
                 if (state.value.data != null) {
                     LazyColumn(
                         modifier = Modifier

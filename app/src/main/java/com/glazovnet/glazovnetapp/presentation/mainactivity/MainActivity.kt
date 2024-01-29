@@ -15,9 +15,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -87,6 +91,9 @@ class MainActivity: ComponentActivity() {
                                             popUpTo(currentRoute) {inclusive = true}
                                         }
                                     }
+                                },
+                                onNeedToShowMessage = {
+                                    viewModel.showMessage(it)
                                 }
                             )
                         }
@@ -94,10 +101,10 @@ class MainActivity: ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .windowInsetsPadding(WindowInsets.safeDrawing),
+                            .imePadding(),
                         contentAlignment = Alignment.BottomCenter
                     ) {
-                        val color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+                        val color = MaterialTheme.colorScheme.inverseSurface
                         AnimatedVisibility(
                             visible = isErrorVisible.value,
                             enter = expandVertically(),
@@ -107,14 +114,15 @@ class MainActivity: ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .background(color)
-                                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                                    .navigationBarsPadding()
+                                    .padding(horizontal = 16.dp, vertical = 16.dp)
                                     .animateContentSize(),
                                 verticalArrangement = Arrangement.Bottom
                             ) {
                                 Text(
                                     text = stringResource(id = messageString.value),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.inverseOnSurface
                                 )
                             }
                         }

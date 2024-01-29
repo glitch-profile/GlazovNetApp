@@ -2,8 +2,8 @@
     <string name="app_name">Glazov.NET</string>
 
     <!-- API RESPONSES -->
-    <string name="api_response_server_error">Server error. Response message: </string>
-    <string name="api_response_error">Request error. Error code: </string>
+    <string name="api_response_server_error">Internal server error</string>
+    <string name="api_response_error">Request error. Please try again</string>
     <string name="api_response_unknown_error">Unknown error</string>
     <string name="api_response_server_not_available">Server not available</string>
     <string name="api_response_websocket_no_connection">Could not establish a connection</string>
@@ -15,7 +15,7 @@
     <string name="login_screen_login_as_user_button">Login</string>
     <string name="login_screen_login_as_admin_button">Login as administrator</string>
     <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
-    <string name="login_response_user_not_found">User not found. Check if the data entered is correct.</string>
+    <string name="login_response_user_not_found">User not found. Check if the data entered is correct</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">News</string>
