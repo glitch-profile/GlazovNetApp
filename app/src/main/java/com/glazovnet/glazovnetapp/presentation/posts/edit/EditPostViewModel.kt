@@ -145,6 +145,7 @@ class EditPostViewModel @Inject constructor(
                 when (val result = postsUseCase.addPost(postToUpload)) {
                     is Resource.Success -> {
                         _messageStringResource.send(R.string.edit_post_add_result_success)
+                        //_state.update { it.copy(data = result.data) }
                     }
                     is Resource.Error -> {
                         _messageStringResource.send(result.stringResourceId!!)

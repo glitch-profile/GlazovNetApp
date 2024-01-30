@@ -169,7 +169,10 @@ fun EditPostScreen(
                     viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
                 },
                 onConfirmButtonClick = { viewModel.uploadPost(context) },
-                isConfirmButtonEnabled = !state.value.isLoading && postTitle.value.isNotBlank() && postText.value.isNotBlank()
+                isConfirmButtonEnabled = !state.value.isLoading
+                        && !state.value.isUploading
+                        && postTitle.value.isNotBlank()
+                        && postText.value.isNotBlank()
             )
         }
     }
