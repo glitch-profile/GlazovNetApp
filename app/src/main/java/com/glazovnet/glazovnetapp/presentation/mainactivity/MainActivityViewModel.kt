@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.presentation.mainactivity
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
@@ -29,6 +30,7 @@ class MainActivityViewModel @Inject constructor(
     val messageResourceString = _messageResourceString.asStateFlow()
 
     fun getStartDestination(): String {
+        Log.i("TAG", "getStartDestination: defining start destination")
         val isUserSignedIn =  with(userAuthDataRepository) {
             getLoginToken() != null && getAssociatedUserId() != null
         }

@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -49,11 +50,14 @@ class MainActivity: ComponentActivity() {
                 ) {
                     val messageString = viewModel.messageResourceString.collectAsState()
                     val isErrorVisible = viewModel.isShowingMessage.collectAsState()
+                    val startDestination = rememberSaveable {
+                        viewModel.getStartDestination()
+                    }
 
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = viewModel.getStartDestination()
+                        startDestination = startDestination
                     ) {
                         composable("login-screen") {
                             LoginScreen(

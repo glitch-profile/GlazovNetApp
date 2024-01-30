@@ -170,7 +170,7 @@ fun EditPostScreen(
                 },
                 onConfirmButtonClick = { viewModel.uploadPost(context) },
                 isConfirmButtonEnabled = !state.value.isLoading
-                        && !state.value.isUploading
+                        //&& !state.value.isUploading
                         && postTitle.value.isNotBlank()
                         && postText.value.isNotBlank()
             )
