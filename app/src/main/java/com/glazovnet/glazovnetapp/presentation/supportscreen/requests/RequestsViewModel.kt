@@ -8,12 +8,10 @@ import com.glazovnet.glazovnetapp.domain.usecase.SupportRequestsUseCase
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
