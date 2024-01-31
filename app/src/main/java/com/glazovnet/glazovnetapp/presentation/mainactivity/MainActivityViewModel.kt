@@ -23,13 +23,15 @@ class MainActivityViewModel @Inject constructor(
     private val authUseCase: AuthUseCase
 ): ViewModel() {
 
+    val startRoute = getStartDestination()
+
     private val notificationScope = CoroutineScope(Job()+Dispatchers.IO)
     private val _isShowingMessage = MutableStateFlow(false)
     val isShowingMessage = _isShowingMessage.asStateFlow()
     private val _messageResourceString = MutableStateFlow<Int>(R.string.api_response_unknown_error)
     val messageResourceString = _messageResourceString.asStateFlow()
 
-    fun getStartDestination(): String {
+    private fun getStartDestination(): String {
         Log.i("TAG", "getStartDestination: defining start destination")
         val isUserSignedIn =  with(userAuthDataRepository) {
             getLoginToken() != null && getAssociatedUserId() != null

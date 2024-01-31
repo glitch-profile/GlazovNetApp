@@ -50,9 +50,7 @@ class MainActivity: ComponentActivity() {
                 ) {
                     val messageString = viewModel.messageResourceString.collectAsState()
                     val isErrorVisible = viewModel.isShowingMessage.collectAsState()
-                    val startDestination = rememberSaveable {
-                        viewModel.getStartDestination()
-                    }
+                    val startDestination = viewModel.startRoute
 
                     val navController = rememberNavController()
                     NavHost(
