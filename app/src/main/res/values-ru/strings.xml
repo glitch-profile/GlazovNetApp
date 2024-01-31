@@ -25,7 +25,7 @@
     <string name="add_post_screen_name">Добавить пост</string>
     <string name="edit_post_screen_name">Редактировать пост</string>
     <string name="edit_post_post_title_placeholder">Заголовок поста</string>
-    <string name="esit_post_post_text_placeholder">Текст поста</string>
+    <string name="edit_post_post_text_placeholder">Текст поста</string>
     <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
     <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>
@@ -40,6 +40,11 @@
     <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь.</string>
     <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически.</string>
     <string name="request_screen_add_request_button_text">Создать запрос</string>
+
+    <!-- REQUESTS CHAT -->
+    <string name="request_chat_screen_name">Чат</string>
+    <string name="request_chat_message_placeholder_text">Сообщение</string>
+    <string name="request_chat_no_messages_found">Здесь пока нет сообщений!</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Статус:</string>

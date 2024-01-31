@@ -24,7 +24,7 @@
     <string name="add_post_screen_name">Create post</string>
     <string name="edit_post_screen_name">Edit post</string>
     <string name="edit_post_post_title_placeholder">Post title</string>
-    <string name="esit_post_post_text_placeholder">Post text</string>
+    <string name="edit_post_post_text_placeholder">Post text</string>
     <string name="edit_post_add_result_success">The post was successfully uploaded.</string>
     <string name="edit_post_edit_result_success">The post has been successfully updated.</string>
     <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
@@ -39,6 +39,11 @@
     <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here.</string>
     <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically.</string>
     <string name="request_screen_add_request_button_text">Create new request</string>
+
+    <!-- REQUESTS CHAT -->
+    <string name="request_chat_screen_name">Chat</string>
+    <string name="request_chat_message_placeholder_text">Message</string>
+    <string name="request_chat_no_messages_found">There is no messages yet!</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>

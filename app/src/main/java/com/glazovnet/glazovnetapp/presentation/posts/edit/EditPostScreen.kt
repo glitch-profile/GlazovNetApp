@@ -124,7 +124,7 @@ fun EditPostScreen(
                             .padding(horizontal = 16.dp),
                         text = postTitle.value,
                         onTextEdit = { viewModel.updatePostTitle(it) },
-                        placeholder = "Post title",
+                        placeholder = stringResource(id = R.string.edit_post_post_title_placeholder),
                         minLines = 2,
                         maxLines = 3,
                         keyboardOptions = KeyboardOptions(
@@ -141,7 +141,7 @@ fun EditPostScreen(
                             .padding(horizontal = 16.dp),
                         text = postText.value,
                         onTextEdit = { viewModel.updatePostText(it) },
-                        placeholder = "Post text",
+                        placeholder = stringResource(id = R.string.edit_post_post_text_placeholder),
                         minLines = 3,
                         maxLines = 5,
                         keyboardOptions = KeyboardOptions(

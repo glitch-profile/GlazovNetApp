@@ -11,15 +11,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -30,7 +27,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
@@ -57,7 +53,6 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
 import kotlinx.coroutines.launch
-import java.time.Period
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,7 +88,7 @@ fun ChatScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = "Chat"
+                    text = stringResource(id = R.string.request_chat_screen_name)
                 )
             },
             navigationIcon = {
@@ -151,7 +146,7 @@ private fun MessagesList(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "There is no messages yet!",
+                text = stringResource(id = R.string.request_chat_no_messages_found),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -174,7 +169,12 @@ private fun MessagesList(
                         ChatBubble(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp, top = topPadding, bottom = 4.dp)
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = topPadding,
+                                    bottom = 4.dp
+                                )
                                 .animateItemPlacement(
                                     animationSpec = tween(durationMillis = 300)
                                 ),
@@ -221,7 +221,7 @@ private fun InputField(
                 onTextEdit = {
                     messageText = it
                 },
-                placeholder = "Message",
+                placeholder = stringResource(id = R.string.request_chat_message_placeholder_text),
                 maxLines = 15,
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
