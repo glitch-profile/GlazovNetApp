@@ -61,7 +61,6 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update{
                 it.copy(
-                    data = null,
                     isLoading = true,
                     stringResourceId = null,
                     message = null

@@ -53,7 +53,7 @@ class EditPostViewModel @Inject constructor(
     fun loadPostData(postId: String?) {
         if (postId !== null) {
             viewModelScope.launch {
-                _state.update { it.copy(data = null, isLoading = true, stringResourceId = null, message = null) }
+                _state.update { it.copy(isLoading = true, stringResourceId = null, message = null) }
                 when (val result = postsUseCase.getPostById(postId)) {
                     is Resource.Success -> {
                         _state.update { it.copy(data = result.data) }
