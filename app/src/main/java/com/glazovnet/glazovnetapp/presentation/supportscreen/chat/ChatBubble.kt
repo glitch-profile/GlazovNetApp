@@ -29,7 +29,7 @@ fun ChatBubble(
     text: String,
     timestamp: OffsetDateTime,
     isOwnMessage: Boolean,
-    isNeedToShowAuthor: Boolean,
+    isSameSender: Boolean,
     maxBubbleWidth: Dp = 250.dp,
 ) {
     Row(
@@ -46,15 +46,17 @@ fun ChatBubble(
             topStart = 4.dp, topEnd = 12.dp, bottomEnd = 12.dp, bottomStart = 12.dp
         )
         Column {
-            Text(
-                modifier = Modifier
-                    .align(if (isOwnMessage) Alignment.End else Alignment.Start),
-                text = if (!isOwnMessage) senderName
-                else stringResource(id = R.string.chat_bubble_screen_sender_name_self),
-                style = MaterialTheme.typography.titleSmall,
-                color = textColor
-            )
-            Spacer(modifier = Modifier.height(4.dp))
+            if (!isSameSender) {
+                Text(
+                    modifier = Modifier
+                        .align(if (isOwnMessage) Alignment.End else Alignment.Start),
+                    text = if (!isOwnMessage) senderName
+                    else stringResource(id = R.string.chat_bubble_screen_sender_name_self),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+            }
             Column(
                 modifier = Modifier
                     .clip(bubbleShape)
