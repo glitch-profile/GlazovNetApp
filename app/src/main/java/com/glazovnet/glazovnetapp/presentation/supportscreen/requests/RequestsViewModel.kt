@@ -8,10 +8,12 @@ import com.glazovnet.glazovnetapp.domain.usecase.SupportRequestsUseCase
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +28,8 @@ class RequestsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<SupportRequestModel>>())
     val state = _state.asStateFlow()
+    private val _messageResourceString = Channel<Int>()
+    val messageResourceString = _messageResourceString.receiveAsFlow()
 
     fun loadRequests() {
         //user don't need to connect to socket. He just need to see his requests
@@ -57,10 +61,11 @@ class RequestsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            stringResourceId = result.stringResourceId,
+                            stringResourceId = null,
                             message = result.message
                         )
                     }
+                    _messageResourceString.send(result.stringResourceId!!)
                 }
             }
         }
@@ -84,7 +89,6 @@ class RequestsViewModel @Inject constructor(
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }

@@ -33,6 +33,7 @@ import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawerState
 import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
+import com.glazovnet.glazovnetapp.presentation.supportscreen.chat.ChatScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails.RequestDetailsScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requests.RequestsListScreen
 import kotlinx.coroutines.launch
@@ -196,7 +197,7 @@ private fun ScreenContents(
                     onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
                     onAddNewRequestClicked = { /*TODO*/ },
                     onRequestClicked = {requestId ->
-                        navController.navigate("request-details-screen/$requestId")
+                        navController.navigate("request-chat-screen/$requestId") //TODO
                     }
                 )
             }
@@ -211,7 +212,10 @@ private fun ScreenContents(
                 RequestDetailsScreen(
                     requestId = it.arguments?.getString("request-id") ?: "",
                     onNavigationButtonPressed = { navController.popBackStack() },
-                    onOpenChatButtonPressed = { /*TODO*/ })
+                    onOpenChatButtonPressed = {
+                        navController.navigate("request-chat-screen/$it")
+                    }
+                )
             }
             composable(
                 route = "request-chat-screen/{request-id}",
@@ -221,7 +225,11 @@ private fun ScreenContents(
                     }
                 )
             ) {
-                TODO()
+                ChatScreen(
+                    requestId = it.arguments?.getString("request-id") ?: "",
+                    onNavigationButtonPressed = { navController.popBackStack() },
+                    onNeedToShowMessage = onNeedToShowMessage
+                )
             }
         }
     }

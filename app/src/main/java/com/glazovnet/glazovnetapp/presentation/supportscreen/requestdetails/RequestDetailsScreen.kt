@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun RequestDetailsScreen(
     requestId: String,
     onNavigationButtonPressed: () -> Unit,
-    onOpenChatButtonPressed: () -> Unit,
+    onOpenChatButtonPressed: (String) -> Unit,
     viewModel: RequestDetailsViewModel = hiltViewModel()
 ) {
 
