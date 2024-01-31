@@ -165,14 +165,16 @@ private fun MessagesList(
             for (index in messages.indices) {
                 val previousSenderId = messages.getOrNull(index + 1)?.senderId
                 val isSameSender = previousSenderId == messages[index].senderId
-                val topPadding = if (isSameSender) 4.dp else 8.dp
+                val topPadding = if (isSameSender) 0.dp else 4.dp
 
-                item {
+                item(
+                    key = messages[index].id
+                ) {
                     with(messages[index]) {
                         ChatBubble(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp, top = topPadding)
+                                .padding(start = 16.dp, end = 16.dp, top = topPadding, bottom = 4.dp)
                                 .animateItemPlacement(
                                     animationSpec = tween(durationMillis = 300)
                                 ),
