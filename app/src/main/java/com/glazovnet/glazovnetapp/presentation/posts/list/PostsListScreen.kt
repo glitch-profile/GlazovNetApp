@@ -43,29 +43,13 @@ fun PostsListScreen(
     onNavigationButtonPressed: () -> Unit,
     onNavigationToPostDetails: (postId: String) -> Unit,
     onNavigationToEditPostScreen: (postId: String?) -> Unit,
-    onNeedToShowMessage: (messageResource: Int) -> Unit,
     viewModel: PostsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
     val isUserAnAdmin = viewModel.isAdmin
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(key1 = lifecycleOwner) {
-        val observer = LifecycleEventObserver{ _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                viewModel.getAllPosts()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.messageStringResource.collectLatest {
-            onNeedToShowMessage.invoke(it)
-        }
+    LaunchedEffect(null) {
+        viewModel.getAllPosts()
     }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -117,12 +101,6 @@ fun PostsListScreen(
                         .fillMaxWidth()
                 )
             } else {
-//                if (state.value.stringResourceId != null) {
-//                    Text(
-//                        modifier = Modifier
-//                            .padding(horizontal = 16.dp),
-//                        text = stringResource(id = state.value.stringResourceId!!))
-//                }
                 if (state.value.data != null) {
                     LazyColumn(
                         modifier = Modifier
@@ -158,6 +136,12 @@ fun PostsListScreen(
                             }
                         }
                     )
+                } else if (state.value.stringResourceId != null) {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = state.value.stringResourceId!!)
+                    ) //TODO
                 }
             }
         }

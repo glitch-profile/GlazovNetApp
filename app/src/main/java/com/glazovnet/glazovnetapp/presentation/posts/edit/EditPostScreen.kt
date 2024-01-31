@@ -109,15 +109,6 @@ fun EditPostScreen(
                     )
                 } else {
                     Spacer(modifier = Modifier.height(8.dp))
-                    if (state.value.stringResourceId != null) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            text = stringResource(id = state.value.stringResourceId!!)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
                     DesignedOutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -170,7 +161,7 @@ fun EditPostScreen(
                 },
                 onConfirmButtonClick = { viewModel.uploadPost(context) },
                 isConfirmButtonEnabled = !state.value.isLoading
-                        //&& !state.value.isUploading
+                        && !state.value.isUploading
                         && postTitle.value.isNotBlank()
                         && postText.value.isNotBlank()
             )

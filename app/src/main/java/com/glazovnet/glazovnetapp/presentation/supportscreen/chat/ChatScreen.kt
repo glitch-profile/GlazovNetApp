@@ -52,6 +52,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
+import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,6 +82,12 @@ fun ChatScreen(
         }
     }
 
+    LaunchedEffect(null) {
+        viewModel.messageResourceStringChannel.collectLatest {
+            onNeedToShowMessage.invoke(it)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,21 +112,35 @@ fun ChatScreen(
                 }
             }
         )
-        if (state.value.data != null) {
-            MessagesList(
+        if (state.value.isLoading) {
+            LoadingIndicator(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f),
-                messages = state.value.data!!
+                    .padding(16.dp)
+                    .fillMaxWidth()
             )
-        }
-        InputField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            onMessageSend = {
-                viewModel.sendMessage(it)
+        } else {
+            if (state.value.data != null) {
+                MessagesList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
+                    messages = state.value.data!!
+                )
+                InputField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    onMessageSend = {
+                        viewModel.sendMessage(it)
+                    }
+                )
+            } else if (state.value.stringResourceId != null) {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    text = stringResource(id = state.value.stringResourceId!!)
+                ) //TODO
             }
-        )
+        }
     }
 }
 

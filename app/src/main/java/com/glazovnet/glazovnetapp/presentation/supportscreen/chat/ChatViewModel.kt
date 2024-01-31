@@ -52,7 +52,6 @@ class ChatViewModel @Inject constructor(
                     _state.update {
                         it.copy(stringResourceId = connectionResult.stringResourceId, message = connectionResult.message)
                     }
-                    _messageResourceStringChannel.send(connectionResult.stringResourceId!!)
                 }
             }
         }
@@ -62,6 +61,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update{
                 it.copy(
+                    data = null,
                     isLoading = true,
                     stringResourceId = null,
                     message = null
@@ -76,8 +76,7 @@ class ChatViewModel @Inject constructor(
                     _state.update { it.copy(data = result.data) }
                 }
                 is Resource.Error -> {
-                    _state.update { it.copy(message = result.message) }
-                    _messageResourceStringChannel.send(result.stringResourceId!!)
+                    _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
                 }
             }
             _state.update { it.copy(isLoading = false) }

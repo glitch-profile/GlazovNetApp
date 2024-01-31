@@ -24,8 +24,6 @@ class PostsListViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<PostModel>>())
     val state = _state.asStateFlow()
-    private val _messageStringResource = Channel<Int>()
-    val messageStringResource = _messageStringResource.receiveAsFlow()
 
     val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
 
@@ -33,7 +31,10 @@ class PostsListViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    isLoading = true
+                    data = null,
+                    isLoading = true,
+                    stringResourceId = null,
+                    message = null
                 )
             }
             when (val result = postsUseCase.getAllPosts()) {
@@ -48,10 +49,11 @@ class PostsListViewModel @Inject constructor(
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false
+                            isLoading = false,
+                            stringResourceId = result.stringResourceId,
+                            message = result.message
                         )
                     }
-                    _messageStringResource.send(result.stringResourceId!!)
                 }
             }
         }

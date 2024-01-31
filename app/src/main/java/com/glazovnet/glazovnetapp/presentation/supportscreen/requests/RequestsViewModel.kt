@@ -28,8 +28,6 @@ class RequestsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<SupportRequestModel>>())
     val state = _state.asStateFlow()
-    private val _messageResourceString = Channel<Int>()
-    val messageResourceString = _messageResourceString.receiveAsFlow()
 
     fun loadRequests() {
         //user don't need to connect to socket. He just need to see his requests
@@ -41,6 +39,7 @@ class RequestsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
+                    data = null,
                     isLoading = true,
                     stringResourceId = null,
                     message = null
@@ -61,11 +60,10 @@ class RequestsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            stringResourceId = null,
+                            stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }
-                    _messageResourceString.send(result.stringResourceId!!)
                 }
             }
         }
@@ -89,6 +87,7 @@ class RequestsViewModel @Inject constructor(
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
+                            stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }

@@ -171,8 +171,7 @@ private fun ScreenContents(
                 PostsListScreen(
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() },
                     onNavigationToEditPostScreen =  { (navController.navigate("edit-posts-screen?postId=$it")) },
-                    onNavigationToPostDetails = { TODO() },
-                    onNeedToShowMessage = onNeedToShowMessage
+                    onNavigationToPostDetails = { TODO() }
                 )
             }
             composable(

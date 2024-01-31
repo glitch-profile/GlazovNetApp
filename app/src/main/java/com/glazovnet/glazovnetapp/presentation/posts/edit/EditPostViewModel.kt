@@ -53,7 +53,7 @@ class EditPostViewModel @Inject constructor(
     fun loadPostData(postId: String?) {
         if (postId !== null) {
             viewModelScope.launch {
-                _state.update { it.copy(isLoading = true) }
+                _state.update { it.copy(data = null, isLoading = true, stringResourceId = null, message = null) }
                 when (val result = postsUseCase.getPostById(postId)) {
                     is Resource.Success -> {
                         _state.update { it.copy(data = result.data) }
@@ -62,7 +62,9 @@ class EditPostViewModel @Inject constructor(
                         _postImageUri.update { result.data?.image?.imageUrl?.toUri() }
                     }
                     is Resource.Error -> {
-                        _messageStringResource.send(result.stringResourceId!!)
+                        _state.update {
+                            it.copy(stringResourceId = result.stringResourceId, message = result.message)
+                        }
                     }
                 }
                 _state.update { it.copy(isLoading = false) }
