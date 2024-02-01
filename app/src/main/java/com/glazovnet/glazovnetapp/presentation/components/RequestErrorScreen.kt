@@ -37,7 +37,6 @@ fun RequestErrorScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,7 +95,8 @@ fun RequestErrorScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 composition = lottieComposition,
-                iterations = LottieConstants.IterateForever
+                iterations = LottieConstants.IterateForever,
+                clipToCompositionBounds = true
             )
         }
     }
