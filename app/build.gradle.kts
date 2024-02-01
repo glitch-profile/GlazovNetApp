@@ -92,4 +92,8 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //lottie
+    val lottieVersion = "6.3.0"
+    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
 }

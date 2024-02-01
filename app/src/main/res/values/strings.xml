@@ -60,6 +60,10 @@
 
     <!-- COMPONENTS -->
     <string name="comp_image_picker_label">Select image</string>
+    <string name="request_error_title_text">Oooops…</string>
+    <string name="request_error_description_text">Sorry, we were unable to display this content due to an unexpected error…</string>
+    <string name="request_error_main_message_intro">Error description</string>
+    <string name="request_error_additional_message_intro">Additional info</string>
 
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
