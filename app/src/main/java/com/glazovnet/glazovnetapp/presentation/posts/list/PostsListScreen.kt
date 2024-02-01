@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,49 +96,46 @@ fun PostsListScreen(
                         .padding(16.dp)
                         .fillMaxWidth()
                 )
-            } else {
-                if (state.value.data != null) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .nestedScroll(scrollBehavior.nestedScrollConnection),
-                        content = {
-                            items(
-                                items = state.value.data!!.dropLast(1),
-                                key = { it.id }
-                            ) {
+            } else if (state.value.stringResourceId != null) {
+                RequestErrorScreen(
+                    messageStringResource = state.value.stringResourceId,
+                    additionalMessage = state.value.message
+                )
+            } else if (state.value.data != null) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                    content = {
+                        items(
+                            items = state.value.data!!.dropLast(1),
+                            key = { it.id }
+                        ) {
+                            PostCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                post = it,
+                                onClick = {
+                                    onNavigationToEditPostScreen.invoke(it.id) //TODO
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                        item {
+                            with(state.value.data!!.last()) {
                                 PostCard(
                                     modifier = Modifier.fillMaxWidth(),
-                                    post = it,
+                                    post = this,
                                     onClick = {
-                                        onNavigationToEditPostScreen.invoke(it.id) //TODO
+                                        onNavigationToEditPostScreen.invoke(this.id)
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            item { 
-                                with(state.value.data!!.last()) {
-                                    PostCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        post = this,
-                                        onClick = {
-                                            onNavigationToEditPostScreen.invoke(this.id)
-                                        }
-                                    )
-                                }
-                            }
-                            item { 
-                                Spacer(modifier = Modifier.navigationBarsPadding())
                             }
                         }
-                    )
-                } else if (state.value.stringResourceId != null) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = state.value.stringResourceId!!)
-                    ) //TODO
-                }
+                        item {
+                            Spacer(modifier = Modifier.navigationBarsPadding())
+                        }
+                    }
+                )
             }
         }
     }

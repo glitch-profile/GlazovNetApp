@@ -43,6 +43,7 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
 import com.glazovnet.glazovnetapp.presentation.components.ImagePicker
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,6 +107,11 @@ fun EditPostScreen(
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth()
+                    )
+                } else if (state.value.stringResourceId != null) {
+                    RequestErrorScreen(
+                        messageStringResource = state.value.stringResourceId,
+                        additionalMessage = state.value.message
                     )
                 } else {
                     Spacer(modifier = Modifier.height(8.dp))

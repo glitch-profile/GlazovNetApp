@@ -49,9 +49,7 @@ class ChatViewModel @Inject constructor(
                         }.launchIn(viewModelScope)
                 }
                 is Resource.Error -> {
-                    _state.update {
-                        it.copy(stringResourceId = connectionResult.stringResourceId, message = connectionResult.message)
-                    }
+                    _messageResourceStringChannel.send(connectionResult.stringResourceId!!)
                 }
             }
         }

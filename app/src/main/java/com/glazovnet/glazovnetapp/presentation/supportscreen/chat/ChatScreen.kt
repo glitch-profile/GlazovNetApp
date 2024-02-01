@@ -53,6 +53,7 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -118,6 +119,11 @@ fun ChatScreen(
                     .padding(16.dp)
                     .fillMaxWidth()
             )
+        } else if (state.value.stringResourceId != null) {
+            RequestErrorScreen(
+                messageStringResource = state.value.stringResourceId,
+                additionalMessage = state.value.message
+            )
         } else {
             if (state.value.data != null) {
                 MessagesList(
@@ -133,12 +139,6 @@ fun ChatScreen(
                         viewModel.sendMessage(it)
                     }
                 )
-            } else if (state.value.stringResourceId != null) {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
-                    text = stringResource(id = state.value.stringResourceId!!)
-                ) //TODO
             }
         }
     }
