@@ -54,13 +54,6 @@ fun PostCard(
             color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Spacer(modifier = Modifier.height(4.dp))
-//        Divider(
-//            modifier = Modifier
-//                .padding(horizontal = 16.dp)
-//                .fillMaxWidth(),
-//
-//        )
-        //Spacer(modifier = Modifier.height(4.dp))
         Text(
             modifier = Modifier.padding(start = 24.dp, end = 16.dp),
             text = post.text,
