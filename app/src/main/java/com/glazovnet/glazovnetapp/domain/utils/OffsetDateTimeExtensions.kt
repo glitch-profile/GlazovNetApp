@@ -11,7 +11,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun OffsetDateTime.getLocalizedOffsetString(
     daysPattern: String = "dd MMMM yyyy",
-    timePattern: String = "HH:mm"
+    timePattern: String = "HH:mm",
+    connectionString: String = " -"
 ): String {
     val zoneCorrectlyDateTime = this.atZoneSameInstant(ZoneId.systemDefault())
     val localDateTime = zoneCorrectlyDateTime.toLocalDateTime()
@@ -21,7 +22,7 @@ fun OffsetDateTime.getLocalizedOffsetString(
         localDate.plusDays(1L) -> stringResource(id = R.string.util_date_time_converter_yesterday)
         else -> localDate.format(
             DateTimeFormatter.ofPattern(daysPattern)
-        ) + " -"
+        ) + connectionString
     }
     val time = localDateTime.format(
         DateTimeFormatter.ofPattern(timePattern)

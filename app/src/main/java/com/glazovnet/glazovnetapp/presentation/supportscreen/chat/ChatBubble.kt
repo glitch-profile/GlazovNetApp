@@ -73,7 +73,7 @@ fun ChatBubble(
                     modifier = Modifier
                         .align(Alignment.End),
                     text = timestamp.getLocalizedOffsetString(
-                        daysPattern = "dd MMMM"
+                        daysPattern = "dd MMM"
                     ),
                     style = MaterialTheme.typography.bodySmall,
                     color = textColor

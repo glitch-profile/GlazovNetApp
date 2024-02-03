@@ -63,7 +63,6 @@
     <string name="comp_image_picker_label">Выбрать изображение</string>
     <string name="request_error_title_text">Что-то пошло не так…</string>
     <string name="request_error_description_text">Извините, мы не можем отобразить это из-за непредвиденной ошибки…</string>
-    <string name="request_error_main_message_intro">Описание ошибки</string>
     <string name="request_error_additional_message_intro">Дополнительная информация</string>
 
     <!-- REUSABLE -->
