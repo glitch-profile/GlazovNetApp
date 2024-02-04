@@ -13,7 +13,7 @@
     <string name="login_screen_password_text">Password</string>
     <string name="login_remember_user_text">Remember me</string>
     <string name="login_screen_login_as_user_button">Login</string>
-    <string name="login_screen_login_as_admin_button">Login as administrator</string>
+    <string name="login_screen_login_as_admin_button">Administrator</string>
     <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
     <string name="login_response_user_not_found">User not found. Check if the data entered is correct</string>
 
@@ -39,6 +39,15 @@
     <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here.</string>
     <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically.</string>
     <string name="request_screen_add_request_button_text">Create new request</string>
+
+    <!-- REQUEST DETAILS SCREEN -->
+    <string name="request_details_screen_name">Request details</string>
+    <string name="request_details_screen_creation_date_text">Request created at</string>
+    <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>
+    <string name="request_details_screen_request_status_text">Current request status is</string>
+    <string name="request_details_screen_open_chat_text">Open in chat</string>
+    <string name="request_details_screen_mark_as_solved_text">Mark as solved</string>
+    <string name="request_details_screen_assign_text">Assign</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>

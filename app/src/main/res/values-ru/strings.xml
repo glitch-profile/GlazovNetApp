@@ -14,7 +14,7 @@
     <string name="login_screen_password_text">Пароль</string>
     <string name="login_remember_user_text">Запомнить меня</string>
     <string name="login_screen_login_as_user_button">Войти</string>
-    <string name="login_screen_login_as_admin_button">Войти как администратор</string>
+    <string name="login_screen_login_as_admin_button">Администратор</string>
     <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
     <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных</string>
 
@@ -40,6 +40,15 @@
     <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь.</string>
     <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически.</string>
     <string name="request_screen_add_request_button_text">Создать запрос</string>
+
+    <!-- REQUEST DETAILS SCREEN -->
+    <string name="request_details_screen_name">Подробности запроса</string>
+    <string name="request_details_screen_creation_date_text">Запрос создан</string>
+    <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>
+    <string name="request_details_screen_request_status_text">Текущий статус запроса</string>
+    <string name="request_details_screen_open_chat_text">Открыть чат</string>
+    <string name="request_details_screen_mark_as_solved_text">Отметить решенным</string>
+    <string name="request_details_screen_assign_text">Назначиться</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
