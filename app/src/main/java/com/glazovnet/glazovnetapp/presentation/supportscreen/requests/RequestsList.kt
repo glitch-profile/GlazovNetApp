@@ -116,7 +116,7 @@ fun RequestsListScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            if (state.value.isLoading) {
+            if (state.value.isLoading && state.value.data == null) {
                 LoadingIndicator(
                     modifier = Modifier
                         .padding(16.dp)

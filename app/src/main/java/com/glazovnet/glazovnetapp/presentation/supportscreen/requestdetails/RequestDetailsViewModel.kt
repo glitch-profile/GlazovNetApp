@@ -42,7 +42,11 @@ class RequestDetailsViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.update {
-                        it.copy(message = result.message, stringResourceId = result.stringResourceId)
+                        it.copy(
+                            data = null,
+                            message = result.message,
+                            stringResourceId = result.stringResourceId
+                        )
                     }
                 }
             }

@@ -39,20 +39,20 @@ class PostsListViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             data = result.data,
-                            isLoading = false
                         )
                     }
                 }
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            data = null,
                             stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }
                 }
             }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
