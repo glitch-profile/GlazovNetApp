@@ -30,16 +30,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
@@ -126,6 +130,40 @@ fun RequestDetailsScreen(
                         requestText = state.value.data!!.description
                     )
                     Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        text = stringResource(id = R.string.request_details_screen_additional_info_text),
+                        maxLines = 2
+                    )
+                    if (isAdmin) {
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.request_details_screen_creator_name),
+                            text = state.value.data!!.creatorName
+                        )
+                    }
+                    AdditionalTextInfo(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        title = stringResource(id = R.string.request_details_screen_creation_date_text),
+                        text = state.value.data!!.creationDate?.getLocalizedOffsetString() ?: "unknown"
+                    )
+                    AdditionalTextInfo(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        title = stringResource(id = R.string.request_details_screen_request_status_text),
+                        text = stringResource(id = state.value.data!!.status.stringResourceRequestStatus)
+                    )
+                    Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
                 }
             }
         }
@@ -167,6 +205,37 @@ private fun RequestText(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             text = requestText,
             maxLines = 20
+        )
+    }
+}
+
+@Composable
+private fun AdditionalTextInfo(
+    modifier: Modifier = Modifier,
+    title: String,
+    text: String
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier,
+            text = title,
+            style = MaterialTheme.typography.bodyMedium,
+            //fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            modifier = Modifier
+                .weight(1f),
+            text = text,
+            textAlign = TextAlign.End,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

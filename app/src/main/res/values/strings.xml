@@ -42,6 +42,8 @@
 
     <!-- REQUEST DETAILS SCREEN -->
     <string name="request_details_screen_name">Request details</string>
+    <string name="request_details_screen_additional_info_text">Additional info</string>
+    <string name="request_details_screen_creator_name">Request by</string>
     <string name="request_details_screen_creation_date_text">Request created at</string>
     <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>
     <string name="request_details_screen_request_status_text">Current request status is</string>
@@ -75,6 +77,7 @@
 
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
+    <string name="reusable_text_updating">Updating…</string>
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
 

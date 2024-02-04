@@ -43,6 +43,8 @@
 
     <!-- REQUEST DETAILS SCREEN -->
     <string name="request_details_screen_name">Подробности запроса</string>
+    <string name="request_details_screen_additional_info_text">Дополнительно</string>
+    <string name="request_details_screen_creator_name">Запрос от</string>
     <string name="request_details_screen_creation_date_text">Запрос создан</string>
     <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>
     <string name="request_details_screen_request_status_text">Текущий статус запроса</string>
@@ -76,6 +78,7 @@
 
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Загрузка…</string>
+    <string name="reusable_text_updating">Обновление…</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
 </resources>
