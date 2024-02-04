@@ -196,7 +196,7 @@ private fun ScreenContents(
                     onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
                     onAddNewRequestClicked = { /*TODO*/ },
                     onRequestClicked = {requestId ->
-                        navController.navigate("request-chat-screen/$requestId") //TODO
+                        navController.navigate("request-details-screen/$requestId")
                     }
                 )
             }
@@ -211,8 +211,8 @@ private fun ScreenContents(
                 RequestDetailsScreen(
                     requestId = it.arguments?.getString("request-id") ?: "",
                     onNavigationButtonPressed = { navController.popBackStack() },
-                    onOpenChatButtonPressed = {
-                        navController.navigate("request-chat-screen/$it")
+                    onOpenChatButtonPressed = { requestId ->
+                        navController.navigate("request-chat-screen/$requestId")
                     }
                 )
             }
