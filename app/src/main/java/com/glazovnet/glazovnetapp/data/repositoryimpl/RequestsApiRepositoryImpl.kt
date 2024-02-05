@@ -5,6 +5,7 @@ import com.glazovnet.glazovnetapp.data.entity.supportrequests.MessageModelDto
 import com.glazovnet.glazovnetapp.data.entity.supportrequests.SupportRequestDto
 import com.glazovnet.glazovnetapp.data.entity.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.data.mappers.toMessageModel
+import com.glazovnet.glazovnetapp.data.mappers.toSupportRequestDto
 import com.glazovnet.glazovnetapp.data.mappers.toSupportRequestModel
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
@@ -132,7 +133,7 @@ class RequestsApiRepositoryImpl @Inject constructor(
             val response: ApiResponseDto<SupportRequestDto> = client.post("$PATH/create-request") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(newRequest)
+                setBody(newRequest.toSupportRequestDto())
             }.body()
             if (response.status) {
                 Resource.Success(data = response.data.toSupportRequestModel())
@@ -152,7 +153,7 @@ class RequestsApiRepositoryImpl @Inject constructor(
             val response: ApiResponseDto<Unit> = client.put("$PATH/requests/edit") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(newRequest)
+                setBody(newRequest.toSupportRequestDto())
             }.body()
             if (response.status) {
                 Resource.Success(Unit)

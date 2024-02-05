@@ -1,7 +1,9 @@
 package com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
@@ -60,7 +62,9 @@ class RequestDetailsViewModel @Inject constructor(
             val currentRequest = state.value.data
             if (currentRequest !== null && currentRequest.status !== newStatus) {
                 _state.update { it.copy(isUploading = true) }
-                val updatedRequest = currentRequest.copy(status = newStatus)
+                val updatedRequest = currentRequest.copy(
+                    status = newStatus
+                )
                 val result = requestsApiRepository.editRequest(
                     newRequest = updatedRequest,
                     token = userAuthDataRepository.getLoginToken() ?: ""
@@ -78,15 +82,30 @@ class RequestDetailsViewModel @Inject constructor(
                 if (isAdmin) {
                     _state.update { it.copy(isUploading = true) }
                     val currentAdminId = userAuthDataRepository.getAssociatedUserId() ?: ""
-                    val updatedRequest = currentRequest.copy(associatedSupportId = currentAdminId)
+                    val updatedRequest = currentRequest.copy(
+                        associatedSupportId = currentAdminId,
+                        status = RequestStatus.Active
+                    )
                     val result = requestsApiRepository.editRequest(
                         newRequest = updatedRequest,
                         token = userAuthDataRepository.getLoginToken() ?: ""
                     )
                     if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
+                    else _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
                     _state.update { it.copy(isUploading = false) }
                 }
             }
+        }
+    }
+
+    fun getAssignedSupporterText(): Int {
+        Log.i("TAG", "getAssignedSupporterText: getting assigned supporter text")
+        val request = state.value.data!!
+        val currentUserId = userAuthDataRepository.getAssociatedUserId()
+        return when (request.associatedSupportId) {
+            null -> R.string.request_details_screen_assigned_supporter_no
+            currentUserId -> R.string.request_details_screen_assigned_supporter_you
+            else -> R.string.request_details_screen_assigned_supporter_someone
         }
     }
 }

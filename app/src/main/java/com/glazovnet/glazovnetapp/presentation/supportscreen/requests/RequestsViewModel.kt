@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.presentation.supportscreen.requests
 
+import androidx.compose.ui.util.fastAny
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
@@ -74,7 +75,12 @@ class RequestsViewModel @Inject constructor(
                     supportRequestsUseCase.observeRequests()
                         .onEach {request ->
                             val newRequestsList = state.value.data!!.toMutableList().apply {
-                                add(0, request)
+                                if (this.any { it.id == request.id }) {
+                                    val index = this.indexOfFirst { it.id == request.id }
+                                    this[index] = request
+                                } else {
+                                    add(0, request)
+                                }
                             }
                             _state.update {
                                 it.copy(data = newRequestsList)

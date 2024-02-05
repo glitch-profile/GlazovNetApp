@@ -48,9 +48,13 @@
     <string name="request_details_screen_creation_date_text">Запрос создан</string>
     <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>
     <string name="request_details_screen_request_status_text">Текущий статус запроса</string>
+    <string name="request_details_screen_assigned_supporter_text">Текущий помощник</string>
+    <string name="request_details_screen_assigned_supporter_no">Пока не назначен</string>
+    <string name="request_details_screen_assigned_supporter_someone">Уже назначен</string>
+    <string name="request_details_screen_assigned_supporter_you">Вы</string>
     <string name="request_details_screen_open_chat_text">Открыть чат</string>
-    <string name="request_details_screen_mark_as_solved_text">Отметить решенным</string>
-    <string name="request_details_screen_assign_text">Назначиться</string>
+    <string name="request_details_screen_mark_as_solved_text">Закрыть запрос</string>
+    <string name="request_details_screen_assign_text">Позаботиться об этом</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>

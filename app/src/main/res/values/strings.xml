@@ -47,9 +47,13 @@
     <string name="request_details_screen_creation_date_text">Request created at</string>
     <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>
     <string name="request_details_screen_request_status_text">Current request status is</string>
+    <string name="request_details_screen_assigned_supporter_text">Current assistant</string>
+    <string name="request_details_screen_assigned_supporter_no">Not assigned yet</string>
+    <string name="request_details_screen_assigned_supporter_someone">Already assigned</string>
+    <string name="request_details_screen_assigned_supporter_you">You</string>
     <string name="request_details_screen_open_chat_text">Open in chat</string>
     <string name="request_details_screen_mark_as_solved_text">Mark as solved</string>
-    <string name="request_details_screen_assign_text">Assign</string>
+    <string name="request_details_screen_assign_text">Take care of that</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>

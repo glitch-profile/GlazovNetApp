@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,17 +17,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
@@ -163,7 +168,40 @@ fun RequestDetailsScreen(
                         title = stringResource(id = R.string.request_details_screen_request_status_text),
                         text = stringResource(id = state.value.data!!.status.stringResourceRequestStatus)
                     )
+                    if (isAdmin) {
+                        var assignedSupporterText by remember {
+                            mutableIntStateOf(viewModel.getAssignedSupporterText())
+                        }
+                        LaunchedEffect(state.value.data!!.associatedSupportId) {
+                            assignedSupporterText = viewModel.getAssignedSupporterText()
+                        }
+
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.request_details_screen_assigned_supporter_text),
+                            text = stringResource(id = assignedSupporterText)
+                        )
+                    }
                     Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+                    ButtonsMenu(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        onOpenChatButtonPressed = {
+                            onOpenChatButtonPressed.invoke(state.value.data?.id ?: "")
+                        },
+                        onAssignSupporterButtonPressed = {
+                            viewModel.assignSupporter()
+                        },
+                        onChangeStatusButtonPressed = { newStatus ->
+                            viewModel.changeRequestStatus(newStatus)
+                        },
+                        isButtonsEnabled = !state.value.isLoading && !state.value.isUploading,
+                        isAdmin = isAdmin,
+                        isSupporterAlreadyAssigned = state.value.data!!.associatedSupportId !== null
+                    )
                 }
             }
         }
@@ -223,7 +261,6 @@ private fun AdditionalTextInfo(
             modifier = Modifier,
             text = title,
             style = MaterialTheme.typography.bodyMedium,
-            //fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -237,5 +274,65 @@ private fun AdditionalTextInfo(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
+    }
+}
+
+@Composable
+private fun ButtonsMenu(
+    modifier: Modifier = Modifier,
+    onOpenChatButtonPressed: () -> Unit,
+    onAssignSupporterButtonPressed: () -> Unit,
+    onChangeStatusButtonPressed: (RequestStatus) -> Unit,
+    isButtonsEnabled: Boolean,
+    isAdmin: Boolean,
+    isSupporterAlreadyAssigned: Boolean
+) {
+    Column(
+        modifier = modifier
+    ) {
+        OutlinedButton(
+            modifier = Modifier
+                .height(48.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
+            border = BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary
+            ),
+            onClick = {
+                onOpenChatButtonPressed.invoke()
+            }
+        ) {
+            Text(text = stringResource(id = R.string.request_details_screen_open_chat_text))
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        if (!isAdmin) {
+            Button(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
+                onClick = {
+                    onChangeStatusButtonPressed.invoke(RequestStatus.Solved)
+                },
+                enabled = isButtonsEnabled
+            ) {
+                Text(text = stringResource(id = R.string.request_details_screen_mark_as_solved_text))
+            }
+        }
+        if (isAdmin && !isSupporterAlreadyAssigned) {
+            Button(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
+                onClick = {
+                    onAssignSupporterButtonPressed.invoke()
+                },
+                enabled = isButtonsEnabled
+            ) {
+                Text(text = stringResource(id = R.string.request_details_screen_assign_text))
+            }
+        }
     }
 }
