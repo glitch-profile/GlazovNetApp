@@ -2,6 +2,7 @@ package com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.domain.repository.RequestsApiRepository
@@ -54,11 +55,38 @@ class RequestDetailsViewModel @Inject constructor(
         }
     }
 
-    fun markRequestAsSolved() {
-//        TODO
+    fun changeRequestStatus(newStatus: RequestStatus) {
+        viewModelScope.launch {
+            val currentRequest = state.value.data
+            if (currentRequest !== null && currentRequest.status !== newStatus) {
+                _state.update { it.copy(isUploading = true) }
+                val updatedRequest = currentRequest.copy(status = newStatus)
+                val result = requestsApiRepository.editRequest(
+                    newRequest = updatedRequest,
+                    token = userAuthDataRepository.getLoginToken() ?: ""
+                )
+                if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
+                _state.update { it.copy(isUploading = false) }
+            }
+        }
     }
 
-    fun assignSupporter() {
-//        TODO
+    fun assignSupporter() { //TODO Rework method to new request. In request on server-side check if supporterId is valid
+        viewModelScope.launch {
+            val currentRequest = state.value.data
+            if (currentRequest !== null) {
+                if (isAdmin) {
+                    _state.update { it.copy(isUploading = true) }
+                    val currentAdminId = userAuthDataRepository.getAssociatedUserId() ?: ""
+                    val updatedRequest = currentRequest.copy(associatedSupportId = currentAdminId)
+                    val result = requestsApiRepository.editRequest(
+                        newRequest = updatedRequest,
+                        token = userAuthDataRepository.getLoginToken() ?: ""
+                    )
+                    if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
+                    _state.update { it.copy(isUploading = false) }
+                }
+            }
+        }
     }
 }

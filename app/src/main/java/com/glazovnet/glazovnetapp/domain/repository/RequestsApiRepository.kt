@@ -17,6 +17,8 @@ interface RequestsApiRepository {
 
     suspend fun addRequest(newRequest: SupportRequestModel, token: String): Resource<SupportRequestModel?>
 
+    suspend fun editRequest(newRequest: SupportRequestModel, token: String): Resource<Unit>
+
     suspend fun initRequestsSocket(token: String): Resource<Unit>
 
     fun observeRequests(): Flow<SupportRequestModel>

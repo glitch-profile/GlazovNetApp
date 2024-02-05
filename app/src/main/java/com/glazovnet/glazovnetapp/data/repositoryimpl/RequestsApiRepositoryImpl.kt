@@ -17,6 +17,7 @@ import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
@@ -135,6 +136,26 @@ class RequestsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(data = response.data.toSupportRequestModel())
+            } else {
+                Resource.Error(R.string.api_response_server_error, response.message)
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun editRequest(
+        newRequest: SupportRequestModel,
+        token: String
+    ): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/edit") {
+                bearerAuth(token)
+                contentType(ContentType.Application.Json)
+                setBody(newRequest)
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
             } else {
                 Resource.Error(R.string.api_response_server_error, response.message)
             }
