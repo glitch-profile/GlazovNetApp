@@ -52,7 +52,6 @@ fun PostsListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
     ) {
         TopAppBar(
             title = {

@@ -70,7 +70,6 @@ fun EditPostScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
     ) {
         TopAppBar(
             title = {

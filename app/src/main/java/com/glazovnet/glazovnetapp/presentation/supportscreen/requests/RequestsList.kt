@@ -72,7 +72,6 @@ fun RequestsListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
     ) {
         TopAppBar(
             title = {
