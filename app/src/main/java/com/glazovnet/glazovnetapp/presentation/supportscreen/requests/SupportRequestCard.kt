@@ -120,24 +120,3 @@ fun SupportRequestCard(
         }
     }
 }
-
-@Preview
-@Composable
-fun PreviewSupportRequestCard() {
-    SupportRequestCard(
-        modifier = Modifier
-            .fillMaxWidth(),
-        data = SupportRequestModel(
-            "",
-            "",
-            "Геннадий Владимир Николаевич",
-            "",
-            "Второй день не работает интернет, не знаю, что делать, помогите",
-            "Уже второй день пытаюсь зайти в интрнет с компьютера - говорит, что нет подключения. И роутер перезагружал, и всё делал - ничего не помогло...",
-            OffsetDateTime.now(),
-            RequestStatus.NotReviewed
-        ),
-        true,
-        onClick = {}
-    )
-}
