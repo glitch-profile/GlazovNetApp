@@ -34,6 +34,7 @@ import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.chat.ChatScreen
+import com.glazovnet.glazovnetapp.presentation.supportscreen.createrequest.CreateRequestScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails.RequestDetailsScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requests.RequestsListScreen
 import kotlinx.coroutines.launch
@@ -194,7 +195,9 @@ private fun ScreenContents(
             composable("requests-list-screen") {
                 RequestsListScreen(
                     onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
-                    onAddNewRequestClicked = { /*TODO*/ },
+                    onAddNewRequestClicked = {
+                        navController.navigate("create-request-screen")
+                    },
                     onRequestClicked = {requestId ->
                         navController.navigate("request-details-screen/$requestId")
                     }
@@ -227,6 +230,12 @@ private fun ScreenContents(
                 ChatScreen(
                     requestId = it.arguments?.getString("request-id") ?: "",
                     onNavigationButtonPressed = { navController.popBackStack() },
+                    onNeedToShowMessage = onNeedToShowMessage
+                )
+            }
+            composable("create-request-screen") {
+                CreateRequestScreen(
+                    onNavigationButtonClicked = { navController.popBackStack() },
                     onNeedToShowMessage = onNeedToShowMessage
                 )
             }
