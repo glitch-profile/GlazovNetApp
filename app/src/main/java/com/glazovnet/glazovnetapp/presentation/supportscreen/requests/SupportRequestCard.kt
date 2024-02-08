@@ -17,12 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable

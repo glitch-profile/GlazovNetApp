@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.presentation.supportscreen.requests
 
-import androidx.compose.ui.util.fastAny
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel

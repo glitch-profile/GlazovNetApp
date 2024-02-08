@@ -41,7 +41,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.FilledImagePicker
 import com.glazovnet.glazovnetapp.presentation.components.FilledTextField
-import com.glazovnet.glazovnetapp.presentation.components.OutlinedImagePicker
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.flow.collectLatest
