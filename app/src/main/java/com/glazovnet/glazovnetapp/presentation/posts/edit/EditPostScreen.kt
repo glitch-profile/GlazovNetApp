@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,8 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
-import com.glazovnet.glazovnetapp.presentation.components.ImagePicker
+import com.glazovnet.glazovnetapp.presentation.components.FilledImagePicker
+import com.glazovnet.glazovnetapp.presentation.components.FilledTextField
+import com.glazovnet.glazovnetapp.presentation.components.OutlinedImagePicker
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.flow.collectLatest
@@ -113,16 +113,21 @@ fun EditPostScreen(
                         additionalMessage = state.value.message
                     )
                 } else {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    DesignedOutlinedTextField(
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_title_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    FilledTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        text = postTitle.value,
-                        onTextEdit = { viewModel.updatePostTitle(it) },
+                        value = postTitle.value,
+                        onValueChange = { viewModel.updatePostTitle(it) },
                         placeholder = stringResource(id = R.string.edit_post_post_title_placeholder),
-                        minLines = 2,
-                        maxLines = 3,
+                        singleLine = true,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
                             autoCorrect = true,
@@ -130,15 +135,22 @@ fun EditPostScreen(
                             imeAction = ImeAction.Next
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    DesignedOutlinedTextField(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_text_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    FilledTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        text = postText.value,
-                        onTextEdit = { viewModel.updatePostText(it) },
+                        value = postText.value,
+                        onValueChange = { viewModel.updatePostText(it) },
                         placeholder = stringResource(id = R.string.edit_post_post_text_placeholder),
-                        minLines = 3,
+                        minLines = 5,
                         maxLines = 5,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
@@ -147,8 +159,15 @@ fun EditPostScreen(
                             imeAction = ImeAction.Done
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ImagePicker(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_image_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = (Modifier.height(4.dp)))
+                    FilledImagePicker(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(160.dp)

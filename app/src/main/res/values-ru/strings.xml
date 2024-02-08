@@ -24,8 +24,11 @@
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Добавить пост</string>
     <string name="edit_post_screen_name">Редактировать пост</string>
-    <string name="edit_post_post_title_placeholder">Заголовок поста</string>
-    <string name="edit_post_post_text_placeholder">Текст поста</string>
+    <string name="edit_post_post_title_title">Заголовок</string>
+    <string name="edit_post_post_text_title">Контент</string>
+    <string name="edit_post_post_image_title">Изображение</string>
+    <string name="edit_post_post_title_placeholder">Введите заголовок поста</string>
+    <string name="edit_post_post_text_placeholder">Введите текст поста</string>
     <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
     <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>

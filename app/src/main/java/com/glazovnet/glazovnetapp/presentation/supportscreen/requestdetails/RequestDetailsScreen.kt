@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
@@ -199,7 +200,7 @@ fun RequestDetailsScreen(
                         },
                         isButtonsEnabled = !state.value.isLoading && !state.value.isUploading,
                         isAdmin = isAdmin,
-                        isSupporterAlreadyAssigned = state.value.data!!.associatedSupportId !== null
+                        request = state.value.data!!
                     )
                 }
             }
@@ -284,7 +285,7 @@ private fun ButtonsMenu(
     onChangeStatusButtonPressed: (RequestStatus) -> Unit,
     isButtonsEnabled: Boolean,
     isAdmin: Boolean,
-    isSupporterAlreadyAssigned: Boolean
+    request: SupportRequestModel
 ) {
     Column(
         modifier = modifier
@@ -305,7 +306,7 @@ private fun ButtonsMenu(
             Text(text = stringResource(id = R.string.request_details_screen_open_chat_text))
         }
         Spacer(modifier = Modifier.height(8.dp))
-        if (!isAdmin) {
+        if (!isAdmin && request.status != RequestStatus.Solved) {
             Button(
                 modifier = Modifier
                     .height(48.dp)
@@ -319,7 +320,7 @@ private fun ButtonsMenu(
                 Text(text = stringResource(id = R.string.request_details_screen_mark_as_solved_text))
             }
         }
-        if (isAdmin && !isSupporterAlreadyAssigned) {
+        if (isAdmin && request.associatedSupportId == null) {
             Button(
                 modifier = Modifier
                     .height(48.dp)
