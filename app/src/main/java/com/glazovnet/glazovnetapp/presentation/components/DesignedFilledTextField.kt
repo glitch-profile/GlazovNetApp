@@ -36,6 +36,7 @@ fun FilledTextField(
     shape: Shape = MaterialTheme.shapes.small
 ) {
     BasicTextField(
+        modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         enabled = enabled,
@@ -49,7 +50,7 @@ fun FilledTextField(
         keyboardActions = keyboardActions,
         decorationBox = {innerTextField ->  
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .clip(shape)
                     .background(background)
                     .padding(16.dp)

@@ -41,6 +41,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -52,6 +56,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
 import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
+import com.glazovnet.glazovnetapp.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.flow.collectLatest
@@ -83,7 +88,7 @@ fun ChatScreen(
         }
     }
 
-    LaunchedEffect(null) {
+    LaunchedEffect(Unit) {
         viewModel.messageResourceStringChannel.collectLatest {
             onNeedToShowMessage.invoke(it)
         }
@@ -216,7 +221,7 @@ private fun MessagesList(
 @Composable
 private fun InputField(
     modifier: Modifier = Modifier,
-    onMessageSend: (message: String) -> Unit
+    onMessageSend: (message: String) -> Unit,
 ) {
     var messageText by remember {
         mutableStateOf("")
@@ -231,32 +236,38 @@ private fun InputField(
                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                 .navigationBarsPadding()
                 .imePadding()
-                .animateContentSize()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(start = 0.dp, end = 8.dp),
             verticalAlignment = Alignment.Bottom
         ) {
-            DesignedOutlinedTextField(
+            Box(
                 modifier = Modifier
-                    .weight(1f),
-                text = messageText,
-                onTextEdit = {
-                    messageText = it
-                },
-                placeholder = stringResource(id = R.string.request_chat_message_placeholder_text),
-                maxLines = 15,
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                    autoCorrect = true,
-                    imeAction = ImeAction.Send
-                ),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        onMessageSend.invoke(messageText)
-                        messageText = ""
-                    }
+                    .weight(1f)
+                    .animateContentSize()
+            ) {
+                FilledTextField(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = messageText,
+                    onValueChange = {
+                        messageText = it
+                    },
+                    placeholder = stringResource(id = R.string.request_chat_message_placeholder_text),
+                    maxLines = 6,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        autoCorrect = true,
+                        imeAction = ImeAction.Send
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            onMessageSend.invoke(messageText)
+                            messageText = ""
+                        }
+                    ),
+                    background = Color.Transparent
                 )
-            )
-            Spacer(modifier = Modifier.width(12.dp))
+            }
+            Spacer(modifier = Modifier.width(8.dp))
             IconButton(onClick = {
                 onMessageSend.invoke(messageText)
                 messageText = ""
