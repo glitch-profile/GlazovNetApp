@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.domain.repository
 
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,9 @@ interface RequestsApiRepository {
 
     suspend fun addRequest(newRequest: SupportRequestModel, token: String): Resource<SupportRequestModel?>
 
-    suspend fun editRequest(newRequest: SupportRequestModel, token: String): Resource<Unit>
+    suspend fun changeRequestStatus(requestId: String, newStatus: RequestStatus, token: String): Resource<Unit>
+
+    suspend fun changeRequestSupporter(requestId: String, newSupporterId: String, token: String): Resource<Unit>
 
     suspend fun initRequestsSocket(token: String): Resource<Unit>
 

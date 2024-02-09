@@ -65,17 +65,19 @@ class RequestDetailsViewModel @Inject constructor(
                 val updatedRequest = currentRequest.copy(
                     status = newStatus
                 )
-                val result = requestsApiRepository.editRequest(
-                    newRequest = updatedRequest,
+                val result = requestsApiRepository.changeRequestStatus(
+                    requestId = currentRequest.id,
+                    newStatus = newStatus,
                     token = userAuthDataRepository.getLoginToken() ?: ""
                 )
                 if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
+                else _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
                 _state.update { it.copy(isUploading = false) }
             }
         }
     }
 
-    fun assignSupporter() { //TODO Rework method to new request. In request on server-side check if supporterId is valid
+    fun assignSupporter() {
         viewModelScope.launch {
             val currentRequest = state.value.data
             if (currentRequest !== null) {
@@ -86,8 +88,9 @@ class RequestDetailsViewModel @Inject constructor(
                         associatedSupportId = currentAdminId,
                         status = RequestStatus.Active
                     )
-                    val result = requestsApiRepository.editRequest(
-                        newRequest = updatedRequest,
+                    val result = requestsApiRepository.changeRequestSupporter(
+                        requestId = currentRequest.id,
+                        newSupporterId = currentAdminId,
                         token = userAuthDataRepository.getLoginToken() ?: ""
                     )
                     if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
