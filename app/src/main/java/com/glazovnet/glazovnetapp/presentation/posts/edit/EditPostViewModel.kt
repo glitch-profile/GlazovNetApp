@@ -18,8 +18,10 @@ import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +40,8 @@ class EditPostViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
+    private val _messageStringResource = Channel<Int>()
+    val messageStringResource = _messageStringResource.receiveAsFlow()
 
     private var _postTitle = MutableStateFlow("")
     val postTitle = _postTitle.asStateFlow()
@@ -49,13 +53,19 @@ class EditPostViewModel @Inject constructor(
     fun loadPostData(postId: String?) {
         if (postId !== null) {
             viewModelScope.launch {
-                _state.update { it.copy(isLoading = true) }
-                val result = postsUseCase.getPostById(postId)
-                if (result is Resource.Success) {
-                    _state.update { it.copy(data = result.data) }
-                    _postTitle.update { result.data?.title ?: "" }
-                    _postText.update { result.data?.text ?: "" }
-                    _postImageUri.update { result.data?.image?.imageUrl?.toUri() }
+                _state.update { it.copy(isLoading = true, stringResourceId = null, message = null) }
+                when (val result = postsUseCase.getPostById(postId)) {
+                    is Resource.Success -> {
+                        _state.update { it.copy(data = result.data) }
+                        _postTitle.update { result.data?.title ?: "" }
+                        _postText.update { result.data?.text ?: "" }
+                        _postImageUri.update { result.data?.image?.imageUrl?.toUri() }
+                    }
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(stringResourceId = result.stringResourceId, message = result.message)
+                        }
+                    }
                 }
                 _state.update { it.copy(isLoading = false) }
             }
@@ -88,7 +98,7 @@ class EditPostViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             _state.update {
-                it.copy(isLoading = true, message = null, stringResourceId = null)
+                it.copy(isUploading = true)
             }
             val isNeedToUpdateImage = state.value.data!!.image?.imageUrl !== imageUri.toString()
             val image = if (isNeedToUpdateImage) {
@@ -103,22 +113,16 @@ class EditPostViewModel @Inject constructor(
                 }
                 when (val result = postsUseCase.updatePost(postToUpload)) {
                     is Resource.Success -> {
-                        _state.update {
-                            it.copy(stringResourceId = R.string.edit_post_add_result_success)
-                        }
+                        _messageStringResource.send(R.string.edit_post_add_result_success)
                     }
                     is Resource.Error -> {
-                        _state.update {
-                            it.copy(stringResourceId = result.stringResourceId, message = result.message)
-                        }
+                        _messageStringResource.send(result.stringResourceId!!)
                     }
                 }
             } else {
-                _state.update {
-                    it.copy(stringResourceId = R.string.edit_post_result_image_failed)
-                }
+                _messageStringResource.send(R.string.edit_post_result_image_failed)
             }
-            _state.update { it.copy(isLoading = false) }
+            _state.update { it.copy(isUploading = false) }
         }
     }
 
@@ -130,7 +134,7 @@ class EditPostViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             _state.update {
-                it.copy(isLoading = true, message = null, stringResourceId = null)
+                it.copy(isUploading = true)
             }
             val image = if (imageUri != null) uploadImageToServer(context, imageUri)
             else null
@@ -142,22 +146,16 @@ class EditPostViewModel @Inject constructor(
                 )
                 when (val result = postsUseCase.addPost(postToUpload)) {
                     is Resource.Success -> {
-                        _state.update {
-                            it.copy(stringResourceId = R.string.edit_post_add_result_success)
-                        }
+                        _messageStringResource.send(R.string.edit_post_add_result_success)
                     }
                     is Resource.Error -> {
-                        _state.update {
-                            it.copy(stringResourceId = result.stringResourceId, message = result.message)
-                        }
+                        _messageStringResource.send(result.stringResourceId!!)
                     }
                 }
             } else {
-                _state.update {
-                    it.copy(stringResourceId = R.string.edit_post_result_image_failed)
-                }
+                _messageStringResource.send(R.string.edit_post_result_image_failed)
             }
-            _state.update { it.copy(isLoading = false) }
+            _state.update { it.copy(isUploading = false) }
         }
     }
 

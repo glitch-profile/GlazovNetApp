@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.presentation.loginscreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
@@ -9,8 +10,10 @@ import com.glazovnet.glazovnetapp.domain.usecase.AuthUseCase
 import com.glazovnet.glazovnetapp.domain.utils.Resource
 import com.glazovnet.glazovnetapp.presentation.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +38,9 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow(ScreenState<Unit>())
     val loginState = _loginState.asStateFlow()
 
+    private val _messageString = Channel<Int>()
+    val messageString = _messageString.receiveAsFlow()
+
     init {
         loadIntroImage()
         loadAuthSettings()
@@ -53,6 +59,7 @@ class LoginViewModel @Inject constructor(
     private fun loadIntroImage() {
         viewModelScope.launch {
             _introImageUrl.update { utilsApiRepository.getIntroImageUrl() }
+            Log.i("TAG", "loadIntroImage: ${introImageUrl.value}")
         }
     }
 
@@ -95,6 +102,7 @@ class LoginViewModel @Inject constructor(
                                 message = result.message
                             )
                         }
+                        _messageString.send(result.stringResourceId!!)
                     }
                 }
             } else {
@@ -103,6 +111,7 @@ class LoginViewModel @Inject constructor(
                         stringResourceId = R.string.login_screen_fields_are_empty_error
                     )
                 }
+                _messageString.send(R.string.login_screen_fields_are_empty_error)
             }
         }
     }

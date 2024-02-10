@@ -10,5 +10,6 @@ data class SupportRequestModel(
     val title: String,
     val description: String,
     val creationDate: OffsetDateTime? = null,
+    val isNotificationsEnabled: Boolean = true,
     val status: RequestStatus = RequestStatus.NotReviewed
 )

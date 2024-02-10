@@ -17,17 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PostsListViewModel @Inject constructor(
     private val postsUseCase: PostsUseCase,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<List<PostModel>>())
     val state = _state.asStateFlow()
-    private val _isAdmin = MutableStateFlow(false)
-    val isAdmin = _isAdmin.asStateFlow()
 
-    init {
-        _isAdmin.update { userAuthDataRepository.getIsUserAsAdmin() ?: false }
-    }
+    val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
 
     fun getAllPosts() {
         viewModelScope.launch {
@@ -41,30 +37,22 @@ class PostsListViewModel @Inject constructor(
             when (val result = postsUseCase.getAllPosts()) {
                 is Resource.Success -> {
                     _state.update {
-                        if (result.data != null) {
-                            it.copy(
-                                data = result.data,
-                                isLoading = false
-                            )
-                        } else {
-                            it.copy(
-                                isLoading = false,
-                                stringResourceId = result.stringResourceId,
-                                message = result.message
-                            )
-                        }
+                        it.copy(
+                            data = result.data,
+                        )
                     }
                 }
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            data = null,
                             stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }
                 }
             }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 

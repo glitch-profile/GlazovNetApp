@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -45,14 +44,14 @@ import coil.compose.AsyncImage
 import com.glazovnet.glazovnetapp.R
 import java.io.File
 
-const val CONTRACT = "image/*"
+private const val CONTRACT = "image/*"
 
 @Composable
-fun ImagePicker(
+fun OutlinedImagePicker(
     modifier: Modifier = Modifier,
     imageUri: Uri?,
     onNewImageSelected: (uri: Uri?) -> Unit,
-    shape: Shape = RoundedCornerShape(4.dp),
+    shape: Shape = MaterialTheme.shapes.small,
     color: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.primary,
 ) {
@@ -158,7 +157,7 @@ fun ImagePicker(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                style = MaterialTheme.typography.labelMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                                 text = stringResource(id = R.string.comp_image_picker_label)
                             )
                         }

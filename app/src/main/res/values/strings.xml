@@ -2,8 +2,8 @@
     <string name="app_name">Glazov.NET</string>
 
     <!-- API RESPONSES -->
-    <string name="api_response_server_error">Server error. Response message: </string>
-    <string name="api_response_error">Request error. Error code: </string>
+    <string name="api_response_server_error">Internal server error</string>
+    <string name="api_response_error">Request error. Please try again</string>
     <string name="api_response_unknown_error">Unknown error</string>
     <string name="api_response_server_not_available">Server not available</string>
     <string name="api_response_websocket_no_connection">Could not establish a connection</string>
@@ -13,9 +13,9 @@
     <string name="login_screen_password_text">Password</string>
     <string name="login_remember_user_text">Remember me</string>
     <string name="login_screen_login_as_user_button">Login</string>
-    <string name="login_screen_login_as_admin_button">Login as administrator</string>
+    <string name="login_screen_login_as_admin_button">Administrator</string>
     <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
-    <string name="login_response_user_not_found">User not found. Check if the data entered is correct.</string>
+    <string name="login_response_user_not_found">User not found. Check if the data entered is correct</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">News</string>
@@ -23,8 +23,11 @@
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Create post</string>
     <string name="edit_post_screen_name">Edit post</string>
-    <string name="edit_post_post_title_placeholder">Post title</string>
-    <string name="esit_post_post_text_placeholder">Post text</string>
+    <string name="edit_post_post_title_title">Title</string>
+    <string name="edit_post_post_text_title">Content</string>
+    <string name="edit_post_post_image_title">Image</string>
+    <string name="edit_post_post_title_placeholder">Enter a post title</string>
+    <string name="edit_post_post_text_placeholder">Enter the text of the post</string>
     <string name="edit_post_add_result_success">The post was successfully uploaded.</string>
     <string name="edit_post_edit_result_success">The post has been successfully updated.</string>
     <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
@@ -39,6 +42,39 @@
     <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here.</string>
     <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically.</string>
     <string name="request_screen_add_request_button_text">Create new request</string>
+
+    <!-- REQUEST DETAILS SCREEN -->
+    <string name="request_details_screen_name">Request details</string>
+    <string name="request_details_screen_additional_info_text">Additional info</string>
+    <string name="request_details_screen_creator_name">Request by</string>
+    <string name="request_details_screen_creation_date_text">Request created at</string>
+    <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>
+    <string name="request_details_screen_request_status_text">Current request status is</string>
+    <string name="request_details_screen_assigned_supporter_text">Current assistant</string>
+    <string name="request_details_screen_assigned_supporter_no">Not assigned yet</string>
+    <string name="request_details_screen_assigned_supporter_someone">Already assigned</string>
+    <string name="request_details_screen_assigned_supporter_you">You</string>
+    <string name="request_details_screen_open_chat_text">Open in chat</string>
+    <string name="request_details_screen_mark_as_solved_text">Mark as solved</string>
+    <string name="request_details_screen_assign_text">Take care of that</string>
+
+    <!-- CREATE REQUEST SCREEN -->
+    <string name="create_request_screen_name">Create request</string>
+    <string name="create_request_message_fields_are_empty">Please fill in all fields</string>
+    <string name="create_request_response_created">Request created successfully</string>
+    <string name="create_request_response_error">Unable to create new request. Try again later</string>
+    <string name="create_request_screen_request_title_title">Title</string>
+    <string name="create_request_screen_request_description_title">Description</string>
+    <string name="create_request_screen_request_notifications_title">Notifications</string>
+    <string name="create_request_screen_request_title_placeholder">Enter a title</string>
+    <string name="create_request_screen_request_description_placeholder">Describe your problem</string>
+    <string name="create_request_screen_request_notifications_checkbox_placeholder">Receive notifications about new messages in the chat</string>
+    <string name="create_request_screen_save_request_button_text">Create request</string>
+
+    <!-- REQUESTS CHAT -->
+    <string name="request_chat_screen_name">Chat</string>
+    <string name="request_chat_message_placeholder_text">Message</string>
+    <string name="request_chat_no_messages_found">There is no messages yet!</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>
@@ -55,9 +91,13 @@
 
     <!-- COMPONENTS -->
     <string name="comp_image_picker_label">Select image</string>
+    <string name="request_error_title_text">Something went wrong…</string>
+    <string name="request_error_description_text">Sorry, we were unable to display this content due to an unexpected error…</string>
+    <string name="request_error_additional_message_intro">Additional info</string>
 
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
+    <string name="reusable_text_updating">Updating…</string>
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
 

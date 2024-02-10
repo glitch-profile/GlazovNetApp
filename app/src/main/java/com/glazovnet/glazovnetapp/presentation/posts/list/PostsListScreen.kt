@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -22,18 +21,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,26 +41,16 @@ fun PostsListScreen(
     viewModel: PostsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isUserAnAdmin = viewModel.isAdmin.collectAsState()
+    val isUserAnAdmin = viewModel.isAdmin
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(key1 = lifecycleOwner) {
-        val observer = LifecycleEventObserver{ _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                viewModel.getAllPosts()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+    LaunchedEffect(null) {
+        viewModel.getAllPosts()
     }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
     ) {
         TopAppBar(
             title = {
@@ -89,7 +76,7 @@ fun PostsListScreen(
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
                 }
-                if (isUserAnAdmin.value) {
+                if (isUserAnAdmin) {
                     IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
                     }
@@ -101,55 +88,52 @@ fun PostsListScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            if (state.value.isLoading) {
+            if (state.value.isLoading && state.value.data == null) {
                 LoadingIndicator(
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
                 )
-            } else {
-                if (state.value.stringResourceId != null) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = state.value.stringResourceId!!))
-                }
-                if (state.value.data != null) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .nestedScroll(scrollBehavior.nestedScrollConnection),
-                        content = {
-                            items(
-                                items = state.value.data!!.dropLast(1),
-                                key = { it.id }
-                            ) {
+            } else if (state.value.stringResourceId != null) {
+                RequestErrorScreen(
+                    messageStringResource = state.value.stringResourceId,
+                    additionalMessage = state.value.message
+                )
+            } else if (state.value.data != null) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                    content = {
+                        items(
+                            items = state.value.data!!.dropLast(1),
+                            key = { it.id }
+                        ) {
+                            PostCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                post = it,
+                                onClick = {
+                                    onNavigationToEditPostScreen.invoke(it.id) //TODO
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                        item {
+                            with(state.value.data!!.last()) {
                                 PostCard(
                                     modifier = Modifier.fillMaxWidth(),
-                                    post = it,
+                                    post = this,
                                     onClick = {
-                                        onNavigationToEditPostScreen.invoke(it.id) //TODO
+                                        onNavigationToEditPostScreen.invoke(this.id)
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                            item { 
-                                with(state.value.data!!.last()) {
-                                    PostCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        post = this,
-                                        onClick = {
-                                            onNavigationToEditPostScreen.invoke(this.id)
-                                        }
-                                    )
-                                }
-                            }
-                            item { 
-                                Spacer(modifier = Modifier.navigationBarsPadding())
                             }
                         }
-                    )
-                }
+                        item {
+                            Spacer(modifier = Modifier.navigationBarsPadding())
+                        }
+                    }
+                )
             }
         }
     }

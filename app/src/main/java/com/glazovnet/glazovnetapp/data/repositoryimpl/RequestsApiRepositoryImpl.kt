@@ -5,8 +5,11 @@ import com.glazovnet.glazovnetapp.data.entity.supportrequests.MessageModelDto
 import com.glazovnet.glazovnetapp.data.entity.supportrequests.SupportRequestDto
 import com.glazovnet.glazovnetapp.data.entity.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.data.mappers.toMessageModel
+import com.glazovnet.glazovnetapp.data.mappers.toSupportRequestDto
 import com.glazovnet.glazovnetapp.data.mappers.toSupportRequestModel
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.MessageModel
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus.Companion.convertToIntCode
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.domain.repository.RequestsApiRepository
@@ -16,7 +19,9 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
@@ -131,10 +136,50 @@ class RequestsApiRepositoryImpl @Inject constructor(
             val response: ApiResponseDto<SupportRequestDto> = client.post("$PATH/create-request") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(newRequest)
+                setBody(newRequest.toSupportRequestDto())
             }.body()
             if (response.status) {
                 Resource.Success(data = response.data.toSupportRequestModel())
+            } else {
+                Resource.Error(R.string.api_response_server_error, response.message)
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun changeRequestStatus(
+        requestId: String,
+        newStatus: RequestStatus,
+        token: String
+    ): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-status") {
+                bearerAuth(token)
+                header("new_status", newStatus.convertToIntCode())
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
+            } else {
+                Resource.Error(R.string.api_response_server_error, response.message)
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun changeRequestSupporter(
+        requestId: String,
+        newSupporterId: String,
+        token: String
+    ): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-helper") {
+                bearerAuth(token)
+                header("new_helper_id", newSupporterId)
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
             } else {
                 Resource.Error(R.string.api_response_server_error, response.message)
             }

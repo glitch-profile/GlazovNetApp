@@ -48,7 +48,6 @@ class RequestsViewModel @Inject constructor(
                 is Resource.Success -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
                             data = result.data
                         )
                     }
@@ -56,13 +55,14 @@ class RequestsViewModel @Inject constructor(
                 is Resource.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            data = null,
                             stringResourceId = result.stringResourceId,
                             message = result.message
                         )
                     }
                 }
             }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
@@ -74,7 +74,12 @@ class RequestsViewModel @Inject constructor(
                     supportRequestsUseCase.observeRequests()
                         .onEach {request ->
                             val newRequestsList = state.value.data!!.toMutableList().apply {
-                                add(0, request)
+                                if (this.any { it.id == request.id }) {
+                                    val index = this.indexOfFirst { it.id == request.id }
+                                    this[index] = request
+                                } else {
+                                    add(0, request)
+                                }
                             }
                             _state.update {
                                 it.copy(data = newRequestsList)

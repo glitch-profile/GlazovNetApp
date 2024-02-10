@@ -3,20 +3,20 @@
     <string name="app_name">Глазов.NET</string>
 
     <!-- API RESPONSES -->
-    <string name="api_response_server_error">Ошибка на сервере. Сообщение: </string>
-    <string name="api_response_error">"Ошибка запроса. Код ошибки: "</string>
-    <string name="api_response_unknown_error">Неизвестная ошибка.</string>
-    <string name="api_response_server_not_available">Сервер не доступен.</string>
-    <string name="api_response_websocket_no_connection">Не удалось установить соединение.</string>
+    <string name="api_response_server_error">Возникла внутренняя ошибка на сервере</string>
+    <string name="api_response_error">Ошибка запроса. Пожалуйста, попробуйте снова</string>
+    <string name="api_response_unknown_error">Неизвестная ошибка</string>
+    <string name="api_response_server_not_available">Сервер недоступен</string>
+    <string name="api_response_websocket_no_connection">Не удалось установить соединение</string>
 
     <!-- LOGIN SCREEN -->
     <string name="login_screen_username_text">Имя пользователя</string>
     <string name="login_screen_password_text">Пароль</string>
     <string name="login_remember_user_text">Запомнить меня</string>
     <string name="login_screen_login_as_user_button">Войти</string>
-    <string name="login_screen_login_as_admin_button">Войти как администратор</string>
+    <string name="login_screen_login_as_admin_button">Администратор</string>
     <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
-    <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных.</string>
+    <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">Новости</string>
@@ -24,8 +24,11 @@
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Добавить пост</string>
     <string name="edit_post_screen_name">Редактировать пост</string>
-    <string name="edit_post_post_title_placeholder">Заголовок поста</string>
-    <string name="esit_post_post_text_placeholder">Текст поста</string>
+    <string name="edit_post_post_title_title">Заголовок</string>
+    <string name="edit_post_post_text_title">Контент</string>
+    <string name="edit_post_post_image_title">Изображение</string>
+    <string name="edit_post_post_title_placeholder">Введите заголовок поста</string>
+    <string name="edit_post_post_text_placeholder">Введите текст поста</string>
     <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
     <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>
@@ -40,6 +43,39 @@
     <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь.</string>
     <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически.</string>
     <string name="request_screen_add_request_button_text">Создать запрос</string>
+
+    <!-- REQUEST DETAILS SCREEN -->
+    <string name="request_details_screen_name">Подробности запроса</string>
+    <string name="request_details_screen_additional_info_text">Дополнительно</string>
+    <string name="request_details_screen_creator_name">Запрос от</string>
+    <string name="request_details_screen_creation_date_text">Запрос создан</string>
+    <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>
+    <string name="request_details_screen_request_status_text">Текущий статус запроса</string>
+    <string name="request_details_screen_assigned_supporter_text">Текущий помощник</string>
+    <string name="request_details_screen_assigned_supporter_no">Пока не назначен</string>
+    <string name="request_details_screen_assigned_supporter_someone">Уже назначен</string>
+    <string name="request_details_screen_assigned_supporter_you">Вы</string>
+    <string name="request_details_screen_open_chat_text">Открыть чат</string>
+    <string name="request_details_screen_mark_as_solved_text">Закрыть запрос</string>
+    <string name="request_details_screen_assign_text">Позаботиться об этом</string>
+
+    <!-- CREATE REQUEST SCREEN -->
+    <string name="create_request_screen_name">Создать запрос</string>
+    <string name="create_request_message_fields_are_empty">Пожалуйста, заполните все поля</string>
+    <string name="create_request_response_created">Запрос создан</string>
+    <string name="create_request_response_error">Невозможно создать запрос. Попробуйте позже</string>
+    <string name="create_request_screen_request_title_title">Тема</string>
+    <string name="create_request_screen_request_description_title">Описание</string>
+    <string name="create_request_screen_request_notifications_title">Уведомления</string>
+    <string name="create_request_screen_request_title_placeholder">Введите тему запроса</string>
+    <string name="create_request_screen_request_description_placeholder">Опишите вашу проблему</string>
+    <string name="create_request_screen_request_notifications_checkbox_placeholder">Получать уведомления о новых сообщениях в чате</string>
+    <string name="create_request_screen_save_request_button_text">Создать запрос</string>
+
+    <!-- REQUESTS CHAT -->
+    <string name="request_chat_screen_name">Чат</string>
+    <string name="request_chat_message_placeholder_text">Сообщение</string>
+    <string name="request_chat_no_messages_found">Здесь пока нет сообщений!</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Статус:</string>
@@ -56,9 +92,13 @@
 
     <!-- COMPONENTS -->
     <string name="comp_image_picker_label">Выбрать изображение</string>
+    <string name="request_error_title_text">Что-то пошло не так…</string>
+    <string name="request_error_description_text">Извините, мы не можем отобразить это из-за непредвиденной ошибки…</string>
+    <string name="request_error_additional_message_intro">Дополнительная информация</string>
 
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Загрузка…</string>
+    <string name="reusable_text_updating">Обновление…</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
 </resources>

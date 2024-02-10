@@ -18,6 +18,7 @@ fun SupportRequestModel.toSupportRequestDto(): SupportRequestDto {
         title = this.title,
         description = this.description,
         creationDate = convertedCreationDate,
+        isNotificationsEnabled = this.isNotificationsEnabled,
         status = this.status.convertToIntCode()
     )
 }
@@ -35,6 +36,7 @@ fun SupportRequestDto.toSupportRequestModel(): SupportRequestModel {
         title = this.title,
         description = this.description,
         creationDate = convertedCreationDate,
+        isNotificationsEnabled = this.isNotificationsEnabled,
         status = RequestStatus.getFromIntCode(this.status)
     )
 }

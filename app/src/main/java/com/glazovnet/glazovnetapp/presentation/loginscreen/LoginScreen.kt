@@ -1,13 +1,12 @@
 package com.glazovnet.glazovnetapp.presentation.loginscreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,14 +20,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,12 +51,14 @@ import coil.request.ImageRequest
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.presentation.components.DesignedTextField
+import kotlinx.coroutines.flow.collectLatest
 
 private const val SIDE_PADDING = 16
 
 @Composable
 fun LoginScreen(
     onNavigateToHomeScreen: () -> Unit,
+    onNeedToShowMessage: (message: Int) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val loginState = viewModel.loginState.collectAsState().value
@@ -71,6 +74,12 @@ fun LoginScreen(
             ),
             repeatMode = RepeatMode.Reverse)
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.messageString.collectLatest {
+            onNeedToShowMessage.invoke(it)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -100,10 +109,11 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = SIDE_PADDING.dp)
-            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .windowInsetsPadding(WindowInsets.safeDrawing),
+        verticalArrangement = Arrangement.Bottom
     ) {
         val cardsBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
-        val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
+//        val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -151,28 +161,6 @@ fun LoginScreen(
                 onNavigateToHomeScreen = onNavigateToHomeScreen,
                 viewModel = viewModel
             )
-        }
-        AnimatedVisibility(visible = ( loginState.message != null || loginState.stringResourceId != null )) {
-            Column(
-                Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.height(SIDE_PADDING.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = SIDE_PADDING.dp)
-                        .background(
-                            color = errorCardBackgroundColor,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                ) {
-                    ErrorMessageScreen(
-                        stringResourceMessage = loginState.stringResourceId,
-                        message = loginState.message
-                    )
-                }
-
-            }
         }
     }
 }
@@ -241,9 +229,23 @@ private fun ActionButtonsForm(
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TextButton(
+        OutlinedButton(
+            modifier = Modifier
+                .height(48.dp),
+            shape = MaterialTheme.shapes.small,
+            border = if (isButtonsEnabled) {
+                BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                )
+            },
+            enabled = isButtonsEnabled,
             onClick = {
                 viewModel.login(
                     isAsAdmin = true,
@@ -251,12 +253,21 @@ private fun ActionButtonsForm(
                         onNavigateToHomeScreen.invoke()
                     }
                 )
-            },
-            enabled = isButtonsEnabled
+            }
         ) {
+//            Icon(
+//                tint = MaterialTheme.colorScheme.primary,
+//                imageVector = Icons.Default.Build,
+//                contentDescription = null
+//            )
             Text(text = stringResource(id = R.string.login_screen_login_as_admin_button))
         }
+        Spacer(modifier = Modifier.width(8.dp))
         Button(
+            modifier = Modifier
+                .height(48.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
             onClick = { 
                 viewModel.login(
                     isAsAdmin = false,
@@ -268,34 +279,6 @@ private fun ActionButtonsForm(
             enabled = isButtonsEnabled
         ) {
             Text(text = stringResource(id = R.string.login_screen_login_as_user_button))
-        }
-    }
-}
-
-@Composable
-private fun ErrorMessageScreen(
-    stringResourceMessage: Int?,
-    message: String?
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .animateContentSize()
-    ) {
-        if (stringResourceMessage != null) {
-            Text(
-                text = stringResource(id = stringResourceMessage),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onErrorContainer
-            )
-        }
-        if (message != null) {
-            Text(
-                text = message,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-                maxLines = 2
-            )
         }
     }
 }

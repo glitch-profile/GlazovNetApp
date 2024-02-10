@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,15 +39,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.presentation.components.DesignedOutlinedTextField
-import com.glazovnet.glazovnetapp.presentation.components.ImagePicker
+import com.glazovnet.glazovnetapp.presentation.components.FilledImagePicker
+import com.glazovnet.glazovnetapp.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPostScreen(
     postId: String?,
     onBackPressed: () -> Unit,
+    onNeedToShowMessage: (Int) -> Unit,
     viewModel: EditPostViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
@@ -59,12 +61,14 @@ fun EditPostScreen(
 
     LaunchedEffect(null) {
         viewModel.loadPostData(postId)
+        viewModel.messageStringResource.collectLatest {
+            onNeedToShowMessage.invoke(it)
+        }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
     ) {
         TopAppBar(
             title = {
@@ -102,26 +106,27 @@ fun EditPostScreen(
                             .padding(16.dp)
                             .fillMaxWidth()
                     )
+                } else if (state.value.stringResourceId != null) {
+                    RequestErrorScreen(
+                        messageStringResource = state.value.stringResourceId,
+                        additionalMessage = state.value.message
+                    )
                 } else {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (state.value.stringResourceId != null) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            text = stringResource(id = state.value.stringResourceId!!)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    DesignedOutlinedTextField(
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_title_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    FilledTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        text = postTitle.value,
-                        onTextEdit = { viewModel.updatePostTitle(it) },
-                        placeholder = "Post title",
-                        minLines = 2,
-                        maxLines = 3,
+                        value = postTitle.value,
+                        onValueChange = { viewModel.updatePostTitle(it) },
+                        placeholder = stringResource(id = R.string.edit_post_post_title_placeholder),
+                        singleLine = true,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
                             autoCorrect = true,
@@ -129,15 +134,22 @@ fun EditPostScreen(
                             imeAction = ImeAction.Next
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    DesignedOutlinedTextField(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_text_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    FilledTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        text = postText.value,
-                        onTextEdit = { viewModel.updatePostText(it) },
-                        placeholder = "Post text",
-                        minLines = 3,
+                        value = postText.value,
+                        onValueChange = { viewModel.updatePostText(it) },
+                        placeholder = stringResource(id = R.string.edit_post_post_text_placeholder),
+                        minLines = 5,
                         maxLines = 5,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
@@ -146,8 +158,15 @@ fun EditPostScreen(
                             imeAction = ImeAction.Done
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ImagePicker(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.edit_post_post_image_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = (Modifier.height(4.dp)))
+                    FilledImagePicker(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(160.dp)
@@ -164,121 +183,14 @@ fun EditPostScreen(
                     viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
                 },
                 onConfirmButtonClick = { viewModel.uploadPost(context) },
-                isConfirmButtonEnabled = !state.value.isLoading && postTitle.value.isNotBlank() && postText.value.isNotBlank()
+                isConfirmButtonEnabled = !state.value.isLoading
+                        && !state.value.isUploading
+                        && postTitle.value.isNotBlank()
+                        && postText.value.isNotBlank()
             )
         }
     }
 }
-
-//    Scaffold(
-//        modifier = Modifier.fillMaxSize(),
-//        topBar = {
-//            TopAppBar(
-//                title = {
-//                    Text(
-//                        text = if (state.value.data != null) stringResource(id = R.string.edit_post_screen_name)
-//                        else stringResource(id = R.string.add_post_screen_name)
-//                    )
-//                },
-//                navigationIcon = {
-//                    IconButton(
-//                        onClick = {
-//                            onBackPressed.invoke()
-//                        }
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.ArrowBack,
-//                            contentDescription = null
-//                        )
-//                    }
-//                }
-//            )
-//        }
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(it)
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .weight(1f)
-//                    .verticalScroll(rememberScrollState())
-//            ) {
-//                if (state.value.isLoading) {
-//                    LoadingIndicator(
-//                        modifier = Modifier
-//                            .padding(16.dp)
-//                            .fillMaxWidth()
-//                    )
-//                } else {
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    if (state.value.stringResourceId != null) {
-//                        Text(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(horizontal = 16.dp),
-//                            text = stringResource(id = state.value.stringResourceId!!)
-//                        )
-//                        Spacer(modifier = Modifier.height(8.dp))
-//                    }
-//                    DesignedOutlinedTextField(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(horizontal = 16.dp),
-//                        text = postTitle.value,
-//                        onTextEdit = {viewModel.updatePostTitle(it)},
-//                        placeholder = "Post title",
-//                        minLines = 2,
-//                        maxLines = 3,
-//                        keyboardOptions = KeyboardOptions(
-//                            capitalization = KeyboardCapitalization.Sentences,
-//                            autoCorrect = true,
-//                            keyboardType = KeyboardType.Text,
-//                            imeAction = ImeAction.Next
-//                        )
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    DesignedOutlinedTextField(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(horizontal = 16.dp),
-//                        text = postText.value,
-//                        onTextEdit = {viewModel.updatePostText(it)},
-//                        placeholder = "Post text",
-//                        minLines = 3,
-//                        maxLines = 5,
-//                        keyboardOptions = KeyboardOptions(
-//                            capitalization = KeyboardCapitalization.Sentences,
-//                            autoCorrect = true,
-//                            keyboardType = KeyboardType.Text,
-//                            imeAction = ImeAction.Done
-//                        )
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    ImagePicker(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(160.dp)
-//                            .padding(horizontal = 16.dp),
-//                        imageUri = imageUri.value,
-//                        onNewImageSelected = {viewModel.updatePostImageUri(it)}
-//                    )
-//                }
-//            }
-//            BottomActionBar(
-//                onClearButtonClick = {
-//                    viewModel.updatePostTitle(state.value.data?.title ?: "")
-//                    viewModel.updatePostText(state.value.data?.text ?: "")
-//                    viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
-//                },
-//                onConfirmButtonClick = { viewModel.uploadPost(context) },
-//                isConfirmButtonEnabled = !state.value.isLoading && postTitle.value.isNotBlank() && postText.value.isNotBlank()
-//            )
-//        }
-//    }
-//}
 
 @Composable
 private fun BottomActionBar(
