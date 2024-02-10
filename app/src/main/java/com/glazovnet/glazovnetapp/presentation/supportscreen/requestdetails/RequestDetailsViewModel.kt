@@ -102,7 +102,6 @@ class RequestDetailsViewModel @Inject constructor(
     }
 
     fun getAssignedSupporterText(): Int {
-        Log.i("TAG", "getAssignedSupporterText: getting assigned supporter text")
         val request = state.value.data!!
         val currentUserId = userAuthDataRepository.getAssociatedUserId()
         return when (request.associatedSupportId) {
