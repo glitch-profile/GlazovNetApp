@@ -101,4 +101,9 @@
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
 
+    <!-- TARIFFS TYPES -->
+    <string name="tariff_type_unlimited_name">Unlimited</string>
+    <string name="tariff_type_limited_name">Limited</string>
+    <string name="tariff_type_archive_name">Archive</string>
+
 </resources>

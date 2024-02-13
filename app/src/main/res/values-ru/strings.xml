@@ -101,4 +101,9 @@
     <string name="reusable_text_updating">Обновление…</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
+
+    <!-- TARIFFS TYPES -->
+    <string name="tariff_type_unlimited_name">Безлимитный</string>
+    <string name="tariff_type_limited_name">Помегабайтный</string>
+    <string name="tariff_type_archive_name">Архив</string>
 </resources>
