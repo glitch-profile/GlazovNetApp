@@ -33,8 +33,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.map { it.toPostModel() },
-                    message = response.message
+                    data = response.data.map { it.toPostModel() }
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -71,8 +70,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModel(),
-                    message = response.message
+                    data = response.data.firstOrNull()?.toPostModel()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -89,8 +87,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModel(),
-                    message = response.message
+                    data = response.data.firstOrNull()?.toPostModel()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -107,8 +104,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = Unit,
-                    message = response.message
+                    data = Unit
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -124,8 +120,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = Unit,
-                    message = response.message
+                    data = Unit
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
