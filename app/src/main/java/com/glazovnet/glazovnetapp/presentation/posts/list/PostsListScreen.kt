@@ -113,7 +113,7 @@ fun PostsListScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 post = it,
                                 onClick = {
-                                    onNavigationToEditPostScreen.invoke(it.id) //TODO
+                                    onNavigationToPostDetails.invoke(it.id)
                                 }
                             )
                             Spacer(modifier = Modifier.height(8.dp))
@@ -124,7 +124,7 @@ fun PostsListScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     post = this,
                                     onClick = {
-                                        onNavigationToEditPostScreen.invoke(this.id)
+                                        onNavigationToPostDetails.invoke(this.id)
                                     }
                                 )
                             }
