@@ -177,11 +177,6 @@ fun EditPostScreen(
                 }
             }
             BottomActionBar(
-                onClearButtonClick = {
-                    viewModel.updatePostTitle(state.value.data?.title ?: "")
-                    viewModel.updatePostText(state.value.data?.text ?: "")
-                    viewModel.updatePostImageUri(state.value.data?.image?.imageUrl?.toUri())
-                },
                 onConfirmButtonClick = { viewModel.uploadPost(context) },
                 isConfirmButtonEnabled = !state.value.isLoading
                         && !state.value.isUploading
@@ -195,15 +190,13 @@ fun EditPostScreen(
 @Composable
 private fun BottomActionBar(
     modifier: Modifier = Modifier,
-    onClearButtonClick: () -> Unit,
     onConfirmButtonClick: () -> Unit,
     isConfirmButtonEnabled: Boolean
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-
+//        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     ) {
         Row(
             modifier = Modifier
@@ -213,15 +206,11 @@ private fun BottomActionBar(
                 .imePadding(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextButton(
-                modifier = Modifier.weight(1f),
-                onClick = { onClearButtonClick.invoke() }
-            ) {
-                Text(text = stringResource(id = R.string.reusable_text_clear))
-            }
-            Spacer(modifier = Modifier.width(24.dp))
             Button(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
                 onClick = { onConfirmButtonClick.invoke() },
                 enabled = isConfirmButtonEnabled
             ) {

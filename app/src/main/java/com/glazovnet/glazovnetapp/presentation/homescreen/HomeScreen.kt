@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawerState
+import com.glazovnet.glazovnetapp.presentation.posts.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.presentation.posts.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.presentation.posts.list.PostsListScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.chat.ChatScreen
@@ -172,7 +173,25 @@ private fun ScreenContents(
                 PostsListScreen(
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() },
                     onNavigationToEditPostScreen =  { (navController.navigate("edit-posts-screen?postId=$it")) },
-                    onNavigationToPostDetails = { TODO() }
+                    onNavigationToPostDetails = { postId ->
+                        navController.navigate("post-details-screen/$postId")
+                    }
+                )
+            }
+            composable(
+                route = "post-details-screen/{postId}",
+                arguments = listOf(
+                    navArgument("postId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                PostDetailsScreen(
+                    postId = it.arguments?.getString("postId") ?: "",
+                    onNavigationButtonClicked = { navController.popBackStack() },
+                    onEditPostButtonClicked = { postId ->
+                        navController.navigate("edit-posts-screen?postId=$postId")
+                    }
                 )
             }
             composable(
