@@ -20,6 +20,9 @@
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">News</string>
 
+    <!-- POST DETAILS SCREEN -->
+    <string name="post_details_screen_name">Details</string>
+
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Create post</string>
     <string name="edit_post_screen_name">Edit post</string>
@@ -98,6 +101,7 @@
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Loading…</string>
     <string name="reusable_text_updating">Updating…</string>
+    <string name="reusable_text_edit">Edit</string>
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
 

@@ -21,6 +21,9 @@
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">Новости</string>
 
+    <!-- POST DETAILS SCREEN -->
+    <string name="post_details_screen_name">Подробности</string>
+
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Добавить пост</string>
     <string name="edit_post_screen_name">Редактировать пост</string>
@@ -99,6 +102,7 @@
     <!-- REUSABLE -->
     <string name="reusable_text_loading">Загрузка…</string>
     <string name="reusable_text_updating">Обновление…</string>
+    <string name="reusable_text_edit">Редактировать</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
 
