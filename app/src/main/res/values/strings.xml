@@ -86,6 +86,10 @@
 
     <!-- CHAT BUBBLE -->
     <string name="chat_bubble_screen_sender_name_self">You</string>
+    
+    <!-- TARIFF CARD -->
+    <string name="tariff_card_month_text">month</string>
+    <string name="tariff_card_max_speed_text">Speed up to %d Mbits/s</string>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>

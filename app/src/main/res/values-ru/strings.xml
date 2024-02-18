@@ -88,6 +88,10 @@
     <!-- CHAT BUBBLE -->
     <string name="chat_bubble_screen_sender_name_self">Вы</string>
 
+    <!-- TARIFF CARD -->
+    <string name="tariff_card_month_text">месяц</string>
+    <string name="tariff_card_max_speed_text">Скорость до %d мегабит в секунду</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>
     <string name="util_date_time_converter_yesterday">Вчера в </string>
