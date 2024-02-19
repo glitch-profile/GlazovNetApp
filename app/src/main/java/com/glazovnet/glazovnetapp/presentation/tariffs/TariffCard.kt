@@ -110,16 +110,6 @@ fun TariffCard(
     }
 }
 
-//@Composable
-//private fun TariffFlag(
-//    text: String
-//) {
-//    Text(
-//        modifier = Modifier
-//        text =
-//    )
-//}
-
 @Preview(showBackground = true)
 @Composable
 fun TariffCardPreview() {

@@ -7,5 +7,5 @@ data class TariffModel(
     val category: TariffType,
     val maxSpeed: Int,
     val costPerMonth: Int,
-    val flag: String? = null
+    val prepaidTraffic: Double? = null
 )
