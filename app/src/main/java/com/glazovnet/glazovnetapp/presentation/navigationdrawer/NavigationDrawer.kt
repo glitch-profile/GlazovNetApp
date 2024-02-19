@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,6 +31,11 @@ private val items = listOf<NavigationDrawerItemData>(
         stringResource = R.string.request_screen_name,
         icon = Icons.Default.Build,
         route = "support-graph"
+    ),
+    NavigationDrawerItemData(
+        stringResource = R.string.tariffs_list_screen_name,
+        icon = Icons.Default.Menu,
+        route = "tariffs-graph"
     )
 
 )

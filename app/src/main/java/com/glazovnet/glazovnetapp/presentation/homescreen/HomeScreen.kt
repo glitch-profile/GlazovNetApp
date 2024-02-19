@@ -38,6 +38,7 @@ import com.glazovnet.glazovnetapp.presentation.supportscreen.chat.ChatScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.createrequest.CreateRequestScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requestdetails.RequestDetailsScreen
 import com.glazovnet.glazovnetapp.presentation.supportscreen.requests.RequestsListScreen
+import com.glazovnet.glazovnetapp.presentation.tariffs.list.TariffsListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -256,6 +257,19 @@ private fun ScreenContents(
                 CreateRequestScreen(
                     onNavigationButtonClicked = { navController.popBackStack() },
                     onNeedToShowMessage = onNeedToShowMessage
+                )
+            }
+        }
+        navigation(
+            startDestination = "tariffs-list-screen",
+            route = "tariffs-graph"
+        ) {
+            composable("tariffs-list-screen") {
+                TariffsListScreen(
+                    onTariffClicked = {
+                                      //TODO
+                    },
+                    onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }
                 )
             }
         }
