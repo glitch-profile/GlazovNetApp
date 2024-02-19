@@ -75,6 +75,9 @@
     <string name="create_request_screen_request_notifications_checkbox_placeholder">Получать уведомления о новых сообщениях в чате</string>
     <string name="create_request_screen_save_request_button_text">Создать запрос</string>
 
+    <!-- TARIFFS SCREEN -->
+    <string name="tariffs_list_screen_name">Tariffs</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>
@@ -91,6 +94,12 @@
     <!-- TARIFF CARD -->
     <string name="tariff_card_month_text">месяц</string>
     <string name="tariff_card_max_speed_text">Скорость до %d мегабит в секунду</string>
+    <string name="tariff_card_prepaid_traffic_prefix_text">Предоплаченный трафик</string>
+    <plurals name="tariff_card_prepaid_traffic_value">
+        <item quantity="one"> %d Гигабайт</item>
+        <item quantity="few">%d Гигабайта</item>
+        <item quantity="many">%d Гигабайт</item>
+    </plurals>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>
@@ -104,6 +113,7 @@
     <string name="request_error_additional_message_intro">Дополнительная информация</string>
 
     <!-- REUSABLE -->
+    <string name="reusable_text_unknown">неизвестно</string>
     <string name="reusable_text_loading">Загрузка…</string>
     <string name="reusable_text_updating">Обновление…</string>
     <string name="reusable_text_edit">Редактировать</string>

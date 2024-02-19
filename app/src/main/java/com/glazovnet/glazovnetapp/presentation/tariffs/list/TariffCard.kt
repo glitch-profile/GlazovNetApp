@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.presentation.tariffs
+package com.glazovnet.glazovnetapp.presentation.tariffs.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,9 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
@@ -36,12 +39,12 @@ fun TariffCard(
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surface)
             .border(
-                width = 2.dp,
+                width = 1.dp,
                 color = MaterialTheme.colorScheme.outline,
                 shape = MaterialTheme.shapes.medium
             )
             .clickable { onCardClicked.invoke(tariff.id) }
-            .padding(vertical = 8.dp)
+            .padding(vertical = 16.dp)
     ) {
         Row(
             modifier = Modifier
@@ -51,8 +54,8 @@ fun TariffCard(
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = tariff.name,
-                style = MaterialTheme.typography.titleLarge,
-                //fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 softWrap = true,
                 maxLines = 2,
@@ -79,21 +82,21 @@ fun TariffCard(
         ) {
             Text(
                 text = "₽",
-                style = MaterialTheme.typography.displayLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
                 text = tariff.costPerMonth.toString(),
-                style = MaterialTheme.typography.displayLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
                 modifier = Modifier
-                    .padding(bottom = 12.dp),
+                    .padding(bottom = 4.dp),
                 text = "/" + stringResource(id = R.string.tariff_card_month_text),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyMedium,
                 //fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -107,6 +110,27 @@ fun TariffCard(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
+//        if (tariff.prepaidTraffic != null) {
+//            Spacer(modifier = Modifier.height(4.dp))
+//            Text(
+//                modifier = Modifier.padding(horizontal = 16.dp),
+//                text = buildAnnotatedString {
+//                    withStyle(MaterialTheme.typography.bodyMedium.toSpanStyle()) {
+//                        append(stringResource(id = R.string.tariff_card_prepaid_traffic_prefix_text))
+//                    }
+//                    withStyle(MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold).toSpanStyle()) {
+//                        append(pluralStringResource(
+//                            id = R.plurals.tariff_card_prepaid_traffic_value,
+//                            count = tariff.prepaidTraffic)
+//                        )
+//                    }
+//                },
+//                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                softWrap = true,
+//                maxLines = 2,
+//                overflow = TextOverflow.Ellipsis
+//            )
+//        }
     }
 }
 
@@ -121,7 +145,8 @@ fun TariffCardPreview() {
             //description = "Самый быстрый интернет для самых быстрых устройств",
             category = TariffType.Unlimited,
             maxSpeed = 100,
-            costPerMonth = 600
+            costPerMonth = 600,
+            prepaidTraffic = 3
         ),
         onCardClicked = {}
     )

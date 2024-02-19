@@ -74,6 +74,9 @@
     <string name="create_request_screen_request_notifications_checkbox_placeholder">Receive notifications about new messages in the chat</string>
     <string name="create_request_screen_save_request_button_text">Create request</string>
 
+    <!-- TARIFFS SCREEN -->
+    <string name="tariffs_list_screen_name">Tariffs</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>
     <string name="request_chat_message_placeholder_text">Message</string>
@@ -90,6 +93,11 @@
     <!-- TARIFF CARD -->
     <string name="tariff_card_month_text">month</string>
     <string name="tariff_card_max_speed_text">Speed up to %d Mbits/s</string>
+    <string name="tariff_card_prepaid_traffic_prefix_text">Prepaid traffic</string>
+    <plurals name="tariff_card_prepaid_traffic_value">
+        <item quantity="one"> %d Gigabyte</item>
+        <item quantity="many">%d Gigabytes</item>
+    </plurals>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
@@ -103,6 +111,7 @@
     <string name="request_error_additional_message_intro">Additional info</string>
 
     <!-- REUSABLE -->
+    <string name="reusable_text_unknown">unknown</string>
     <string name="reusable_text_loading">Loading…</string>
     <string name="reusable_text_updating">Updating…</string>
     <string name="reusable_text_edit">Edit</string>
