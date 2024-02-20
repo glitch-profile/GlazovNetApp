@@ -76,7 +76,7 @@
     <string name="create_request_screen_save_request_button_text">Создать запрос</string>
 
     <!-- TARIFFS SCREEN -->
-    <string name="tariffs_list_screen_name">Tariffs</string>
+    <string name="tariffs_list_screen_name">Тарифы</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>

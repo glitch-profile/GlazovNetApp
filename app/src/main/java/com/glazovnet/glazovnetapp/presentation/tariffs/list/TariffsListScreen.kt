@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,7 +37,6 @@ import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffModel
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffType
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
-import com.glazovnet.glazovnetapp.presentation.posts.list.PostCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +59,7 @@ fun TariffsListScreen(
     ) {
         TopAppBar(
             title = {
-                Text(text = stringResource(id = R.string.posts_list_screen_name))
+                Text(text = stringResource(id = R.string.tariffs_list_screen_name))
             },
             navigationIcon = {
                 IconButton(
@@ -111,7 +109,9 @@ fun TariffsListScreen(
                             items = tariffsState.value.data!!.toList(),
                             key = { it.first.toString() }
                         ) {
-                                TariffsCard(
+                                TariffsList(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp),
                                     tariffType = it.first,
                                     tariffs = it.second,
                                     onTariffClicked = onTariffClicked
@@ -130,13 +130,14 @@ fun TariffsListScreen(
 }
 
 @Composable
-private fun TariffsCard(
+private fun TariffsList(
+    modifier: Modifier = Modifier,
     tariffType: TariffType,
     tariffs: List<TariffModel>,
     onTariffClicked: (tariffId: String) -> Unit
 ) {
    Column(
-       modifier = Modifier
+       modifier = modifier
            .fillMaxWidth(),
    ) {
        Row(
@@ -147,15 +148,15 @@ private fun TariffsCard(
        ) {
            Text(
                text = stringResource(id = tariffType.stringResourceName),
-               style = MaterialTheme.typography.headlineMedium,
+               style = MaterialTheme.typography.titleLarge,
                fontWeight = FontWeight.Bold,
                color = MaterialTheme.colorScheme.onSurface
            )
            Spacer(modifier = Modifier.width(8.dp))
            Text(
                text = tariffs.size.toString(),
-               style = MaterialTheme.typography.titleMedium,
-               fontWeight = FontWeight.Bold,
+               style = MaterialTheme.typography.titleSmall,
+//               fontWeight = FontWeight.Bold,
                color = MaterialTheme.colorScheme.onSurfaceVariant
            )
        }
@@ -166,8 +167,7 @@ private fun TariffsCard(
            tariffs.forEach {tariff ->
                TariffCard(
                    modifier = Modifier
-                       .fillMaxWidth()
-                       .padding(horizontal = 16.dp, vertical = 4.dp),
+                       .fillMaxWidth(),
                    tariff = tariff,
                    onCardClicked = onTariffClicked
                )
