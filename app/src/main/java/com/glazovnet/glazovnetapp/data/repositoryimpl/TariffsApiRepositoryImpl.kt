@@ -39,4 +39,24 @@ class TariffsApiRepositoryImpl @Inject constructor(
             Resource.generateFromApiResponseError(e)
         }
     }
+
+    override suspend fun getTariffById(tariffId: String, token: String): Resource<TariffModel?> {
+        return try {
+            val response: ApiResponseDto<TariffModelDto> = client.get("$PATH/$tariffId") {
+                bearerAuth(token)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.toTariffModel()
+                )
+            } else {
+                Resource.Error(
+                    stringResourceId = R.string.api_response_server_error,
+                    message = response.message
+                )
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
 }

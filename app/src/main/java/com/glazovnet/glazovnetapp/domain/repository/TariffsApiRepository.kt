@@ -9,4 +9,9 @@ interface TariffsApiRepository {
         token: String
     ): Resource<List<TariffModel>>
 
+    suspend fun getTariffById(
+        tariffId: String,
+        token: String
+    ): Resource<TariffModel?>
+
 }
