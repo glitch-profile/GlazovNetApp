@@ -24,6 +24,11 @@ class TariffsListViewModel @Inject constructor(
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()
 
+    private val _sheetData = MutableStateFlow(ScreenState<TariffModel>())
+    val sheetData = _sheetData.asStateFlow()
+    private val _isSheetOpen = MutableStateFlow(false)
+    val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
+
     fun loadTariffs() {
         viewModelScope.launch {
             _tariffsState.update {
@@ -49,5 +54,35 @@ class TariffsListViewModel @Inject constructor(
 
     private fun splitTariffs(tariffs: List<TariffModel>): Map<TariffType, List<TariffModel>> {
         return tariffs.groupBy { it.category }
+    }
+
+    fun showDetails(tariffId: String) {
+        _isSheetOpen.update { true }
+        if (tariffId !== sheetData.value.data?.id) {
+            viewModelScope.launch {
+                _sheetData.update {
+                    ScreenState(isLoading = true)
+                }
+                val result = tariffsApiRepository.getTariffById(
+                    tariffId = tariffId,
+                    token = userAuthDataRepository.getLoginToken() ?: ""
+                )
+                when (result) {
+                    is Resource.Success -> {
+                        _sheetData.update { it.copy(data = result.data) }
+                    }
+                    is Resource.Error -> {
+                        _sheetData.update {
+                            it.copy(message = "result.message", stringResourceId = result.stringResourceId)
+                        }
+                    }
+                }
+                _sheetData.update { it.copy(isLoading = false) }
+            }
+        }
+    }
+
+    fun closeSheet() {
+        _isSheetOpen.update { false }
     }
 }

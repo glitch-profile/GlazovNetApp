@@ -127,21 +127,3 @@ fun TariffCard(
 //        }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun TariffCardPreview() {
-    TariffCard(
-        modifier = Modifier.fillMaxWidth(),
-        tariff = TariffModel(
-            id = "",
-            name = "Лайк-100",
-            description = "Самый быстрый интернет для самых быстрых устройств",
-            category = TariffType.Unlimited,
-            maxSpeed = 100,
-            costPerMonth = 600,
-            prepaidTraffic = 3
-        ),
-        onCardClicked = {}
-    )
-}

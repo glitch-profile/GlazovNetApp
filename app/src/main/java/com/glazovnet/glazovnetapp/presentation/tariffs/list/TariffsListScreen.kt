@@ -1,11 +1,14 @@
 package com.glazovnet.glazovnetapp.presentation.tariffs.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -14,14 +17,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,11 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffModel
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffType
+import com.glazovnet.glazovnetapp.presentation.ScreenState
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
@@ -47,6 +53,19 @@ fun TariffsListScreen(
 ) {
 
     val tariffsState = viewModel.tariffsState.collectAsState()
+    val detailsSheetState = viewModel.sheetData.collectAsState()
+
+    val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
+    DetailsSheet(
+        isSheetOpen = isSheetOpen.value,
+        state = detailsSheetState.value,
+        onConnectTariffClicked = {
+
+        },
+        onDismiss = {
+            viewModel.closeSheet()
+        }
+    )
 
     LaunchedEffect(null) {
         viewModel.loadTariffs()
@@ -114,7 +133,9 @@ fun TariffsListScreen(
                                         .padding(vertical = 8.dp),
                                     tariffType = it.first,
                                     tariffs = it.second,
-                                    onTariffClicked = onTariffClicked
+                                    onTariffClicked = {tariffId ->
+                                        viewModel.showDetails(tariffId)
+                                    }
                                 )
 //                            Spacer(modifier = Modifier.height(8.dp))
                         }
@@ -174,4 +195,81 @@ private fun TariffsList(
            }
        }
    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DetailsSheet(
+    isSheetOpen: Boolean,
+    state: ScreenState<TariffModel>,
+    onConnectTariffClicked: (tariffId: String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = onDismiss
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .animateContentSize()
+            ) {
+                if (state.isLoading) {
+                    LoadingIndicator(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    )
+                } else if (state.stringResourceId !== null) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            text = stringResource(id = R.string.tariffs_list_loading_failed_text),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(id = state.stringResourceId),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            if (state.message !== null) {
+                                Text(
+                                    text = " | ",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                                Text(
+                                    text = state.message,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        }
+                    }
+                } else if (state.data != null) {
+                    Text(
+                        text = state.data.id
+                    )
+                }
+            }
+        }
+    }
 }
