@@ -3,9 +3,10 @@ package com.glazovnet.glazovnetapp.domain.models.tariffs
 data class TariffModel(
     val id: String,
     val name: String,
-    val description: String? = null,
+    val description: String?,
     val category: TariffType,
     val maxSpeed: Int,
     val costPerMonth: Int,
-    val prepaidTraffic: Int? = null
+    val prepaidTraffic: Int?,
+    val prepaidTrafficDescription: String?
 )
