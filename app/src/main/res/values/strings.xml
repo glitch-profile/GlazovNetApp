@@ -94,11 +94,22 @@
     <!-- TARIFF CARD -->
     <string name="tariff_card_month_text">month</string>
     <string name="tariff_card_max_speed_text">Speed up to %d Mbits/s</string>
-    <string name="tariff_card_prepaid_traffic_prefix_text">Prepaid traffic</string>
+    <!-- DETAILS -->
     <plurals name="tariff_card_prepaid_traffic_value">
-        <item quantity="one"> %d Gigabyte</item>
-        <item quantity="many">%d Gigabytes</item>
+        <item quantity="one">%d gigabyte</item>
+        <item quantity="many">%d gigabytes</item>
     </plurals>
+    <plurals name="tariff_card_cost_value">
+        <item quantity="one">%d ruble</item>
+        <item quantity="many">%d rubles</item>
+    </plurals>
+    <string name="tariff_card_max_speed_value">Up to %d Mbits/s</string>
+    <string name="tariff_card_cost_text">Cost per month</string>
+    <string name="tariff_card_maximum_speed_details_text">Maximum speed</string>
+    <string name="tariff_card_prepaid_traffic_amount_text">Prepaid traffic amount</string>
+    <string name="tariff_card_prepaid_traffic_unlimited_text">Unlimited</string>
+    <string name="tariff_card_connect_from_billing_date">Connect from next billing date</string>
+
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>

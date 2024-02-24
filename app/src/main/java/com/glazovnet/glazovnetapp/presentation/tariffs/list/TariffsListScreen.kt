@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,15 +33,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffModel
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffType
 import com.glazovnet.glazovnetapp.presentation.ScreenState
+import com.glazovnet.glazovnetapp.presentation.components.AdditionalTextInfo
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
@@ -215,7 +222,8 @@ private fun DetailsSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .animateContentSize()
+                    .animateContentSize(),
+                //verticalArrangement = Arrangement.Bottom
             ) {
                 if (state.isLoading) {
                     LoadingIndicator(
@@ -266,8 +274,84 @@ private fun DetailsSheet(
                     }
                 } else if (state.data != null) {
                     Text(
-                        text = state.data.id
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        text = state.data.name
                     )
+                    if (state.data.description != null) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            text = state.data.description
+                        )
+                    }
+                    AdditionalTextInfo(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        title = stringResource(id = R.string.tariff_card_maximum_speed_details_text),
+                        text = stringResource(
+                            id = R.string.tariff_card_max_speed_value,
+                            formatArgs = arrayOf(state.data.costPerMonth)
+                        )
+                    )
+                    AdditionalTextInfo(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        title = stringResource(id = R.string.tariff_card_cost_text),
+                        text = pluralStringResource(
+                            id = R.plurals.tariff_card_cost_value,
+                            count = state.data.costPerMonth,
+                            formatArgs = arrayOf(state.data.costPerMonth)
+                        )
+                    )
+                    if (state.data.prepaidTraffic !== null) {
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
+                            text = pluralStringResource(
+                                id = R.plurals.tariff_card_prepaid_traffic_value,
+                                count = state.data.prepaidTraffic / 1024,
+                                formatArgs = arrayOf(state.data.prepaidTraffic / 1024))
+                        )
+                    } else {
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
+                            text = stringResource(id = R.string.tariff_card_prepaid_traffic_unlimited_text)
+                        )
+                    }
+                    if (state.data.prepaidTrafficDescription !== null) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            text = state.data.prepaidTrafficDescription
+                        )
+                    }
+                    Button(
+                        modifier = Modifier
+                            .height(48.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        shape = MaterialTheme.shapes.small,
+                        onClick = {
+                            onConnectTariffClicked.invoke(state.data.id)
+                        },
+                        enabled = true //TODO
+                    ) {
+                        Text(text = stringResource(id = R.string.tariff_card_connect_from_billing_date)) //TODO(Change billing date to actual number)
+                    }
                 }
             }
         }
