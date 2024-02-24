@@ -49,6 +49,7 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.supportrequest.SupportRequestModel
 import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
+import com.glazovnet.glazovnetapp.presentation.components.AdditionalTextInfo
 import com.glazovnet.glazovnetapp.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 
@@ -242,36 +243,6 @@ private fun RequestText(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             text = requestText,
             maxLines = 20
-        )
-    }
-}
-
-@Composable
-private fun AdditionalTextInfo(
-    modifier: Modifier = Modifier,
-    title: String,
-    text: String
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier,
-            text = title,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            modifier = Modifier
-                .weight(1f),
-            text = text,
-            textAlign = TextAlign.End,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
         )
     }
 }
