@@ -24,7 +24,7 @@ class TariffsListViewModel @Inject constructor(
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()
 
-    private val _sheetData = MutableStateFlow(ScreenState<TariffModel>())
+    private val _sheetData = MutableStateFlow<TariffModel?>(null)
     val sheetData = _sheetData.asStateFlow()
     private val _isSheetOpen = MutableStateFlow(false)
     val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
@@ -56,30 +56,40 @@ class TariffsListViewModel @Inject constructor(
         return tariffs.groupBy { it.category }
     }
 
+    private fun getTariffById(tariffId: String): TariffModel? {
+        val tariffsList = tariffsState.value.data?.values?.flatten()
+        return tariffsList?.find { it.id == tariffId }
+    }
+
     fun showDetails(tariffId: String) {
-        _isSheetOpen.update { true }
-        if (tariffId !== sheetData.value.data?.id) {
-            viewModelScope.launch {
-                _sheetData.update {
-                    ScreenState(isLoading = true)
-                }
-                val result = tariffsApiRepository.getTariffById(
-                    tariffId = tariffId,
-                    token = userAuthDataRepository.getLoginToken() ?: ""
-                )
-                when (result) {
-                    is Resource.Success -> {
-                        _sheetData.update { it.copy(data = result.data) }
-                    }
-                    is Resource.Error -> {
-                        _sheetData.update {
-                            it.copy(message = "result.message", stringResourceId = result.stringResourceId)
-                        }
-                    }
-                }
-                _sheetData.update { it.copy(isLoading = false) }
-            }
+        _sheetData.update {
+            getTariffById(tariffId)
         }
+        _isSheetOpen.update { true }
+
+
+//        if (tariffId !== sheetData.value.data?.id) {
+//            viewModelScope.launch {
+//                _sheetData.update {
+//                    ScreenState(isLoading = true)
+//                }
+//                val result = tariffsApiRepository.getTariffById(
+//                    tariffId = tariffId,
+//                    token = userAuthDataRepository.getLoginToken() ?: ""
+//                )
+//                when (result) {
+//                    is Resource.Success -> {
+//                        _sheetData.update { it.copy(data = result.data) }
+//                    }
+//                    is Resource.Error -> {
+//                        _sheetData.update {
+//                            it.copy(message = "result.message", stringResourceId = result.stringResourceId)
+//                        }
+//                    }
+//                }
+//                _sheetData.update { it.copy(isLoading = false) }
+//            }
+//        }
     }
 
     fun closeSheet() {

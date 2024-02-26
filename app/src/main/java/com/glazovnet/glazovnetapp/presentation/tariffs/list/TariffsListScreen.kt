@@ -35,15 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.domain.models.supportrequest.RequestStatus
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffModel
 import com.glazovnet.glazovnetapp.domain.models.tariffs.TariffType
 import com.glazovnet.glazovnetapp.presentation.ScreenState
@@ -65,7 +61,7 @@ fun TariffsListScreen(
     val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
     DetailsSheet(
         isSheetOpen = isSheetOpen.value,
-        state = detailsSheetState.value,
+        tariffModel = detailsSheetState.value,
         onConnectTariffClicked = {
 
         },
@@ -208,7 +204,7 @@ private fun TariffsList(
 @Composable
 private fun DetailsSheet(
     isSheetOpen: Boolean,
-    state: ScreenState<TariffModel>,
+    tariffModel: TariffModel?,
     onConnectTariffClicked: (tariffId: String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -225,13 +221,7 @@ private fun DetailsSheet(
                     .animateContentSize(),
                 //verticalArrangement = Arrangement.Bottom
             ) {
-                if (state.isLoading) {
-                    LoadingIndicator(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    )
-                } else if (state.stringResourceId !== null) {
+                if (tariffModel == null) {
                     Column(
                         modifier = Modifier
                             .padding(16.dp)
@@ -247,32 +237,32 @@ private fun DetailsSheet(
                             color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center
                         )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = stringResource(id = state.stringResourceId),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                            if (state.message !== null) {
-                                Text(
-                                    text = " | ",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                                Text(
-                                    text = state.message,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                        }
+//                        Row(
+//                            modifier = Modifier
+//                                .fillMaxWidth(),
+//                            horizontalArrangement = Arrangement.Center,
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Text(
+//                                text = stringResource(id = tariffModel.stringResourceId),
+//                                style = MaterialTheme.typography.bodyMedium,
+//                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                            )
+//                            if (tariffModel.message !== null) {
+//                                Text(
+//                                    text = " | ",
+//                                    style = MaterialTheme.typography.bodyMedium,
+//                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                                )
+//                                Text(
+//                                    text = tariffModel.message,
+//                                    style = MaterialTheme.typography.bodyMedium,
+//                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                                )
+//                            }
+//                        }
                     }
-                } else if (state.data != null) {
+                } else {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -280,16 +270,16 @@ private fun DetailsSheet(
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
-                        text = state.data.name
+                        text = tariffModel.name
                     )
-                    if (state.data.description != null) {
+                    if (tariffModel.description != null) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            text = state.data.description
+                            text = tariffModel.description
                         )
                     }
                     AdditionalTextInfo(
@@ -298,7 +288,7 @@ private fun DetailsSheet(
                         title = stringResource(id = R.string.tariff_card_maximum_speed_details_text),
                         text = stringResource(
                             id = R.string.tariff_card_max_speed_value,
-                            formatArgs = arrayOf(state.data.costPerMonth)
+                            formatArgs = arrayOf(tariffModel.costPerMonth)
                         )
                     )
                     AdditionalTextInfo(
@@ -307,19 +297,19 @@ private fun DetailsSheet(
                         title = stringResource(id = R.string.tariff_card_cost_text),
                         text = pluralStringResource(
                             id = R.plurals.tariff_card_cost_value,
-                            count = state.data.costPerMonth,
-                            formatArgs = arrayOf(state.data.costPerMonth)
+                            count = tariffModel.costPerMonth,
+                            formatArgs = arrayOf(tariffModel.costPerMonth)
                         )
                     )
-                    if (state.data.prepaidTraffic !== null) {
+                    if (tariffModel.prepaidTraffic !== null) {
                         AdditionalTextInfo(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
                             text = pluralStringResource(
                                 id = R.plurals.tariff_card_prepaid_traffic_value,
-                                count = state.data.prepaidTraffic / 1024,
-                                formatArgs = arrayOf(state.data.prepaidTraffic / 1024))
+                                count = tariffModel.prepaidTraffic / 1024,
+                                formatArgs = arrayOf(tariffModel.prepaidTraffic / 1024))
                         )
                     } else {
                         AdditionalTextInfo(
@@ -329,24 +319,24 @@ private fun DetailsSheet(
                             text = stringResource(id = R.string.tariff_card_prepaid_traffic_unlimited_text)
                         )
                     }
-                    if (state.data.prepaidTrafficDescription !== null) {
+                    if (tariffModel.prepaidTrafficDescription !== null) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            text = state.data.prepaidTrafficDescription
+                            color = MaterialTheme.colorScheme.onSurface,
+                            text = tariffModel.prepaidTrafficDescription
                         )
                     }
                     Button(
                         modifier = Modifier
-                            .height(48.dp)
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                            .height(48.dp),
                         shape = MaterialTheme.shapes.small,
                         onClick = {
-                            onConnectTariffClicked.invoke(state.data.id)
+                            onConnectTariffClicked.invoke(tariffModel.id)
                         },
                         enabled = true //TODO
                     ) {
