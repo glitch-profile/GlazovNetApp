@@ -78,6 +78,9 @@
     <string name="tariffs_list_screen_name">Tariffs</string>
     <string name="tariffs_list_loading_failed_text">Failed to load</string>
 
+    <!-- ANNOUNCEMENTS SCREEN -->
+    <string name="announcement_list_screen_name">Announcements</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>
     <string name="request_chat_message_placeholder_text">Message</string>

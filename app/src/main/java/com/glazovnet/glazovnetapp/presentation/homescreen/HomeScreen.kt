@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.glazovnet.glazovnetapp.presentation.announcements.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.presentation.navigationdrawer.NavigationDrawerState
 import com.glazovnet.glazovnetapp.presentation.posts.details.PostDetailsScreen
@@ -266,11 +267,20 @@ private fun ScreenContents(
         ) {
             composable("tariffs-list-screen") {
                 TariffsListScreen(
-                    onTariffClicked = {
-                                      //TODO
-                    },
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }
                 )
+            }
+        }
+        navigation(
+            startDestination = "announcements-list-screen",
+            route = "announcements-graph"
+        ) {
+            composable("announcements-list-screen") {
+                AnnouncementsListScreen(
+                    onNavigationButtonPressed = {
+                        toggleNavigationDrawer.invoke()
+                    },
+                    onCreateNewAnnouncementClicked = { /*TODO*/ })
             }
         }
     }
