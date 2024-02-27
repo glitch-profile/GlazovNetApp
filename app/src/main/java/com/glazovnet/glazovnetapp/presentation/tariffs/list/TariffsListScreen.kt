@@ -50,7 +50,6 @@ import com.glazovnet.glazovnetapp.presentation.components.RequestErrorScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TariffsListScreen(
-    onTariffClicked: (tariffId: String) -> Unit,
     onNavigationButtonPressed: () -> Unit,
     viewModel: TariffsListViewModel = hiltViewModel()
 ) {

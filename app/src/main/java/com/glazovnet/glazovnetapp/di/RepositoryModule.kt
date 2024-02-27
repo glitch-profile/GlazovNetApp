@@ -1,10 +1,12 @@
 package com.glazovnet.glazovnetapp.di
 
+import com.glazovnet.glazovnetapp.data.repositoryimpl.AnnouncementsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.LocalUserAuthDataRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.RequestsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.TariffsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.data.repositoryimpl.UtilsApiRepositoryImpl
+import com.glazovnet.glazovnetapp.domain.repository.AnnouncementsApiRepository
 import com.glazovnet.glazovnetapp.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.domain.repository.RequestsApiRepository
@@ -49,5 +51,11 @@ abstract class RepositoryModule {
     abstract fun bindsTariffsRepository(
         tariffsApiRepositoryImpl: TariffsApiRepositoryImpl
     ): TariffsApiRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsAnnouncementsRepository(
+        announcementsApiRepositoryImpl: AnnouncementsApiRepositoryImpl
+    ): AnnouncementsApiRepository
 
 }

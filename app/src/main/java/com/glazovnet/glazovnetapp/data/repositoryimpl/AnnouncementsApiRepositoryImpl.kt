@@ -21,12 +21,13 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import javax.inject.Inject
 import javax.inject.Named
 
 private const val ADDRESSES_PATH = "api/address-info"
 private const val ANNOUNCEMENTS_PATH = "api/announcements"
 
-class AnnouncementsApiRepositoryImpl(
+class AnnouncementsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): AnnouncementsApiRepository {
     override suspend fun getAllAnnouncements(token: String): Resource<List<AnnouncementModel>> {
