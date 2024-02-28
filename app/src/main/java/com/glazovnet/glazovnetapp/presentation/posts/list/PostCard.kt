@@ -15,9 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.domain.models.posts.PostModel
 import com.glazovnet.glazovnetapp.domain.utils.getLocalizedOffsetString
 
@@ -49,7 +52,13 @@ fun PostCard(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = post.creationDateTime!!.getLocalizedOffsetString(),
+//            text = post.creationDateTime!!.getLocalizedOffsetString(),
+            text = buildAnnotatedString {
+                if (post.lastEditDate != null) {
+                    append(stringResource(id = R.string.post_details_screen_updated_text_long) + " | ")
+                }
+                append(post.creationDateTime!!.getLocalizedOffsetString())
+            },
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

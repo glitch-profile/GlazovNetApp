@@ -3,7 +3,7 @@ package com.glazovnet.glazovnetapp.data.repositoryimpl
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.data.entity.posts.PostModelDto
 import com.glazovnet.glazovnetapp.data.entity.utils.ApiResponseDto
-import com.glazovnet.glazovnetapp.data.mappers.toPostModel
+import com.glazovnet.glazovnetapp.data.mappers.toPostModelDto
 import com.glazovnet.glazovnetapp.domain.models.posts.PostModel
 import com.glazovnet.glazovnetapp.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.domain.utils.Resource
@@ -33,7 +33,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.map { it.toPostModel() }
+                    data = response.data.map { it.toPostModelDto() }
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -54,7 +54,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.map { it.toPostModel() },
+                    data = response.data.map { it.toPostModelDto() },
                     message = response.message
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
@@ -70,7 +70,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModel()
+                    data = response.data.firstOrNull()?.toPostModelDto()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -83,11 +83,11 @@ class PostsApiRepositoryImpl @Inject constructor(
             val response: ApiResponseDto<List<PostModelDto>> = client.post("$PATH/add") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(postModel.toPostModel())
+                setBody(postModel.toPostModelDto())
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModel()
+                    data = response.data.firstOrNull()?.toPostModelDto()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -100,7 +100,7 @@ class PostsApiRepositoryImpl @Inject constructor(
             val response: ApiResponseDto<Unit> = client.put("$PATH/edit") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(postModel.toPostModel())
+                setBody(postModel.toPostModelDto())
             }.body()
             if (response.status) {
                 Resource.Success(

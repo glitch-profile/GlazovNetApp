@@ -22,6 +22,8 @@
 
     <!-- POST DETAILS SCREEN -->
     <string name="post_details_screen_name">Details</string>
+    <string name="post_details_screen_updated_text_short">upd.</string>
+    <string name="post_details_screen_updated_text_long">Updated</string>
 
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Create post</string>

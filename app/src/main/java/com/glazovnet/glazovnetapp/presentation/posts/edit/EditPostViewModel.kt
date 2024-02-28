@@ -108,7 +108,12 @@ class EditPostViewModel @Inject constructor(
             if ((imageUri !== null) == (image !== null)) {
                 val postToUpload = with(state.value.data!!) {
                     PostModel(
-                        id, postTitle, creationDateTime, postText, image
+                        id = id,
+                        title = postTitle,
+                        text = postText,
+                        creationDateTime = creationDateTime,
+                        lastEditDate = null,
+                        image = image
                     )
                 }
                 when (val result = postsUseCase.updatePost(postToUpload)) {

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
@@ -115,7 +116,14 @@ fun PostDetailsScreen(
                     )
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        text = state.value.data!!.creationDateTime!!.getLocalizedOffsetString(),
+                        text = buildAnnotatedString {
+                            append(state.value.data!!.creationDateTime!!.getLocalizedOffsetString())
+                            state.value.data!!.lastEditDate?.let { editDate ->
+                                append(" | ")
+                                append(stringResource(id = R.string.post_details_screen_updated_text_short) + " ")
+                                append(editDate.getLocalizedOffsetString())
+                            }
+                        },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

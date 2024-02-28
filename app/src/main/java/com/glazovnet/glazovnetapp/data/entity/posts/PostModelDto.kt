@@ -10,6 +10,7 @@ data class PostModelDto(
     val id: String,
     val title: String,
     val creationDate: Long,
+    val lastEditDate: Long?,
     val text: String,
     val image: ImageModelDto?,
 )
