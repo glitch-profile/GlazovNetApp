@@ -7,7 +7,6 @@ import com.glazovnet.glazovnetapp.data.entity.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.data.mappers.toAddressFilterElement
 import com.glazovnet.glazovnetapp.data.mappers.toAnnouncementModel
 import com.glazovnet.glazovnetapp.data.mappers.toAnnouncementModelDto
-import com.glazovnet.glazovnetapp.data.mappers.toPostModel
 import com.glazovnet.glazovnetapp.domain.models.announcements.AddressFilterElement
 import com.glazovnet.glazovnetapp.domain.models.announcements.AnnouncementModel
 import com.glazovnet.glazovnetapp.domain.repository.AnnouncementsApiRepository

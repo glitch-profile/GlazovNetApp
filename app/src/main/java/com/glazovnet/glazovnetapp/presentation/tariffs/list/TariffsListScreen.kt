@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -211,13 +215,13 @@ private fun DetailsSheet(
     if (isSheetOpen) {
         ModalBottomSheet(
             sheetState = sheetState,
-            onDismissRequest = onDismiss
+            onDismissRequest = onDismiss,
+            windowInsets = WindowInsets.ime
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .animateContentSize(),
                 //verticalArrangement = Arrangement.Bottom
             ) {
                 if (tariffModel == null) {
@@ -236,30 +240,6 @@ private fun DetailsSheet(
                             color = MaterialTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Center
                         )
-//                        Row(
-//                            modifier = Modifier
-//                                .fillMaxWidth(),
-//                            horizontalArrangement = Arrangement.Center,
-//                            verticalAlignment = Alignment.CenterVertically
-//                        ) {
-//                            Text(
-//                                text = stringResource(id = tariffModel.stringResourceId),
-//                                style = MaterialTheme.typography.bodyMedium,
-//                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                            )
-//                            if (tariffModel.message !== null) {
-//                                Text(
-//                                    text = " | ",
-//                                    style = MaterialTheme.typography.bodyMedium,
-//                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                                )
-//                                Text(
-//                                    text = tariffModel.message,
-//                                    style = MaterialTheme.typography.bodyMedium,
-//                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                                )
-//                            }
-//                        }
                     }
                 } else {
                     Text(
@@ -287,7 +267,7 @@ private fun DetailsSheet(
                         title = stringResource(id = R.string.tariff_card_maximum_speed_details_text),
                         text = stringResource(
                             id = R.string.tariff_card_max_speed_value,
-                            formatArgs = arrayOf(tariffModel.costPerMonth)
+                            formatArgs = arrayOf(tariffModel.maxSpeed)
                         )
                     )
                     AdditionalTextInfo(
@@ -328,19 +308,26 @@ private fun DetailsSheet(
                             text = tariffModel.prepaidTrafficDescription
                         )
                     }
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                            .height(48.dp),
-                        shape = MaterialTheme.shapes.small,
-                        onClick = {
-                            onConnectTariffClicked.invoke(tariffModel.id)
-                        },
-                        enabled = true //TODO
-                    ) {
-                        Text(text = stringResource(id = R.string.tariff_card_connect_from_billing_date)) //TODO(Change billing date to actual number)
+                    if (tariffModel.category !== TariffType.Archive) {
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .fillMaxWidth()
+                        )
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                                .height(48.dp),
+                            shape = MaterialTheme.shapes.small,
+                            onClick = {
+                                onConnectTariffClicked.invoke(tariffModel.id)
+                            }
+                        ) {
+                            Text(text = stringResource(id = R.string.tariff_card_connect_from_billing_date)) //TODO(Change billing date to actual number)
+                        }
                     }
+                    Spacer(modifier = Modifier.navigationBarsPadding())
                 }
             }
         }
