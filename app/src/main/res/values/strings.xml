@@ -83,6 +83,15 @@
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Announcements</string>
 
+    <!-- ADD ANNOUNCEMENTS SCREEN -->
+    <string name="add_announcement_screen_name">Add announcement</string>
+    <string name="add_announcement_screen_title_title">Title</string>
+    <string name="add_announcement_screen_text_title">Content</string>
+    <string name="add_announcement_screen_address_title">Selected addresses</string>
+    <string name="add_announcement_screen_address_description">Select the addresses for which this announcement is intended by clicking on +</string>
+    <string name="add_announcement_screen_title_placeholder">Enter an announcement title</string>
+    <string name="add_announcement_screen_text_placeholder">Enter the text of the announcement</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>
     <string name="request_chat_message_placeholder_text">Message</string>

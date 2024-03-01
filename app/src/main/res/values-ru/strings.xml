@@ -84,6 +84,15 @@
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Объявления</string>
 
+    <!-- ADD ANNOUNCEMENTS SCREEN -->
+    <string name="add_announcement_screen_name">Создать объявление</string>
+    <string name="add_announcement_screen_title_title">Заголовок</string>
+    <string name="add_announcement_screen_text_title">Контент</string>
+    <string name="add_announcement_screen_address_title">Выбранные адреса</string>
+    <string name="add_announcement_screen_address_description">Выберите адреса, для которых предназначено это объявление, нажатием на +</string>
+    <string name="add_announcement_screen_title_placeholder">Введите заголовок объявления</string>
+    <string name="add_announcement_screen_text_placeholder">Введите текст объявления</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>

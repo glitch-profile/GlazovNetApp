@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnouncementScreen
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawerState
@@ -280,7 +281,17 @@ private fun ScreenContents(
                     onNavigationButtonPressed = {
                         toggleNavigationDrawer.invoke()
                     },
-                    onCreateNewAnnouncementClicked = { /*TODO*/ })
+                    onCreateNewAnnouncementClicked = {
+                        navController.navigate("add-announcement-screen")
+                    })
+            }
+            composable("add-announcement-screen") {
+                CreateAnnouncementScreen(
+                    onNavigationButtonPressed = {
+                        navController.popBackStack()
+                    },
+                    onNeedToShowMessage = onNeedToShowMessage
+                )
             }
         }
     }
