@@ -89,9 +89,15 @@
     <string name="add_announcement_screen_title_title">Заголовок</string>
     <string name="add_announcement_screen_text_title">Контент</string>
     <string name="add_announcement_screen_address_title">Выбранные адреса</string>
-    <string name="add_announcement_screen_address_description">Выберите адреса, для которых предназначено это объявление, нажатием на +</string>
+    <string name="add_announcement_screen_no_addresses_selected_title">Не выбран ни один адрес</string>
+    <string name="add_announcement_screen_no_addresses_selected_description">В данном случае уведомление будет разослано на все адреса</string>
+    <string name="add_announcement_screen_address_description">Адреса, для которых предназначено это объявление</string>
     <string name="add_announcement_screen_title_placeholder">Введите заголовок объявления</string>
     <string name="add_announcement_screen_text_placeholder">Введите текст объявления</string>
+    <string name="add_announcement_screen_cities_title">Город</string>
+    <string name="add_announcement_screen_streets_title">Улица</string>
+    <string name="add_announcement_screen_streets_placeholder">Начните вводить название улицы</string>
+    <string name="add_announcement_screen_found_addresses_title">Найденные адреса</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
@@ -145,6 +151,7 @@
     <string name="reusable_text_edit">Редактировать</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
+    <string name="reusable_unable_to_load">Невозможно загрузить</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Безлимитный</string>

@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.announcements.presentation.create
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,8 +11,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -29,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.announcements.domain.model.AddressFilterElement
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,9 +53,33 @@ fun CreateAnnouncementScreen(
     val state = viewModel.state.collectAsState()
     val announcementTitle = viewModel.announcementTitle.collectAsState()
     val announcementText = viewModel.announcementText.collectAsState()
-    var foundAddresses = viewModel.addressesState.collectAsState()
-    var selectedAddresses = viewModel.selectedAddresses.collectAsState()
 
+    val citiesList = viewModel.citiesList.collectAsState()
+    val foundAddresses = viewModel.addressesState.collectAsState()
+    val selectedAddresses = viewModel.selectedAddresses.collectAsState()
+
+    val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
+
+    LaunchedEffect(null) {
+        viewModel.messageStringResource.collectLatest {
+            onNeedToShowMessage.invoke(it)
+        }
+    }
+
+    AddressesSheet(
+        isSheetOpen = isSheetOpen.value,
+        citiesList = citiesList.value,
+        onSearchTextChanged = { cityName, streetName ->
+            viewModel.updateSearch(cityName, streetName)
+        },
+        addressesState = foundAddresses.value,
+        onAddressClicked = {
+            viewModel.changeSelectionOfAddressElement(it)
+        },
+        onDismiss = {
+            viewModel.hideBottomBar()
+        }
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -158,7 +181,9 @@ fun CreateAnnouncementScreen(
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        viewModel.showBottomSheet()
+                    }) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add address"
@@ -166,6 +191,12 @@ fun CreateAnnouncementScreen(
                     }
                 }
                 Spacer(modifier = (Modifier.height(4.dp)))
+                SelectedAddressesScreen(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    addresses = selectedAddresses.value,
+                    onAddressClicked = {}
+                )
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.createAnnouncement() },
@@ -177,53 +208,48 @@ fun CreateAnnouncementScreen(
 
 @Composable
 private fun SelectedAddressesScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     addresses: List<AddressFilterElement>,
     onAddressClicked: (AddressFilterElement) -> Unit
 ) {
-//    Crossfade(
-//        targetState = addresses.isEmpty(),
-//        label = "selectedAddressesScreenAnimation"
-//    ) {
-//        when (it) {
-//            true -> {
-//
-//            }
-//            false -> {
-//
-//            }
-//        }
-//    }
     Column(
         modifier = modifier
     ) {
         if (addresses.isEmpty()) {
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
-                text = "Nothing is selected",
-                style = MaterialTheme.typography.bodyMedium,
+                    .padding(horizontal = 32.dp),
+                text = stringResource(id = R.string.add_announcement_screen_no_addresses_selected_title),
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
-        } else {
-            LazyColumn(
+            Text(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                content = {
-                    items(
-                        items = addresses
-                    ) {
-                        AddressCard(
-                            address = it,
-                            onClick = {
-                                onAddressClicked.invoke(it)
-                            }
-                        )
-                    }
-                }
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                text = stringResource(id = R.string.add_announcement_screen_no_addresses_selected_description),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
             )
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                addresses.forEach {
+                    AddressCard(
+                        addressState = AddressState(
+                            address = it,
+                            isSelected = false
+                        ),
+                        onClick = {}
+                    )
+                }
+            }
         }
     }
 }

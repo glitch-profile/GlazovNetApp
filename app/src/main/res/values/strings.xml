@@ -88,9 +88,15 @@
     <string name="add_announcement_screen_title_title">Title</string>
     <string name="add_announcement_screen_text_title">Content</string>
     <string name="add_announcement_screen_address_title">Selected addresses</string>
-    <string name="add_announcement_screen_address_description">Select the addresses for which this announcement is intended by clicking on +</string>
+    <string name="add_announcement_screen_no_addresses_selected_title">No address is selected</string>
+    <string name="add_announcement_screen_no_addresses_selected_description">In this case, the announcement will be sent to all addresses</string>
+    <string name="add_announcement_screen_address_description">Addresses for which this announcement is intended</string>
     <string name="add_announcement_screen_title_placeholder">Enter an announcement title</string>
     <string name="add_announcement_screen_text_placeholder">Enter the text of the announcement</string>
+    <string name="add_announcement_screen_cities_title">City</string>
+    <string name="add_announcement_screen_streets_title">Street</string>
+    <string name="add_announcement_screen_streets_placeholder">Start typing the street name</string>
+    <string name="add_announcement_screen_found_addresses_title">Found addresses</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>
@@ -143,6 +149,7 @@
     <string name="reusable_text_edit">Edit</string>
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
+    <string name="reusable_unable_to_load">Unable to load</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>
