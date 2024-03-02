@@ -16,7 +16,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.put
+import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -67,7 +67,7 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
         token: String
     ): Resource<AnnouncementModel?> {
         return try {
-            val response: ApiResponseDto<AnnouncementModelDto> = client.put("$ANNOUNCEMENTS_PATH/create") {
+            val response: ApiResponseDto<AnnouncementModelDto> = client.post("$ANNOUNCEMENTS_PATH/create") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
                 setBody(announcementModel.toAnnouncementModelDto())
@@ -78,6 +78,7 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
+            e.printStackTrace()
             Resource.generateFromApiResponseError(e)
         }
     }
