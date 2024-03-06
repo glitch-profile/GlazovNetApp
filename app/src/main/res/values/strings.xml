@@ -98,6 +98,13 @@
     <string name="add_announcement_screen_streets_placeholder">Start typing the street name</string>
     <string name="add_announcement_screen_found_addresses_title">Found addresses</string>
 
+    <!-- ANNOUNCEMENT CARD -->
+    <plurals name="announcement_card_addresses_count">
+        <item quantity="one">%d address is selected</item>
+        <item quantity="many">%d addresses selected</item>
+    </plurals>
+    <string name="announcement_card_selected_for_everyone">Selected for everyone</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Chat</string>
     <string name="request_chat_message_placeholder_text">Message</string>

@@ -99,6 +99,13 @@
     <string name="add_announcement_screen_streets_placeholder">Начните вводить название улицы</string>
     <string name="add_announcement_screen_found_addresses_title">Найденные адреса</string>
 
+    <plurals name="announcement_card_addresses_count">
+        <item quantity="one">Выбран %d адрес</item>
+        <item quantity="few">Выбрано %d адреса</item>
+        <item quantity="many">Выбрано %d адресов</item>
+    </plurals>
+    <string name="announcement_card_selected_for_everyone">Выбрано для всех</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>

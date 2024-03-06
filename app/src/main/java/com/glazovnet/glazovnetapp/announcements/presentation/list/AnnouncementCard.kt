@@ -13,8 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
 import com.glazovnet.glazovnetapp.core.domain.utils.getLocalizedOffsetString
 
@@ -64,7 +67,15 @@ fun AnnouncementCard(
         if (showAddressCount) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Marking a ${announcement.addresses.size} addresses", //TODO:Rework the addresses text
+                text = if (announcement.addresses.isEmpty()) {
+                    stringResource(id = R.string.announcement_card_selected_for_everyone)
+                } else {
+                    pluralStringResource(
+                        id = R.plurals.announcement_card_addresses_count,
+                        count = announcement.addresses.size,
+                        announcement.addresses.size
+                    )
+                },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
