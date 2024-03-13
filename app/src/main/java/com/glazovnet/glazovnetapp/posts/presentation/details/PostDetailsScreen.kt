@@ -148,9 +148,11 @@ fun PostDetailsScreen(
                         )
                     }
                 }
-                BottomActionBar(
-                    onEditPostButtonClicked = { onEditPostButtonClicked.invoke(state.value.data!!.id) },
-                )
+                if (isAdmin) {
+                    BottomActionBar(
+                        onEditPostButtonClicked = { onEditPostButtonClicked.invoke(state.value.data!!.id) },
+                    )
+                }
             }
         }
     }
