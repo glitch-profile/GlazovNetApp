@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
     kotlin("plugin.serialization") version "1.9.10"
 }
 
@@ -96,4 +97,8 @@ dependencies {
     //lottie
     val lottieVersion = "6.3.0"
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-messaging")
 }
