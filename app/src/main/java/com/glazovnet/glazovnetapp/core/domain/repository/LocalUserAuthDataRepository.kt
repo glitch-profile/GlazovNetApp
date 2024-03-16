@@ -15,6 +15,6 @@ interface LocalUserAuthDataRepository {
     fun getAssociatedUserId(): String?
     fun setAssociatedUserId(userId: String?, isNeedToSave: Boolean)
 
-    fun getIsUserAsAdmin(): Boolean?
+    fun getIsUserAsAdmin(): Boolean
     fun setIsUserAsAdmin(isAdmin: Boolean, isNeedToSave: Boolean)
 }

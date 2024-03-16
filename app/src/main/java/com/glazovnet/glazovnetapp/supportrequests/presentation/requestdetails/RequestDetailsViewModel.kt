@@ -25,7 +25,7 @@ class RequestDetailsViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<SupportRequestModel>())
     val state = _state.asStateFlow()
 
-    val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isAdmin = userAuthDataRepository.getIsUserAsAdmin()
 
     fun loadRequestDetails(requestId: String) {
         viewModelScope.launch {

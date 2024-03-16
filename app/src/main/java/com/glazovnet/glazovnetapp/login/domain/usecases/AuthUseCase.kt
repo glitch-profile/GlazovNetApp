@@ -8,7 +8,6 @@ import com.glazovnet.glazovnetapp.login.data.entity.AuthResponse
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
-import com.google.firebase.messaging.messaging
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

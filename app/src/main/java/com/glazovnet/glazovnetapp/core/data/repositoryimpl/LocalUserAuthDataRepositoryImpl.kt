@@ -36,7 +36,7 @@ class LocalUserAuthDataRepositoryImpl @Inject constructor(
     }
     override fun setLoginToken(loginToken: String?, isNeedToSave: Boolean) {
         savedLoginToken = loginToken
-        if (isNeedToSave) preferences.edit().putString(LOGIN_TOKEN_NAME, loginToken).apply()
+        if (isNeedToSave) preferences.edit().putString(LOGIN_TOKEN_NAME, loginToken).commit()
     }
 
     private var associatedUserId: String? = null

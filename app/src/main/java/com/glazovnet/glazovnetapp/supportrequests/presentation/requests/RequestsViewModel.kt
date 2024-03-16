@@ -22,7 +22,7 @@ class RequestsViewModel @Inject constructor(
     private val localUserAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
-    val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
 
     private val _state = MutableStateFlow(ScreenState<List<SupportRequestModel>>())
     val state = _state.asStateFlow()

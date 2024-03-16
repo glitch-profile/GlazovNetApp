@@ -23,7 +23,7 @@ class PostsListViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<List<PostModel>>())
     val state = _state.asStateFlow()
 
-    val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isAdmin = userAuthDataRepository.getIsUserAsAdmin()
 
     fun getAllPosts() {
         viewModelScope.launch {

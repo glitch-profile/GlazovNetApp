@@ -23,7 +23,7 @@ class AnnouncementsListViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<List<AnnouncementModel>>())
     val state = _state.asStateFlow()
 
-    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin()
 
     fun loadAnnouncements() {
         viewModelScope.launch {

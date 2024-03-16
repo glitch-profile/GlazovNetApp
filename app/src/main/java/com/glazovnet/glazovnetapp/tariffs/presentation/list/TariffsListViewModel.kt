@@ -21,7 +21,7 @@ class TariffsListViewModel @Inject constructor(
     private val userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
-    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin()
 
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()

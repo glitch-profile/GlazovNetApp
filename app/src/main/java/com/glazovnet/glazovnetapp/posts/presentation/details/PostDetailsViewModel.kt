@@ -22,7 +22,7 @@ class PostDetailsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
-    val isAdmin = userAuthDataRepository.getIsUserAsAdmin() ?: false
+    val isAdmin = userAuthDataRepository.getIsUserAsAdmin()
 
     fun loadPost(postId: String) {
         viewModelScope.launch {
