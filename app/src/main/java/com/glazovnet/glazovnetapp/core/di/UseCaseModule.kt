@@ -24,10 +24,13 @@ object UseCaseModule {
     @Singleton
     fun provideAuthUseCase(
         loginApiRepository: LoginApiRepository,
-        localUserAuthDataRepository: LocalUserAuthDataRepository
+        localUserAuthDataRepository: LocalUserAuthDataRepository,
+        utilsApiRepository: UtilsApiRepository
     ): AuthUseCase {
         return AuthUseCase(
-            loginApiRepository, localUserAuthDataRepository
+            loginApiRepository = loginApiRepository,
+            localUserAuthDataRepository = localUserAuthDataRepository,
+            utilsApiRepository = utilsApiRepository
         )
     }
 

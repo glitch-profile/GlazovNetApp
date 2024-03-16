@@ -1,14 +1,20 @@
 package com.glazovnet.glazovnetapp.login.domain.usecases
 
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.login.data.entity.AuthDataDto
 import com.glazovnet.glazovnetapp.login.data.entity.AuthResponse
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.messaging.messaging
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
     private val loginApiRepository: LoginApiRepository,
+    private val utilsApiRepository: UtilsApiRepository,
     private val localUserAuthDataRepository: LocalUserAuthDataRepository
 ) {
     suspend fun login(
@@ -29,13 +35,32 @@ class AuthUseCase @Inject constructor(
             localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, isRememberAuthData)
             localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, isRememberAuthData)
             localUserAuthDataRepository.setSavedUserLogin(login)
+
+            if (!localUserAuthDataRepository.getIsUserAsAdmin() && isRememberAuthData) {
+                val fcmToken = Firebase.messaging.token.await()
+                updateFcmToken(newToken = fcmToken)
+            }
         }
         return loginResult
     }
 
-    fun logout() {
+    suspend fun logout() {
+        if (!localUserAuthDataRepository.getIsUserAsAdmin()) {
+            updateFcmToken(null)
+        }
+
         localUserAuthDataRepository.setLoginToken(null, true)
         localUserAuthDataRepository.setAssociatedUserId(null, true)
         localUserAuthDataRepository.setIsUserAsAdmin(isAdmin = false, true)
+    }
+
+    private suspend fun updateFcmToken(
+        newToken: String?
+    ) {
+        utilsApiRepository.updateUserFcmToken(
+            token = localUserAuthDataRepository.getLoginToken() ?: "",
+            clientId = localUserAuthDataRepository.getAssociatedUserId()!!,
+            newToken = newToken
+        )
     }
 }

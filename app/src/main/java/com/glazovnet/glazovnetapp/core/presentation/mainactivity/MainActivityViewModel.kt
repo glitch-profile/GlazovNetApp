@@ -2,6 +2,7 @@ package com.glazovnet.glazovnetapp.core.presentation.mainactivity
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.login.domain.usecases.AuthUseCase
@@ -40,7 +41,9 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun logout() {
-        authUseCase.logout()
+        viewModelScope.launch {
+            authUseCase.logout()
+        }
     }
 
     fun showMessage(
