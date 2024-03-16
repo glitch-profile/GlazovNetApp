@@ -172,7 +172,6 @@ private fun AuthForm(
 ) {
     val username = viewModel.username.collectAsState().value
     val password = viewModel.password.collectAsState().value
-    val isSaveAuthData = viewModel.saveAuthData.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -209,12 +208,12 @@ private fun AuthForm(
                 imeAction = ImeAction.Done
             )
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        DesignedCheckBox(
-            isChecked = isSaveAuthData,
-            onStateChanges = { viewModel.editIsSaveAuthData(it) },
-            label = stringResource(id = R.string.login_remember_user_text)
-        )
+//        Spacer(modifier = Modifier.height(4.dp))
+//        DesignedCheckBox(
+//            isChecked = isSaveAuthData,
+//            onStateChanges = { viewModel.editIsSaveAuthData(it) },
+//            label = stringResource(id = R.string.login_remember_user_text)
+//        )
     }
 }
 
@@ -255,11 +254,6 @@ private fun ActionButtonsForm(
                 )
             }
         ) {
-//            Icon(
-//                tint = MaterialTheme.colorScheme.primary,
-//                imageVector = Icons.Default.Build,
-//                contentDescription = null
-//            )
             Text(text = stringResource(id = R.string.login_screen_login_as_admin_button))
         }
         Spacer(modifier = Modifier.width(8.dp))

@@ -19,8 +19,7 @@ class AuthUseCase @Inject constructor(
     suspend fun login(
         login: String,
         password: String,
-        asAdmin: Boolean,
-        isRememberAuthData: Boolean
+        asAdmin: Boolean
     ): Resource<AuthResponse> {
         val authData = AuthDataDto(
             username = login,
@@ -30,12 +29,12 @@ class AuthUseCase @Inject constructor(
         val loginResult = loginApiRepository.login(authData)
         if (loginResult is Resource.Success) {
             val authResponse = loginResult.data!!
-            localUserAuthDataRepository.setLoginToken(authResponse.token, isRememberAuthData)
-            localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, isRememberAuthData)
-            localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, isRememberAuthData)
+            localUserAuthDataRepository.setLoginToken(authResponse.token, true)
+            localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, true)
+            localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, true)
             localUserAuthDataRepository.setSavedUserLogin(login)
 
-            if (!localUserAuthDataRepository.getIsUserAsAdmin() && isRememberAuthData) {
+            if (!localUserAuthDataRepository.getIsUserAsAdmin()) {
                 val fcmToken = Firebase.messaging.token.await()
                 updateFcmToken(newToken = fcmToken)
             }

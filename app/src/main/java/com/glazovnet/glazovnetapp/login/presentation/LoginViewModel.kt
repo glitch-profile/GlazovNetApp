@@ -32,8 +32,6 @@ class LoginViewModel @Inject constructor(
     val username = _username.asStateFlow()
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
-    private val _saveAuthData = MutableStateFlow(false)
-    val saveAuthData = _saveAuthData.asStateFlow()
 
     private val _loginState = MutableStateFlow(ScreenState<Unit>())
     val loginState = _loginState.asStateFlow()
@@ -51,9 +49,6 @@ class LoginViewModel @Inject constructor(
     }
     fun editPassword(password: String) {
         _password.update { password }
-    }
-    fun editIsSaveAuthData(isNeedToSave: Boolean) {
-        _saveAuthData.update { isNeedToSave }
     }
 
     private fun loadIntroImage() {
@@ -82,8 +77,7 @@ class LoginViewModel @Inject constructor(
                 val result = authUseCase.login(
                     login = username.value,
                     password = password.value,
-                    asAdmin = isAsAdmin,
-                    isRememberAuthData = saveAuthData.value
+                    asAdmin = isAsAdmin
                 )
                 when (result) {
                     is Resource.Success -> {
