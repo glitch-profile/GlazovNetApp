@@ -106,6 +106,14 @@
     </plurals>
     <string name="announcement_card_selected_for_everyone">Выбрано для всех</string>
 
+    <!-- NOTIFICATIONS SETTINGS SCREEN -->
+    <string name="notifications_settings_screen_name">Уведомления</string>
+    <string name="notifications_settings_screen_global_settings_title">Глобальные настройки</string>
+    <string name="notifications_settings_screen_global_settings_description">Включены ли уведомления во всём приложении</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Включить уведомления</string>
+    <string name="notifications_settings_screen_mailings_title">Рассылки</string>
+    <string name="notifications_settings_screen_mailings_description">Рассылки, по которым будут включены уведомления</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>

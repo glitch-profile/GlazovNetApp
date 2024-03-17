@@ -98,6 +98,14 @@
     <string name="add_announcement_screen_streets_placeholder">Start typing the street name</string>
     <string name="add_announcement_screen_found_addresses_title">Found addresses</string>
 
+    <!-- NOTIFICATIONS SETTINGS SCREEN -->
+    <string name="notifications_settings_screen_name">Notifications</string>
+    <string name="notifications_settings_screen_global_settings_title">Global settings</string>
+    <string name="notifications_settings_screen_global_settings_description">Whether notifications are enabled throughout the application</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Is notifications enabled</string>
+    <string name="notifications_settings_screen_mailings_title">Mailings</string>
+    <string name="notifications_settings_screen_mailings_description">Mailings for which notifications will be enabled</string>
+
     <!-- ANNOUNCEMENT CARD -->
     <plurals name="announcement_card_addresses_count">
         <item quantity="one">%d address is selected</item>
