@@ -9,11 +9,4 @@ interface UtilsApiRepository {
 
     suspend fun getIntroImageUrl(): String
 
-    //TODO Move to another repository
-    suspend fun updateUserFcmToken(
-        token: String,
-        clientId: String,
-        newToken: String?
-    ): Resource<Unit>
-
 }

@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
     private val loginApiRepository: LoginApiRepository,
-    private val utilsApiRepository: UtilsApiRepository,
     private val localUserAuthDataRepository: LocalUserAuthDataRepository
 ) {
     suspend fun login(
@@ -33,32 +32,13 @@ class AuthUseCase @Inject constructor(
             localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, true)
             localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, true)
             localUserAuthDataRepository.setSavedUserLogin(login)
-
-            if (!localUserAuthDataRepository.getIsUserAsAdmin()) {
-                val fcmToken = Firebase.messaging.token.await()
-                updateFcmToken(newToken = fcmToken)
-            }
         }
         return loginResult
     }
 
     suspend fun logout() {
-        if (!localUserAuthDataRepository.getIsUserAsAdmin()) {
-            updateFcmToken(null)
-        }
-
         localUserAuthDataRepository.setLoginToken(null, true)
         localUserAuthDataRepository.setAssociatedUserId(null, true)
         localUserAuthDataRepository.setIsUserAsAdmin(isAdmin = false, true)
-    }
-
-    private suspend fun updateFcmToken(
-        newToken: String?
-    ) {
-        utilsApiRepository.updateUserFcmToken(
-            token = localUserAuthDataRepository.getLoginToken() ?: "",
-            clientId = localUserAuthDataRepository.getAssociatedUserId()!!,
-            newToken = newToken
-        )
     }
 }

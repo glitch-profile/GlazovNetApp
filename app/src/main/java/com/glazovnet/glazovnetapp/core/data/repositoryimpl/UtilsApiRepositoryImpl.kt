@@ -21,7 +21,6 @@ import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "/api/utils"
-private const val UPDATE_FCM_TOKEN_PATH = "/api/clients/update-fcm-token"
 
 class UtilsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
@@ -57,27 +56,6 @@ class UtilsApiRepositoryImpl @Inject constructor(
             client.get("$PATH/get-intro-image-url").body()
         } catch (e: Exception) {
             ""
-        }
-    }
-
-    override suspend fun updateUserFcmToken(
-        token: String,
-        clientId: String,
-        newToken: String?
-    ): Resource<Unit> {
-        return try {
-            val response: ApiResponseDto<Unit> = client.put(UPDATE_FCM_TOKEN_PATH) {
-                bearerAuth(token)
-                header("client_id", clientId)
-                header("fcm_token", newToken)
-            }.body()
-            if (response.status) {
-                Resource.Success(data = Unit)
-            } else {
-                Resource.Error(stringResourceId = R.string.api_response_server_error)
-            }
-        } catch (e: Exception) {
-            Resource.Error(stringResourceId = R.string.api_response_unknown_error)
         }
     }
 }
