@@ -8,6 +8,8 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.login.data.repositoryimpl.LoginApiRepositoryImpl
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
+import com.glazovnet.glazovnetapp.notifications.data.repository.NotificationsLocalSettingRepositoryImpl
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.glazovnet.glazovnetapp.posts.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.supportrequests.data.repositoryimpl.RequestsApiRepositoryImpl
@@ -29,6 +31,12 @@ abstract class RepositoryModule {
     abstract fun bindsLocalUserAuthDataRepository(
         localUserAuthDataRepositoryImpl: LocalUserAuthDataRepositoryImpl
     ): LocalUserAuthDataRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsNotificationsLocalSettingsRepository(
+        notificationsLocalSettingRepositoryImpl: NotificationsLocalSettingRepositoryImpl
+    ): NotificationsLocalSettingRepository
 
     @Binds
     @Singleton
