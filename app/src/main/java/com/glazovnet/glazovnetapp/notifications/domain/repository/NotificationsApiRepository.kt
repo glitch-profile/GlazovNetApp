@@ -4,6 +4,10 @@ import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 
 interface NotificationsApiRepository {
 
+    suspend fun getAvailableTopics(
+        token: String
+    ): Resource<List<String>>
+
     suspend fun getClientNotificationsStatus(
         token: String,
         clientId: String

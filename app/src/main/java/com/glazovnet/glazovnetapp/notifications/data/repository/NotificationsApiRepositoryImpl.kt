@@ -20,6 +20,25 @@ class NotificationsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): NotificationsApiRepository {
 
+    override suspend fun getAvailableTopics(token: String): Resource<List<String>> {
+        return try {
+            val result: ApiResponseDto<List<String>> = client.get("$PATH/get-topics") {
+                bearerAuth(token)
+            }.body()
+            if (result.status) {
+                Resource.Success(
+                    data = result.data
+                )
+            } else Resource.Error(
+                stringResourceId = R.string.api_response_error
+            )
+        } catch (e: Exception) {
+            Resource.Error(
+                stringResourceId = R.string.api_response_unknown_error
+            )
+        }
+    }
+
     override suspend fun getClientNotificationsStatus(
         token: String,
         clientId: String
@@ -37,9 +56,7 @@ class NotificationsApiRepositoryImpl @Inject constructor(
                 stringResourceId = R.string.api_response_error
             )
         } catch (e: Exception) {
-            Resource.Error(
-                stringResourceId = R.string.api_response_unknown_error
-            )
+            Resource.generateFromApiResponseError(e)
         }
     }
 

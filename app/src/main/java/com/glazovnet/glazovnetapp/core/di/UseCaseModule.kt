@@ -25,12 +25,10 @@ object UseCaseModule {
     fun provideAuthUseCase(
         loginApiRepository: LoginApiRepository,
         localUserAuthDataRepository: LocalUserAuthDataRepository,
-        utilsApiRepository: UtilsApiRepository
     ): AuthUseCase {
         return AuthUseCase(
             loginApiRepository = loginApiRepository,
-            localUserAuthDataRepository = localUserAuthDataRepository,
-            utilsApiRepository = utilsApiRepository
+            localUserAuthDataRepository = localUserAuthDataRepository
         )
     }
 
