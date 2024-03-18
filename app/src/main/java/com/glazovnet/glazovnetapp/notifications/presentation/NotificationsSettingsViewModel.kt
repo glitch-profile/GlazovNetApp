@@ -6,6 +6,7 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.ScreenState
 import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationsSettingsViewModel @Inject constructor(
     private val localUserAuthDataRepository: LocalUserAuthDataRepository,
+    private val notificationsLocalSettingRepository: NotificationsLocalSettingRepository,
     private val notificationsApiRepository: NotificationsApiRepository
 ): ViewModel() {
 
@@ -140,12 +142,14 @@ class NotificationsSettingsViewModel @Inject constructor(
             )
             if (isNotificationsEnabled.value.data == true) {
                 val newToken = Firebase.messaging.token.await()
+                notificationsLocalSettingRepository.setLastKnownFcmToken(newToken)
                 notificationsApiRepository.updateUserFcmToken(
                     token = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                     newToken = newToken
                 )
             } else {
+                notificationsLocalSettingRepository.setLastKnownFcmToken(null)
                 notificationsApiRepository.updateUserFcmToken(
                     token = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
@@ -160,6 +164,7 @@ class NotificationsSettingsViewModel @Inject constructor(
             _state.update {
                 it.copy(isUploading = false)
             }
+            notificationsLocalSettingRepository.setIsNotificationsSetupComplete(status = true)
         }
     }
 }

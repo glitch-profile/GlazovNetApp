@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 private const val PREFERENCE_NAME = "notificationsSettings"
 private const val IS_NOTIFICATIONS_SETUP_COMPLETE_NAME = "isSetupComplete"
-private const val IS_NOTIFICATIONS_ENABLED_NAME = "isNotificationsEnabled"
-private const val SELECTED_NOTIFICATIONS_TOPICS_NAME = "selectedTopics"
+private const val LAST_KNOWN_FCM_TOKEN = "lastKnownFcmToken"
 
 
 class NotificationsLocalSettingRepositoryImpl @Inject constructor(
@@ -32,27 +31,18 @@ class NotificationsLocalSettingRepositoryImpl @Inject constructor(
         preferences.edit().putBoolean(IS_NOTIFICATIONS_SETUP_COMPLETE_NAME, status).apply()
     }
 
-    private var isNotificationsEnabled: Boolean? = null
-    override fun getIsNotificationsEnabled(): Boolean {
-        return isNotificationsEnabled ?: kotlin.run {
-            isNotificationsEnabled =  preferences.getBoolean(IS_NOTIFICATIONS_ENABLED_NAME, false)
-            isNotificationsEnabled!!
+    private var lastKnownFcmToken: String? = null
+    override fun getLastKnownFcmToken(): String? {
+        return lastKnownFcmToken ?: kotlin.run {
+            lastKnownFcmToken = preferences.getString(
+                LAST_KNOWN_FCM_TOKEN, null
+            )
+            lastKnownFcmToken
         }
-    }
-    override fun setIsNotificationsEnabled(status: Boolean) {
-        isNotificationsEnabled = status
-        preferences.edit().putBoolean(IS_NOTIFICATIONS_ENABLED_NAME, status).apply()
     }
 
-    private var selectedTopics: List<String>? = null
-    override fun getSelectedTopics(): List<String> {
-        return selectedTopics ?: kotlin.run {
-            selectedTopics = preferences.getStringSet(SELECTED_NOTIFICATIONS_TOPICS_NAME, emptySet())?.toList() ?: emptyList()
-            selectedTopics!!
-        }
-    }
-    override fun setSelectedTopics(topicsList: List<String>) {
-        selectedTopics = topicsList
-        preferences.edit().putStringSet(SELECTED_NOTIFICATIONS_TOPICS_NAME, topicsList.toSet()).apply()
+    override fun setLastKnownFcmToken(token: String?) {
+        lastKnownFcmToken = token
+        preferences.edit().putString(LAST_KNOWN_FCM_TOKEN, token).apply()
     }
 }

@@ -9,10 +9,7 @@ interface NotificationsLocalSettingRepository {
     fun getIsNotificationsSetupComplete(): Boolean
     fun setIsNotificationsSetupComplete(status: Boolean)
 
-    fun getIsNotificationsEnabled(): Boolean
-    fun setIsNotificationsEnabled(status: Boolean)
-
-    fun getSelectedTopics(): List<String>
-    fun setSelectedTopics(topicsList: List<String>)
+    fun getLastKnownFcmToken(): String?
+    fun setLastKnownFcmToken(token: String?)
 
 }
