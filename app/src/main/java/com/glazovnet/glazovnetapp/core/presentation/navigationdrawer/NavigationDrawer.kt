@@ -42,8 +42,12 @@ private val items = listOf<NavigationDrawerItemData>(
         stringResource = R.string.announcement_list_screen_name,
         icon = Icons.Default.Notifications,
         route = "announcements-graph"
+    ),
+    NavigationDrawerItemData(
+        stringResource = R.string.notifications_settings_screen_name,
+        icon = Icons.Default.Notifications,
+        route = "notifications-graph"
     )
-
 )
 private val logoutItem = NavigationDrawerItemData(
     stringResource = R.string.util_nav_drawer_logout,

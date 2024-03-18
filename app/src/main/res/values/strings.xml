@@ -33,9 +33,9 @@
     <string name="edit_post_post_image_title">Image</string>
     <string name="edit_post_post_title_placeholder">Enter a post title</string>
     <string name="edit_post_post_text_placeholder">Enter the text of the post</string>
-    <string name="edit_post_add_result_success">The post was successfully uploaded.</string>
-    <string name="edit_post_edit_result_success">The post has been successfully updated.</string>
-    <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded.</string>
+    <string name="edit_post_add_result_success">The post was successfully uploaded</string>
+    <string name="edit_post_edit_result_success">The post has been successfully updated</string>
+    <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded</string>
 
     <!-- REQUESTS SCREEN -->
     <string name="request_screen_name">Support requests</string>
@@ -44,8 +44,8 @@
     <string name="request_screen_request_status_not_reviewed_text">Not reviewed</string>
     <string name="request_screen_request_status_in_progress_text">Active</string>
     <string name="request_screen_request_status_solved_text">Closed</string>
-    <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here.</string>
-    <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically.</string>
+    <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here</string>
+    <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically</string>
     <string name="request_screen_add_request_button_text">Create new request</string>
 
     <!-- REQUEST DETAILS SCREEN -->
@@ -105,6 +105,10 @@
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Is notifications enabled</string>
     <string name="notifications_settings_screen_mailings_title">Mailings</string>
     <string name="notifications_settings_screen_mailings_description">Mailings for which notifications will be enabled</string>
+    <string name="notifications_settings_screen_permissions_title">Permissions</string>
+    <string name="notifications_settings_screen_permissions_description">To get notifications on this device, you need to give the app permission</string>
+    <string name="notifications_settings_screen_issue_permission">Issue permission</string>
+
 
     <!-- ANNOUNCEMENT CARD -->
     <plurals name="announcement_card_addresses_count">

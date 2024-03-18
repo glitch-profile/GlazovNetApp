@@ -34,9 +34,9 @@
     <string name="edit_post_post_image_title">Изображение</string>
     <string name="edit_post_post_title_placeholder">Введите заголовок поста</string>
     <string name="edit_post_post_text_placeholder">Введите текст поста</string>
-    <string name="edit_post_add_result_success">Пост был успешно загружен.</string>
-    <string name="edit_post_edit_result_success">Пост был успешно обновлен.</string>
-    <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен.</string>
+    <string name="edit_post_add_result_success">Пост был успешно загружен</string>
+    <string name="edit_post_edit_result_success">Пост был успешно обновлен</string>
+    <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен</string>
 
     <!-- REQUESTS SCREEN -->
     <string name="request_screen_name">Запросы в поддержку</string>
@@ -45,8 +45,8 @@
     <string name="request_screen_request_status_not_reviewed_text">Не рассмотрен</string>
     <string name="request_screen_request_status_in_progress_text">Решается</string>
     <string name="request_screen_request_status_solved_text">Закрыт</string>
-    <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь.</string>
-    <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически.</string>
+    <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь</string>
+    <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически</string>
     <string name="request_screen_add_request_button_text">Создать запрос</string>
 
     <!-- REQUEST DETAILS SCREEN -->
@@ -113,6 +113,9 @@
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Включить уведомления</string>
     <string name="notifications_settings_screen_mailings_title">Рассылки</string>
     <string name="notifications_settings_screen_mailings_description">Рассылки, по которым будут включены уведомления</string>
+    <string name="notifications_settings_screen_permissions_title">Разрешения</string>
+    <string name="notifications_settings_screen_permissions_description">Чтобы получать уведомления на этом устройстве, вам необходимо предоставить разрешение приложению</string>
+    <string name="notifications_settings_screen_issue_permission">Выдать разрешение</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
