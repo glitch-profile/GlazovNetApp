@@ -49,7 +49,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.core.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.core.presentation.components.DesignedTextField
 import kotlinx.coroutines.flow.collectLatest
 

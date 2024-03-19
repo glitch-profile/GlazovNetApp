@@ -37,7 +37,7 @@ class PushNotificationService: FirebaseMessagingService() {
             .setSmallIcon(androidx.core.R.drawable.notification_icon_background)
             .apply {
                 if (message.notification?.title !== null) {
-                    setContentTitle(message.data["title"])
+                    setContentTitle(message.notification!!.title)
                 } else if (message.notification?.titleLocalizationKey !== null) {
                     if (message.notification?.titleLocalizationArgs !== null) {
                         val identifier = resources.getIdentifier(
