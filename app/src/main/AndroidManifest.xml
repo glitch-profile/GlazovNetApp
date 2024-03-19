@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".core.domain.services.PushNotificationService"
+            android:name=".notifications.domain.services.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

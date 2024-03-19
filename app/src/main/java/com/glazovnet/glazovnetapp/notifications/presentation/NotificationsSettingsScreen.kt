@@ -63,6 +63,7 @@ fun NotificationsSettingsScreen(
 
     val state = viewModel.state.collectAsState()
     val isNotificationsEnabled = viewModel.isNotificationsEnabled.collectAsState()
+    val isNotificationsOnDeviceEnabled = viewModel.isNotificationsOnDeviceEnabled.collectAsState()
     val availableTopics = viewModel.availableTopics.collectAsState()
     val selectedTopics = viewModel.selectedTopics.collectAsState()
     val isPermissionsGranted = viewModel.isNotificationsPermissionGranted.collectAsState()
@@ -157,6 +158,13 @@ fun NotificationsSettingsScreen(
                         isChecked = isNotificationsEnabled.value.data ?: false,
                         onCheckedChange = { viewModel.setIsNotificationsEnabled(it) }
                     )
+                    CheckboxWithTitle(
+                        title = stringResource(
+                            id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled
+                        ),
+                        isChecked = isNotificationsOnDeviceEnabled.value,
+                        onCheckedChange = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -190,7 +198,7 @@ fun NotificationsSettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             isPermissionsGranted = isPermissionsGranted.value,
-                            isNotificationsEnabled = isNotificationsEnabled.value.data ?: false,
+                            isNotificationsEnabled = isNotificationsOnDeviceEnabled.value,
                             onRequestPermissionClick = {
                                 permissionRequestLauncher.launch(
                                     Manifest.permission.POST_NOTIFICATIONS

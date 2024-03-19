@@ -103,12 +103,12 @@
     <string name="notifications_settings_screen_global_settings_title">Global settings</string>
     <string name="notifications_settings_screen_global_settings_description">Whether notifications are enabled throughout the application</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Is notifications enabled</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled">Receive on this device</string>
     <string name="notifications_settings_screen_mailings_title">Mailings</string>
     <string name="notifications_settings_screen_mailings_description">Mailings for which notifications will be enabled</string>
     <string name="notifications_settings_screen_permissions_title">Permissions</string>
     <string name="notifications_settings_screen_permissions_description">To get notifications on this device, you need to give the app permission</string>
     <string name="notifications_settings_screen_issue_permission">Issue permission</string>
-
 
     <!-- ANNOUNCEMENT CARD -->
     <plurals name="announcement_card_addresses_count">
@@ -149,7 +149,6 @@
     <string name="tariff_card_prepaid_traffic_unlimited_text">Unlimited</string>
     <string name="tariff_card_connect_from_billing_date">Connect from next billing date</string>
 
-
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>
@@ -174,5 +173,13 @@
     <string name="tariff_type_unlimited_name">Unlimited</string>
     <string name="tariff_type_limited_name">Limited</string>
     <string name="tariff_type_archive_name">Archive</string>
+
+    <!-- NOTIFICATIONS RESOURCES -->
+    <string name="notifications_new_post_title">New post | %s</string>
+    <string name="notifications_new_tariff_title">Meet the new tariff - %s</string>
+    <string name="notifications_new_tariff_body">Maybe that would be good for you?</string>
+    <string name="notifications_new_announcement_title">Attention! An important announcement has appeared!</string>
+    <string name="notifications_new_announcement_body">%s\nFor more information, see the Announcements section</string>
+    <string name="notifications_new_message_title">New message | %s</string>
 
 </resources>

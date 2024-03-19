@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 private const val PREFERENCE_NAME = "notificationsSettings"
 private const val IS_NOTIFICATIONS_SETUP_COMPLETE_NAME = "isSetupComplete"
+private const val IS_NOTIFICATIONS_ENABLED_ON_DEVICE = "isEnabledOnDevice"
 private const val LAST_KNOWN_FCM_TOKEN = "lastKnownFcmToken"
 
 
@@ -31,6 +32,20 @@ class NotificationsLocalSettingRepositoryImpl @Inject constructor(
         preferences.edit().putBoolean(IS_NOTIFICATIONS_SETUP_COMPLETE_NAME, status).apply()
     }
 
+    private var isNotificationsEnabledOnThisDevice: Boolean? = null
+    override fun getIsNotificationsEnabledOnDevice(): Boolean {
+        return isNotificationsEnabledOnThisDevice ?: kotlin.run {
+            isNotificationsEnabledOnThisDevice = preferences.getBoolean(
+                IS_NOTIFICATIONS_ENABLED_ON_DEVICE, false
+            )
+            isNotificationsEnabledOnThisDevice!!
+        }
+    }
+    override fun setIsNotificationsEnabledOnDevice(status: Boolean) {
+        isNotificationsEnabledOnThisDevice = status
+        preferences.edit().putBoolean(IS_NOTIFICATIONS_ENABLED_ON_DEVICE, status).apply()
+    }
+
     private var lastKnownFcmToken: String? = null
     override fun getLastKnownFcmToken(): String? {
         return lastKnownFcmToken ?: kotlin.run {
@@ -40,7 +55,6 @@ class NotificationsLocalSettingRepositoryImpl @Inject constructor(
             lastKnownFcmToken
         }
     }
-
     override fun setLastKnownFcmToken(token: String?) {
         lastKnownFcmToken = token
         preferences.edit().putString(LAST_KNOWN_FCM_TOKEN, token).apply()

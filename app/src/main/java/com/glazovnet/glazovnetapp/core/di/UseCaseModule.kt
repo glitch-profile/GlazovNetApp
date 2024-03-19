@@ -5,6 +5,8 @@ import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.usecases.UtilsUseCase
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.glazovnet.glazovnetapp.login.domain.usecases.AuthUseCase
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
@@ -24,11 +26,15 @@ object UseCaseModule {
     @Singleton
     fun provideAuthUseCase(
         loginApiRepository: LoginApiRepository,
+        notificationsApiRepository: NotificationsApiRepository,
         localUserAuthDataRepository: LocalUserAuthDataRepository,
+        notificationsLocalSettingRepository: NotificationsLocalSettingRepository
     ): AuthUseCase {
         return AuthUseCase(
             loginApiRepository = loginApiRepository,
-            localUserAuthDataRepository = localUserAuthDataRepository
+            notificationsApiRepository = notificationsApiRepository,
+            localUserAuthDataRepository = localUserAuthDataRepository,
+            notificationsLocalSettingRepository = notificationsLocalSettingRepository
         )
     }
 

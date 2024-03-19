@@ -133,14 +133,15 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateUserFcmToken(
-        token: String,
+    //TODO: Add multiple tokens for client on server-side. Add adding and removing tokens for client
+    override suspend fun addNewUserFcmToken(
+        authToken: String,
         clientId: String,
         newToken: String?
     ): Resource<Unit> {
         return try {
             val result: ApiResponseDto<Unit> = client.put("$PATH/update-client-fcm-token") {
-                bearerAuth(token)
+                bearerAuth(authToken)
                 header("client_id", clientId)
                 parameter("fcm_token", newToken)
             }.body()

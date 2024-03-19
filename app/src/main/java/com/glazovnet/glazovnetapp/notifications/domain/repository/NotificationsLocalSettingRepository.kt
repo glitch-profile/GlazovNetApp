@@ -9,6 +9,9 @@ interface NotificationsLocalSettingRepository {
     fun getIsNotificationsSetupComplete(): Boolean
     fun setIsNotificationsSetupComplete(status: Boolean)
 
+    fun getIsNotificationsEnabledOnDevice(): Boolean
+    fun setIsNotificationsEnabledOnDevice(status: Boolean)
+
     fun getLastKnownFcmToken(): String?
     fun setLastKnownFcmToken(token: String?)
 

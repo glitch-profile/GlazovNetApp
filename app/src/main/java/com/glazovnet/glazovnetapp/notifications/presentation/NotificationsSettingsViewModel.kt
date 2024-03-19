@@ -29,6 +29,8 @@ class NotificationsSettingsViewModel @Inject constructor(
     val state = _state.asStateFlow()
     private val _isNotificationsEnabled = MutableStateFlow(ScreenState<Boolean>())
     val isNotificationsEnabled = _isNotificationsEnabled.asStateFlow()
+    private val _isNotificationsOnDeviceEnabled = MutableStateFlow(false)
+    val isNotificationsOnDeviceEnabled = _isNotificationsOnDeviceEnabled.asStateFlow()
     private val _availableTopics = MutableStateFlow(ScreenState<List<String>>())
     val availableTopics = _availableTopics.asStateFlow()
     private val _selectedTopics = MutableStateFlow(emptyList<String>())
@@ -40,6 +42,9 @@ class NotificationsSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true)
+            }
+            _isNotificationsOnDeviceEnabled.update {
+                notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
             }
             loadClientNotificationsStatus()
             if (isNotificationsEnabled.value.stringResourceId !== null) {
@@ -68,6 +73,9 @@ class NotificationsSettingsViewModel @Inject constructor(
         _isNotificationsEnabled.update {
             it.copy(data = newStatus)
         }
+    }
+    fun setIsNotificationsOnDeviceEnabled(newStatus: Boolean) {
+        _isNotificationsOnDeviceEnabled.update { newStatus }
     }
     fun selectTopic(topic: String) {
         val newTopicsList = selectedTopics.value.toMutableList().apply {
@@ -140,21 +148,25 @@ class NotificationsSettingsViewModel @Inject constructor(
                 clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                 newStatus = isNotificationsEnabled.value.data ?: false
             )
-            if (isNotificationsEnabled.value.data == true) {
+            notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(
+                isNotificationsOnDeviceEnabled.value
+            )
+            if (isNotificationsOnDeviceEnabled.value) {
                 val newToken = Firebase.messaging.token.await()
                 notificationsLocalSettingRepository.setLastKnownFcmToken(newToken)
-                notificationsApiRepository.updateUserFcmToken(
-                    token = localUserAuthDataRepository.getLoginToken() ?: "",
+                notificationsApiRepository.addNewUserFcmToken(
+                    authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                     newToken = newToken
                 )
             } else {
                 notificationsLocalSettingRepository.setLastKnownFcmToken(null)
-                notificationsApiRepository.updateUserFcmToken(
-                    token = localUserAuthDataRepository.getLoginToken() ?: "",
+                notificationsApiRepository.addNewUserFcmToken(
+                    authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                     newToken = null
                 )
+                //TODO Change to remove token from knows user tokens
             }
             notificationsApiRepository.setTopicsForClient(
                 token = localUserAuthDataRepository.getLoginToken() ?: "",

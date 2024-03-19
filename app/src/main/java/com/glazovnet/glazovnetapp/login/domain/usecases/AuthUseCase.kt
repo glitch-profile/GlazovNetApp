@@ -1,19 +1,19 @@
 package com.glazovnet.glazovnetapp.login.domain.usecases
 
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
-import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.login.data.entity.AuthDataDto
 import com.glazovnet.glazovnetapp.login.data.entity.AuthResponse
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
-import kotlinx.coroutines.tasks.await
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
     private val loginApiRepository: LoginApiRepository,
-    private val localUserAuthDataRepository: LocalUserAuthDataRepository
+    private val notificationsApiRepository: NotificationsApiRepository,
+    private val localUserAuthDataRepository: LocalUserAuthDataRepository,
+    private val notificationsLocalSettingRepository: NotificationsLocalSettingRepository
 ) {
     suspend fun login(
         login: String,
@@ -32,11 +32,38 @@ class AuthUseCase @Inject constructor(
             localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, true)
             localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, true)
             localUserAuthDataRepository.setSavedUserLogin(login)
+
+            //configuring notifications
+            val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()
+            val isNotificationsEnabledOnDevice = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
+            val isLoggingInAsAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
+            if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isLoggingInAsAdmin) {
+                val lastKnownFcmToken = notificationsLocalSettingRepository.getLastKnownFcmToken()
+                notificationsApiRepository.addNewUserFcmToken(
+                    authToken = localUserAuthDataRepository.getLoginToken() ?: "",
+                    clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                    newToken = lastKnownFcmToken
+                )
+            }
         }
         return loginResult
     }
 
     suspend fun logout() {
+        //configuring notifications
+        val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()
+        val isNotificationsEnabledOnDevice = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
+        val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
+        if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isAdmin) {
+            //TODO Replace to removeUserFcmToken
+            val result = notificationsApiRepository.addNewUserFcmToken(
+                authToken = localUserAuthDataRepository.getLoginToken() ?: "",
+                clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                newToken = null
+            )
+        }
+
+        //configuring auth local data
         localUserAuthDataRepository.setLoginToken(null, true)
         localUserAuthDataRepository.setAssociatedUserId(null, true)
         localUserAuthDataRepository.setIsUserAsAdmin(isAdmin = false, true)

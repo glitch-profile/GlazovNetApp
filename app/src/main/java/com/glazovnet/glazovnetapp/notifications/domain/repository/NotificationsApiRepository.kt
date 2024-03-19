@@ -30,8 +30,8 @@ interface NotificationsApiRepository {
         newTopicsList: List<String>
     ): Resource<Unit>
 
-    suspend fun updateUserFcmToken(
-        token: String,
+    suspend fun addNewUserFcmToken(
+        authToken: String,
         clientId: String,
         newToken: String?
     ): Resource<Unit>
