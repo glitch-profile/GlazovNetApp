@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.notifications.domain.services
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -22,6 +23,7 @@ class PushNotificationService: FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
+    @SuppressLint("DiscouragedApi")
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val intent = Intent(this, MainActivity::class.java)

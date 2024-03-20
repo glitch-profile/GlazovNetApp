@@ -39,10 +39,10 @@ class AuthUseCase @Inject constructor(
             val isLoggingInAsAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
             if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isLoggingInAsAdmin) {
                 val lastKnownFcmToken = notificationsLocalSettingRepository.getLastKnownFcmToken()
-                notificationsApiRepository.addNewUserFcmToken(
+                notificationsApiRepository.updateFcmToken(
                     authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
-                    newToken = lastKnownFcmToken
+                    token = lastKnownFcmToken!!
                 )
             }
         }
@@ -56,10 +56,11 @@ class AuthUseCase @Inject constructor(
         val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
         if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isAdmin) {
             //TODO Replace to removeUserFcmToken
-            val result = notificationsApiRepository.addNewUserFcmToken(
+            val result = notificationsApiRepository.updateFcmToken(
                 authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                 clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
-                newToken = null
+                token = notificationsLocalSettingRepository.getLastKnownFcmToken()!!,
+                isExclude = true
             )
         }
 

@@ -148,35 +148,37 @@ class NotificationsSettingsViewModel @Inject constructor(
                 clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                 newStatus = isNotificationsEnabled.value.data ?: false
             )
-            notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(
-                isNotificationsOnDeviceEnabled.value
-            )
             if (isNotificationsOnDeviceEnabled.value) {
                 val newToken = Firebase.messaging.token.await()
                 notificationsLocalSettingRepository.setLastKnownFcmToken(newToken)
-                notificationsApiRepository.addNewUserFcmToken(
+                notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(true)
+                notificationsApiRepository.updateFcmToken(
                     authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                     clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
-                    newToken = newToken
+                    token = newToken
                 )
             } else {
-                notificationsLocalSettingRepository.setLastKnownFcmToken(null)
-                notificationsApiRepository.addNewUserFcmToken(
-                    authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                    clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
-                    newToken = null
-                )
-                //TODO Change to remove token from knows user tokens
+                val token = notificationsLocalSettingRepository.getLastKnownFcmToken()
+                val isWasEnabledBefore = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
+                if (token !== null && isWasEnabledBefore) {
+                    notificationsApiRepository.updateFcmToken(
+                        authToken = localUserAuthDataRepository.getLoginToken() ?: "",
+                        clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                        token = token,
+                        isExclude = true
+                    )
+                    notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(false)
+                }
             }
             notificationsApiRepository.setTopicsForClient(
                 token = localUserAuthDataRepository.getLoginToken() ?: "",
                 clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
                 newTopicsList = selectedTopics.value
             )
+            notificationsLocalSettingRepository.setIsNotificationsSetupComplete(status = true)
             _state.update {
                 it.copy(isUploading = false)
             }
-            notificationsLocalSettingRepository.setIsNotificationsSetupComplete(status = true)
         }
     }
 }
