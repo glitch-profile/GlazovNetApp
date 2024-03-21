@@ -178,6 +178,20 @@
     <string name="tariff_type_limited_name">Помегабайтный</string>
     <string name="tariff_type_archive_name">Архив</string>
 
+    <!--NOTIFICATIONS -->
+    <string name="notification_channel_posts_name">Новости</string>
+    <string name="notification_channel_posts_description">Уведомления о новых постах в ленте</string>
+    <string name="notification_channel_tariffs_name">Тарифы</string>
+    <string name="notification_channel_tariffs_description">Информация о новых тарифах</string>
+    <string name="notification_channel_announcements_name">Объявления</string>
+    <string name="notification_channel_announcements_description">Уведомления из объявлений для Вашего аккаунта</string>
+    <string name="notification_channel_chat_name">Личные сообщения</string>
+    <string name="notification_channel_chat_description">Уведомления о новых сообщениях в чате</string>
+    <string name="notification_channel_account_warnings_name">Уведомления из личного кабинета</string>
+    <string name="notification_channel_account_warnings_description">Предупреждения о событиях в личном кабинете</string>
+    <string name="notification_channel_others_name">Прочее</string>
+    <string name="notification_channel_others_description">Уведомления без категории</string>
+
     <!-- NOTIFICATIONS RESOURCES -->
     <string name="notifications_new_post_title">Новый пост | %s</string>
     <string name="notifications_new_tariff_title">Встречайте новый тариф - %s</string>
