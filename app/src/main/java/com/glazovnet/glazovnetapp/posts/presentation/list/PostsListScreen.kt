@@ -106,7 +106,7 @@ fun PostsListScreen(
                         .nestedScroll(scrollBehavior.nestedScrollConnection),
                     content = {
                         items(
-                            items = state.value.data!!,
+                            items = state.value.data ?: emptyList(),
                             key = { it.id }
                         ) {
                             PostCard(
