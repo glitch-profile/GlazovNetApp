@@ -174,12 +174,14 @@ private fun TariffsList(
        ) {
            Text(
                text = stringResource(id = tariffType.stringResourceName),
-               style = MaterialTheme.typography.titleLarge,
-               fontWeight = FontWeight.Bold,
+               style = MaterialTheme.typography.headlineSmall,
+//               fontWeight = FontWeight.Bold,
                color = MaterialTheme.colorScheme.onSurface
            )
            Spacer(modifier = Modifier.width(8.dp))
            Text(
+               modifier = Modifier
+                   .padding(top = 4.dp),
                text = tariffs.size.toString(),
                style = MaterialTheme.typography.titleSmall,
 //               fontWeight = FontWeight.Bold,

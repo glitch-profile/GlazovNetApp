@@ -143,25 +143,19 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_global_settings_title),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.headlineSmall
                     )
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = R.string.notifications_settings_screen_global_settings_description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     CheckboxWithTitle(
                         title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled),
+                        subtitle = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled_description),
                         isChecked = isNotificationsEnabled.value.data ?: false,
                         onCheckedChange = { viewModel.setIsNotificationsEnabled(it) }
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     CheckboxWithTitle(
-                        title = stringResource(
-                            id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled
-                        ),
+                        title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled),
+                        subtitle = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled_description),
                         isChecked = isNotificationsOnDeviceEnabled.value,
                         onCheckedChange = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
                     )
@@ -171,26 +165,21 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_mailings_title),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.headlineSmall
                     )
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = R.string.notifications_settings_screen_mailings_description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     availableTopics.value.data?.forEach { topic ->
                         val isChecked = selectedTopics.value.contains(topic)
                         CheckboxWithTitle(
                             title = topic,
+                            subtitle = "Здесь будет описание рассылки",
                             isChecked = isChecked,
                             onCheckedChange = {
                                 if (isChecked) viewModel.unselectTopic(topic)
                                 else viewModel.selectTopic(topic)
                             }
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         Spacer(modifier = Modifier.height(16.dp))
@@ -222,6 +211,7 @@ fun NotificationsSettingsScreen(
 private fun CheckboxWithTitle(
     modifier: Modifier = Modifier,
     title: String,
+    subtitle: String,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
@@ -231,12 +221,26 @@ private fun CheckboxWithTitle(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
+        Column(
             modifier = Modifier
-                .weight(1f),
-            text = title,
-            style = MaterialTheme.typography.bodyMedium
-        )
+                .weight(1f)
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
         Spacer(modifier = Modifier.width(16.dp))
         DesignedCheckBox(
             isChecked = isChecked,

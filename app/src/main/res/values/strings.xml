@@ -101,9 +101,10 @@
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Notifications</string>
     <string name="notifications_settings_screen_global_settings_title">Global settings</string>
-    <string name="notifications_settings_screen_global_settings_description">Whether notifications are enabled throughout the application</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Is notifications enabled</string>
-    <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled">Receive on this device</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_enabled_description">Are notifications enabled for your account</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled">Receive on device</string>
+    <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled_description">Do you want to receive notifications on this device</string>
     <string name="notifications_settings_screen_mailings_title">Mailings</string>
     <string name="notifications_settings_screen_mailings_description">Mailings for which notifications will be enabled</string>
     <string name="notifications_settings_screen_permissions_title">Permissions</string>

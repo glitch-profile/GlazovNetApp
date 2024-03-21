@@ -66,7 +66,7 @@ fun SupportRequestCard(
 
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            modifier = Modifier.padding(start = 24.dp, end = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             text = data.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
