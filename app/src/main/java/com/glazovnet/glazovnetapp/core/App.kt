@@ -63,7 +63,7 @@ class App: Application(), ImageLoaderFactory {
             NotificationManager.IMPORTANCE_HIGH
         )
         createNotificationChannel(
-            channelId = "others",
+            channelId = "other",
             channelName = resources.getString(R.string.notification_channel_others_name),
             channelDescription = resources.getString(R.string.notification_channel_others_description),
             NotificationManager.IMPORTANCE_DEFAULT

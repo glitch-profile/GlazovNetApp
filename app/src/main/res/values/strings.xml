@@ -175,6 +175,20 @@
     <string name="tariff_type_limited_name">Limited</string>
     <string name="tariff_type_archive_name">Archive</string>
 
+    <!--NOTIFICATION CHANNELS -->
+    <string name="notification_channel_posts_name">News</string>
+    <string name="notification_channel_posts_description">Notifications about new posts</string>
+    <string name="notification_channel_tariffs_name">Tariffs</string>
+    <string name="notification_channel_tariffs_description">Information on new tariffs</string>
+    <string name="notification_channel_announcements_name">Announcements</string>
+    <string name="notification_channel_announcements_description">Announcement notifications for your account</string>
+    <string name="notification_channel_chat_name">Private messages</string>
+    <string name="notification_channel_chat_description">Notifications about new messages in the chat room</string>
+    <string name="notification_channel_account_warnings_name">Account warnings</string>
+    <string name="notification_channel_account_warnings_description">Alerts on events in your personal account</string>
+    <string name="notification_channel_others_name">Other</string>
+    <string name="notification_channel_others_description">Uncategorized notifications</string>
+
     <!-- NOTIFICATIONS RESOURCES -->
     <string name="notifications_new_post_title">New post | %s</string>
     <string name="notifications_new_tariff_title">Meet the new tariff - %s</string>

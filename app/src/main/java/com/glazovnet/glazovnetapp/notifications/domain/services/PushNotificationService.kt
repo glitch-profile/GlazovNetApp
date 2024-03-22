@@ -14,8 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
 
-private const val CHANNEL_ID = "main_channel"
-private const val CHANNEL_NAME = "Miscellaneous"
+private const val CHANNEL_ID = "other"
 
 class PushNotificationService: FirebaseMessagingService() {
 
@@ -30,12 +29,11 @@ class PushNotificationService: FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = Random.nextInt()
 
-        createNotificationChannel(notificationManager)
-
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 , intent,
             FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+        val channelId = message.notification?.channelId ?: CHANNEL_ID
+        val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(androidx.core.R.drawable.notification_icon_background)
             .apply {
                 if (message.notification?.title !== null) {
@@ -84,13 +82,5 @@ class PushNotificationService: FirebaseMessagingService() {
             .build()
 
         notificationManager.notify(notificationId, notification)
-    }
-
-    private fun createNotificationChannel(notificationManager: NotificationManager) {
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_HIGH).apply {
-            description = "Channel for all Glazov.Net Notifications"
-            enableLights(true)
-        }
-        notificationManager.createNotificationChannel(channel)
     }
 }
