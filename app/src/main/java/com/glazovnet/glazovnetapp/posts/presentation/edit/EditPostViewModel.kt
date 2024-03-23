@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.util.Log
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
@@ -18,6 +19,7 @@ import com.glazovnet.glazovnetapp.core.presentation.ScreenState
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
 import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hilt_aggregated_deps._com_glazovnet_glazovnetapp_login_presentation_LoginViewModel_HiltModules_BindsModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -209,8 +211,8 @@ class EditPostViewModel @Inject constructor(
 
     private fun getCompressedImage(
         file: File,
-        maxDimensionSize: Float = 1280f,
-        targetImageSizeKb: Float = 250f
+        maxDimensionSize: Float = 1920f,
+        targetImageSizeKb: Float = 300f
     ): Bitmap {
         var image = ImageDecoder.createSource(file).decodeBitmap { _, _ ->  }
         val maxDimension = maxOf(image.height, image.width)
@@ -219,16 +221,19 @@ class EditPostViewModel @Inject constructor(
             val newImageWidth = (image.width * scaleFactor).roundToInt()
             val newImageHeight = (image.height * scaleFactor).roundToInt()
             image = image.scale(newImageWidth, newImageHeight)
-            file.outputStream().use {
-                image.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            }
+        }
+        //base compression
+        file.outputStream().use {
+            image.compress(Bitmap.CompressFormat.JPEG, 100, it)
         }
         val imageSizeInKb = ( file.length() / 1024 ).toInt()
+        Log.i("Image_Compression", "getCompressedImage: image size - $imageSizeInKb")
         val compressFactor = min(a = ( targetImageSizeKb / imageSizeInKb * 100 ) * 1.8f, b = 100f).roundToInt()
         if (compressFactor < 100) {
             file.outputStream().use {
                 image.compress(Bitmap.CompressFormat.JPEG, compressFactor, it)
             }
+            Log.i("Image_Compression", "getCompressedImage: rewriting image, factor $compressFactor")
         }
 
         return image
