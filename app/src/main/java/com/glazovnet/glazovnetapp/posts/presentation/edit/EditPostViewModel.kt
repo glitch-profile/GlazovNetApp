@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
@@ -26,10 +27,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.util.stream.Stream
 import javax.inject.Inject
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 @HiltViewModel
@@ -205,8 +209,8 @@ class EditPostViewModel @Inject constructor(
 
     private fun getCompressedImage(
         file: File,
-        maxDimensionSize: Float = 1920f,
-        targetImageSizeKb: Int = 250
+        maxDimensionSize: Float = 1280f,
+        targetImageSizeKb: Float = 250f
     ): Bitmap {
         var image = ImageDecoder.createSource(file).decodeBitmap { _, _ ->  }
         val maxDimension = maxOf(image.height, image.width)
@@ -215,12 +219,18 @@ class EditPostViewModel @Inject constructor(
             val newImageWidth = (image.width * scaleFactor).roundToInt()
             val newImageHeight = (image.height * scaleFactor).roundToInt()
             image = image.scale(newImageWidth, newImageHeight)
+            file.outputStream().use {
+                image.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            }
         }
-        val imageSizeInKb = image.byteCount / 1024
-        val compressFactor = max(a = ( targetImageSizeKb / imageSizeInKb * 100 ), b = 100)
-        file.outputStream().use {
-            image.compress(Bitmap.CompressFormat.JPEG, compressFactor, it)
+        val imageSizeInKb = ( file.length() / 1024 ).toInt()
+        val compressFactor = min(a = ( targetImageSizeKb / imageSizeInKb * 100 ) * 1.8f, b = 100f).roundToInt()
+        if (compressFactor < 100) {
+            file.outputStream().use {
+                image.compress(Bitmap.CompressFormat.JPEG, compressFactor, it)
+            }
         }
+
         return image
     }
 }
