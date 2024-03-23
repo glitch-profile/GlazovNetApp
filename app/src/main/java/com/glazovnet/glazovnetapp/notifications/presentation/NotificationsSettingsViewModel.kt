@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.notifications.domain.model.NotificationTopicModel
 import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
 import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.google.firebase.Firebase
@@ -31,7 +32,7 @@ class NotificationsSettingsViewModel @Inject constructor(
     val isNotificationsEnabled = _isNotificationsEnabled.asStateFlow()
     private val _isNotificationsOnDeviceEnabled = MutableStateFlow(false)
     val isNotificationsOnDeviceEnabled = _isNotificationsOnDeviceEnabled.asStateFlow()
-    private val _availableTopics = MutableStateFlow(ScreenState<List<String>>())
+    private val _availableTopics = MutableStateFlow(ScreenState<List<NotificationTopicModel>>())
     val availableTopics = _availableTopics.asStateFlow()
     private val _selectedTopics = MutableStateFlow(emptyList<String>())
     val selectedTopics = _selectedTopics.asStateFlow()
@@ -48,7 +49,6 @@ class NotificationsSettingsViewModel @Inject constructor(
             }
             loadClientNotificationsStatus()
             if (isNotificationsEnabled.value.stringResourceId !== null) {
-                //some error occurred
                 _state.update {
                     it.copy(
                         stringResourceId = isNotificationsEnabled.value.stringResourceId,

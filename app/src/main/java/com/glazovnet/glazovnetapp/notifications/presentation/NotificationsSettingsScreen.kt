@@ -169,14 +169,14 @@ fun NotificationsSettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     availableTopics.value.data?.forEach { topic ->
-                        val isChecked = selectedTopics.value.contains(topic)
+                        val isChecked = selectedTopics.value.contains(topic.topicCode)
                         CheckboxWithTitle(
-                            title = topic,
-                            subtitle = "Здесь будет описание рассылки",
+                            title = topic.name,
+                            subtitle = topic.description,
                             isChecked = isChecked,
                             onCheckedChange = {
-                                if (isChecked) viewModel.unselectTopic(topic)
-                                else viewModel.selectTopic(topic)
+                                if (isChecked) viewModel.unselectTopic(topic.topicCode)
+                                else viewModel.selectTopic(topic.topicCode)
                             }
                         )
                         Spacer(modifier = Modifier.height(4.dp))

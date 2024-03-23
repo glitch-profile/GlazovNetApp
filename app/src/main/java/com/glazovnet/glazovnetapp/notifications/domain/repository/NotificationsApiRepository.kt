@@ -1,12 +1,13 @@
 package com.glazovnet.glazovnetapp.notifications.domain.repository
 
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
+import com.glazovnet.glazovnetapp.notifications.domain.model.NotificationTopicModel
 
 interface NotificationsApiRepository {
 
     suspend fun getAvailableTopics(
         token: String
-    ): Resource<List<String>>
+    ): Resource<List<NotificationTopicModel>>
 
     suspend fun getClientNotificationsStatus(
         token: String,
