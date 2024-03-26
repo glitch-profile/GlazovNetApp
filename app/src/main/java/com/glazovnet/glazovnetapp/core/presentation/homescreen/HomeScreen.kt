@@ -9,6 +9,7 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -143,6 +144,7 @@ fun HomeScreen(
                     }
                 )
                 .fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
         ) {
             ScreenContents(
                 modifier = Modifier

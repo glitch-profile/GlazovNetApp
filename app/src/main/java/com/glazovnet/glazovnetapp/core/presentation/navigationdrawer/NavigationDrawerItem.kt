@@ -29,7 +29,7 @@ fun NavigationDrawerItem(
 ) {
     val backgroundColor by animateColorAsState(
         targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer
-        else MaterialTheme.colorScheme.surface,
+        else MaterialTheme.colorScheme.background,
         label = "NavigationDrawerItemColor"
     )
     val contentColor by animateColorAsState(
