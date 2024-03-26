@@ -110,11 +110,10 @@ fun PostsListScreen(
                             key = { it.id }
                         ) {
                             PostCard(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
                                 post = it,
-                                onClick = {
-                                    onNavigationToPostDetails.invoke(it.id)
-                                }
+                                onCardClicked = onNavigationToPostDetails
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                         }
