@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.util.Log
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
@@ -19,7 +18,6 @@ import com.glazovnet.glazovnetapp.core.presentation.ScreenState
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
 import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hilt_aggregated_deps._com_glazovnet_glazovnetapp_login_presentation_LoginViewModel_HiltModules_BindsModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,12 +27,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.stream.Stream
 import javax.inject.Inject
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
