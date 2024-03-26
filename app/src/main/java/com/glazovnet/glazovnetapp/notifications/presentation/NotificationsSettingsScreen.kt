@@ -7,9 +7,12 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -159,7 +162,20 @@ fun NotificationsSettingsScreen(
                         isChecked = isNotificationsOnDeviceEnabled.value,
                         onCheckedChange = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
                     )
-
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PermissionScreen(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            isPermissionsGranted = isPermissionsGranted.value,
+                            isNotificationsEnabled = isNotificationsOnDeviceEnabled.value,
+                            onRequestPermissionClick = {
+                                permissionRequestLauncher.launch(
+                                    Manifest.permission.POST_NOTIFICATIONS
+                                )
+                            }
+                        )
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         modifier = Modifier
@@ -180,20 +196,6 @@ fun NotificationsSettingsScreen(
                             }
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        PermissionScreen(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            isPermissionsGranted = isPermissionsGranted.value,
-                            isNotificationsEnabled = isNotificationsOnDeviceEnabled.value,
-                            onRequestPermissionClick = {
-                                permissionRequestLauncher.launch(
-                                    Manifest.permission.POST_NOTIFICATIONS
-                                )
-                            }
-                        )
                     }
                 }
             }
@@ -291,10 +293,9 @@ fun PermissionScreen(
 ) {
     AnimatedVisibility(
         visible = isNotificationsEnabled && !isPermissionsGranted,
-        enter = slideInVertically()
-                + expandVertically()
+        enter = expandVertically()
                 + fadeIn(),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut()
+        exit = shrinkVertically() + fadeOut()
     ) {
         Column(
             modifier = modifier
