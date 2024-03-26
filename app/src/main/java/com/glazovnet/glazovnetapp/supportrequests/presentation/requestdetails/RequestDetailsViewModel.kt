@@ -2,7 +2,6 @@ package com.glazovnet.glazovnetapp.supportrequests.presentation.requestdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.ScreenState
@@ -26,6 +25,7 @@ class RequestDetailsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     val isAdmin = userAuthDataRepository.getIsUserAsAdmin()
+    val userId = userAuthDataRepository.getAssociatedUserId() ?: ""
 
     fun loadRequestDetails(requestId: String) {
         viewModelScope.launch {
@@ -51,6 +51,7 @@ class RequestDetailsViewModel @Inject constructor(
                         )
                     }
                 }
+
             }
             _state.update { it.copy(isLoading = false) }
         }
@@ -97,16 +98,6 @@ class RequestDetailsViewModel @Inject constructor(
                     _state.update { it.copy(isUploading = false) }
                 }
             }
-        }
-    }
-
-    fun getAssignedSupporterText(): Int {
-        val request = state.value.data!!
-        val currentUserId = userAuthDataRepository.getAssociatedUserId()
-        return when (request.associatedSupportId) {
-            null -> R.string.request_details_screen_assigned_supporter_no
-            currentUserId -> R.string.request_details_screen_assigned_supporter_you
-            else -> R.string.request_details_screen_assigned_supporter_someone
         }
     }
 }

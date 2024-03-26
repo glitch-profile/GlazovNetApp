@@ -6,6 +6,7 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
+import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -26,11 +27,15 @@ class ChatViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<MessageModel>>())
     val state = _state.asStateFlow()
+    private val _requestStatus = MutableStateFlow<RequestStatus>(RequestStatus.Active)
+    val requestStatus = _requestStatus.asStateFlow()
+
     private val _messageResourceStringChannel = Channel<Int>()
     val messageResourceStringChannel = _messageResourceStringChannel.receiveAsFlow()
 
     fun initChatSocket(requestId: String) {
         getMessages(requestId)
+        getRequestStatus(requestId)
         viewModelScope.launch {
             val connectionResult = requestsApiRepository.initChatSocket(
                 requestId = requestId,
@@ -89,6 +94,18 @@ class ChatViewModel @Inject constructor(
                     _messageResourceStringChannel.send(result.stringResourceId!!)
                 }
             }
+        }
+    }
+
+    private fun getRequestStatus(requestId: String) {
+        viewModelScope.launch {
+            val result = requestsApiRepository.getRequestById(
+                requestId = requestId,
+                token = localUserAuthDataRepository.getLoginToken() ?: ""
+            )
+            if (result is Resource.Success) {
+                _requestStatus.update { result.data!!.status }
+            } else _requestStatus.update { RequestStatus.Solved }
         }
     }
 

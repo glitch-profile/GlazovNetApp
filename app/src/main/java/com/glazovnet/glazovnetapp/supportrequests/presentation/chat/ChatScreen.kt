@@ -21,6 +21,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -54,6 +55,7 @@ import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
+import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -67,6 +69,7 @@ fun ChatScreen(
 ) {
 
     val state = viewModel.state.collectAsState()
+    val requestStatus = viewModel.requestStatus.collectAsState()
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
@@ -134,6 +137,7 @@ fun ChatScreen(
                 InputField(
                     modifier = Modifier
                         .fillMaxWidth(),
+                    isEnabled = requestStatus.value != RequestStatus.Solved,
                     onMessageSend = {
                         viewModel.sendMessage(it)
                     }
@@ -216,6 +220,7 @@ private fun MessagesList(
 @Composable
 private fun InputField(
     modifier: Modifier = Modifier,
+    isEnabled: Boolean,
     onMessageSend: (message: String) -> Unit,
 ) {
     var messageText by remember {
@@ -230,48 +235,77 @@ private fun InputField(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                 .navigationBarsPadding()
-                .imePadding()
-                .padding(start = 0.dp, end = 8.dp),
+                .imePadding(),
             verticalAlignment = Alignment.Bottom
         ) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .animateContentSize()
-            ) {
-                FilledTextField(
+            if (isEnabled) {
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    value = messageText,
-                    onValueChange = {
-                        messageText = it
-                    },
-                    placeholder = stringResource(id = R.string.request_chat_message_placeholder_text),
-                    maxLines = 6,
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences,
-                        autoCorrect = true,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            onMessageSend.invoke(messageText)
-                            messageText = ""
-                        }
-                    ),
-                    background = Color.Transparent
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            IconButton(onClick = {
-                onMessageSend.invoke(messageText)
-                messageText = ""
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Send,
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = "Send"
-                )
+                        .weight(1f)
+                        .animateContentSize()
+                ) {
+                    FilledTextField(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = messageText,
+                        onValueChange = {
+                            messageText = it
+                        },
+                        placeholder = stringResource(id = R.string.request_chat_message_placeholder_text),
+                        maxLines = 6,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Sentences,
+                            autoCorrect = true,
+                            imeAction = ImeAction.Send
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onSend = {
+                                onMessageSend.invoke(messageText)
+                                messageText = ""
+                            }
+                        ),
+                        background = Color.Transparent
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(onClick = {
+                    onMessageSend.invoke(messageText)
+                    messageText = ""
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = "Send"
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+            } else {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column {
+                        Text(
+                            text = stringResource(id = R.string.request_chat_messages_not_allowed_title),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = stringResource(id = R.string.request_chat_messages_not_allowed_description),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
             }
         }
     }

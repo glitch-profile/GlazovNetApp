@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -60,6 +59,7 @@ fun RequestDetailsScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val isAdmin = viewModel.isAdmin
+    val userId = viewModel.userId
 
     LaunchedEffect(key1 = null) {
         viewModel.loadRequestDetails(requestId)
@@ -90,7 +90,10 @@ fun RequestDetailsScreen(
                     IconButton(onClick = {
                         if (!state.value.isLoading) viewModel.loadRequestDetails(requestId)
                     }) {
-                        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Update page"
+                        )
                     }
                 }
             }
@@ -156,7 +159,8 @@ fun RequestDetailsScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 4.dp),
                         title = stringResource(id = R.string.request_details_screen_creation_date_text),
-                        text = state.value.data!!.creationDate?.getLocalizedOffsetString() ?: "unknown"
+                        text = state.value.data!!.creationDate?.getLocalizedOffsetString()
+                            ?: "unknown"
                     )
                     AdditionalTextInfo(
                         modifier = Modifier
@@ -166,19 +170,16 @@ fun RequestDetailsScreen(
                         text = stringResource(id = state.value.data!!.status.stringResourceRequestStatus)
                     )
                     if (isAdmin) {
-                        var assignedSupporterText by remember {
-                            mutableIntStateOf(viewModel.getAssignedSupporterText())
-                        }
-                        LaunchedEffect(state.value.data!!.associatedSupportId) {
-                            assignedSupporterText = viewModel.getAssignedSupporterText()
-                        }
-
                         AdditionalTextInfo(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             title = stringResource(id = R.string.request_details_screen_assigned_supporter_text),
-                            text = stringResource(id = assignedSupporterText)
+                            text = when (state.value.data!!.associatedSupportId) {
+                                null -> stringResource(id = R.string.request_details_screen_assigned_supporter_no)
+                                userId -> stringResource(id = R.string.request_details_screen_assigned_supporter_you)
+                                else -> stringResource(id = R.string.request_details_screen_assigned_supporter_someone)
+                            }
                         )
                     }
                     Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
@@ -197,6 +198,7 @@ fun RequestDetailsScreen(
                         },
                         isButtonsEnabled = !state.value.isLoading && !state.value.isUploading,
                         isAdmin = isAdmin,
+                        userId = userId,
                         request = state.value.data!!
                     )
                 }
@@ -252,6 +254,7 @@ private fun ButtonsMenu(
     onChangeStatusButtonPressed: (RequestStatus) -> Unit,
     isButtonsEnabled: Boolean,
     isAdmin: Boolean,
+    userId: String,
     request: SupportRequestModel
 ) {
     Column(
@@ -272,33 +275,36 @@ private fun ButtonsMenu(
         ) {
             Text(text = stringResource(id = R.string.request_details_screen_open_chat_text))
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        if (!isAdmin && request.status != RequestStatus.Solved) {
-            Button(
-                modifier = Modifier
-                    .height(48.dp)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.small,
-                onClick = {
-                    onChangeStatusButtonPressed.invoke(RequestStatus.Solved)
-                },
-                enabled = isButtonsEnabled
+        if (isAdmin) {
+            Spacer(modifier = Modifier.height(8.dp))
+            if (request.associatedSupportId == null) {
+                Button(
+                    modifier = Modifier
+                        .height(48.dp)
+                        .fillMaxWidth(),
+                    shape = MaterialTheme.shapes.small,
+                    onClick = {
+                        onAssignSupporterButtonPressed.invoke()
+                    },
+                    enabled = isButtonsEnabled
+                ) {
+                    Text(text = stringResource(id = R.string.request_details_screen_assign_text))
+                }
+            } else if (request.status == RequestStatus.Active
+                && request.associatedSupportId == userId
             ) {
-                Text(text = stringResource(id = R.string.request_details_screen_mark_as_solved_text))
-            }
-        }
-        if (isAdmin && request.associatedSupportId == null) {
-            Button(
-                modifier = Modifier
-                    .height(48.dp)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.small,
-                onClick = {
-                    onAssignSupporterButtonPressed.invoke()
-                },
-                enabled = isButtonsEnabled
-            ) {
-                Text(text = stringResource(id = R.string.request_details_screen_assign_text))
+                Button(
+                    modifier = Modifier
+                        .height(48.dp)
+                        .fillMaxWidth(),
+                    shape = MaterialTheme.shapes.small,
+                    onClick = {
+                        onChangeStatusButtonPressed.invoke(RequestStatus.Solved)
+                    },
+                    enabled = isButtonsEnabled
+                ) {
+                    Text(text = stringResource(id = R.string.request_details_screen_mark_as_solved_text))
+                }
             }
         }
     }

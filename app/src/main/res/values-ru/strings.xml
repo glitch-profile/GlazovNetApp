@@ -123,6 +123,8 @@
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>
     <string name="request_chat_no_messages_found">Здесь пока нет сообщений!</string>
+    <string name="request_chat_messages_not_allowed_title">Отправка сообщений недоступна</string>
+    <string name="request_chat_messages_not_allowed_description">Данный запрос был закрыт</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Статус:</string>
