@@ -34,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -47,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.core.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 
@@ -237,12 +237,15 @@ private fun CheckboxWithTitle(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-
         Spacer(modifier = Modifier.width(16.dp))
-        DesignedCheckBox(
-            isChecked = isChecked,
-            onStateChanges = onCheckedChange
+        Switch(
+            checked = isChecked,
+            onCheckedChange = onCheckedChange
         )
+//        DesignedCheckBox(
+//            isChecked = isChecked,
+//            onStateChanges = onCheckedChange
+//        )
     }
 }
 
