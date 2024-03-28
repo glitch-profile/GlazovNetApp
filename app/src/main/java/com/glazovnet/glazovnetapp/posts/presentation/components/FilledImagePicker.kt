@@ -1,12 +1,9 @@
-package com.glazovnet.glazovnetapp.core.presentation.components
+package com.glazovnet.glazovnetapp.posts.presentation.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -47,13 +45,13 @@ import java.io.File
 private const val CONTRACT = "image/*"
 
 @Composable
-fun OutlinedImagePicker(
+fun FilledImagePicker(
     modifier: Modifier = Modifier,
     imageUri: Uri?,
     onNewImageSelected: (uri: Uri?) -> Unit,
     shape: Shape = MaterialTheme.shapes.small,
-    color: Color = Color.Transparent,
-    contentColor: Color = MaterialTheme.colorScheme.primary,
+    color: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     var imageName by remember {
         mutableStateOf("")
@@ -64,15 +62,6 @@ fun OutlinedImagePicker(
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         onNewImageSelected.invoke(it)
     }
-    val borderColor by animateColorAsState(
-        targetValue = if (isImageSelected) contentColor
-        else contentColor.copy(alpha = 0.7f),
-        label = "ImagePickerBorderColorAnimation"
-    )
-    val borderRadius by animateDpAsState(
-        targetValue = if (isImageSelected) 2.dp else 1.dp,
-        label = "ImagePickerBorderWidthAnimation"
-    )
 
     LaunchedEffect(key1 = imageUri) {
         fun getImageName(filePath: String): String {
@@ -94,7 +83,6 @@ fun OutlinedImagePicker(
         modifier = modifier,
         shape = shape,
         color = color,
-        border = BorderStroke(borderRadius, borderColor),
         contentColor = contentColor
     ) {
         Crossfade(targetState = isImageSelected, label = "imagePickerStateTransition") {
@@ -153,12 +141,14 @@ fun OutlinedImagePicker(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = LocalContentColor.current.copy(0.7f)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                style = MaterialTheme.typography.bodyLarge,
-                                text = stringResource(id = R.string.comp_image_picker_label)
+                                style = MaterialTheme.typography.labelLarge,
+                                text = stringResource(id = R.string.comp_image_picker_label),
+                                color = LocalContentColor.current.copy(0.7f)
                             )
                         }
                     }
