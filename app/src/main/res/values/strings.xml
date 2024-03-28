@@ -109,7 +109,7 @@
     <string name="notifications_settings_screen_mailings_description">Mailings for which notifications will be enabled</string>
     <string name="notifications_settings_screen_permissions_title">Permissions</string>
     <string name="notifications_settings_screen_permissions_description">To get notifications on this device, you need to give the app permission</string>
-    <string name="notifications_settings_screen_issue_permission">Issue permission</string>
+    <string name="notifications_settings_screen_grant_permission">Grant permission</string>
 
     <!-- ANNOUNCEMENT CARD -->
     <plurals name="announcement_card_addresses_count">

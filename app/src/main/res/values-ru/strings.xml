@@ -117,7 +117,7 @@
     <string name="notifications_settings_screen_mailings_description">Рассылки, по которым будут включены уведомления</string>
     <string name="notifications_settings_screen_permissions_title">Разрешения</string>
     <string name="notifications_settings_screen_permissions_description">Чтобы получать уведомления на этом устройстве, вам необходимо предоставить разрешение приложению</string>
-    <string name="notifications_settings_screen_issue_permission">Выдать разрешение</string>
+    <string name="notifications_settings_screen_grant_permission">Выдать разрешение</string>
 
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
