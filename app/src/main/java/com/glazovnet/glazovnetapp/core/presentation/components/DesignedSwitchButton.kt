@@ -74,7 +74,7 @@ fun DesignedSwitchButton(
                     }
                 }
             )
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 8.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -126,7 +126,7 @@ private fun SwitchIndicator(
 
     val backgroundColor by animateColorAsState(
         targetValue = if (isChecked) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.surfaceVariant,
+        else MaterialTheme.colorScheme.surface,
         label = "switchIndicatorBackgroundColor"
     )
     val borderColor by animateColorAsState(

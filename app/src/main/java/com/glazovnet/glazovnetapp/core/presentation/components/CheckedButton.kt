@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -44,7 +43,7 @@ fun CheckedButton(
     )
     Column(
         modifier = modifier
-            .clip(MaterialTheme.shapes.small)
+//            .clip(MaterialTheme.shapes.small)
             .background(backgroundColor)
             .clickable { onStateChanges.invoke(!isChecked) }
             .padding(8.dp)

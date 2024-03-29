@@ -11,6 +11,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,9 +23,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -41,6 +39,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -142,22 +141,34 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_global_settings_title),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.headlineSmall
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    DesignedSwitchButton(
-                        title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled),
-                        description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled_description),
-                        isChecked = isNotificationsEnabled.value.data ?: false,
-                        onStateChanges = { viewModel.setIsNotificationsEnabled(it) }
-                    )
-                    DesignedSwitchButton(
-                        title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled),
-                        description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled_description),
-                        isChecked = isNotificationsOnDeviceEnabled.value,
-                        onStateChanges = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
-                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.small)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        DesignedSwitchButton(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled),
+                            description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled_description),
+                            isChecked = isNotificationsEnabled.value.data ?: false,
+                            onStateChanges = { viewModel.setIsNotificationsEnabled(it) }
+                        )
+                        DesignedSwitchButton(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled),
+                            description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled_description),
+                            isChecked = isNotificationsOnDeviceEnabled.value,
+                            onStateChanges = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
+                        )
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         Spacer(modifier = Modifier.height(4.dp))
                         PermissionScreen(
@@ -177,38 +188,61 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_mailings_title),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.headlineSmall
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    LazyVerticalGrid(
+//                    LazyVerticalGrid(
+//                        modifier = Modifier
+//                            .padding(horizontal = 16.dp),
+//                        columns = GridCells.Fixed(2),
+//                        verticalArrangement = Arrangement.spacedBy(8.dp),
+//                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+//                        content = {
+//                            items(
+//                                items = availableTopics.value.data ?: emptyList(),
+//                                key = {it.topicCode}
+//                            ) {
+//                                val isChecked = selectedTopics.value.contains(it.topicCode)
+//                                CheckedButton(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth(),
+//                                    title = it.name,
+//                                    description = it.description,
+//                                    isChecked = isChecked,
+//                                    onStateChanges = { newCheckedState ->
+//                                        if (newCheckedState) viewModel.selectTopic(it.topicCode)
+//                                            else viewModel.unselectTopic(it.topicCode)
+//                                    },
+//                                    descriptionMinLines = 3,
+//                                    descriptionMaxLines = 3
+//                                )
+//                            }
+//                        }
+//                    )
+                    Column(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        content = {
-                            items(
-                                items = availableTopics.value.data ?: emptyList(),
-                                key = {it.topicCode}
-                            ) {
-                                val isChecked = selectedTopics.value.contains(it.topicCode)
-                                CheckedButton(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    title = it.name,
-                                    description = it.description,
-                                    isChecked = isChecked,
-                                    onStateChanges = { newCheckedState ->
-                                        if (newCheckedState) viewModel.selectTopic(it.topicCode)
-                                            else viewModel.unselectTopic(it.topicCode)
-                                    },
-                                    descriptionMinLines = 3,
-                                    descriptionMaxLines = 3
-                                )
-                            }
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.small)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        availableTopics.value.data?.forEach {
+                            val isChecked = selectedTopics.value.contains(it.topicCode)
+                            CheckedButton(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                title = it.name,
+                                description = it.description,
+                                isChecked = isChecked,
+                                onStateChanges = { newCheckedState ->
+                                    if (newCheckedState) viewModel.selectTopic(it.topicCode)
+                                    else viewModel.unselectTopic(it.topicCode)
+                                },
+                                descriptionMaxLines = 1
+                            )
                         }
-                    )
+                    }
                 }
             }
             BottomActionBar(
@@ -314,7 +348,8 @@ fun PermissionScreen(
     ) {
         CheckedButton(
             modifier = Modifier
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .clip(MaterialTheme.shapes.small),
             title = stringResource(id = R.string.notifications_settings_screen_grant_permission),
             description = stringResource(id = R.string.notifications_settings_screen_permissions_description),
             isChecked = false,

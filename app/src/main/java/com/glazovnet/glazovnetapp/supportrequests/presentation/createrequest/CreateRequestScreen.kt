@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.supportrequests.presentation.createrequest
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -93,6 +95,7 @@ fun CreateRequestScreen(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = R.string.create_request_screen_request_title_title),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -116,6 +119,7 @@ fun CreateRequestScreen(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = R.string.create_request_screen_request_description_title),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -136,12 +140,29 @@ fun CreateRequestScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                DesignedSwitchButton(
-                    title = stringResource(id = R.string.create_request_screen_request_notifications_title),
-                    description = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
-                    isChecked = isNotificationsEnabled.value,
-                    onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    text = stringResource(id = R.string.create_request_screen_request_settings_title),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.titleMedium
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    DesignedSwitchButton(
+                        title = stringResource(id = R.string.create_request_screen_request_notifications_title),
+                        description = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
+                        isChecked = isNotificationsEnabled.value,
+                        onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
+                    )
+                }
+
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.addRequest() },

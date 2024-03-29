@@ -117,7 +117,7 @@ fun CreateAnnouncementScreen(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_title_title),
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -141,7 +141,7 @@ fun CreateAnnouncementScreen(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_text_title),
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -166,7 +166,7 @@ fun CreateAnnouncementScreen(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_address_title),
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))

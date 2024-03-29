@@ -71,7 +71,8 @@
     <string name="create_request_response_error">Невозможно создать запрос. Попробуйте позже</string>
     <string name="create_request_screen_request_title_title">Тема</string>
     <string name="create_request_screen_request_description_title">Описание</string>
-    <string name="create_request_screen_request_notifications_title">Уведомления</string>
+    <string name="create_request_screen_request_settings_title">Прочие настройки</string>
+    <string name="create_request_screen_request_notifications_title">Получать уведомления</string>
     <string name="create_request_screen_request_title_placeholder">Введите тему запроса</string>
     <string name="create_request_screen_request_description_placeholder">Опишите вашу проблему</string>
     <string name="create_request_screen_request_notifications_checkbox_placeholder">Получать уведомления о новых сообщениях в чате</string>

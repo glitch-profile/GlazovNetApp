@@ -112,6 +112,7 @@ fun EditPostScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.edit_post_post_title_title),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -135,6 +136,7 @@ fun EditPostScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.edit_post_post_text_title),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -159,6 +161,7 @@ fun EditPostScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.edit_post_post_image_title),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = (Modifier.height(4.dp)))
