@@ -139,39 +139,14 @@ fun CreateRequestScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
+                CheckedButton(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
-                    text = stringResource(id = R.string.create_request_screen_request_notifications_title),
-                    style = MaterialTheme.typography.titleMedium
+                    title = stringResource(id = R.string.create_request_screen_request_notifications_title),
+                    description = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
+                    isChecked = isNotificationsEnabled.value,
+                    onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .weight(1f),
-                        text = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    DesignedCheckBox(
-                        isChecked = isNotificationsEnabled.value,
-                        onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
-                    )
-                }
-//                Spacer(modifier = Modifier.height(16.dp))
-//                CheckedButton(
-//                    modifier = Modifier
-//                        .padding(horizontal = 16.dp),
-//                    title = stringResource(id = R.string.create_request_screen_request_notifications_title),
-//                    description = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
-//                    isChecked = isNotificationsEnabled.value,
-//                    onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
-//                )
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.addRequest() },
