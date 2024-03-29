@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.core.presentation.components.CheckedButton
 import com.glazovnet.glazovnetapp.core.presentation.components.DesignedCheckBox
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 import kotlinx.coroutines.flow.collectLatest
@@ -162,6 +163,15 @@ fun CreateRequestScreen(
                         onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
                     )
                 }
+//                Spacer(modifier = Modifier.height(16.dp))
+//                CheckedButton(
+//                    modifier = Modifier
+//                        .padding(horizontal = 16.dp),
+//                    title = stringResource(id = R.string.create_request_screen_request_notifications_title),
+//                    description = stringResource(id = R.string.create_request_screen_request_notifications_checkbox_placeholder),
+//                    isChecked = isNotificationsEnabled.value,
+//                    onStateChanges = { viewModel.updateRequestNotificationSettings(it) }
+//                )
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.addRequest() },
