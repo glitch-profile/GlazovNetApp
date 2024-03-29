@@ -115,12 +115,12 @@ fun CreateAnnouncementScreen(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_title_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 FilledTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -139,12 +139,12 @@ fun CreateAnnouncementScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_text_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 FilledTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -164,12 +164,13 @@ fun CreateAnnouncementScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.add_announcement_screen_address_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+                //TODO: Rework addresses buttons
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

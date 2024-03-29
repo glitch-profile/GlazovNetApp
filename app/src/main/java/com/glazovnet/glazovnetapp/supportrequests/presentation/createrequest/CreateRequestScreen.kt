@@ -93,12 +93,12 @@ fun CreateRequestScreen(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.create_request_screen_request_title_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 FilledTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,12 +117,12 @@ fun CreateRequestScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.create_request_screen_request_description_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 FilledTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -142,12 +142,12 @@ fun CreateRequestScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                        .padding(start = 32.dp, end = 16.dp),
                     text = stringResource(id = R.string.create_request_screen_request_settings_title),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
