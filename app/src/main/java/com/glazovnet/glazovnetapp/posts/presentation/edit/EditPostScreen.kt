@@ -35,10 +35,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.posts.presentation.components.FilledImagePicker
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
+import com.glazovnet.glazovnetapp.posts.presentation.components.FilledImagePicker
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
