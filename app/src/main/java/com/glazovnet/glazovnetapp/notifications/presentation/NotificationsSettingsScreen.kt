@@ -11,7 +11,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +32,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -50,6 +48,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.CheckedButton
+import com.glazovnet.glazovnetapp.core.presentation.components.DesignedSwitchButton
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 
@@ -143,28 +142,24 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_global_settings_title),
+                        color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.headlineSmall
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    CheckedButton(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                    Spacer(modifier = Modifier.height(4.dp))
+                    DesignedSwitchButton(
                         title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled),
                         description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_enabled_description),
                         isChecked = isNotificationsEnabled.value.data ?: false,
                         onStateChanges = { viewModel.setIsNotificationsEnabled(it) }
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    CheckedButton(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                    DesignedSwitchButton(
                         title = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled),
                         description = stringResource(id = R.string.notifications_settings_screen_global_settings_is_notifications_on_device_enabled_description),
                         isChecked = isNotificationsOnDeviceEnabled.value,
                         onStateChanges = { viewModel.setIsNotificationsOnDeviceEnabled(it) }
                     )
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         PermissionScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -182,9 +177,10 @@ fun NotificationsSettingsScreen(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_mailings_title),
+                        color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.headlineSmall
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     LazyVerticalGrid(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),

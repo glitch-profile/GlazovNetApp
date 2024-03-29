@@ -59,7 +59,7 @@ fun DesignedSwitchButton(
     val haptic = LocalHapticFeedback.current
     Row(
         modifier = modifier
-            .clip(MaterialTheme.shapes.small)
+//            .clip(MaterialTheme.shapes.small)
             .combinedClickable(
                 onClick = {
                     onStateChanges.invoke(!isChecked)
@@ -90,7 +90,8 @@ fun DesignedSwitchButton(
                 color = MaterialTheme.colorScheme.onSurface
             )
             AnimatedVisibility(
-                visible = showAdditionInfo,
+//                visible = showAdditionInfo,
+                visible = true,
                 enter = expandVertically() + fadeIn(),
                 exit = shrinkVertically() + fadeOut()
             ) {
