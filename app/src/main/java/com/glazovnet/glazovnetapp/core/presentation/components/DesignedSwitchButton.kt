@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -34,12 +35,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -55,26 +53,27 @@ fun DesignedSwitchButton(
         mutableStateOf(false)
     }
 
+    val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
     Row(
         modifier = modifier
-//            .clip(MaterialTheme.shapes.small)
             .combinedClickable(
                 onClick = {
                     onStateChanges.invoke(!isChecked)
                 },
-                onLongClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    scope.coroutineContext.cancelChildren()
-                    scope.launch {
-                        showAdditionInfo = true
-                        delay(5000)
-                        showAdditionInfo = false
-                    }
-                }
+//                onLongClick = {
+//                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+//                    scope.coroutineContext.cancelChildren()
+//                    scope.launch {
+//                        showAdditionInfo = true
+//                        delay(5000)
+//                        showAdditionInfo = false
+//                    }
+//                }
             )
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .background(backgroundColor)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -126,19 +125,10 @@ private fun SwitchIndicator(
 
     val backgroundColor by animateColorAsState(
         targetValue = if (isChecked) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.surface,
+        else MaterialTheme.colorScheme.outlineVariant,
         label = "switchIndicatorBackgroundColor"
     )
-    val borderColor by animateColorAsState(
-        targetValue = if (isChecked) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.outline,
-        label = "switchIndicatorBorderColor"
-    )
-    val handleColor by animateColorAsState(
-        targetValue = if (isChecked) MaterialTheme.colorScheme.surface
-        else MaterialTheme.colorScheme.outline,
-        label = "switchIndicatorHandleColor"
-    )
+    val handleColor = MaterialTheme.colorScheme.surface
 
     DisposableEffect(isChecked) {
         if (offset.targetValue != valueToOffset) {
@@ -155,11 +145,6 @@ private fun SwitchIndicator(
             .width(switchWidth)
             .clip(RoundedCornerShape(switchHeight))
             .background(backgroundColor),
-//            .border(
-//                width = 2.dp,
-//                color = borderColor,
-//                shape = CircleShape
-//            ),
         contentAlignment = Alignment.CenterStart
     ) {
         Box(

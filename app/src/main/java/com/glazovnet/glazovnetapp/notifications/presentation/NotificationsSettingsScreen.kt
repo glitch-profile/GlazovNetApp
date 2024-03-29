@@ -139,18 +139,17 @@ fun NotificationsSettingsScreen(
                 } else {
                     Text(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                            .padding(start = 32.dp, end = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_global_settings_title),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Column(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
                             .clip(MaterialTheme.shapes.small)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
                     ) {
                         DesignedSwitchButton(
                             modifier = Modifier
@@ -170,7 +169,7 @@ fun NotificationsSettingsScreen(
                         )
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         PermissionScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -183,15 +182,15 @@ fun NotificationsSettingsScreen(
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                            .padding(start = 32.dp, end = 16.dp),
                         text = stringResource(id = R.string.notifications_settings_screen_mailings_title),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 //                    LazyVerticalGrid(
 //                        modifier = Modifier
 //                            .padding(horizontal = 16.dp),
@@ -225,7 +224,6 @@ fun NotificationsSettingsScreen(
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
                             .clip(MaterialTheme.shapes.small)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
                     ) {
                         availableTopics.value.data?.forEach {
                             val isChecked = selectedTopics.value.contains(it.topicCode)

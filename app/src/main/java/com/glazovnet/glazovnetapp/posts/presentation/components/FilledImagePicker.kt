@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -50,7 +51,7 @@ fun FilledImagePicker(
     imageUri: Uri?,
     onNewImageSelected: (uri: Uri?) -> Unit,
     shape: Shape = MaterialTheme.shapes.small,
-    color: Color = MaterialTheme.colorScheme.surfaceVariant,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     var imageName by remember {

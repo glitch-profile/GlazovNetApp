@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,9 +27,10 @@ fun CheckedButton(
     descriptionMinLines: Int = 1,
     descriptionMaxLines: Int = 2,
 ) {
+    val unselectedSurfaceColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     val backgroundColor by animateColorAsState(
         targetValue = if (isChecked) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.surfaceVariant,
+            else unselectedSurfaceColor,
         label = "checkedButtonBackgroundColor"
     )
     val titleColor by animateColorAsState(
@@ -46,7 +48,7 @@ fun CheckedButton(
 //            .clip(MaterialTheme.shapes.small)
             .background(backgroundColor)
             .clickable { onStateChanges.invoke(!isChecked) }
-            .padding(8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
             modifier = Modifier
