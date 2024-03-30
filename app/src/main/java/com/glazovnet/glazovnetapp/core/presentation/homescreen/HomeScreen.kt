@@ -38,6 +38,7 @@ import com.glazovnet.glazovnetapp.settings.notifications.presentation.Notificati
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
+import com.glazovnet.glazovnetapp.settings.core.presentation.mainscreen.SettingsScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.chat.ChatScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.createrequest.CreateRequestScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.requestdetails.RequestDetailsScreen
@@ -302,12 +303,22 @@ private fun ScreenContents(
             route = "settings-graph"
         ) {
             composable("settings-main-screen") {
+                SettingsScreen(
+                    onNavigationButtonPressed = {
+                        toggleNavigationDrawer.invoke()
+                    },
+                    onNavigateToNotificationsScreen = {
+                        navController.navigate("notifications-settings")
+                    },
+                    onNavigateToInfoScreen = {
 
+                    }
+                )
             }
             composable("notifications-settings") {
                 NotificationsSettingsScreen(
                     onNavigationButtonPressed = {
-                        toggleNavigationDrawer.invoke()
+                        navController.popBackStack()
                     }
                 )
             }

@@ -22,7 +22,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -105,7 +105,7 @@ fun NotificationsSettingsScreen(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Menu,
+                        imageVector = Icons.Default.ArrowBack,
                         contentDescription = null
                     )
                 }
@@ -136,7 +136,7 @@ fun NotificationsSettingsScreen(
                     Text(
                         modifier = Modifier
                             .padding(start = 32.dp, end = 16.dp),
-                        text = stringResource(id = R.string.notifications_settings_screen_global_settings_title),
+                        text = stringResource(id = R.string.notifications_settings_screen_general_settings_title),
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium
                     )

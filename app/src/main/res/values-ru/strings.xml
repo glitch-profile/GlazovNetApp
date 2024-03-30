@@ -107,9 +107,17 @@
     </plurals>
     <string name="announcement_card_selected_for_everyone">Выбрано для всех</string>
 
+    <!-- SETTINGS SCREEN -->
+    <string name="settings_screen_name">Настройки</string>
+    <string name="settings_screen_general_settings_title">Основное</string>
+    <string name="settings_screen_notifications_description">Уведомления, рассылки и прочее</string>
+
+    <string name="settings_screen_about_app_title">О приложении</string>
+    <string name="settings_screen_about_app_description">Подробная информация о приложении</string>
+
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Уведомления</string>
-    <string name="notifications_settings_screen_global_settings_title">Глобальные настройки</string>
+    <string name="notifications_settings_screen_general_settings_title">Основное</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Включить уведомления</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled_description">Включить уведомления для Вашей учетной записи</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled">Получать на устройстве</string>

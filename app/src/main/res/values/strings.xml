@@ -99,9 +99,17 @@
     <string name="add_announcement_screen_streets_placeholder">Start typing the street name</string>
     <string name="add_announcement_screen_found_addresses_title">Found addresses</string>
 
+    <!-- SETTINGS SCREEN -->
+    <string name="settings_screen_name">Settings</string>
+    <string name="settings_screen_general_settings_title">General</string>
+    <string name="settings_screen_notifications_description">Notifications, mailings, etc.</string>
+
+    <string name="settings_screen_about_app_title">About</string>
+    <string name="settings_screen_about_app_description">More information about the app</string>
+
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Notifications</string>
-    <string name="notifications_settings_screen_global_settings_title">Global settings</string>
+    <string name="notifications_settings_screen_general_settings_title">General</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled">Is notifications enabled</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_enabled_description">Are notifications enabled for your account</string>
     <string name="notifications_settings_screen_global_settings_is_notifications_on_device_enabled">Receive on device</string>

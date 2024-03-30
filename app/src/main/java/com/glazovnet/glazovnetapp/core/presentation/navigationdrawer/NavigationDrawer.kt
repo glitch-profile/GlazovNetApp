@@ -45,7 +45,7 @@ private val items = listOf<NavigationDrawerItemData>(
         route = "announcements-graph"
     ),
     NavigationDrawerItemData(
-        stringResource = R.string.notifications_settings_screen_name,
+        stringResource = R.string.settings_screen_name,
         icon = Icons.Default.Settings,
         route = "settings-graph"
     )
