@@ -5,10 +5,10 @@ import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.usecases.UtilsUseCase
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.glazovnet.glazovnetapp.login.domain.usecases.AuthUseCase
-import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
-import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportChatUseCase
 import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportRequestsUseCase
