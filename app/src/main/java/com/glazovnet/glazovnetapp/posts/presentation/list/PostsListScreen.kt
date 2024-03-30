@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,8 +16,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,12 +46,12 @@ fun PostsListScreen(
         viewModel.getAllPosts()
     }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        LargeTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.posts_list_screen_name))
             },
@@ -111,11 +110,11 @@ fun PostsListScreen(
                         ) {
                             PostCard(
                                 modifier = Modifier
+                                    .padding(top = 8.dp)
                                     .fillMaxWidth(),
                                 post = it,
                                 onCardClicked = onNavigationToPostDetails
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
                         }
                         item {
                             Spacer(modifier = Modifier.navigationBarsPadding())

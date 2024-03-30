@@ -16,8 +16,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,12 +45,12 @@ fun AnnouncementsListScreen(
         viewModel.loadAnnouncements()
     }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        LargeTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.announcement_list_screen_name))
             },
@@ -109,7 +109,7 @@ fun AnnouncementsListScreen(
                         ) {
                             AnnouncementCard(
                                 modifier = Modifier
-                                    .padding(bottom = 8.dp),
+                                    .padding(top = 8.dp),
                                 announcement = it,
                                 showAddressCount = isUserAdmin,
                                 onCardClicked = {

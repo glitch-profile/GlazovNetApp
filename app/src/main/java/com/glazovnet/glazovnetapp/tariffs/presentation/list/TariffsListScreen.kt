@@ -22,10 +22,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -76,12 +76,12 @@ fun TariffsListScreen(
         viewModel.loadTariffs()
     }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        LargeTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.tariffs_list_screen_name))
             },
@@ -142,7 +142,6 @@ fun TariffsListScreen(
                                         viewModel.showDetails(tariffId)
                                     }
                                 )
-//                            Spacer(modifier = Modifier.height(8.dp))
                         }
                         item {
                             Spacer(modifier = Modifier.navigationBarsPadding())

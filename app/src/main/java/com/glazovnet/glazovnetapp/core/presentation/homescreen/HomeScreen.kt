@@ -34,11 +34,11 @@ import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnoun
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawerState
-import com.glazovnet.glazovnetapp.settings.notifications.presentation.NotificationsSettingsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
 import com.glazovnet.glazovnetapp.settings.core.presentation.mainscreen.SettingsScreen
+import com.glazovnet.glazovnetapp.settings.notifications.presentation.NotificationsSettingsScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.chat.ChatScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.createrequest.CreateRequestScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.requestdetails.RequestDetailsScreen

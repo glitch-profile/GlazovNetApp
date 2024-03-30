@@ -20,13 +20,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -66,7 +68,8 @@ fun EditPostScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        MediumTopAppBar(
             title = {
                 Text(
                     text = if (state.value.data != null) stringResource(id = R.string.edit_post_screen_name)
@@ -84,7 +87,8 @@ fun EditPostScreen(
                         contentDescription = null
                     )
                 }
-            }
+            },
+            scrollBehavior = scrollBehavior
         )
         Column(
             modifier = Modifier
@@ -94,7 +98,6 @@ fun EditPostScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .verticalScroll(rememberScrollState())
             ) {
                 if (state.value.isLoading) {
                     LoadingIndicator(
@@ -108,71 +111,79 @@ fun EditPostScreen(
                         additionalMessage = state.value.message
                     )
                 } else {
-                    Text(
+                    Column(
                         modifier = Modifier
-                            .padding(start = 32.dp, end = 16.dp),
-                        text = stringResource(id = R.string.edit_post_post_title_title),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    FilledTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        value = postTitle.value,
-                        onValueChange = { viewModel.updatePostTitle(it) },
-                        placeholder = stringResource(id = R.string.edit_post_post_title_placeholder),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Sentences,
-                            autoCorrect = true,
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Next
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    ) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 16.dp),
+                            text = stringResource(id = R.string.edit_post_post_title_title),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
                         )
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 32.dp, end = 16.dp),
-                        text = stringResource(id = R.string.edit_post_post_text_title),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    FilledTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        value = postText.value,
-                        onValueChange = { viewModel.updatePostText(it) },
-                        placeholder = stringResource(id = R.string.edit_post_post_text_placeholder),
-                        minLines = 5,
-                        maxLines = 5,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Sentences,
-                            autoCorrect = true,
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
+                        Spacer(modifier = Modifier.height(8.dp))
+                        FilledTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            value = postTitle.value,
+                            onValueChange = { viewModel.updatePostTitle(it) },
+                            placeholder = stringResource(id = R.string.edit_post_post_title_placeholder),
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.Sentences,
+                                autoCorrect = true,
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Next
+                            )
                         )
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 32.dp, end = 16.dp),
-                        text = stringResource(id = R.string.edit_post_post_image_title),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = (Modifier.height(8.dp)))
-                    FilledImagePicker(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(160.dp)
-                            .padding(horizontal = 16.dp),
-                        imageUri = imageUri.value,
-                        onNewImageSelected = { viewModel.updatePostImageUri(it) }
-                    )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 16.dp),
+                            text = stringResource(id = R.string.edit_post_post_text_title),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        FilledTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            value = postText.value,
+                            onValueChange = { viewModel.updatePostText(it) },
+                            placeholder = stringResource(id = R.string.edit_post_post_text_placeholder),
+                            minLines = 5,
+                            maxLines = 5,
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.Sentences,
+                                autoCorrect = true,
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 16.dp),
+                            text = stringResource(id = R.string.edit_post_post_image_title),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Spacer(modifier = (Modifier.height(8.dp)))
+                        FilledImagePicker(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(160.dp)
+                                .padding(horizontal = 16.dp),
+                            imageUri = imageUri.value,
+                            onNewImageSelected = { viewModel.updatePostImageUri(it) }
+                        )
+                    }
                 }
             }
             BottomActionBar(
