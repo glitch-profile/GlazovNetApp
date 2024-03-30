@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.notifications.data.dto
+package com.glazovnet.glazovnetapp.settings.notifications.data.dto
 
 import androidx.annotation.Keep
 import kotlinx.serialization.Serializable

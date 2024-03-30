@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.notifications.domain.services
+package com.glazovnet.glazovnetapp.settings.notifications.domain.services
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager

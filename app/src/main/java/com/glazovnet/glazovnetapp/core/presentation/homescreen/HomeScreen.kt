@@ -34,7 +34,7 @@ import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnoun
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawerState
-import com.glazovnet.glazovnetapp.notifications.presentation.NotificationsSettingsScreen
+import com.glazovnet.glazovnetapp.settings.notifications.presentation.NotificationsSettingsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
@@ -298,9 +298,12 @@ private fun ScreenContents(
             }
         }
         navigation(
-            startDestination = "notifications-settings",
-            route = "notifications-graph"
+            startDestination = "settings-main-screen",
+            route = "settings-graph"
         ) {
+            composable("settings-main-screen") {
+
+            }
             composable("notifications-settings") {
                 NotificationsSettingsScreen(
                     onNavigationButtonPressed = {

@@ -5,8 +5,8 @@ import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.login.data.entity.AuthDataDto
 import com.glazovnet.glazovnetapp.login.data.entity.AuthResponse
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(

@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.notifications.presentation
+package com.glazovnet.glazovnetapp.settings.notifications.presentation
 
 import android.Manifest
 import android.content.pm.PackageManager

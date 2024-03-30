@@ -1,8 +1,8 @@
-package com.glazovnet.glazovnetapp.notifications.data.repository
+package com.glazovnet.glazovnetapp.settings.notifications.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -1,13 +1,13 @@
-package com.glazovnet.glazovnetapp.notifications.presentation
+package com.glazovnet.glazovnetapp.settings.notifications.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.ScreenState
-import com.glazovnet.glazovnetapp.notifications.domain.model.NotificationTopicModel
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsLocalSettingRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.model.NotificationTopicModel
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
 import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import dagger.hilt.android.lifecycle.HiltViewModel

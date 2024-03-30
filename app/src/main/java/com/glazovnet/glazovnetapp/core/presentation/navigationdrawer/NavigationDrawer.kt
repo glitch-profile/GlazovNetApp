@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,8 +46,8 @@ private val items = listOf<NavigationDrawerItemData>(
     ),
     NavigationDrawerItemData(
         stringResource = R.string.notifications_settings_screen_name,
-        icon = Icons.Default.Notifications,
-        route = "notifications-graph"
+        icon = Icons.Default.Settings,
+        route = "settings-graph"
     )
 )
 private val logoutItem = NavigationDrawerItemData(

@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.notifications.domain.repository
+package com.glazovnet.glazovnetapp.settings.notifications.domain.repository
 
 import android.content.SharedPreferences
 

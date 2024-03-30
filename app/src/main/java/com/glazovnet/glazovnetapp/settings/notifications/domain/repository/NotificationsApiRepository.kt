@@ -1,7 +1,7 @@
-package com.glazovnet.glazovnetapp.notifications.domain.repository
+package com.glazovnet.glazovnetapp.settings.notifications.domain.repository
 
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.notifications.domain.model.NotificationTopicModel
+import com.glazovnet.glazovnetapp.settings.notifications.domain.model.NotificationTopicModel
 
 interface NotificationsApiRepository {
 

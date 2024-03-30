@@ -1,12 +1,12 @@
-package com.glazovnet.glazovnetapp.notifications.data.repository
+package com.glazovnet.glazovnetapp.settings.notifications.data.repository
 
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.notifications.data.dto.NotificationTopicDto
-import com.glazovnet.glazovnetapp.notifications.data.mapper.toNotificationTopicModel
-import com.glazovnet.glazovnetapp.notifications.domain.model.NotificationTopicModel
-import com.glazovnet.glazovnetapp.notifications.domain.repository.NotificationsApiRepository
+import com.glazovnet.glazovnetapp.settings.notifications.data.dto.NotificationTopicDto
+import com.glazovnet.glazovnetapp.settings.notifications.data.mapper.toNotificationTopicModel
+import com.glazovnet.glazovnetapp.settings.notifications.domain.model.NotificationTopicModel
+import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
