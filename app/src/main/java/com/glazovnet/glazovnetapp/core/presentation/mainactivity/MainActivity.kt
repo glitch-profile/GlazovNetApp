@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.core.presentation.mainactivity
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,12 +38,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
+    val appearanceListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        viewModel.registerAppearanceListener()
+
         setContent {
-            GlazovNetAppTheme {
+            val isUseSystemTheme = viewModel.isUseSystemTheme.collectAsState()
+            val isUseDarkTheme = viewModel.isUseDarkTheme.collectAsState()
+            val isUseDynamicColor = viewModel.isUseDynamicColor.collectAsState()
+
+            GlazovNetAppTheme(
+                useSystemTheme = isUseSystemTheme.value,
+                useDarkTheme = isUseDarkTheme.value,
+                dynamicColor = isUseDynamicColor.value
+            ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -119,5 +131,10 @@ class MainActivity: ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.unregisterAppearanceListener()
+        super.onDestroy()
     }
 }

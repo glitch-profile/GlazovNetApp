@@ -37,6 +37,7 @@ import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationD
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
+import com.glazovnet.glazovnetapp.settings.appearance.presentation.AppearanceSettingsScreen
 import com.glazovnet.glazovnetapp.settings.core.presentation.mainscreen.SettingsScreen
 import com.glazovnet.glazovnetapp.settings.notifications.presentation.NotificationsSettingsScreen
 import com.glazovnet.glazovnetapp.supportrequests.presentation.chat.ChatScreen
@@ -310,6 +311,9 @@ private fun ScreenContents(
                     onNavigateToNotificationsScreen = {
                         navController.navigate("notifications-settings")
                     },
+                    onNavigateToAppearanceScreen = {
+                        navController.navigate("appearance-settings")
+                    },
                     onNavigateToInfoScreen = {
 
                     }
@@ -317,6 +321,13 @@ private fun ScreenContents(
             }
             composable("notifications-settings") {
                 NotificationsSettingsScreen(
+                    onNavigationButtonPressed = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+            composable("appearance-settings") {
+                AppearanceSettingsScreen(
                     onNavigationButtonPressed = {
                         navController.popBackStack()
                     }
