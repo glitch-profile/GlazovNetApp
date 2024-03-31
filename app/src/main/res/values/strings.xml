@@ -102,10 +102,24 @@
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
     <string name="settings_screen_general_settings_title">General</string>
-    <string name="settings_screen_notifications_description">Notifications, mailings, etc.</string>
+    <string name="settings_screen_notifications_description">Settings for notifications, mailings, and more</string>
+    <string name="settings_screen_appearance_description">What the app will look like</string>
 
     <string name="settings_screen_about_app_title">About</string>
     <string name="settings_screen_about_app_description">More information about the app</string>
+
+    <!-- APPEARANCE SETTINGS SCREEN -->
+    <string name="appearance_settings_screen_name">Appearance</string>
+    <string name="appearance_settings_dynamic_color_title">Dynamic color</string>
+    <string name="appearance_settings_use_dynamic_color_title">Enable Dynamic color</string>
+    <string name="appearance_settings_use_dynamic_color_description">Allow the app to adapt to your style</string>
+    <string name="appearance_settings_color_theme_title">Color theme</string>
+    <string name="appearance_settings_color_theme_auto_title">System default</string>
+    <string name="appearance_settings_color_theme_auto_description">Use the same color scheme as in the system</string>
+    <string name="appearance_settings_color_theme_light_title">Light</string>
+    <string name="appearance_settings_color_theme_light_description">Always use the light version of the app</string>
+    <string name="appearance_settings_color_theme_dark_title">Dark</string>
+    <string name="appearance_settings_color_theme_dark_description">Join the dark side</string>
 
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Notifications</string>

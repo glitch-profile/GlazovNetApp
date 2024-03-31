@@ -110,10 +110,24 @@
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
     <string name="settings_screen_general_settings_title">Основное</string>
-    <string name="settings_screen_notifications_description">Уведомления, рассылки и прочее</string>
+    <string name="settings_screen_notifications_description">Настройки уведомлений, рассылок и прочего</string>
+    <string name="settings_screen_appearance_description">Как будет выглядит приложение</string>
 
     <string name="settings_screen_about_app_title">О приложении</string>
     <string name="settings_screen_about_app_description">Подробная информация о приложении</string>
+
+    <!-- APPEARANCE SETTINGS SCREEN -->
+    <string name="appearance_settings_screen_name">Внешний вид</string>
+    <string name="appearance_settings_dynamic_color_title">Динамичные цвета</string>
+    <string name="appearance_settings_use_dynamic_color_title">Включить динамичные цвета</string>
+    <string name="appearance_settings_use_dynamic_color_description">Позвольте приложению подстроиться под Ваш стиль</string>
+    <string name="appearance_settings_color_theme_title">Цветовая схема</string>
+    <string name="appearance_settings_color_theme_auto_title">Системная</string>
+    <string name="appearance_settings_color_theme_auto_description">Использовать тему, как в системе</string>
+    <string name="appearance_settings_color_theme_light_title">Светлая</string>
+    <string name="appearance_settings_color_theme_light_description">Всегда использовать светлую тему приложения</string>
+    <string name="appearance_settings_color_theme_dark_title">Темная</string>
+    <string name="appearance_settings_color_theme_dark_description">Примкнуть к темной стороне</string>
 
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Уведомления</string>

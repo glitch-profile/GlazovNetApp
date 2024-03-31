@@ -10,6 +10,8 @@ import com.glazovnet.glazovnetapp.login.data.repositoryimpl.LoginApiRepositoryIm
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.glazovnet.glazovnetapp.posts.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
+import com.glazovnet.glazovnetapp.settings.appearance.data.AppearanceSettingsRepositoryImpl
+import com.glazovnet.glazovnetapp.settings.appearance.domain.AppearanceSettingsRepository
 import com.glazovnet.glazovnetapp.settings.notifications.data.repository.NotificationsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.settings.notifications.data.repository.NotificationsLocalSettingRepositoryImpl
 import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
@@ -39,6 +41,12 @@ abstract class RepositoryModule {
     abstract fun bindsNotificationsLocalSettingsRepository(
         notificationsLocalSettingRepositoryImpl: NotificationsLocalSettingRepositoryImpl
     ): NotificationsLocalSettingRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsAppearanceSettingsRepository(
+        appearanceSettingsRepositoryImpl: AppearanceSettingsRepositoryImpl
+    ): AppearanceSettingsRepository
 
     @Binds
     @Singleton

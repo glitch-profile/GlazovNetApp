@@ -136,17 +136,28 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun GlazovNetAppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useSystemTheme: Boolean = true,
+    useDarkTheme: Boolean = false,
     dynamicColor: Boolean = false,
     content: @Composable() () -> Unit
 ) {
-    val colors = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    val colors = if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        //dynamic color supported and enabled
+        val context = LocalContext.current
+        if (useSystemTheme) {
+            if (isSystemInDarkTheme()) dynamicDarkColorScheme(context)
+            else dynamicLightColorScheme(context)
+        } else {
+            if (useDarkTheme) dynamicDarkColorScheme(context)
+            else dynamicLightColorScheme(context)
         }
-        useDarkTheme -> DarkColors
-        else -> LightColors
+    } else {
+        //dynamic color mot supported
+        if (useSystemTheme) {
+            if (isSystemInDarkTheme()) DarkColors else LightColors
+        } else {
+            if (useDarkTheme) DarkColors else LightColors
+        }
     }
 
     MaterialTheme(

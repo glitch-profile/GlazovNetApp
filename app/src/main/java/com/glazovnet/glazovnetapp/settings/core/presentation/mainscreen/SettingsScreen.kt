@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
@@ -33,31 +34,13 @@ import com.glazovnet.glazovnetapp.settings.core.presentation.components.Settings
 fun SettingsScreen(
     onNavigationButtonPressed: () -> Unit,
     onNavigateToNotificationsScreen: () -> Unit,
+    onNavigateToAppearanceScreen: () -> Unit,
     onNavigateToInfoScreen: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-//        TopAppBar(
-//            title = {
-//                Text(
-//                    text = stringResource(id = R.string.settings_screen_name)
-//                )
-//            },
-//            navigationIcon = {
-//                IconButton(
-//                    onClick = {
-//                        onNavigationButtonPressed.invoke()
-//                    }
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Default.Menu,
-//                        contentDescription = null
-//                    )
-//                }
-//            }
-//        )
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
         LargeTopAppBar(
             title = {
@@ -85,13 +68,6 @@ fun SettingsScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                 .verticalScroll(rememberScrollState())
         ) {
-//            Text(
-//                modifier = Modifier
-//                    .padding(start = 32.dp, end = 16.dp),
-//                text = stringResource(id = R.string.settings_screen_general_settings_title),
-//                color = MaterialTheme.colorScheme.primary,
-//                style = MaterialTheme.typography.titleMedium
-//            )
             Spacer(modifier = Modifier.height(16.dp))
             Column(
                 modifier = Modifier
@@ -104,6 +80,12 @@ fun SettingsScreen(
                     description = stringResource(id = R.string.settings_screen_notifications_description),
                     icon = Icons.Default.Notifications,
                     onClick = onNavigateToNotificationsScreen
+                )
+                SettingsSectorButton(
+                    title = stringResource(id = R.string.appearance_settings_screen_name),
+                    description = stringResource(id = R.string.settings_screen_appearance_description),
+                    icon = Icons.Default.Edit,
+                    onClick = onNavigateToAppearanceScreen
                 )
                 SettingsSectorButton(
                     title = stringResource(id = R.string.settings_screen_about_app_title),
