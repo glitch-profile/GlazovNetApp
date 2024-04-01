@@ -2,6 +2,7 @@ package com.glazovnet.glazovnetapp.settings.appearance.presentation
 
 import android.os.Build
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -45,11 +47,7 @@ fun AppearanceSettingsScreen(
     val isUseDarkTheme = viewModel.isUseDarkTheme.collectAsState()
     val isUseDynamicColor = viewModel.isUseDynamicColor.collectAsState()
     val isUsingSystemLocale = viewModel.isUsingSystemLocale.collectAsState()
-    val locale = Locale.current
-
-    LaunchedEffect(key1 = null) {
-        Log.i("TAG", "AppearanceSettingsScreen: ${locale.language}")
-    }
+    val language = AppCompatDelegate.getApplicationLocales().toLanguageTags()
 
     Column(
         modifier = Modifier
@@ -188,9 +186,9 @@ fun AppearanceSettingsScreen(
                         .fillMaxWidth(),
                     title = "English",
                     description = stringResource(id = R.string.appearance_settings_language_en_description),
-                    isChecked = locale.language == Locale("en").language && !isUsingSystemLocale.value,
+                    isChecked = language == Locale("en").language && !isUsingSystemLocale.value,
                     onStateChanges = {
-                        viewModel.changeAppLanguage(context, "en")
+                        viewModel.changeAppLanguage(context, Locale("en").toLanguageTag())
                     }
                 )
                 CheckedButton(
@@ -198,9 +196,9 @@ fun AppearanceSettingsScreen(
                         .fillMaxWidth(),
                     title = "Русский",
                     description = stringResource(id = R.string.appearance_settings_language_ru_description),
-                    isChecked = locale.language == Locale("ru").language && !isUsingSystemLocale.value,
+                    isChecked = language == Locale("ru").language && !isUsingSystemLocale.value,
                     onStateChanges = {
-                        viewModel.changeAppLanguage(context, "ru")
+                        viewModel.changeAppLanguage(context, Locale("ru").toLanguageTag())
                     }
                 )
             }

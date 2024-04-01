@@ -1,10 +1,14 @@
 package com.glazovnet.glazovnetapp.core.presentation.mainactivity
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandVertically
@@ -36,9 +40,8 @@ import com.glazovnet.glazovnetapp.login.presentation.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity: ComponentActivity() {
+class MainActivity: AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
-    val appearanceListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -73,11 +73,9 @@ class AppearanceSettingsScreenViewModel @Inject constructor(
                     }
                 }
         } else {
-            if (langCode == null) {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
-            } else {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(langCode))
-            }
+            val localeList = if (langCode == null) LocaleListCompat.getEmptyLocaleList()
+            else LocaleListCompat.forLanguageTags(langCode)
+            AppCompatDelegate.setApplicationLocales(localeList)
         }
     }
 
