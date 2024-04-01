@@ -1,7 +1,6 @@
 package com.glazovnet.glazovnetapp.core.presentation.mainactivity
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
@@ -46,7 +45,7 @@ class MainActivityViewModel @Inject constructor(
     private val _isUseDynamicColor = MutableStateFlow(false)
     val isUseDynamicColor = _isUseDynamicColor.asStateFlow()
 
-    val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         if (key.equals(IS_SYSTEM_THEME)) {
             _isUseSystemTheme.update { appearanceSettingsRepository.getIsSystemTheme() }
         }
@@ -82,7 +81,6 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun getStartDestination(): String {
-        Log.i("TAG", "getStartDestination: defining start destination")
         val isUserSignedIn =  with(userAuthDataRepository) {
             getLoginToken() != null && getAssociatedUserId() != null
         }
