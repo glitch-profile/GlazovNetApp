@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.websocket.WebSockets
@@ -14,8 +14,8 @@ import kotlinx.serialization.json.Json
 import javax.inject.Named
 import javax.inject.Singleton
 
-//private const val BASE_URL = "82.179.120.84" //notebook
-private const val BASE_URL = "146.120.105.211" //computer
+private const val BASE_URL = "82.179.120.68" //notebook
+//private const val BASE_URL = "146.120.105.211" //computer
 
 private const val PORT = 8080
 
@@ -26,7 +26,7 @@ object ApiAppModule {
     @Provides
     @Singleton
     @Named("RestClient")
-    fun provideGlazovNetKtorClient(): HttpClient = HttpClient(CIO) {
+    fun provideGlazovNetKtorClient(): HttpClient = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -43,7 +43,7 @@ object ApiAppModule {
     @Provides
     @Singleton
     @Named("WsClient")
-    fun provideGlazovNetWebSocketClient(): HttpClient = HttpClient(CIO) {
+    fun provideGlazovNetWebSocketClient(): HttpClient = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
