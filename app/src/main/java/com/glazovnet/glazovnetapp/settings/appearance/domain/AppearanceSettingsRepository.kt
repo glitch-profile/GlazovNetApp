@@ -15,4 +15,7 @@ interface AppearanceSettingsRepository {
     fun getIsDynamicColorsEnabled(): Boolean
     fun setIsDynamicColorsEnabled(isDynamicColors: Boolean)
 
+    fun getIsUsingSystemLocale(): Boolean
+    fun setIsUsingSystemLocale(isSystemLocale: Boolean)
+
 }

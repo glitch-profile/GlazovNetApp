@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.settings.appearance.presentation
 
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +20,14 @@ import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
@@ -36,9 +40,16 @@ fun AppearanceSettingsScreen(
     onNavigationButtonPressed: () -> Unit,
     viewModel: AppearanceSettingsScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val isUseSystemTheme = viewModel.isUseSystemTheme.collectAsState()
     val isUseDarkTheme = viewModel.isUseDarkTheme.collectAsState()
     val isUseDynamicColor = viewModel.isUseDynamicColor.collectAsState()
+    val isUsingSystemLocale = viewModel.isUsingSystemLocale.collectAsState()
+    val locale = Locale.current
+
+    LaunchedEffect(key1 = null) {
+        Log.i("TAG", "AppearanceSettingsScreen: ${locale.language}")
+    }
 
     Column(
         modifier = Modifier
@@ -144,6 +155,52 @@ fun AppearanceSettingsScreen(
                     onStateChanges = {
                         viewModel.setIsUseSystemTheme(false)
                         viewModel.setIsUseDarkTheme(true)
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier
+                    .padding(start = 32.dp, end = 16.dp),
+                text = stringResource(id = R.string.appearance_settings_language_title),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.small)
+            ) {
+                CheckedButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    title = stringResource(id = R.string.appearance_settings_language_auto_title),
+                    description = stringResource(id = R.string.appearance_settings_language_auto_description),
+                    isChecked = isUsingSystemLocale.value,
+                    onStateChanges = {
+                        viewModel.changeAppLanguage(context, null)
+                    }
+                )
+                CheckedButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    title = "English",
+                    description = stringResource(id = R.string.appearance_settings_language_en_description),
+                    isChecked = locale.language == Locale("en").language && !isUsingSystemLocale.value,
+                    onStateChanges = {
+                        viewModel.changeAppLanguage(context, "en")
+                    }
+                )
+                CheckedButton(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    title = "Русский",
+                    description = stringResource(id = R.string.appearance_settings_language_ru_description),
+                    isChecked = locale.language == Locale("ru").language && !isUsingSystemLocale.value,
+                    onStateChanges = {
+                        viewModel.changeAppLanguage(context, "ru")
                     }
                 )
             }

@@ -10,6 +10,7 @@ private const val PREFERENCE_NAME = "notificationsSettings"
 private const val IS_SYSTEM_THEME = "isUseSystemTheme"
 private const val IS_DARK_THEME = "isUseDarkTheme"
 private const val IS_DYNAMIC_COLORS_ENABLED = "isUseDynamicColors"
+private const val IS_USING_SYSTEM_LOCALE= "isUsingSystemLocale"
 
 class AppearanceSettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
@@ -52,5 +53,17 @@ class AppearanceSettingsRepositoryImpl @Inject constructor(
     override fun setIsDynamicColorsEnabled(isDynamicColors: Boolean) {
         isUseDynamicColors = isDynamicColors
         preferences.edit().putBoolean(IS_DYNAMIC_COLORS_ENABLED, isDynamicColors).apply()
+    }
+
+    private var isUsingSystemLocale: Boolean? = null
+    override fun getIsUsingSystemLocale(): Boolean {
+        return isUsingSystemLocale ?: kotlin.run {
+            isUsingSystemLocale = preferences.getBoolean(IS_USING_SYSTEM_LOCALE, true)
+            isUsingSystemLocale!!
+        }
+    }
+    override fun setIsUsingSystemLocale(isSystemLocale: Boolean) {
+        isUsingSystemLocale = isSystemLocale
+        preferences.edit().putBoolean(IS_USING_SYSTEM_LOCALE, isSystemLocale).apply()
     }
 }

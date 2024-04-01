@@ -1,5 +1,11 @@
 package com.glazovnet.glazovnetapp.settings.appearance.presentation
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
+import android.os.LocaleList
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import com.glazovnet.glazovnetapp.settings.appearance.domain.AppearanceSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +24,8 @@ class AppearanceSettingsScreenViewModel @Inject constructor(
     val isUseDarkTheme = _isUseDarkTheme.asStateFlow()
     private val _isUseDynamicColor = MutableStateFlow(false)
     val isUseDynamicColor = _isUseDynamicColor.asStateFlow()
+    private val _isUsingSystemLocale = MutableStateFlow(true)
+    val isUsingSystemLocale = _isUsingSystemLocale.asStateFlow()
 
     init {
         _isUseSystemTheme.update {
@@ -28,6 +36,9 @@ class AppearanceSettingsScreenViewModel @Inject constructor(
         }
         _isUseDynamicColor.update {
             appearanceSettingsRepository.getIsDynamicColorsEnabled()
+        }
+        _isUsingSystemLocale.update {
+            appearanceSettingsRepository.getIsUsingSystemLocale()
         }
     }
 
@@ -47,6 +58,33 @@ class AppearanceSettingsScreenViewModel @Inject constructor(
         if (isUseDynamicColor.value != isDynamicColorEnabled) {
             appearanceSettingsRepository.setIsDynamicColorsEnabled(isDynamicColorEnabled)
             _isUseDynamicColor.update { isDynamicColorEnabled }
+        }
+    }
+
+    fun changeAppLanguage(context: Context, langCode: String?) {
+        setIsUsingSystemLocale(langCode == null)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.getSystemService(LocaleManager::class.java)
+                .apply {
+                    applicationLocales = if (langCode == null) {
+                        LocaleList.getEmptyLocaleList()
+                    } else {
+                        LocaleList.forLanguageTags(langCode)
+                    }
+                }
+        } else {
+            if (langCode == null) {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+            } else {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(langCode))
+            }
+        }
+    }
+
+    private fun setIsUsingSystemLocale(isSystemLocale: Boolean) {
+        if (isUsingSystemLocale.value != isSystemLocale) {
+            appearanceSettingsRepository.setIsUsingSystemLocale(isSystemLocale)
+            _isUsingSystemLocale.update { isSystemLocale }
         }
     }
 }

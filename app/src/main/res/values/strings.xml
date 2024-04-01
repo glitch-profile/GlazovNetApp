@@ -112,7 +112,7 @@
     <string name="appearance_settings_screen_name">Appearance</string>
     <string name="appearance_settings_dynamic_color_title">Dynamic color</string>
     <string name="appearance_settings_use_dynamic_color_title">Enable Dynamic color</string>
-    <string name="appearance_settings_use_dynamic_color_description">Allow the app to adapt to your style</string>
+    <string name="appearance_settings_use_dynamic_color_description">Allow the app to adapt to your color style</string>
     <string name="appearance_settings_color_theme_title">Color theme</string>
     <string name="appearance_settings_color_theme_auto_title">System default</string>
     <string name="appearance_settings_color_theme_auto_description">Use the same color scheme as in the system</string>
@@ -120,6 +120,11 @@
     <string name="appearance_settings_color_theme_light_description">Always use the light version of the app</string>
     <string name="appearance_settings_color_theme_dark_title">Dark</string>
     <string name="appearance_settings_color_theme_dark_description">Join the dark side</string>
+    <string name="appearance_settings_language_title">Language</string>
+    <string name="appearance_settings_language_auto_title">System default</string>
+    <string name="appearance_settings_language_auto_description">Use the system language</string>
+    <string name="appearance_settings_language_ru_description">Russian (Russia)</string>
+    <string name="appearance_settings_language_en_description">English (US)</string>
 
     <!-- NOTIFICATIONS SETTINGS SCREEN -->
     <string name="notifications_settings_screen_name">Notifications</string>
