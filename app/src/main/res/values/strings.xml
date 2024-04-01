@@ -143,6 +143,7 @@
     <plurals name="announcement_card_addresses_count">
         <item quantity="one">%d address is selected</item>
         <item quantity="many">%d addresses selected</item>
+        <item quantity="other">%d addresses selected</item>
     </plurals>
     <string name="announcement_card_selected_for_everyone">Selected for everyone</string>
 
@@ -168,10 +169,12 @@
     <plurals name="tariff_card_prepaid_traffic_value">
         <item quantity="one">%d gigabyte</item>
         <item quantity="many">%d gigabytes</item>
+        <item quantity="other">%d gigabytes</item>
     </plurals>
     <plurals name="tariff_card_cost_value">
         <item quantity="one">%d ruble</item>
         <item quantity="many">%d rubles</item>
+        <item quantity="other">%d rubles</item>
     </plurals>
     <string name="tariff_card_max_speed_value">Up to %d Mbits/s</string>
     <string name="tariff_card_cost_text">Cost per month</string>

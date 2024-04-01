@@ -1,11 +1,6 @@
 package com.glazovnet.glazovnetapp.core.presentation.mainactivity
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity

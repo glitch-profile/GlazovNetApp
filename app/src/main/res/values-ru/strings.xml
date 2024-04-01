@@ -100,13 +100,6 @@
     <string name="add_announcement_screen_streets_placeholder">Начните вводить название улицы</string>
     <string name="add_announcement_screen_found_addresses_title">Найденные адреса</string>
 
-    <plurals name="announcement_card_addresses_count">
-        <item quantity="one">Выбран %d адрес</item>
-        <item quantity="few">Выбрано %d адреса</item>
-        <item quantity="many">Выбрано %d адресов</item>
-    </plurals>
-    <string name="announcement_card_selected_for_everyone">Выбрано для всех</string>
-
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
     <string name="settings_screen_general_settings_title">Основное</string>
@@ -147,6 +140,15 @@
     <string name="notifications_settings_screen_permissions_description">Чтобы получать уведомления на этом устройстве, вам необходимо предоставить разрешение приложению</string>
     <string name="notifications_settings_screen_grant_permission">Выдать разрешение</string>
 
+    <!-- ANNOUNCEMENT CARD -->
+    <plurals name="announcement_card_addresses_count">
+        <item quantity="one">Выбран %d адрес</item>
+        <item quantity="few">Выбрано %d адреса</item>
+        <item quantity="many">Выбрано %d адресов</item>
+        <item quantity="other">Выбрано %d адресов</item>
+    </plurals>
+    <string name="announcement_card_selected_for_everyone">Выбрано для всех</string>
+
     <!-- REQUESTS CHAT -->
     <string name="request_chat_screen_name">Чат</string>
     <string name="request_chat_message_placeholder_text">Сообщение</string>
@@ -170,11 +172,13 @@
         <item quantity="one">%d Гигабайт</item>
         <item quantity="few">%d Гигабайта</item>
         <item quantity="many">%d Гигабайт</item>
+        <item quantity="other">%d Гигабайт</item>
     </plurals>
     <plurals name="tariff_card_cost_value">
         <item quantity="one">%d рубль</item>
         <item quantity="few">%d рубля</item>
         <item quantity="many">%d рублей</item>
+        <item quantity="other">%d рублей</item>
     </plurals>
     <string name="tariff_card_max_speed_value">До %d Мбит в секунду</string>
     <string name="tariff_card_cost_text">Стоимость в месяц</string>
