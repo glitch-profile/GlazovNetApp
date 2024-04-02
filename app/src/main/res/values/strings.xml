@@ -153,6 +153,7 @@
     <string name="request_chat_no_messages_found">There is no messages yet!</string>
     <string name="request_chat_messages_not_allowed_title">Sending messages is not available</string>
     <string name="request_chat_messages_not_allowed_description">This request is closed</string>
+    <string name="request_chat_jump_to_bottom_text">Scroll to bottom</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>
