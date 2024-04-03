@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.core.presentation.homescreen
 
+import android.content.Intent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.rememberSplineBasedDecay
@@ -30,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnouncementScreen
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
@@ -46,6 +48,8 @@ import com.glazovnet.glazovnetapp.supportrequests.presentation.requestdetails.Re
 import com.glazovnet.glazovnetapp.supportrequests.presentation.requests.RequestsListScreen
 import com.glazovnet.glazovnetapp.tariffs.presentation.list.TariffsListScreen
 import kotlinx.coroutines.launch
+
+private const val DEEPLINK_PREFIX = "https://glazov.net"
 
 @Composable
 fun HomeScreen(
@@ -188,6 +192,12 @@ private fun ScreenContents(
             }
             composable(
                 route = "post-details-screen/{postId}",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/posts/{postId}"
+                        action = Intent.ACTION_VIEW
+                    }
+                ),
                 arguments = listOf(
                     navArgument("postId") {
                         type = NavType.StringType
