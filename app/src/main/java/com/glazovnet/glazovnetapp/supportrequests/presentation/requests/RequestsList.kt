@@ -2,6 +2,7 @@ package com.glazovnet.glazovnetapp.supportrequests.presentation.requests
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,8 +29,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -38,8 +43,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.core.presentation.components.JumpToTopButton
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +59,9 @@ fun RequestsListScreen(
 
     val state = viewModel.state.collectAsState()
     val isAdmin = viewModel.isAdmin
+
+    val lazyListState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(key1 = lifecycleOwner) {
@@ -129,28 +139,47 @@ fun RequestsListScreen(
                 )
             } else if (state.value.data != null) {
                 if (state.value.data!!.isNotEmpty()) {
-                    LazyColumn(
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .nestedScroll(scrollBehavior.nestedScrollConnection),
-                        content = {
-                            items(
-                                items = state.value.data!!,
-                                key = { it.id }
-                            ) {
-                                SupportRequestCard(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp),
-                                    data = it,
-                                    showAdditionInfo = isAdmin,
-                                    onClick = onRequestClicked
-                                )
+                            .clipToBounds()
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .nestedScroll(scrollBehavior.nestedScrollConnection),
+                            state = lazyListState,
+                            content = {
+                                items(
+                                    items = state.value.data!!,
+                                    key = { it.id }
+                                ) {
+                                    SupportRequestCard(
+                                        modifier = Modifier
+                                            .padding(top = 8.dp),
+                                        data = it,
+                                        showAdditionInfo = isAdmin,
+                                        onClick = onRequestClicked
+                                    )
+                                }
+                                item {
+                                    Spacer(modifier = Modifier.navigationBarsPadding())
+                                }
                             }
-                            item {
-                                Spacer(modifier = Modifier.navigationBarsPadding())
-                            }
+                        )
+                        val isJumpToTopButtonVisible = derivedStateOf {
+                            lazyListState.firstVisibleItemIndex != 0
                         }
-                    )
+                        JumpToTopButton(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            enabled = isJumpToTopButtonVisible.value,
+                            onClicked = {
+                                scope.launch {
+                                    lazyListState.animateScrollToItem(0)
+                                }
+                            }
+                        )
+                    }
                 } else {
                     Column(
                         modifier = Modifier

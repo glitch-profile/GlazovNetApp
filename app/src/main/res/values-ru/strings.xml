@@ -198,6 +198,7 @@
     <string name="request_error_title_text">Что-то пошло не так…</string>
     <string name="request_error_description_text">Извините, мы не можем отобразить это из-за непредвиденной ошибки…</string>
     <string name="request_error_additional_message_intro">Дополнительная информация</string>
+    <string name="jump_to_top_button_text">В начало</string>
 
     <!-- REUSABLE -->
     <string name="reusable_text_unknown">неизвестно</string>

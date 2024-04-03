@@ -194,6 +194,7 @@
     <string name="request_error_title_text">Something went wrong…</string>
     <string name="request_error_description_text">Sorry, we were unable to display this content due to an unexpected error…</string>
     <string name="request_error_additional_message_intro">Additional info</string>
+    <string name="jump_to_top_button_text">Jump to top</string>
 
     <!-- REUSABLE -->
     <string name="reusable_text_unknown">unknown</string>
