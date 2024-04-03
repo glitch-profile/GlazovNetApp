@@ -29,8 +29,8 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.glazovnet.glazovnetapp.core.ui.theme.GlazovNetAppTheme
 import com.glazovnet.glazovnetapp.core.presentation.homescreen.HomeScreen
+import com.glazovnet.glazovnetapp.core.ui.theme.GlazovNetAppTheme
 import com.glazovnet.glazovnetapp.login.presentation.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
