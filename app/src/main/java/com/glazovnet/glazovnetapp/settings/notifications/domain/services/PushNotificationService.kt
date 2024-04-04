@@ -7,8 +7,9 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.core.app.NotificationCompat
-import androidx.core.net.toUri
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.mainactivity.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -33,12 +34,12 @@ class PushNotificationService: FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = Random.nextInt()
 
-        val deeplink = message.data["deeplink"]?.toUri()
+        val deeplink = message.data["deeplink"]
 
         val clickIntent = Intent(
             Intent.ACTION_VIEW,
-            deeplink,
-            this,
+            Uri.parse(deeplink),
+            this.applicationContext,
             MainActivity::class.java
         )
         val flag = PendingIntent.FLAG_IMMUTABLE
@@ -49,7 +50,7 @@ class PushNotificationService: FirebaseMessagingService() {
 
         val channelId = message.data["channel_id"] ?: CHANNEL_ID
         val notification = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(androidx.core.R.drawable.notification_icon_background)
+            .setSmallIcon(R.drawable.baseline_notifications_24)
             .apply {
                 if (message.data["title"] !== null) {
                     setContentTitle(message.data["title"])

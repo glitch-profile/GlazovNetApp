@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.core.presentation.homescreen
 
-import android.content.Intent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.rememberSplineBasedDecay
@@ -179,9 +178,16 @@ private fun ScreenContents(
     ) {
         navigation(
             route = "posts-graph",
-            startDestination = "posts-list-screen"
+            startDestination = "posts-list-screen",
         ) {
-            composable("posts-list-screen") {
+            composable(
+                route = "posts-list-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/posts-list"
+                    }
+                )
+            ) {
                 PostsListScreen(
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() },
                     onNavigationToEditPostScreen =  { (navController.navigate("edit-posts-screen?postId=$it")) },
@@ -195,7 +201,6 @@ private fun ScreenContents(
                 deepLinks = listOf(
                     navDeepLink {
                         uriPattern = "$DEEPLINK_PREFIX/posts/{postId}"
-                        action = Intent.ACTION_VIEW
                     }
                 ),
                 arguments = listOf(
@@ -229,7 +234,14 @@ private fun ScreenContents(
             route = "support-graph",
             startDestination = "requests-list-screen"
         ) {
-            composable("requests-list-screen") {
+            composable(
+                route = "requests-list-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/requests-list"
+                    }
+                )
+            ) {
                 RequestsListScreen(
                     onNavigationButtonClicked = { toggleNavigationDrawer.invoke() },
                     onAddNewRequestClicked = {
@@ -241,15 +253,20 @@ private fun ScreenContents(
                 )
             }
             composable(
-                route = "request-details-screen/{request-id}",
+                route = "request-details-screen/{requestId}",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/requests/{requestId}"
+                    }
+                ),
                 arguments = listOf(
-                    navArgument("request-id") {
+                    navArgument("requestId") {
                         type = NavType.StringType
                     }
                 )
             ) {
                 RequestDetailsScreen(
-                    requestId = it.arguments?.getString("request-id") ?: "",
+                    requestId = it.arguments?.getString("requestId") ?: "",
                     onNavigationButtonPressed = { navController.popBackStack() },
                     onOpenChatButtonPressed = { requestId ->
                         navController.navigate("request-chat-screen/$requestId")
@@ -257,15 +274,20 @@ private fun ScreenContents(
                 )
             }
             composable(
-                route = "request-chat-screen/{request-id}",
+                route = "request-chat-screen/{requestId}",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/requests/{requestId}/chat"
+                    }
+                ),
                 arguments = listOf(
-                    navArgument("request-id") {
+                    navArgument("requestId") {
                         type = NavType.StringType
                     }
                 )
             ) {
                 ChatScreen(
-                    requestId = it.arguments?.getString("request-id") ?: "",
+                    requestId = it.arguments?.getString("requestId") ?: "",
                     onNavigationButtonPressed = { navController.popBackStack() },
                     onNeedToShowMessage = onNeedToShowMessage
                 )
@@ -281,8 +303,21 @@ private fun ScreenContents(
             startDestination = "tariffs-list-screen",
             route = "tariffs-graph"
         ) {
-            composable("tariffs-list-screen") {
+            composable(
+                route = "tariffs-list-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/tariffs/{tariffId}"
+                    },
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/tariffs-list"
+                    }
+                ),
+                arguments = listOf(navArgument("tariffId") {nullable = true})
+            ) {
+                val tariffId = it.arguments?.getString("tariffId")
                 TariffsListScreen(
+                    optionalTariffId = tariffId,
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }
                 )
             }
@@ -291,7 +326,14 @@ private fun ScreenContents(
             startDestination = "announcements-list-screen",
             route = "announcements-graph"
         ) {
-            composable("announcements-list-screen") {
+            composable(
+                route = "announcements-list-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/announcements-list"
+                    }
+                )
+            ) {
                 AnnouncementsListScreen(
                     onNavigationButtonPressed = {
                         toggleNavigationDrawer.invoke()

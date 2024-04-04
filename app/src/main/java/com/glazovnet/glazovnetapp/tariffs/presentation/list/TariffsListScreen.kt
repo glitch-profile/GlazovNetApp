@@ -50,6 +50,7 @@ import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TariffsListScreen(
+    optionalTariffId: String?,
     onNavigationButtonPressed: () -> Unit,
     viewModel: TariffsListViewModel = hiltViewModel()
 ) {
