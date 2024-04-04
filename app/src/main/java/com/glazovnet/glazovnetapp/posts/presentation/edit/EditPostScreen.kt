@@ -114,8 +114,8 @@ fun EditPostScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
                             .nestedScroll(scrollBehavior.nestedScrollConnection)
+                            .verticalScroll(rememberScrollState())
                     ) {
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
