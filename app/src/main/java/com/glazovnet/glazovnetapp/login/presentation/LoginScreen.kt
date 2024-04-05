@@ -29,7 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,18 +49,18 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.DesignedTextField
-import kotlinx.coroutines.flow.collectLatest
+import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 
 private const val SIDE_PADDING = 16
 
 @Composable
 fun LoginScreen(
     onNavigateToHomeScreen: () -> Unit,
-    onNeedToShowMessage: (message: Int) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val loginState = viewModel.loginState.collectAsState().value
-
+    val messageState = viewModel.messageState.collectAsState()
+    
     val infiniteTransition = rememberInfiniteTransition()
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -73,12 +72,6 @@ fun LoginScreen(
             ),
             repeatMode = RepeatMode.Reverse)
     )
-
-    LaunchedEffect(Unit) {
-        viewModel.messageString.collectLatest {
-            onNeedToShowMessage.invoke(it)
-        }
-    }
 
     Box(
         modifier = Modifier
@@ -112,7 +105,6 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Bottom
     ) {
         val cardsBackgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
-//        val errorCardBackgroundColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -162,6 +154,11 @@ fun LoginScreen(
             )
         }
     }
+    MessageNotification(
+        enabled = messageState.value.enabled,
+        title = stringResource(id = messageState.value.titleResource),
+        additionText = stringResource(id = messageState.value.additionTextResource)
+    )
 }
 
 @Composable
@@ -207,12 +204,6 @@ private fun AuthForm(
                 imeAction = ImeAction.Done
             )
         )
-//        Spacer(modifier = Modifier.height(4.dp))
-//        DesignedCheckBox(
-//            isChecked = isSaveAuthData,
-//            onStateChanges = { viewModel.editIsSaveAuthData(it) },
-//            label = stringResource(id = R.string.login_remember_user_text)
-//        )
     }
 }
 

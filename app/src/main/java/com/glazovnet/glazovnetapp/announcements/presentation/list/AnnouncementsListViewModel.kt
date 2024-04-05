@@ -6,7 +6,7 @@ import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
 import com.glazovnet.glazovnetapp.announcements.domain.repository.AnnouncementsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

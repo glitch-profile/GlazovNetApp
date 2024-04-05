@@ -25,7 +25,6 @@ import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,13 +38,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.DesignedSwitchButton
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
-import kotlinx.coroutines.flow.collectLatest
+import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateRequestScreen(
     onNavigationButtonClicked: () -> Unit,
-    onNeedToShowMessage: (Int) -> Unit,
     viewModel: CreateRequestViewModel = hiltViewModel()
 ) {
 
@@ -54,11 +52,7 @@ fun CreateRequestScreen(
     val requestDescription = viewModel.requestDescription.collectAsState()
     val isNotificationsEnabled = viewModel.isNotificationsEnabled.collectAsState()
 
-    LaunchedEffect(null) {
-        viewModel.messageChannel.collectLatest {
-            onNeedToShowMessage.invoke(it)
-        }
-    }
+    val messageState = viewModel.messageState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -178,6 +172,11 @@ fun CreateRequestScreen(
             )
         }
     }
+    MessageNotification(
+        enabled = messageState.value.enabled,
+        title = stringResource(id = messageState.value.titleResource),
+        additionText = stringResource(id = messageState.value.additionTextResource)
+    )
 }
 
 @Composable

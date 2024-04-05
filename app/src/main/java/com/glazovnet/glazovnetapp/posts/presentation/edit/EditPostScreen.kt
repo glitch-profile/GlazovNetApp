@@ -39,19 +39,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.posts.presentation.components.FilledImagePicker
-import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPostScreen(
     postId: String?,
     onBackPressed: () -> Unit,
-    onNeedToShowMessage: (Int) -> Unit,
     viewModel: EditPostViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
+    val messageState = viewModel.messageState.collectAsState()
     val context = LocalContext.current
     val postTitle = viewModel.postTitle.collectAsState()
     val postText = viewModel.postText.collectAsState()
@@ -59,9 +59,6 @@ fun EditPostScreen(
 
     LaunchedEffect(null) {
         viewModel.loadPostData(postId)
-        viewModel.messageStringResource.collectLatest {
-            onNeedToShowMessage.invoke(it)
-        }
     }
 
     Column(
@@ -195,6 +192,12 @@ fun EditPostScreen(
             )
         }
     }
+
+    MessageNotification(
+        enabled = messageState.value.enabled,
+        title = stringResource(id = messageState.value.titleResource),
+        additionText = stringResource(id = messageState.value.additionTextResource)
+    )
 }
 
 @Composable
@@ -206,7 +209,6 @@ private fun BottomActionBar(
     Surface(
         modifier = modifier
             .fillMaxWidth(),
-//        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     ) {
         Row(
             modifier = Modifier

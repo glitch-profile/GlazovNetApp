@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.core.presentation.Visibility
+import com.glazovnet.glazovnetapp.core.presentation.states.Visibility
 
 @Composable
 fun JumpToTopButton(

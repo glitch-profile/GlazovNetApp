@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
-import android.util.Log
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
@@ -14,15 +13,18 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ImageModelDto
 import com.glazovnet.glazovnetapp.core.domain.usecases.UtilsUseCase
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
 import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,8 +43,6 @@ class EditPostViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
-    private val _messageStringResource = Channel<Int>()
-    val messageStringResource = _messageStringResource.receiveAsFlow()
 
     private var _postTitle = MutableStateFlow("")
     val postTitle = _postTitle.asStateFlow()
@@ -50,6 +50,10 @@ class EditPostViewModel @Inject constructor(
     val postText = _postText.asStateFlow()
     private var _postImageUri = MutableStateFlow<Uri?>(null)
     val postImageUri = _postImageUri.asStateFlow()
+
+    private val _messageState = MutableStateFlow(MessageNotificationState())
+    val messageState = _messageState.asStateFlow()
+    private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
     fun loadPostData(postId: String?) {
         if (postId !== null) {
@@ -119,14 +123,23 @@ class EditPostViewModel @Inject constructor(
                 }
                 when (val result = postsUseCase.updatePost(postToUpload)) {
                     is Resource.Success -> {
-                        _messageStringResource.send(R.string.edit_post_add_result_success)
+                        showMessage(
+                            titleRes = R.string.edit_post_edit_result_success_title,
+                            messageRes = R.string.edit_post_edit_result_success_message
+                        )
                     }
                     is Resource.Error -> {
-                        _messageStringResource.send(result.stringResourceId!!)
+                        showMessage(
+                            titleRes = R.string.reusable_unexpected_error_occurred,
+                            messageRes = result.stringResourceId!!
+                        )
                     }
                 }
             } else {
-                _messageStringResource.send(R.string.edit_post_result_image_failed)
+                showMessage(
+                    titleRes = R.string.reusable_unexpected_error_occurred,
+                    messageRes = R.string.edit_post_result_image_failed
+                )
             }
             _state.update { it.copy(isUploading = false) }
         }
@@ -152,14 +165,23 @@ class EditPostViewModel @Inject constructor(
                 )
                 when (val result = postsUseCase.addPost(postToUpload)) {
                     is Resource.Success -> {
-                        _messageStringResource.send(R.string.edit_post_add_result_success)
+                        showMessage(
+                            titleRes = R.string.edit_post_add_result_success_title,
+                            messageRes = R.string.edit_post_add_result_success_message
+                        )
                     }
                     is Resource.Error -> {
-                        _messageStringResource.send(result.stringResourceId!!)
+                        showMessage(
+                            titleRes = R.string.reusable_unexpected_error_occurred,
+                            messageRes = result.stringResourceId!!
+                        )
                     }
                 }
             } else {
-                _messageStringResource.send(R.string.edit_post_result_image_failed)
+                showMessage(
+                    titleRes = R.string.reusable_unexpected_error_occurred,
+                    messageRes = R.string.edit_post_result_image_failed
+                )
             }
             _state.update { it.copy(isUploading = false) }
         }
@@ -222,15 +244,26 @@ class EditPostViewModel @Inject constructor(
             image.compress(Bitmap.CompressFormat.JPEG, 100, it)
         }
         val imageSizeInKb = ( file.length() / 1024 ).toInt()
-        Log.i("Image_Compression", "getCompressedImage: image size - $imageSizeInKb")
         val compressFactor = min(a = ( targetImageSizeKb / imageSizeInKb * 100 ) * 1.8f, b = 100f).roundToInt()
         if (compressFactor < 100) {
             file.outputStream().use {
                 image.compress(Bitmap.CompressFormat.JPEG, compressFactor, it)
             }
-            Log.i("Image_Compression", "getCompressedImage: rewriting image, factor $compressFactor")
         }
 
         return image
+    }
+
+    private fun showMessage(titleRes: Int, messageRes: Int) {
+        messageScope.coroutineContext.cancelChildren()
+        messageScope.launch {
+            _messageState.update {
+                MessageNotificationState(
+                    enabled = true, titleResource = titleRes, additionTextResource = messageRes
+                )
+            }
+            delay(3000L)
+            _messageState.update { it.copy(enabled = false) }
+        }
     }
 }

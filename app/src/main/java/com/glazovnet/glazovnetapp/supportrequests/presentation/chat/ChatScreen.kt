@@ -55,10 +55,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 private val maxScrollOffsetToJump = 112.dp
@@ -68,12 +68,13 @@ private val maxScrollOffsetToJump = 112.dp
 fun ChatScreen(
     requestId: String,
     onNavigationButtonPressed: () -> Unit,
-    onNeedToShowMessage: (Int) -> Unit,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.collectAsState()
     val requestStatus = viewModel.requestStatus.collectAsState()
+
+    val messageState = viewModel.messageState.collectAsState()
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
@@ -87,12 +88,6 @@ fun ChatScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.messageResourceStringChannel.collectLatest {
-            onNeedToShowMessage.invoke(it)
         }
     }
 
@@ -149,6 +144,12 @@ fun ChatScreen(
             }
         }
     }
+
+    MessageNotification(
+        enabled = messageState.value.enabled,
+        title = stringResource(id = messageState.value.titleResource),
+        additionText = stringResource(id = messageState.value.additionTextResource)
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)

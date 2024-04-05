@@ -261,7 +261,6 @@ class RequestsApiRepositoryImpl @Inject constructor(
                     message.copy(isOwnMessage = message.senderId == authDataRepository.getAssociatedUserId())
                 } ?: flow{}
         } catch (e: Exception) {
-            e.printStackTrace()
             flow { }
         }
     }

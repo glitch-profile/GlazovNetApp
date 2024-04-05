@@ -2,19 +2,24 @@ package com.glazovnet.glazovnetapp.supportrequests.presentation.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +35,9 @@ class ChatViewModel @Inject constructor(
     private val _requestStatus = MutableStateFlow<RequestStatus>(RequestStatus.Active)
     val requestStatus = _requestStatus.asStateFlow()
 
-    private val _messageResourceStringChannel = Channel<Int>()
-    val messageResourceStringChannel = _messageResourceStringChannel.receiveAsFlow()
+    private val _messageState = MutableStateFlow(MessageNotificationState())
+    val messageState = _messageState.asStateFlow()
+    private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
     fun initChatSocket(requestId: String) {
         getMessages(requestId)
@@ -54,7 +60,10 @@ class ChatViewModel @Inject constructor(
                         }.launchIn(viewModelScope)
                 }
                 is Resource.Error -> {
-                    _messageResourceStringChannel.send(connectionResult.stringResourceId!!)
+                    showMessage(
+                        titleRes = R.string.request_chat_cant_connect_to_chat_error_title,
+                        messageRes = connectionResult.stringResourceId!!
+                    )
                 }
             }
         }
@@ -91,7 +100,10 @@ class ChatViewModel @Inject constructor(
                 val formattedMessage = message.trim()
                 val result = requestsApiRepository.sendMessage(formattedMessage)
                 if (result is Resource.Error) {
-                    _messageResourceStringChannel.send(result.stringResourceId!!)
+                    showMessage(
+                        titleRes = R.string.request_chat_cant_send_message_error_title,
+                        messageRes = result.stringResourceId!!
+                    )
                 }
             }
         }
@@ -120,4 +132,16 @@ class ChatViewModel @Inject constructor(
         disconnect()
     }
 
+    private fun showMessage(titleRes: Int, messageRes: Int) {
+        messageScope.coroutineContext.cancelChildren()
+        messageScope.launch {
+            _messageState.update {
+                MessageNotificationState(
+                    enabled = true, titleResource = titleRes, additionTextResource = messageRes
+                )
+            }
+            delay(3000L)
+            _messageState.update { it.copy(enabled = false) }
+        }
+    }
 }

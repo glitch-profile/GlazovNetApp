@@ -15,8 +15,9 @@
     <string name="login_remember_user_text">Запомнить меня</string>
     <string name="login_screen_login_as_user_button">Войти</string>
     <string name="login_screen_login_as_admin_button">Администратор</string>
-    <string name="login_screen_fields_are_empty_error">Введите ваши логин и пароль</string>
-    <string name="login_response_user_not_found">Пользователь не найден. Проверьте правильность введенных данных</string>
+    <string name="login_screen_error_title">Не удалось войти</string>
+    <string name="login_screen_fields_are_empty_error_message">Введите ваши логин и пароль</string>
+    <string name="login_response_user_not_found">Пользователь не найден</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">Новости</string>
@@ -34,8 +35,10 @@
     <string name="edit_post_post_image_title">Изображение</string>
     <string name="edit_post_post_title_placeholder">Введите заголовок поста</string>
     <string name="edit_post_post_text_placeholder">Введите текст поста</string>
-    <string name="edit_post_add_result_success">Пост был успешно загружен</string>
-    <string name="edit_post_edit_result_success">Пост был успешно обновлен</string>
+    <string name="edit_post_add_result_success_title">Пост сохранен</string>
+    <string name="edit_post_add_result_success_message">Пост был успешно загружен</string>
+    <string name="edit_post_edit_result_success_title">Пост обновлен</string>
+    <string name="edit_post_edit_result_success_message">Пост был успешно обновлен</string>
     <string name="edit_post_result_image_failed">Не удалось загрузить картинку. Пост не был загружен</string>
 
     <!-- REQUESTS SCREEN -->
@@ -66,8 +69,10 @@
 
     <!-- CREATE REQUEST SCREEN -->
     <string name="create_request_screen_name">Создать запрос</string>
+    <string name="create_request_success_message_title">Запрос создан</string>
+    <string name="create_request_error_message_title">Не удалось создать запрос</string>
     <string name="create_request_message_fields_are_empty">Пожалуйста, заполните все поля</string>
-    <string name="create_request_response_created">Запрос создан</string>
+    <string name="create_request_response_created">Запрос был успешно сохранён</string>
     <string name="create_request_response_error">Невозможно создать запрос. Попробуйте позже</string>
     <string name="create_request_screen_request_title_title">Тема</string>
     <string name="create_request_screen_request_description_title">Описание</string>
@@ -99,6 +104,9 @@
     <string name="add_announcement_screen_streets_title">Улица</string>
     <string name="add_announcement_screen_streets_placeholder">Начните вводить название улицы</string>
     <string name="add_announcement_screen_found_addresses_title">Найденные адреса</string>
+    <string name="add_announcement_screen_result_success_title">Объявление создано</string>
+    <string name="add_announcement_screen_result_success_message">Объявление было успешно сохранено</string>
+    <string name="add_announcement_screen_result_error_title">Не удалось создать объявление</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
@@ -156,6 +164,8 @@
     <string name="request_chat_messages_not_allowed_title">Отправка сообщений недоступна</string>
     <string name="request_chat_messages_not_allowed_description">Данный запрос был закрыт</string>
     <string name="request_chat_jump_to_bottom_text">Вернуться вниз</string>
+    <string name="request_chat_cant_connect_to_chat_error_title">Невозможно подключиться к чату</string>
+    <string name="request_chat_cant_send_message_error_title">Невозможно отправить сообщение</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Статус:</string>
@@ -208,6 +218,7 @@
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
+    <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Безлимитный</string>

@@ -14,8 +14,9 @@
     <string name="login_remember_user_text">Remember me</string>
     <string name="login_screen_login_as_user_button">Login</string>
     <string name="login_screen_login_as_admin_button">Administrator</string>
-    <string name="login_screen_fields_are_empty_error">Enter your login and password</string>
-    <string name="login_response_user_not_found">User not found. Check if the data entered is correct</string>
+    <string name="login_screen_error_title">Unable to login</string>
+    <string name="login_screen_fields_are_empty_error_message">Enter your login and password</string>
+    <string name="login_response_user_not_found">User not found</string>
 
     <!-- POSTS LIST SCREEN -->
     <string name="posts_list_screen_name">News</string>
@@ -33,8 +34,10 @@
     <string name="edit_post_post_image_title">Image</string>
     <string name="edit_post_post_title_placeholder">Enter a post title</string>
     <string name="edit_post_post_text_placeholder">Enter the text of the post</string>
-    <string name="edit_post_add_result_success">The post was successfully uploaded</string>
-    <string name="edit_post_edit_result_success">The post has been successfully updated</string>
+    <string name="edit_post_add_result_success_title">Post saved</string>
+    <string name="edit_post_add_result_success_message">The post was successfully uploaded</string>
+    <string name="edit_post_edit_result_success_title">Post updated</string>
+    <string name="edit_post_edit_result_success_message">The post has been successfully updated</string>
     <string name="edit_post_result_image_failed">Failed to load the picture. The post was not uploaded</string>
 
     <!-- REQUESTS SCREEN -->
@@ -65,8 +68,10 @@
 
     <!-- CREATE REQUEST SCREEN -->
     <string name="create_request_screen_name">Create request</string>
+    <string name="create_request_success_message_title">Request created</string>
+    <string name="create_request_error_message_title">Unable to create request</string>
     <string name="create_request_message_fields_are_empty">Please fill in all fields</string>
-    <string name="create_request_response_created">Request created successfully</string>
+    <string name="create_request_response_created">Request has been created successfully</string>
     <string name="create_request_response_error">Unable to create new request. Try again later</string>
     <string name="create_request_screen_request_title_title">Title</string>
     <string name="create_request_screen_request_description_title">Description</string>
@@ -98,6 +103,9 @@
     <string name="add_announcement_screen_streets_title">Street</string>
     <string name="add_announcement_screen_streets_placeholder">Start typing the street name</string>
     <string name="add_announcement_screen_found_addresses_title">Found addresses</string>
+    <string name="add_announcement_screen_result_success_title">Announcement create</string>
+    <string name="add_announcement_screen_result_success_message">Announcement has been saved</string>
+    <string name="add_announcement_screen_result_error_title">Unable to create announcement</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
@@ -154,6 +162,8 @@
     <string name="request_chat_messages_not_allowed_title">Sending messages is not available</string>
     <string name="request_chat_messages_not_allowed_description">This request is closed</string>
     <string name="request_chat_jump_to_bottom_text">Scroll to bottom</string>
+    <string name="request_chat_cant_connect_to_chat_error_title">Unable to connect to chat</string>
+    <string name="request_chat_cant_send_message_error_title">Unable to send message</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>
@@ -204,6 +214,7 @@
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>
+    <string name="reusable_unexpected_error_occurred">Error occurred</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>

@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.announcements.presentation.components.SelectionChipButton
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

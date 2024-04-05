@@ -8,11 +8,15 @@ import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
 import com.glazovnet.glazovnetapp.announcements.domain.repository.AnnouncementsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -20,7 +24,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,8 +49,9 @@ class CreateAnnouncementViewModel @Inject constructor(
     private val _announcementText = MutableStateFlow("")
     val announcementText = _announcementText.asStateFlow()
 
-    private val _messageStringResource = Channel<Int>()
-    val messageStringResource = _messageStringResource.receiveAsFlow()
+    private val _messageState = MutableStateFlow(MessageNotificationState())
+    val messageState = _messageState.asStateFlow()
+    private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
     private val _isSheetOpen = MutableStateFlow(false)
     val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
@@ -146,12 +150,19 @@ class CreateAnnouncementViewModel @Inject constructor(
             )
             when (result) {
                 is Resource.Success -> {
-                    _messageStringResource.send(R.string.edit_post_add_result_success) //TODO
+                    showMessage(
+                        titleRes = R.string.add_announcement_screen_result_success_title,
+                        messageRes = R.string.edit_post_add_result_success_message
+                    )
                 }
                 is Resource.Error -> {
-                    _messageStringResource.send(result.stringResourceId!!)
+                    showMessage(
+                        titleRes = R.string.add_announcement_screen_result_error_title,
+                        messageRes = result.stringResourceId!!
+                    )
                 }
             }
+            _state.update { it.copy(isUploading = false) }
         }
     }
 
@@ -227,4 +238,16 @@ class CreateAnnouncementViewModel @Inject constructor(
         }
     }
 
+    private fun showMessage(titleRes: Int, messageRes: Int) {
+        messageScope.coroutineContext.cancelChildren()
+        messageScope.launch {
+            _messageState.update {
+                MessageNotificationState(
+                    enabled = true, titleResource = titleRes, additionTextResource = messageRes
+                )
+            }
+            delay(3000L)
+            _messageState.update { it.copy(enabled = false) }
+        }
+    }
 }

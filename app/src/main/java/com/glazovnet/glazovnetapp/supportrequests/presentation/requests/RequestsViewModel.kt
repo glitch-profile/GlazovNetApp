@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportRequestsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -52,8 +52,7 @@ private const val DEEPLINK_PREFIX = "https://glazov.net"
 
 @Composable
 fun HomeScreen(
-    onNavigateToLoginScreen: () -> Unit,
-    onNeedToShowMessage: (messageResource: Int) -> Unit
+    onNavigateToLoginScreen: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -157,8 +156,7 @@ fun HomeScreen(
                 navController = secondaryNavController,
                 toggleNavigationDrawer = {
                     toggleDrawerState()
-                },
-                onNeedToShowMessage = onNeedToShowMessage
+                }
             )
         }
     }
@@ -168,8 +166,7 @@ fun HomeScreen(
 private fun ScreenContents(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    toggleNavigationDrawer: () -> Unit,
-    onNeedToShowMessage: (messageResource: Int) -> Unit
+    toggleNavigationDrawer: () -> Unit
 ) {
     NavHost(
         modifier = modifier,
@@ -225,8 +222,7 @@ private fun ScreenContents(
                     postId = backStackEntry.arguments?.getString("postId"),
                     onBackPressed = {
                         navController.popBackStack()
-                    },
-                    onNeedToShowMessage = onNeedToShowMessage
+                    }
                 )
             }
         }
@@ -288,14 +284,12 @@ private fun ScreenContents(
             ) {
                 ChatScreen(
                     requestId = it.arguments?.getString("requestId") ?: "",
-                    onNavigationButtonPressed = { navController.popBackStack() },
-                    onNeedToShowMessage = onNeedToShowMessage
+                    onNavigationButtonPressed = { navController.popBackStack() }
                 )
             }
             composable("create-request-screen") {
                 CreateRequestScreen(
-                    onNavigationButtonClicked = { navController.popBackStack() },
-                    onNeedToShowMessage = onNeedToShowMessage
+                    onNavigationButtonClicked = { navController.popBackStack() }
                 )
             }
         }
@@ -346,8 +340,7 @@ private fun ScreenContents(
                 CreateAnnouncementScreen(
                     onNavigationButtonPressed = {
                         navController.popBackStack()
-                    },
-                    onNeedToShowMessage = onNeedToShowMessage
+                    }
                 )
             }
         }

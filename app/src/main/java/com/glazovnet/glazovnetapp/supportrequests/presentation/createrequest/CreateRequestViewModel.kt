@@ -5,14 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,8 +37,9 @@ class CreateRequestViewModel @Inject constructor(
     private val _isNotificationsEnabled = MutableStateFlow(true)
     val isNotificationsEnabled = _isNotificationsEnabled.asStateFlow()
 
-    private val _messageChannel = Channel<Int>()
-    val messageChannel = _messageChannel.receiveAsFlow()
+    private val _messageState = MutableStateFlow(MessageNotificationState())
+    val messageState = _messageState.asStateFlow()
+    private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
     fun addRequest() {
         viewModelScope.launch {
@@ -58,15 +63,24 @@ class CreateRequestViewModel @Inject constructor(
                 )
                 when (result) {
                     is Resource.Success -> {
-                        _messageChannel.send(R.string.create_request_response_created)
+                        showMessage(
+                            titleRes = R.string.create_request_success_message_title,
+                            messageRes = R.string.create_request_response_created
+                        )
                     }
                     is Resource.Error -> {
-                        _messageChannel.send(result.stringResourceId!!)
+                        showMessage(
+                            titleRes = R.string.create_request_error_message_title,
+                            messageRes = result.stringResourceId!!
+                        )
                     }
                 }
                 _state.update { it.copy(isUploading = false) }
             } else {
-                _messageChannel.send(R.string.create_request_message_fields_are_empty)
+                showMessage(
+                    titleRes = R.string.create_request_error_message_title,
+                    messageRes = R.string.create_request_message_fields_are_empty
+                )
             }
         }
     }
@@ -81,4 +95,16 @@ class CreateRequestViewModel @Inject constructor(
         _isNotificationsEnabled.update { enabled }
     }
 
+    private fun showMessage(titleRes: Int, messageRes: Int) {
+        messageScope.coroutineContext.cancelChildren()
+        messageScope.launch {
+            _messageState.update {
+                MessageNotificationState(
+                    enabled = true, titleResource = titleRes, additionTextResource = messageRes
+                )
+            }
+            delay(3000L)
+            _messageState.update { it.copy(enabled = false) }
+        }
+    }
 }

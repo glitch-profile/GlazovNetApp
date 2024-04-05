@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
-import com.glazovnet.glazovnetapp.core.presentation.ScreenState
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository

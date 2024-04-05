@@ -27,7 +27,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,13 +41,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.announcements.domain.model.AddressFilterElement
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
-import kotlinx.coroutines.flow.collectLatest
+import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateAnnouncementScreen(
     onNavigationButtonPressed: () -> Unit,
-    onNeedToShowMessage: (Int) -> Unit,
     viewModel: CreateAnnouncementViewModel = hiltViewModel()
 ) {
 
@@ -56,17 +54,13 @@ fun CreateAnnouncementScreen(
     val announcementTitle = viewModel.announcementTitle.collectAsState()
     val announcementText = viewModel.announcementText.collectAsState()
 
+    val messageState = viewModel.messageState.collectAsState()
+
     val citiesList = viewModel.citiesList.collectAsState()
     val foundAddresses = viewModel.addressesState.collectAsState()
     val selectedAddresses = viewModel.selectedAddresses.collectAsState()
 
     val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
-
-    LaunchedEffect(null) {
-        viewModel.messageStringResource.collectLatest {
-            onNeedToShowMessage.invoke(it)
-        }
-    }
 
     AddressesSheet(
         isSheetOpen = isSheetOpen.value,
@@ -210,10 +204,15 @@ fun CreateAnnouncementScreen(
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.createAnnouncement() },
-                isConfirmButtonEnabled = true
+                isConfirmButtonEnabled = !state.value.isUploading
             )
         }
     }
+    MessageNotification(
+        enabled = messageState.value.enabled,
+        title = stringResource(id = messageState.value.titleResource),
+        additionText = stringResource(id = messageState.value.additionTextResource)
+    )
 }
 
 @Composable
