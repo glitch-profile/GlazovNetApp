@@ -23,10 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
-
-private enum class Visibility {
-    VISIBLE, GONE
-}
+import com.glazovnet.glazovnetapp.core.presentation.Visibility
 
 @Composable
 fun JumpToTopButton(
