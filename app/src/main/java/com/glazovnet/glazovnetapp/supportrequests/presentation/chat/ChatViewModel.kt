@@ -9,6 +9,7 @@ import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationSt
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
+import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,66 +33,85 @@ class ChatViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<MessageModel>>())
     val state = _state.asStateFlow()
-    private val _requestStatus = MutableStateFlow<RequestStatus>(RequestStatus.Active)
-    val requestStatus = _requestStatus.asStateFlow()
+    private val _request = MutableStateFlow<SupportRequestModel?>(null)
+    val request = _request.asStateFlow()
 
     private val _messageState = MutableStateFlow(MessageNotificationState())
     val messageState = _messageState.asStateFlow()
     private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
-    fun initChatSocket(requestId: String) {
-        getMessages(requestId)
-        getRequestStatus(requestId)
+    fun initChat(requestId: String) {
         viewModelScope.launch {
-            val connectionResult = requestsApiRepository.initChatSocket(
-                requestId = requestId,
-                token = localUserAuthDataRepository.getLoginToken() ?: ""
-            )
-            when (connectionResult) {
-                is Resource.Success -> {
-                    requestsApiRepository.observeMessages()
-                        .onEach {message ->
-                            if (state.value.data != null) {
-                                val newMessageList = state.value.data!!.toMutableList().apply {
-                                    add(0, message)
-                                }
-                                _state.update { it.copy(data = newMessageList) }
-                            }
-                        }.launchIn(viewModelScope)
-                }
-                is Resource.Error -> {
-                    showMessage(
-                        titleRes = R.string.request_chat_cant_connect_to_chat_error_title,
-                        messageRes = connectionResult.stringResourceId!!
-                    )
+            loadRequest(requestId)
+            if (request.value != null) {
+                getMessages(requestId)
+                if (request.value!!.status != RequestStatus.Solved) {
+                    initChatSocket(requestId)
                 }
             }
         }
     }
 
-    private fun getMessages(requestId: String) {
-        viewModelScope.launch {
-            _state.update{
-                it.copy(
-                    isLoading = true,
-                    stringResourceId = null,
-                    message = null
+    private suspend fun initChatSocket(requestId: String) {
+        val connectionResult = requestsApiRepository.initChatSocket(
+            requestId = requestId,
+            token = localUserAuthDataRepository.getLoginToken() ?: ""
+        )
+        when (connectionResult) {
+            is Resource.Success -> {
+                requestsApiRepository.observeMessages()
+                    .onEach {message ->
+                        if (state.value.data != null) {
+                            val newMessageList = state.value.data!!.toMutableList().apply {
+                                add(0, message)
+                            }
+                            _state.update { it.copy(data = newMessageList) }
+                        }
+                    }.launchIn(viewModelScope)
+            }
+            is Resource.Error -> {
+                showMessage(
+                    titleRes = R.string.request_chat_cant_connect_to_chat_error_title,
+                    messageRes = connectionResult.stringResourceId!!
                 )
             }
-            val result = requestsApiRepository.getMessagesForRequest(
-                requestId = requestId,
-                token = localUserAuthDataRepository.getLoginToken() ?: ""
-            )
-            when (result) {
-                is Resource.Success -> {
-                    _state.update { it.copy(data = result.data) }
-                }
-                is Resource.Error -> {
-                    _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
-                }
-            }
-            _state.update { it.copy(isLoading = false) }
         }
+    }
+
+    private suspend fun getMessages(requestId: String) {
+        _state.update{
+            it.copy(
+                isLoading = true,
+                stringResourceId = null,
+                message = null
+            )
+        }
+        val result = requestsApiRepository.getMessagesForRequest(
+            requestId = requestId,
+            token = localUserAuthDataRepository.getLoginToken() ?: ""
+        )
+        when (result) {
+            is Resource.Success -> {
+                val localUserId = localUserAuthDataRepository.getAssociatedUserId()
+                val messagesList = result.data!!.toMutableList().apply {
+                    this.add(
+                        index = result.data.size,
+                        MessageModel(
+                            senderId = request.value!!.creatorId,
+                            senderName = request.value!!.creatorName,
+                            text = request.value!!.description,
+                            timestamp = request.value!!.creationDate,
+                            isOwnMessage = localUserId == request.value!!.creatorId
+                        )
+                    )
+                }
+                _state.update { it.copy(data = messagesList) }
+            }
+            is Resource.Error -> {
+                _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
+            }
+        }
+        _state.update { it.copy(isLoading = false) }
     }
 
     fun sendMessage(message: String) {
@@ -109,15 +129,18 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun getRequestStatus(requestId: String) {
-        viewModelScope.launch {
-            val result = requestsApiRepository.getRequestById(
-                requestId = requestId,
-                token = localUserAuthDataRepository.getLoginToken() ?: ""
+    private suspend fun loadRequest(requestId: String) {
+        val result = requestsApiRepository.getRequestById(
+            requestId = requestId,
+            token = localUserAuthDataRepository.getLoginToken() ?: ""
+        )
+        if (result is Resource.Success) {
+            _request.update { result.data!! }
+        } else {
+            showMessage(
+                titleRes = R.string.request_chat_cant_connect_to_chat_error_title,
+                messageRes = result.stringResourceId!!
             )
-            if (result is Resource.Success) {
-                _requestStatus.update { result.data!!.status }
-            } else _requestStatus.update { RequestStatus.Solved }
         }
     }
 

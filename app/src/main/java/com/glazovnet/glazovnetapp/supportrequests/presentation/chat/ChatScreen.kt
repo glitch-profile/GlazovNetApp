@@ -72,7 +72,7 @@ fun ChatScreen(
 ) {
 
     val state = viewModel.state.collectAsState()
-    val requestStatus = viewModel.requestStatus.collectAsState()
+    val requestData = viewModel.request.collectAsState()
 
     val messageState = viewModel.messageState.collectAsState()
 
@@ -80,7 +80,7 @@ fun ChatScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_START) {
-                viewModel.initChatSocket(requestId)
+                viewModel.initChat(requestId)
             } else if (event == Lifecycle.Event.ON_STOP) {
                 viewModel.disconnect()
             }
@@ -136,7 +136,7 @@ fun ChatScreen(
                 InputField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    isEnabled = requestStatus.value != RequestStatus.Solved,
+                    isEnabled = requestData.value?.status != RequestStatus.Solved,
                     onMessageSend = {
                         viewModel.sendMessage(it)
                     }
