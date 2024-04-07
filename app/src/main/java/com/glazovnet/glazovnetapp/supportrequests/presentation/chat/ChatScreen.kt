@@ -1,9 +1,13 @@
 package com.glazovnet.glazovnetapp.supportrequests.presentation.chat
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,12 +15,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -29,6 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -42,13 +50,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -59,6 +71,7 @@ import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotificati
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 private val maxScrollOffsetToJump = 112.dp
@@ -112,7 +125,10 @@ fun ChatScreen(
                         contentDescription = null
                     )
                 }
-            }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+            )
         )
         if (state.value.isLoading) {
             LoadingIndicator(
@@ -127,12 +143,36 @@ fun ChatScreen(
             )
         } else {
             if (state.value.data != null) {
-                MessagesList(
+                val coroutineScope = rememberCoroutineScope()
+                val lazyListState = rememberLazyListState()
+
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f),
-                    messages = state.value.data!!
-                )
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    MessagesList(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        messages = state.value.data!!,
+                        lazyListState = lazyListState,
+                        coroutineScope = coroutineScope
+                    )
+
+                    val showPinnedMessage = derivedStateOf {
+                        lazyListState.canScrollForward
+                    }
+                    ProblemDescriptionWidget(
+                        enabled = showPinnedMessage.value,
+                        title = stringResource(id = R.string.request_chat_pinned_problem_description_title),
+                        text = requestData.value!!.description,
+                        onClick = {
+                            coroutineScope.launch {
+                                lazyListState.animateScrollToItem(state.value.data!!.size - 1)
+                            }
+                        }
+                    )
+                }
                 InputField(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -157,9 +197,9 @@ fun ChatScreen(
 private fun MessagesList(
     modifier: Modifier = Modifier,
     messages: List<MessageModel>,
+    lazyListState: LazyListState,
+    coroutineScope: CoroutineScope
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val lazyListState = rememberLazyListState()
 
     LaunchedEffect(messages.size) {
         coroutineScope.launch {
@@ -336,4 +376,67 @@ private fun InputField(
             }
         }
     }
+}
+
+@Composable
+private fun ProblemDescriptionWidget(
+    enabled: Boolean,
+    title: String,
+    text: String,
+    onClick: () -> Unit
+) {
+    AnimatedVisibility(
+        visible = enabled,
+        enter = expandVertically(),
+        exit = shrinkVertically()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp))
+                .clickable { onClick.invoke() }
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+        ) {
+            var containerSize by remember {
+                mutableStateOf(Size.Zero)
+            }
+            Box(
+                modifier = Modifier
+                    .height(
+                        with(LocalDensity.current) {
+                            containerSize.height.toDp()
+                        }
+                    )
+                    .width(4.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = CircleShape
+                    )
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { layoutCoordinates ->
+                        containerSize = layoutCoordinates.size.toSize()
+                    }
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+
 }

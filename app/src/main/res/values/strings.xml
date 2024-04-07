@@ -164,6 +164,7 @@
     <string name="request_chat_jump_to_bottom_text">Scroll to bottom</string>
     <string name="request_chat_cant_connect_to_chat_error_title">Unable to connect to chat</string>
     <string name="request_chat_cant_send_message_error_title">Unable to send message</string>
+    <string name="request_chat_pinned_problem_description_title">Problem description</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>
