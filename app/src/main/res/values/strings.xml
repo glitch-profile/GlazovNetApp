@@ -107,6 +107,13 @@
     <string name="add_announcement_screen_result_success_message">Announcement has been saved</string>
     <string name="add_announcement_screen_result_error_title">Unable to create announcement</string>
 
+    <!-- PERSONAL ACCOUNT SCREEN -->
+    <string name="personal_account_screen_name">Personal account</string>
+    <string name="personal_account_user_not_found_error">User not found</string>
+    <string name="personal_account_change_password_failed_title">Unable to update password</string>
+    <string name="personal_account_change_password_failed_message">Incorrect user password</string>
+    <string name="personal_account_change_tariff_failed_title">Unable to update tariff</string>
+
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
     <string name="settings_screen_general_settings_title">General</string>

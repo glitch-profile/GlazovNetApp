@@ -108,6 +108,13 @@
     <string name="add_announcement_screen_result_success_message">Объявление было успешно сохранено</string>
     <string name="add_announcement_screen_result_error_title">Не удалось создать объявление</string>
 
+    <!-- PERSONAL ACCOUNT SCREEN -->
+    <string name="personal_account_screen_name">Личный кабинет</string>
+    <string name="personal_account_user_not_found_error">Пользователь не найден</string>
+    <string name="personal_account_change_password_failed_title">Не удалось обновить пароль</string>
+    <string name="personal_account_change_password_failed_message">Введен неверный пароль пользователя</string>
+    <string name="personal_account_change_tariff_failed_title">Не удалось обновить тариф</string>
+
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
     <string name="settings_screen_general_settings_title">Основное</string>

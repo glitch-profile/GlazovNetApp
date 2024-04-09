@@ -8,6 +8,8 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
 import com.glazovnet.glazovnetapp.login.data.repositoryimpl.LoginApiRepositoryImpl
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
+import com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl.PersonalAccountRepositoryImpl
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
 import com.glazovnet.glazovnetapp.posts.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.settings.appearance.data.AppearanceSettingsRepositoryImpl
@@ -90,4 +92,9 @@ abstract class RepositoryModule {
         notificationsApiRepositoryImpl: NotificationsApiRepositoryImpl
     ): NotificationsApiRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindsPersonalAccountRepository(
+        personalAccountRepositoryImpl: PersonalAccountRepositoryImpl
+    ): PersonalAccountRepository
 }
