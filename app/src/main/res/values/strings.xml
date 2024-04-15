@@ -108,6 +108,9 @@
     <string name="add_announcement_screen_result_success_message">Announcement has been saved</string>
     <string name="add_announcement_screen_result_error_title">Unable to create announcement</string>
 
+    <!-- SERVICE SCREEN -->
+    <string name="service_screen_name">Service</string>
+
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Personal account</string>
     <string name="personal_account_user_not_found_error">User not found</string>

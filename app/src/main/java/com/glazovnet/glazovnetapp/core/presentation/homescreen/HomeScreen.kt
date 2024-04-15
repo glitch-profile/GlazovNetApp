@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -52,8 +53,12 @@ private const val DEEPLINK_PREFIX = "https://glazov.net"
 
 @Composable
 fun HomeScreen(
-    onNavigateToLoginScreen: () -> Unit
+    onNavigateToLoginScreen: () -> Unit,
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+
+    val isAdmin = viewModel.isAdmin
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -93,6 +98,7 @@ fun HomeScreen(
         }
 
         NavigationDrawer(
+            isUserAdmin = isAdmin,
             onNavigateOnHomeScreen = { route ->
                 val currentRoute = secondaryNavController.currentBackStackEntry?.destination?.route
                 secondaryNavController.navigate(route) {

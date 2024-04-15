@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,14 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun NavigationDrawerItem(
     modifier: Modifier = Modifier,
-    data: NavigationDrawerItemData,
-    onClick: (route: String) -> Unit,
+    text: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
     isSelected: Boolean
 ) {
     val backgroundColor by animateColorAsState(
@@ -38,26 +41,29 @@ fun NavigationDrawerItem(
         label = "NavigationDrawerItemContentColor"
     )
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .height(62.dp),
         shape = RoundedCornerShape(percent = 100),
         color = backgroundColor
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable(enabled = !isSelected) { onClick.invoke(data.route) }
+                .clickable(enabled = !isSelected) { onClick.invoke() }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
             Icon(
-                imageVector = data.icon,
+                imageVector = icon,
                 contentDescription = null,
                 tint = contentColor
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = stringResource(id = data.stringResource),
+                text = text,
                 style = MaterialTheme.typography.bodyLarge,
                 color = contentColor
             )

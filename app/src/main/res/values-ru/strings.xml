@@ -109,6 +109,9 @@
     <string name="add_announcement_screen_result_success_message">Объявление было успешно сохранено</string>
     <string name="add_announcement_screen_result_error_title">Не удалось создать объявление</string>
 
+    <!-- SERVICE SCREEN -->
+    <string name="service_screen_name">Служебное</string>
+
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Личный кабинет</string>
     <string name="personal_account_user_not_found_error">Пользователь не найден</string>
