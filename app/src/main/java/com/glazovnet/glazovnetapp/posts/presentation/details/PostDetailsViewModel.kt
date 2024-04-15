@@ -69,7 +69,7 @@ class PostDetailsViewModel @Inject constructor(
                 is Resource.Success -> {
                     onPostDeleted.invoke()
                 }
-                is Resource.Error -> {
+                else -> {
                     showMessage(
                         titleRes = R.string.post_details_unable_to_delete_title,
                         messageRes = result.stringResourceId!!
