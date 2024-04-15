@@ -211,6 +211,9 @@ private fun ScreenContents(
                     onNavigationButtonClicked = { navController.popBackStack() },
                     onEditPostButtonClicked = { postId ->
                         navController.navigate("edit-posts-screen?postId=$postId")
+                    },
+                    onPostDeleted = {
+                        navController.popBackStack()
                     }
                 )
             }

@@ -26,6 +26,7 @@
     <string name="post_details_screen_name">Подробности</string>
     <string name="post_details_screen_updated_text_short">ред.</string>
     <string name="post_details_screen_updated_text_long">Отредактировано</string>
+    <string name="post_details_unable_to_delete_title">Не удалось удалить пост</string>
 
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Добавить пост</string>
@@ -223,6 +224,7 @@
     <string name="reusable_text_loading">Загрузка…</string>
     <string name="reusable_text_updating">Обновление…</string>
     <string name="reusable_text_edit">Редактировать</string>
+    <string name="reusable_text_delete">Удалить</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>

@@ -25,6 +25,7 @@
     <string name="post_details_screen_name">Details</string>
     <string name="post_details_screen_updated_text_short">upd.</string>
     <string name="post_details_screen_updated_text_long">Updated</string>
+    <string name="post_details_unable_to_delete_title">Unable to delete this post</string>
 
     <!-- EDIT POSTS SCREEN -->
     <string name="add_post_screen_name">Create post</string>
@@ -219,6 +220,7 @@
     <string name="reusable_text_loading">Loading…</string>
     <string name="reusable_text_updating">Updating…</string>
     <string name="reusable_text_edit">Edit</string>
+    <string name="reusable_text_delete">Delete</string>
     <string name="reusable_text_clear">Clear</string>
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>

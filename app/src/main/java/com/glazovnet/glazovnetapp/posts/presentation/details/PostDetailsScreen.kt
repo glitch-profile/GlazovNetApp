@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.posts.presentation.details
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,15 +12,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -27,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -45,6 +55,7 @@ import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScree
 fun PostDetailsScreen(
     postId: String,
     onNavigationButtonClicked: () -> Unit,
+    onPostDeleted: () -> Unit,
     onEditPostButtonClicked: (postId: String) -> Unit,
     viewModel: PostDetailsViewModel = hiltViewModel()
 ) {
@@ -150,7 +161,14 @@ fun PostDetailsScreen(
                 }
                 if (isAdmin) {
                     BottomActionBar(
+                        isButtonsEnabled = !state.value.isUploading,
                         onEditPostButtonClicked = { onEditPostButtonClicked.invoke(state.value.data!!.id) },
+                        onDeletePostButtonClicked = {
+                            viewModel.deletePost(
+                                postId = state.value.data!!.id,
+                                onPostDeleted = onPostDeleted
+                            )
+                        }
                     )
                 }
             }
@@ -161,7 +179,9 @@ fun PostDetailsScreen(
 @Composable
 private fun BottomActionBar(
     modifier: Modifier = Modifier,
-    onEditPostButtonClicked: () -> Unit
+    isButtonsEnabled: Boolean,
+    onEditPostButtonClicked: () -> Unit,
+    onDeletePostButtonClicked: () -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -176,11 +196,74 @@ private fun BottomActionBar(
                 .imePadding(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+//            OutlinedButton(
+//                modifier = Modifier
+//                    .size(48.dp),
+//                shape = MaterialTheme.shapes.small,
+//                border = if (isButtonsEnabled) {
+//                    BorderStroke(
+//                        width = 1.dp,
+//                        color = MaterialTheme.colorScheme.error
+//                    )
+//                } else {
+//                    BorderStroke(
+//                        width = 1.dp,
+//                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+//                    )
+//                },
+//                enabled = isButtonsEnabled,
+//                onClick = onDeletePostButtonClicked
+//            ) {
+//                Icon(
+//                    modifier = Modifier
+//                        .fillMaxSize(),
+//                    imageVector = Icons.Default.Delete,
+//                    contentDescription = "delete post",
+//                    tint = if (isButtonsEnabled) {
+//                        MaterialTheme.colorScheme.error
+//                    } else {
+//                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+//                    }
+//                )
+//            }
+            Button(
+                modifier = Modifier
+                    .height(48.dp),
+                shape = MaterialTheme.shapes.small,
+                colors = ButtonDefaults.filledTonalButtonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                ),
+//                border = if (isButtonsEnabled) {
+//                    BorderStroke(
+//                        width = 1.dp,
+//                        color = MaterialTheme.colorScheme.error
+//                    )
+//                } else {
+//                    BorderStroke(
+//                        width = 1.dp,
+//                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+//                    )
+//                },
+                enabled = isButtonsEnabled,
+                onClick = onDeletePostButtonClicked
+            ) {
+                Text(
+                    text = stringResource(id = R.string.reusable_text_delete),
+                    color = if (isButtonsEnabled) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
             Button(
                 modifier = Modifier
                     .height(48.dp)
                     .fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
+                enabled = isButtonsEnabled,
                 onClick = { onEditPostButtonClicked.invoke() }
             ) {
                 Text(text = stringResource(id = R.string.reusable_text_edit))
