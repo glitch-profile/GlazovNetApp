@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +26,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -37,6 +39,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -201,15 +204,49 @@ fun RequestsListScreen(
                         } else {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(id = R.string.request_screen_no_request_found_user_text),
-                                style = MaterialTheme.typography.bodyLarge,
+                                text = stringResource(id = R.string.request_screen_no_request_found_user_title),
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 textAlign = TextAlign.Center
                             )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(id = R.string.request_screen_no_request_found_user_main_text),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center
+                            )
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Text(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                text = stringResource(id = R.string.request_screen_no_request_found_user_autoguide_text),
+//                                style = MaterialTheme.typography.bodyMedium,
+//                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                                textAlign = TextAlign.Center
+//                            )
+//                            Text(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                text = stringResource(id = R.string.request_screen_no_request_found_user_manual_request_text),
+//                                style = MaterialTheme.typography.bodyMedium,
+//                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                                textAlign = TextAlign.Center
+//                            )
+                            Spacer(modifier = Modifier.height(16.dp))
                             Button(
+//                                modifier = Modifier
+//                                    .height(48.dp),
+                                shape = MaterialTheme.shapes.small,
                                 onClick = onAddNewRequestClicked
                             ) {
-                                Text(text = stringResource(id = R.string.request_screen_add_request_button_text))
+                                Text(text = "Автоматический помощник")
+                            }
+                            TextButton(
+                                shape = MaterialTheme.shapes.small,
+                                onClick = onAddNewRequestClicked
+                            ) {
+                                Text(text = "Пропустить и создать запрос")
                             }
                         }
                     }

@@ -48,7 +48,12 @@
     <string name="request_screen_request_status_not_reviewed_text">Not reviewed</string>
     <string name="request_screen_request_status_in_progress_text">Active</string>
     <string name="request_screen_request_status_solved_text">Closed</string>
-    <string name="request_screen_no_request_found_user_text">You have no active support requests at this time.\nIf you have a problem, you can create a request here</string>
+    <string name="request_screen_no_request_found_user_title">Looks empty…</string>
+    <string name="request_screen_no_request_found_user_main_text">It looks like you haven\'t created any support requests yet. If you have a problem, you can solve it here</string>
+    <string name="request_screen_no_request_found_user_autoguide_text">You can use an automated assistant to solve most standard problems</string>
+    <string name="request_screen_no_request_found_user_autoguide_button">Automated assistant</string>
+    <string name="request_screen_no_request_found_user_manual_request_text">Or create a manual request where we will try to help in a chat format</string>
+    <string name="request_screen_no_request_found_user_manual_request_button">Skip and create new request</string>
     <string name="request_screen_no_request_found_admin_text">There are no requests at the moment. If they appear, they will be displayed here automatically</string>
     <string name="request_screen_add_request_button_text">Create new request</string>
 
@@ -228,6 +233,7 @@
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>
     <string name="reusable_unexpected_error_occurred">Error occurred</string>
+    <string name="reusable_text_or">or</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>

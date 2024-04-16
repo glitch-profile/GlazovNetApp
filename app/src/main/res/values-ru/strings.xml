@@ -49,7 +49,12 @@
     <string name="request_screen_request_status_not_reviewed_text">Не рассмотрен</string>
     <string name="request_screen_request_status_in_progress_text">Решается</string>
     <string name="request_screen_request_status_solved_text">Закрыт</string>
-    <string name="request_screen_no_request_found_user_text">На данный моменту вас нет активных запросов в службу поддержки.\nЕсли у вас возникла проблема - вы можете создать запрос здесь</string>
+    <string name="request_screen_no_request_found_user_title">Пока запросов нет…</string>
+    <string name="request_screen_no_request_found_user_main_text">Похоже, Вы ещё не создавали запросы в поддержку. Если у вас возникла проблема, её можно решить здесь</string>
+    <string name="request_screen_no_request_found_user_autoguide_text">Вы можете использовать автоматического помощника для решения большинства стандартных проблем</string>
+    <string name="request_screen_no_request_found_user_autoguide_button">Автоматический помощник</string>
+    <string name="request_screen_no_request_found_user_manual_request_text">Или создать запрос вручную, где мы попытаемся помочь в формате чата</string>
+    <string name="request_screen_no_request_found_user_manual_request_button">Пропустить и создать запрос</string>
     <string name="request_screen_no_request_found_admin_text">На данный момент запросы отсутствуют. Если они появятся - они отобразятся здесь автоматически</string>
     <string name="request_screen_add_request_button_text">Создать запрос</string>
 
@@ -232,6 +237,7 @@
     <string name="reusable_text_save">Сохранить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
     <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
+    <string name="reusable_text_or">или</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Безлимитный</string>
