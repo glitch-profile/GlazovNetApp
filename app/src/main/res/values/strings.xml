@@ -115,6 +115,11 @@
 
     <!-- SERVICE SCREEN -->
     <string name="service_screen_name">Service</string>
+    <string name="inner_posts_screen_name">Service posts</string>
+    <string name="inner_posts_for_today_title">News for today</string>
+    <string name="inner_posts_for_today_not_found_text">It looks like there\'s been no news today.</string>
+    <string name="inner_posts_earlier_title">News for the past period</string>
+    <string name="inner_posts_earlier_not_found_text">No news for the past period was found</string>
 
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Personal account</string>

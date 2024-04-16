@@ -11,11 +11,12 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
+import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "api/inner/"
 
-class InnerPostsRepositoryImpl(
+class InnerPostsRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): InnerPostsRepository {
 

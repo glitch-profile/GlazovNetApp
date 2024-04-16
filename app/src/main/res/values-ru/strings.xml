@@ -116,6 +116,11 @@
 
     <!-- SERVICE SCREEN -->
     <string name="service_screen_name">Служебное</string>
+    <string name="inner_posts_screen_name">Служебные новости</string>
+    <string name="inner_posts_for_today_title">Новости за сегодня</string>
+    <string name="inner_posts_for_today_not_found_text">Похоже, что за сегодня новостей пока нет</string>
+    <string name="inner_posts_earlier_title">Новости за прошедший период</string>
+    <string name="inner_posts_earlier_not_found_text">Новостей за прошедший период не обнаружено</string>
 
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Личный кабинет</string>
