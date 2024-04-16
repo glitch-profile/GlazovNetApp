@@ -81,7 +81,7 @@ fun NavigationDrawer(
                 text = stringResource(id = R.string.service_screen_name),
                 icon = Icons.Default.Lock,
                 onClick = {
-                    onNavigateOnHomeScreen.invoke("posts-graph")
+                    onNavigateOnHomeScreen.invoke("service-graph")
                     selectedItemIndexed = 4
                 },
                 isSelected = selectedItemIndexed == 4

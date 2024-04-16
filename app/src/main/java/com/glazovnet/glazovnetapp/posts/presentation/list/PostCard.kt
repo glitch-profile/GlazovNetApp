@@ -42,7 +42,6 @@ fun PostCard(
                 onCardClicked.invoke(post.id)
             }
             .background(MaterialTheme.colorScheme.primaryContainer)
-            .clip(MaterialTheme.shapes.medium)
     ) {
         if (post.image != null) {
             val imageAspectRatio = post.image.imageWidth.toFloat() / post.image.imageHeight.toFloat()
