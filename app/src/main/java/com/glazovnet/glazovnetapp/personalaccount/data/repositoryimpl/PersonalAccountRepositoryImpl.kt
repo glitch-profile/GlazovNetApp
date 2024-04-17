@@ -14,11 +14,12 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.put
+import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "/api/account"
 
-class PersonalAccountRepositoryImpl(
+class PersonalAccountRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): PersonalAccountRepository {
 
