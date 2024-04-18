@@ -52,10 +52,6 @@ fun InnerPostsScreen(
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(null) {
-        viewModel.loadPosts()
-    }
-
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Column(
         modifier = Modifier

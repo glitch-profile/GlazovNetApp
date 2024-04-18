@@ -29,6 +29,10 @@ class InnerPostsViewModel @Inject constructor(
     private val userToken = authDataRepository.getLoginToken() ?: ""
     val isAdmin = authDataRepository.getIsUserAsAdmin()
 
+    init {
+        loadPosts()
+    }
+
     fun loadPosts() {
         viewModelScope.launch {
             _state.update {
