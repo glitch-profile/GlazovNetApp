@@ -6,34 +6,36 @@ import com.glazovnet.glazovnetapp.settings.notifications.domain.model.Notificati
 interface NotificationsApiRepository {
 
     suspend fun getAvailableTopics(
-        token: String
+        token: String,
+        includeClientsTopics: Boolean,
+        includeEmployeeTopics: Boolean
     ): Resource<List<NotificationTopicModel>>
 
-    suspend fun getClientNotificationsStatus(
+    suspend fun getPersonNotificationStatus(
         token: String,
-        clientId: String
+        personId: String
     ): Resource<Boolean?>
 
-    suspend fun getTopicsForClient(
+    suspend fun getTopicsForPerson(
         token: String,
-        clientId: String
+        personId: String
     ): Resource<List<String>>
 
-    suspend fun setClientNotificationsStatus(
+    suspend fun setPersonNotificationStatus(
         token: String,
-        clientId: String,
+        personId: String,
         newStatus: Boolean
     ): Resource<Unit>
 
-    suspend fun setTopicsForClient(
+    suspend fun setTopicsForPerson(
         token: String,
-        clientId: String,
+        personId: String,
         newTopicsList: List<String>
     ): Resource<Unit>
 
     suspend fun updateFcmToken(
         authToken: String,
-        clientId: String,
+        personId: String,
         token: String,
         isExclude: Boolean = false
     ): Resource<Unit>

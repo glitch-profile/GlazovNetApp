@@ -190,7 +190,6 @@ private fun AuthForm(
             keyboardActions = KeyboardActions(
                 onDone = { 
                     viewModel.login(
-                        isAsAdmin = false,
                         onLoginSuccessfully = {
                             onNavigateToHomeScreen.invoke()
                         }
@@ -219,34 +218,34 @@ private fun ActionButtonsForm(
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton(
-            modifier = Modifier
-                .height(48.dp),
-            shape = MaterialTheme.shapes.small,
-            border = if (isButtonsEnabled) {
-                BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            } else {
-                BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                )
-            },
-            enabled = isButtonsEnabled,
-            onClick = {
-                viewModel.login(
-                    isAsAdmin = true,
-                    onLoginSuccessfully = {
-                        onNavigateToHomeScreen.invoke()
-                    }
-                )
-            }
-        ) {
-            Text(text = stringResource(id = R.string.login_screen_login_as_admin_button))
-        }
-        Spacer(modifier = Modifier.width(8.dp))
+//        OutlinedButton(
+//            modifier = Modifier
+//                .height(48.dp),
+//            shape = MaterialTheme.shapes.small,
+//            border = if (isButtonsEnabled) {
+//                BorderStroke(
+//                    width = 1.dp,
+//                    color = MaterialTheme.colorScheme.primary
+//                )
+//            } else {
+//                BorderStroke(
+//                    width = 1.dp,
+//                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+//                )
+//            },
+//            enabled = isButtonsEnabled,
+//            onClick = {
+//                viewModel.login(
+//                    isAsAdmin = true,
+//                    onLoginSuccessfully = {
+//                        onNavigateToHomeScreen.invoke()
+//                    }
+//                )
+//            }
+//        ) {
+//            Text(text = stringResource(id = R.string.login_screen_login_as_admin_button))
+//        }
+//        Spacer(modifier = Modifier.width(8.dp))
         Button(
             modifier = Modifier
                 .height(48.dp)
@@ -254,7 +253,6 @@ private fun ActionButtonsForm(
             shape = MaterialTheme.shapes.small,
             onClick = { 
                 viewModel.login(
-                    isAsAdmin = false,
                     onLoginSuccessfully = {
                         onNavigateToHomeScreen.invoke()
                     }
