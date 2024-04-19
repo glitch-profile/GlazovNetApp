@@ -1,8 +1,6 @@
 package com.glazovnet.glazovnetapp.posts.presentation.details
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +51,7 @@ fun PostDetailsScreen(
     viewModel: PostDetailsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isAdmin = viewModel.isAdmin
+    val isEmployeeWithRole = viewModel.isEmployeeWithNewsRole
 
     LaunchedEffect(key1 = null) {
         viewModel.loadPost(postId)
@@ -151,7 +150,7 @@ fun PostDetailsScreen(
                         )
                     }
                 }
-                if (isAdmin) {
+                if (isEmployeeWithRole) {
                     BottomActionBar(
                         isButtonsEnabled = !state.value.isUploading,
                         onEditPostButtonClicked = { onEditPostButtonClicked.invoke(state.value.data!!.id) },
@@ -178,87 +177,39 @@ private fun BottomActionBar(
     Surface(
         modifier = modifier
             .fillMaxWidth(),
-//        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
                 .navigationBarsPadding()
-                .imePadding(),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .imePadding()
         ) {
-//            OutlinedButton(
-//                modifier = Modifier
-//                    .size(48.dp),
-//                shape = MaterialTheme.shapes.small,
-//                border = if (isButtonsEnabled) {
-//                    BorderStroke(
-//                        width = 1.dp,
-//                        color = MaterialTheme.colorScheme.error
-//                    )
-//                } else {
-//                    BorderStroke(
-//                        width = 1.dp,
-//                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-//                    )
-//                },
-//                enabled = isButtonsEnabled,
-//                onClick = onDeletePostButtonClicked
-//            ) {
-//                Icon(
-//                    modifier = Modifier
-//                        .fillMaxSize(),
-//                    imageVector = Icons.Default.Delete,
-//                    contentDescription = "delete post",
-//                    tint = if (isButtonsEnabled) {
-//                        MaterialTheme.colorScheme.error
-//                    } else {
-//                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-//                    }
-//                )
-//            }
             Button(
                 modifier = Modifier
-                    .height(48.dp),
-                shape = MaterialTheme.shapes.small,
-                colors = ButtonDefaults.filledTonalButtonColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer
-                ),
-//                border = if (isButtonsEnabled) {
-//                    BorderStroke(
-//                        width = 1.dp,
-//                        color = MaterialTheme.colorScheme.error
-//                    )
-//                } else {
-//                    BorderStroke(
-//                        width = 1.dp,
-//                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-//                    )
-//                },
-                enabled = isButtonsEnabled,
-                onClick = onDeletePostButtonClicked
-            ) {
-                Text(
-                    text = stringResource(id = R.string.reusable_text_delete),
-                    color = if (isButtonsEnabled) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                    }
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                modifier = Modifier
-                    .height(48.dp)
+                    .height(40.dp)
                     .fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
                 enabled = isButtonsEnabled,
                 onClick = { onEditPostButtonClicked.invoke() }
             ) {
                 Text(text = stringResource(id = R.string.reusable_text_edit))
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            TextButton(
+                modifier = Modifier
+                    .height(40.dp),
+                shape = MaterialTheme.shapes.small,
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error,
+                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                ),
+                enabled = isButtonsEnabled,
+                onClick = onDeletePostButtonClicked
+            ) {
+                Text(
+                    text = stringResource(id = R.string.reusable_text_delete),
+                )
             }
         }
     }

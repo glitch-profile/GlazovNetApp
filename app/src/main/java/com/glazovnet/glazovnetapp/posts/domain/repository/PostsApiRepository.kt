@@ -22,17 +22,20 @@ interface PostsApiRepository {
 
     suspend fun addPost(
         postModel: PostModel,
-        token: String
+        token: String,
+        employeeId: String
     ): Resource<PostModel?>
 
     suspend fun editPost(
         postModel: PostModel,
-        token: String
+        token: String,
+        employeeId: String
     ): Resource<Unit>
 
     suspend fun deletePostById(
         postId: String,
-        token: String
+        token: String,
+        employeeId: String
     ): Resource<Unit>
 
 }

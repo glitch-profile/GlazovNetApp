@@ -48,7 +48,7 @@ fun PostsListScreen(
     viewModel: PostsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isUserAnAdmin = viewModel.isAdmin
+    val isEmployeeWithRole = viewModel.isEmployeeWithNewsRole
 
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -86,7 +86,7 @@ fun PostsListScreen(
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
                 }
-                if (isUserAnAdmin) {
+                if (isEmployeeWithRole) {
                     IconButton(onClick = { onNavigationToEditPostScreen.invoke(null) }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add new post")
                     }

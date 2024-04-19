@@ -12,6 +12,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -78,10 +79,11 @@ class PostsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addPost(postModel: PostModel, token: String): Resource<PostModel?> {
+    override suspend fun addPost(postModel: PostModel, token: String, employeeId: String): Resource<PostModel?> {
         return try {
             val response: ApiResponseDto<List<PostModelDto>> = client.post("$PATH/add") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
                 setBody(postModel.toPostModelDto())
             }.body()
@@ -95,10 +97,15 @@ class PostsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun editPost(postModel: PostModel, token: String): Resource<Unit> {
+    override suspend fun editPost(
+        postModel: PostModel,
+        token: String,
+        employeeId: String
+    ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$PATH/edit") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
                 setBody(postModel.toPostModelDto())
             }.body()
@@ -112,10 +119,15 @@ class PostsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deletePostById(postId: String, token: String): Resource<Unit> {
+    override suspend fun deletePostById(
+        postId: String,
+        token: String,
+        employeeId: String
+    ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.delete("$PATH/delete") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
                 parameter("post_id", postId)
             }.body()
             if (response.status) {
