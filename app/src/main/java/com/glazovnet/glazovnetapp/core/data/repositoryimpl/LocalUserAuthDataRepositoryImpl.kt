@@ -79,7 +79,7 @@ class LocalUserAuthDataRepositoryImpl @Inject constructor(
     private var employeeRoles: List<EmployeeRoles>? = null
     override fun getEmployeeHasRole(roleToCheck: EmployeeRoles): Boolean {
         val roles = getEmployeeRoles()
-        return roles?.any{ it == roleToCheck } ?: false
+        return roles?.contains(roleToCheck) ?: false
     }
     override fun getEmployeeRoles(): List<EmployeeRoles>? {
         return employeeRoles ?: kotlin.run {

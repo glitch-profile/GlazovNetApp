@@ -187,7 +187,7 @@ private fun BottomActionBar(
         ) {
             Button(
                 modifier = Modifier
-                    .height(40.dp)
+                    .height(48.dp)
                     .fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
                 enabled = isButtonsEnabled,
@@ -198,7 +198,8 @@ private fun BottomActionBar(
             Spacer(modifier = Modifier.width(8.dp))
             TextButton(
                 modifier = Modifier
-                    .height(40.dp),
+                    .fillMaxWidth()
+                    .height(48.dp),
                 shape = MaterialTheme.shapes.small,
                 colors = ButtonDefaults.textButtonColors(
                     contentColor = MaterialTheme.colorScheme.error,
