@@ -8,8 +8,6 @@ import com.glazovnet.glazovnetapp.login.data.entity.AuthResponse
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.network.sockets.ConnectTimeoutException
-import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -34,12 +32,8 @@ class LoginApiRepositoryImpl @Inject constructor(
             else if (response.message == "user not found") {
                 Resource.Error(R.string.login_response_user_not_found)
             } else Resource.Error(R.string.api_response_server_error, response.message)
-        } catch (e: ResponseException) {
-            Resource.Error(R.string.api_response_error, e.response.status.toString())
-        } catch (e: ConnectTimeoutException) {
-            Resource.Error(R.string.api_response_server_not_available)
         } catch (e: Exception) {
-            Resource.Error(R.string.api_response_unknown_error)
+            Resource.generateFromApiResponseError(e)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.core.domain.repository
 
 import android.content.SharedPreferences
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 
 interface LocalUserAuthDataRepository {
 
@@ -10,11 +11,18 @@ interface LocalUserAuthDataRepository {
     fun setSavedUserLogin(login: String?)
 
     fun getLoginToken(): String?
-    fun setLoginToken(loginToken: String?, isNeedToSave: Boolean)
+    fun setLoginToken(loginToken: String?)
 
-    fun getAssociatedUserId(): String?
-    fun setAssociatedUserId(userId: String?, isNeedToSave: Boolean)
+    fun getAssociatedPersonId(): String?
+    fun setAssociatedPersonId(personId: String?)
 
-    fun getIsUserAsAdmin(): Boolean
-    fun setIsUserAsAdmin(isAdmin: Boolean, isNeedToSave: Boolean)
+    fun getAssociatedClientId(): String?
+    fun setAssociatedClientId(clientId: String?)
+
+    fun getAssociatedEmployeeId(): String?
+    fun setAssociatedEmployeeId(employeeId: String?)
+
+    fun getEmployeeHasRole(roleToCheck: EmployeeRoles): Boolean
+    fun getEmployeeRoles(): List<EmployeeRoles>?
+    fun setEmployeeRoles(roles: List<String>?)
 }

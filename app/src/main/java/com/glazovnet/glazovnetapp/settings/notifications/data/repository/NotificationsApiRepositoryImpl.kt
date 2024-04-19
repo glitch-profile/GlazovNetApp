@@ -23,10 +23,16 @@ class NotificationsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): NotificationsApiRepository {
 
-    override suspend fun getAvailableTopics(token: String): Resource<List<NotificationTopicModel>> {
+    override suspend fun getAvailableTopics(
+        token: String,
+        includeClientsTopics: Boolean,
+        includeEmployeeTopics: Boolean
+    ): Resource<List<NotificationTopicModel>> {
         return try {
             val result: ApiResponseDto<List<NotificationTopicDto>> = client.get("$PATH/get-topics") {
                 bearerAuth(token)
+                header("include_client", includeClientsTopics)
+                header("include_employee", includeEmployeeTopics)
             }.body()
             if (result.status) {
                 Resource.Success(
@@ -43,14 +49,14 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getClientNotificationsStatus(
+    override suspend fun getPersonNotificationStatus(
         token: String,
-        clientId: String
+        personId: String
     ): Resource<Boolean?> {
         return try {
-            val result: ApiResponseDto<Boolean?> = client.get("$PATH/get-client-notifications-status") {
+            val result: ApiResponseDto<Boolean?> = client.get("$PATH/get-person-notifications-status") {
                 bearerAuth(token)
-                header("client_id", clientId)
+                header("person_id", personId)
             }.body()
             if (result.status) {
                 Resource.Success(
@@ -64,14 +70,14 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTopicsForClient(
+    override suspend fun getTopicsForPerson(
         token: String,
-        clientId: String
+        personId: String
     ): Resource<List<String>> {
         return try {
-            val result: ApiResponseDto<List<String>> = client.get("$PATH/get-topics-for-client") {
+            val result: ApiResponseDto<List<String>> = client.get("$PATH/get-topics-for-person") {
                 bearerAuth(token)
-                header("client_id", clientId)
+                header("person_id", personId)
             }.body()
             if (result.status) {
                 Resource.Success(
@@ -87,15 +93,15 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setClientNotificationsStatus(
+    override suspend fun setPersonNotificationStatus(
         token: String,
-        clientId: String,
+        personId: String,
         newStatus: Boolean
     ): Resource<Unit> {
         return try {
-            val result: ApiResponseDto<Unit> = client.put("$PATH/set-client-notification-status") {
+            val result: ApiResponseDto<Unit> = client.put("$PATH/set-person-notification-status") {
                 bearerAuth(token)
-                header("client_id", clientId)
+                header("person_id", personId)
                 parameter("status", newStatus)
             }.body()
             if (result.status) {
@@ -112,15 +118,15 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setTopicsForClient(
+    override suspend fun setTopicsForPerson(
         token: String,
-        clientId: String,
+        personId: String,
         newTopicsList: List<String>
     ): Resource<Unit> {
         return try {
-            val result: ApiResponseDto<Unit> = client.put("$PATH/update-client-subscribed-topics") {
+            val result: ApiResponseDto<Unit> = client.put("$PATH/update-person-subscribed-topics") {
                 bearerAuth(token)
-                header("client_id", clientId)
+                header("person_id", personId)
                 parameter("topics", newTopicsList.joinToString(","))
             }.body()
             if (result.status) {
@@ -139,14 +145,14 @@ class NotificationsApiRepositoryImpl @Inject constructor(
 
     override suspend fun updateFcmToken(
         authToken: String,
-        clientId: String,
+        personId: String,
         token: String,
         isExclude: Boolean
     ): Resource<Unit> {
         return try {
-            val result: ApiResponseDto<Unit> = client.put("$PATH/update-client-fcm-token") {
+            val result: ApiResponseDto<Unit> = client.put("$PATH/update-person-fcm-token") {
                 bearerAuth(authToken)
-                header("client_id", clientId)
+                header("person_id", personId)
                 header("fcm_token", token)
                     .apply {
                         if (isExclude) parameter("exclude", true)

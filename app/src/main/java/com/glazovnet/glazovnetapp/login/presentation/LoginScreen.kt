@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,13 +19,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -190,7 +187,6 @@ private fun AuthForm(
             keyboardActions = KeyboardActions(
                 onDone = { 
                     viewModel.login(
-                        isAsAdmin = false,
                         onLoginSuccessfully = {
                             onNavigateToHomeScreen.invoke()
                         }
@@ -215,38 +211,10 @@ private fun ActionButtonsForm(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedButton(
-            modifier = Modifier
-                .height(48.dp),
-            shape = MaterialTheme.shapes.small,
-            border = if (isButtonsEnabled) {
-                BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            } else {
-                BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                )
-            },
-            enabled = isButtonsEnabled,
-            onClick = {
-                viewModel.login(
-                    isAsAdmin = true,
-                    onLoginSuccessfully = {
-                        onNavigateToHomeScreen.invoke()
-                    }
-                )
-            }
-        ) {
-            Text(text = stringResource(id = R.string.login_screen_login_as_admin_button))
-        }
-        Spacer(modifier = Modifier.width(8.dp))
         Button(
             modifier = Modifier
                 .height(48.dp)
@@ -254,7 +222,6 @@ private fun ActionButtonsForm(
             shape = MaterialTheme.shapes.small,
             onClick = { 
                 viewModel.login(
-                    isAsAdmin = false,
                     onLoginSuccessfully = {
                         onNavigateToHomeScreen.invoke()
                     }

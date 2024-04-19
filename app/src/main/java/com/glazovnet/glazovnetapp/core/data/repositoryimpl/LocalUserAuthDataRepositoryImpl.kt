@@ -3,14 +3,17 @@ package com.glazovnet.glazovnetapp.core.data.repositoryimpl
 import android.content.Context
 import android.content.SharedPreferences
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 private const val PREFERENCE_NAME = "userAuthData"
 private const val USER_LOGIN = "userLogin"
 private const val LOGIN_TOKEN_NAME = "loginToken"
-private const val USER_ID_NAME = "userId"
-private const val USER_AS_ADMIN = "isUserAsAdmin"
+private const val PERSON_ID_NAME = "personId"
+private const val CLIENT_ID_NAME = "clientId"
+private const val EMPLOYEE_ID_NAME = "employeeId"
+private const val EMPLOYEE_ROLES_NAME = "employeeRoles"
 
 class LocalUserAuthDataRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
@@ -27,43 +30,66 @@ class LocalUserAuthDataRepositoryImpl @Inject constructor(
 
     private var savedLoginToken: String? = null
     override fun getLoginToken(): String? {
-        return if (savedLoginToken != null) savedLoginToken
-        else  {
-            val loginToken = preferences.getString(LOGIN_TOKEN_NAME, null)
-            if (loginToken != null) savedLoginToken = loginToken
-            loginToken
+        return savedLoginToken ?: kotlin.run {
+            savedLoginToken = preferences.getString(LOGIN_TOKEN_NAME, null)
+            savedLoginToken
         }
     }
-    override fun setLoginToken(loginToken: String?, isNeedToSave: Boolean) {
+    override fun setLoginToken(loginToken: String?) {
         savedLoginToken = loginToken
-        if (isNeedToSave) preferences.edit().putString(LOGIN_TOKEN_NAME, loginToken).commit()
+        preferences.edit().putString(LOGIN_TOKEN_NAME, loginToken).apply()
     }
 
-    private var associatedUserId: String? = null
-    override fun getAssociatedUserId(): String? {
-        return if (associatedUserId != null) associatedUserId
-        else {
-            val userId = preferences.getString(USER_ID_NAME, null)
-            if (userId != null) associatedUserId = userId
-            userId
+    private var associatedPersonId: String? = null
+    override fun getAssociatedPersonId(): String? {
+        return associatedPersonId ?: kotlin.run {
+            associatedPersonId = preferences.getString(PERSON_ID_NAME, null)
+            associatedPersonId
         }
     }
-    override fun setAssociatedUserId(userId: String?, isNeedToSave: Boolean) {
-        associatedUserId = userId
-        if (isNeedToSave) preferences.edit().putString(USER_ID_NAME, userId).apply()
+    override fun setAssociatedPersonId(personId: String?) {
+        associatedPersonId = personId
+        preferences.edit().putString(PERSON_ID_NAME, personId).apply()
     }
 
-    private var isUserAsAdmin: Boolean? = null
-    override fun getIsUserAsAdmin(): Boolean {
-        return if (isUserAsAdmin != null) isUserAsAdmin!!
-        else {
-            val isAdmin: Boolean = preferences.getBoolean(USER_AS_ADMIN, false)
-            isUserAsAdmin = isAdmin
-            isAdmin
+    private var associatedClientId: String? = null
+    override fun getAssociatedClientId(): String? {
+        return associatedPersonId ?: kotlin.run {
+            associatedClientId = preferences.getString(CLIENT_ID_NAME, null)
+            associatedClientId
         }
     }
-    override fun setIsUserAsAdmin(isAdmin: Boolean, isNeedToSave: Boolean) {
-        isUserAsAdmin = isAdmin
-        if (isNeedToSave) preferences.edit().putBoolean(USER_AS_ADMIN, isAdmin).apply()
+    override fun setAssociatedClientId(clientId: String?) {
+        associatedClientId = clientId
+        preferences.edit().putString(CLIENT_ID_NAME, clientId).apply()
+    }
+
+    private var associatedEmployeeId: String? = null
+    override fun getAssociatedEmployeeId(): String? {
+        return associatedEmployeeId ?: kotlin.run {
+            associatedEmployeeId = preferences.getString(EMPLOYEE_ID_NAME, null)
+            associatedEmployeeId
+        }
+    }
+    override fun setAssociatedEmployeeId(employeeId: String?) {
+        associatedEmployeeId = employeeId
+        preferences.edit().putString(EMPLOYEE_ID_NAME, employeeId).apply()
+    }
+
+    private var employeeRoles: List<EmployeeRoles>? = null
+    override fun getEmployeeHasRole(roleToCheck: EmployeeRoles): Boolean {
+        val roles = getEmployeeRoles()
+        return roles?.contains(roleToCheck) ?: false
+    }
+    override fun getEmployeeRoles(): List<EmployeeRoles>? {
+        return employeeRoles ?: kotlin.run {
+            val roles = preferences.getStringSet(EMPLOYEE_ROLES_NAME, null)
+            employeeRoles = roles?.toList()?.map { EmployeeRoles.valueOf(it) }
+            employeeRoles
+        }
+    }
+    override fun setEmployeeRoles(roles: List<String>?) {
+        employeeRoles = roles?.map { EmployeeRoles.valueOf(it) }
+        preferences.edit().putStringSet(EMPLOYEE_ROLES_NAME, roles?.toSet()).apply()
     }
 }

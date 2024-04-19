@@ -67,7 +67,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun login(isAsAdmin: Boolean, onLoginSuccessfully: () -> Unit) {
+    fun login(onLoginSuccessfully: () -> Unit) {
         viewModelScope.launch {
             if (username.value.isNotBlank() && password.value.isNotBlank()) {
                 _loginState.update {
@@ -79,8 +79,7 @@ class LoginViewModel @Inject constructor(
                 }
                 val result = authUseCase.login(
                     login = username.value,
-                    password = password.value,
-                    asAdmin = isAsAdmin
+                    password = password.value
                 )
                 when (result) {
                     is Resource.Success -> {

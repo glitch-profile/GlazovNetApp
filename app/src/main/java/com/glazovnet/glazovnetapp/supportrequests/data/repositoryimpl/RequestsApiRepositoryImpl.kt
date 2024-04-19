@@ -51,10 +51,14 @@ class RequestsApiRepositoryImpl @Inject constructor(
     private var requestsSocket: WebSocketSession? = null
     private var chatSocket: WebSocketSession? = null
 
-    override suspend fun getAllRequests(token: String): Resource<List<SupportRequestModel>> {
+    override suspend fun getAllRequests(
+        token: String,
+        employeeId: String
+    ): Resource<List<SupportRequestModel>> {
         return try {
             val response: ApiResponseDto<List<SupportRequestDto>> = client.get("$PATH/all-requests") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -68,10 +72,14 @@ class RequestsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRequestsForClient(token: String): Resource<List<SupportRequestModel>> {
+    override suspend fun getRequestsForClient(
+        token: String,
+        clientId: String
+    ): Resource<List<SupportRequestModel>> {
         return try {
             val response: ApiResponseDto<List<SupportRequestDto>> = client.get("$PATH/requests") {
                 bearerAuth(token)
+                header("client_id", clientId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -86,12 +94,16 @@ class RequestsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRequestById(
+        token: String,
         requestId: String,
-        token: String
+        clientId: String?,
+        employeeId: String?
     ): Resource<SupportRequestModel?> {
         return try {
             val response: ApiResponseDto<SupportRequestDto> = client.get("$PATH/requests/$requestId") {
                 bearerAuth(token)
+                header("client_id", clientId)
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -106,18 +118,22 @@ class RequestsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMessagesForRequest(
+        token: String,
         requestId: String,
-        token: String
+        clientId: String?,
+        employeeId: String?
     ): Resource<List<MessageModel>> {
         return try {
             val response: ApiResponseDto<List<MessageModelDto>> = client.get("$PATH/requests/$requestId/messages") {
                 bearerAuth(token)
+                header("client_id", clientId)
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 val messagesList = response.data.map { it.toMessageModel() }
                 Resource.Success(
                     data = messagesList.map { message ->
-                        message.copy(isOwnMessage = message.senderId == authDataRepository.getAssociatedUserId())
+                        message.copy(isOwnMessage = message.senderId == authDataRepository.getAssociatedPersonId())
                     }
                 )
             } else {
@@ -129,8 +145,8 @@ class RequestsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addRequest(
-        newRequest: SupportRequestModel,
-        token: String
+        token: String,
+        newRequest: SupportRequestModel
     ): Resource<SupportRequestModel?> {
         return try {
             val response: ApiResponseDto<SupportRequestDto> = client.post("$PATH/create-request") {
@@ -149,14 +165,16 @@ class RequestsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changeRequestStatus(
+        token: String,
         requestId: String,
         newStatus: RequestStatus,
-        token: String
+        employeeId: String
     ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-status") {
                 bearerAuth(token)
                 header("new_status", newStatus.convertToIntCode())
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 Resource.Success(Unit)
@@ -169,14 +187,14 @@ class RequestsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changeRequestSupporter(
+        token: String,
         requestId: String,
-        newSupporterId: String,
-        token: String
+        employeeId: String
     ): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-helper") {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$token/set-helper") {
                 bearerAuth(token)
-                header("new_helper_id", newSupporterId)
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 Resource.Success(Unit)
@@ -188,11 +206,12 @@ class RequestsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun initRequestsSocket(token: String): Resource<Unit> {
+    override suspend fun initRequestsSocket(token: String, personId: String): Resource<Unit> {
         return try {
             requestsSocket = wsClient.webSocketSession {
                 url(port = 8080, path = "$PATH/requests-socket")
                 bearerAuth(token)
+                header("person_id", personId)
             }
             if (requestsSocket?.isActive == true) {
                 Resource.Success(data = Unit)
@@ -223,11 +242,16 @@ class RequestsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun initChatSocket(requestId: String, token: String): Resource<Unit> {
+    override suspend fun initChatSocket(
+        token: String,
+        requestId: String,
+        personId: String
+    ): Resource<Unit> {
         return try {
             chatSocket = wsClient.webSocketSession {
                 url(port = 8080, path = "$PATH/requests/$requestId/chat-socket")
                 bearerAuth(token)
+                header("person_id", personId)
             }
             if (chatSocket?.isActive == true) {
                 Resource.Success(Unit)
@@ -258,7 +282,7 @@ class RequestsApiRepositoryImpl @Inject constructor(
                     val json = Json { ignoreUnknownKeys = true }
                     val messageDto = json.decodeFromString<MessageModelDto>(encodedMessage)
                     val message = messageDto.toMessageModel()
-                    message.copy(isOwnMessage = message.senderId == authDataRepository.getAssociatedUserId())
+                    message.copy(isOwnMessage = message.senderId == authDataRepository.getAssociatedPersonId())
                 } ?: flow{}
         } catch (e: Exception) {
             flow { }

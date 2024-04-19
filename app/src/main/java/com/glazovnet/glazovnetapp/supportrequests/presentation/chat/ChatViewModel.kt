@@ -28,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val requestsApiRepository: RequestsApiRepository,
-    private val localUserAuthDataRepository: LocalUserAuthDataRepository
+    localUserAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<List<MessageModel>>())
@@ -39,6 +39,11 @@ class ChatViewModel @Inject constructor(
     private val _messageState = MutableStateFlow(MessageNotificationState())
     val messageState = _messageState.asStateFlow()
     private val messageScope = CoroutineScope(Dispatchers.Default + Job())
+
+    private val loginToken = localUserAuthDataRepository.getLoginToken() ?: ""
+    private val personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
+    private val clientId = localUserAuthDataRepository.getAssociatedClientId() ?: ""
+    private val employeeId = localUserAuthDataRepository.getAssociatedEmployeeId() ?: ""
 
     fun initChat(requestId: String) {
         viewModelScope.launch {
@@ -54,8 +59,9 @@ class ChatViewModel @Inject constructor(
 
     private suspend fun initChatSocket(requestId: String) {
         val connectionResult = requestsApiRepository.initChatSocket(
+            token = loginToken,
             requestId = requestId,
-            token = localUserAuthDataRepository.getLoginToken() ?: ""
+            personId = personId
         )
         when (connectionResult) {
             is Resource.Success -> {
@@ -87,12 +93,13 @@ class ChatViewModel @Inject constructor(
             )
         }
         val result = requestsApiRepository.getMessagesForRequest(
+            token = loginToken,
             requestId = requestId,
-            token = localUserAuthDataRepository.getLoginToken() ?: ""
+            clientId = clientId.ifEmpty { null },
+            employeeId = employeeId.ifEmpty { null }
         )
         when (result) {
             is Resource.Success -> {
-                val localUserId = localUserAuthDataRepository.getAssociatedUserId()
                 val messagesList = result.data!!.toMutableList().apply {
                     this.add(
                         index = result.data.size,
@@ -101,7 +108,7 @@ class ChatViewModel @Inject constructor(
                             senderName = request.value!!.creatorName,
                             text = request.value!!.description,
                             timestamp = request.value!!.creationDate,
-                            isOwnMessage = localUserId == request.value!!.creatorId
+                            isOwnMessage = personId == request.value!!.creatorId
                         )
                     )
                 }
@@ -131,8 +138,10 @@ class ChatViewModel @Inject constructor(
 
     private suspend fun loadRequest(requestId: String) {
         val result = requestsApiRepository.getRequestById(
+            token = loginToken,
             requestId = requestId,
-            token = localUserAuthDataRepository.getLoginToken() ?: ""
+            clientId = clientId.ifEmpty { null },
+            employeeId = employeeId.ifEmpty { null }
         )
         if (result is Resource.Success) {
             _request.update { result.data!! }

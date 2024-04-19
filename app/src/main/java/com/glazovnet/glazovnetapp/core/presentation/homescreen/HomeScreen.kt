@@ -58,7 +58,9 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
 
-    val isAdmin = viewModel.isAdmin
+    val isUserIsEmployee = viewModel.hasEmployeeAccess
+    val employeeRoles = viewModel.employeeRoles
+    val isUserIsClient = viewModel.hasClientAccess
 
     Box(
         modifier = Modifier
@@ -99,7 +101,9 @@ fun HomeScreen(
         }
 
         NavigationDrawer(
-            isUserAdmin = isAdmin,
+            isUserIsClient = isUserIsClient,
+            isUserIsEmployee = isUserIsEmployee,
+            employeeRoles = employeeRoles,
             onNavigateOnHomeScreen = { route ->
                 val currentRoute = secondaryNavController.currentBackStackEntry?.destination?.route
                 secondaryNavController.navigate(route) {

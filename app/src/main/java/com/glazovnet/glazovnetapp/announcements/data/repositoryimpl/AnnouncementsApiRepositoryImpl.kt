@@ -15,6 +15,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -29,10 +30,14 @@ private const val ANNOUNCEMENTS_PATH = "api/announcements"
 class AnnouncementsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): AnnouncementsApiRepository {
-    override suspend fun getAllAnnouncements(token: String): Resource<List<AnnouncementModel>> {
+    override suspend fun getAllAnnouncements(
+        token: String,
+        employeeId: String
+    ): Resource<List<AnnouncementModel>> {
         return try {
             val response: ApiResponseDto<List<AnnouncementModelDto>> = client.get("$ANNOUNCEMENTS_PATH/") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -46,11 +51,12 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getAnnouncementsForClient(
         token: String,
-        userId: String
+        clientId: String
     ): Resource<List<AnnouncementModel>> {
         return try {
             val response: ApiResponseDto<List<AnnouncementModelDto>> = client.get("$ANNOUNCEMENTS_PATH/for-client") {
                 bearerAuth(token)
+                header("client_id", clientId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -63,12 +69,14 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addAnnouncement(
-        announcementModel: AnnouncementModel,
-        token: String
+        token: String,
+        employeeId: String,
+        announcementModel: AnnouncementModel
     ): Resource<AnnouncementModel?> {
         return try {
             val response: ApiResponseDto<AnnouncementModelDto> = client.post("$ANNOUNCEMENTS_PATH/create") {
                 bearerAuth(token)
+                header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
                 setBody(announcementModel.toAnnouncementModelDto())
             }.body()
@@ -84,13 +92,15 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCitiesWithName(
-        cityName: String,
-        token: String
+        token: String,
+        employeeId: String,
+        cityName: String
     ): Resource<List<String>> {
         return try {
             val response: ApiResponseDto<List<String>> = client.get("$ADDRESSES_PATH/cities-list") {
-                parameter("city", cityName)
                 bearerAuth(token)
+                header("employee_id", employeeId)
+                parameter("city", cityName)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -103,15 +113,17 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStreetsWithName(
+        token: String,
+        employeeId: String,
         cityName: String,
-        streetName: String,
-        token: String
+        streetName: String
     ): Resource<List<String>> {
         return try {
             val response: ApiResponseDto<List<String>> = client.get("$ADDRESSES_PATH/streets-list") {
+                bearerAuth(token)
+                header("employee_id", employeeId)
                 parameter("city", cityName)
                 parameter("street", streetName)
-                bearerAuth(token)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -124,15 +136,17 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAddresses(
+        token: String,
+        employeeId: String,
         cityName: String,
-        streetName: String,
-        token: String
+        streetName: String
     ): Resource<List<AddressFilterElement>> {
         return try {
             val response: ApiResponseDto<List<AddressModelDto>> = client.get("$ADDRESSES_PATH/addresses") {
+                bearerAuth(token)
+                header("employee_id", employeeId)
                 parameter("city", cityName)
                 parameter("street", streetName)
-                bearerAuth(token)
             }.body()
             if (response.status) {
                 Resource.Success(

@@ -23,11 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
-    isUserAdmin: Boolean,
+    isUserIsClient: Boolean,
+    isUserIsEmployee: Boolean,
+    employeeRoles: List<EmployeeRoles>,
     onNavigateOnHomeScreen: (route: String) -> Unit,
     onNavigateOnMainScreen: (route: String) -> Unit
 ) {
@@ -49,15 +52,17 @@ fun NavigationDrawer(
             },
             isSelected = selectedItemIndexed == 0
         )
-        NavigationDrawerItem(
-            text = stringResource(id = R.string.request_screen_name),
-            icon = Icons.Default.Build,
-            onClick = {
-                onNavigateOnHomeScreen.invoke("support-graph")
-                selectedItemIndexed = 1
-            },
-            isSelected = selectedItemIndexed == 1
-        )
+        if (isUserIsClient || employeeRoles.contains(EmployeeRoles.SUPPORT_CHAT)) {
+            NavigationDrawerItem(
+                text = stringResource(id = R.string.request_screen_name),
+                icon = Icons.Default.Build,
+                onClick = {
+                    onNavigateOnHomeScreen.invoke("support-graph")
+                    selectedItemIndexed = 1
+                },
+                isSelected = selectedItemIndexed == 1
+            )
+        }
         NavigationDrawerItem(
             text = stringResource(id = R.string.tariffs_list_screen_name),
             icon = Icons.Default.Menu,
@@ -67,16 +72,18 @@ fun NavigationDrawer(
             },
             isSelected = selectedItemIndexed == 2
         )
-        NavigationDrawerItem(
-            text = stringResource(id = R.string.announcement_list_screen_name),
-            icon = Icons.Default.Notifications,
-            onClick = {
-                onNavigateOnHomeScreen.invoke("announcements-graph")
-                selectedItemIndexed = 3
-            },
-            isSelected = selectedItemIndexed == 3
-        )
-        if (isUserAdmin) {
+        if (isUserIsClient || employeeRoles.contains(EmployeeRoles.ANNOUNCEMENTS)) {
+            NavigationDrawerItem(
+                text = stringResource(id = R.string.announcement_list_screen_name),
+                icon = Icons.Default.Notifications,
+                onClick = {
+                    onNavigateOnHomeScreen.invoke("announcements-graph")
+                    selectedItemIndexed = 3
+                },
+                isSelected = selectedItemIndexed == 3
+            )
+        }
+        if (isUserIsEmployee) {
             NavigationDrawerItem(
                 text = stringResource(id = R.string.service_screen_name),
                 icon = Icons.Default.Lock,

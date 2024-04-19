@@ -21,7 +21,8 @@ class TariffsListViewModel @Inject constructor(
     private val userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
-    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin()
+    val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
+
 
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()
@@ -68,30 +69,6 @@ class TariffsListViewModel @Inject constructor(
             getTariffById(tariffId)
         }
         _isSheetOpen.update { true }
-
-
-//        if (tariffId !== sheetData.value.data?.id) {
-//            viewModelScope.launch {
-//                _sheetData.update {
-//                    ScreenState(isLoading = true)
-//                }
-//                val result = tariffsApiRepository.getTariffById(
-//                    tariffId = tariffId,
-//                    token = userAuthDataRepository.getLoginToken() ?: ""
-//                )
-//                when (result) {
-//                    is Resource.Success -> {
-//                        _sheetData.update { it.copy(data = result.data) }
-//                    }
-//                    is Resource.Error -> {
-//                        _sheetData.update {
-//                            it.copy(message = "result.message", stringResourceId = result.stringResourceId)
-//                        }
-//                    }
-//                }
-//                _sheetData.update { it.copy(isLoading = false) }
-//            }
-//        }
     }
 
     fun closeSheet() {

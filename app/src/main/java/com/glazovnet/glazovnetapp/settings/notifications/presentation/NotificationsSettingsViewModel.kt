@@ -96,9 +96,9 @@ class NotificationsSettingsViewModel @Inject constructor(
     }
 
     private suspend fun loadClientNotificationsStatus() {
-        val result = notificationsApiRepository.getClientNotificationsStatus(
+        val result = notificationsApiRepository.getPersonNotificationStatus(
             token = localUserAuthDataRepository.getLoginToken() ?: "",
-            clientId = localUserAuthDataRepository.getAssociatedUserId() ?: ""
+            personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
         )
         if (result is Resource.Success) {
             _isNotificationsEnabled.update {
@@ -115,7 +115,9 @@ class NotificationsSettingsViewModel @Inject constructor(
     }
     private suspend fun loadAvailableTopics() {
         val result = notificationsApiRepository.getAvailableTopics(
-            token = localUserAuthDataRepository.getLoginToken() ?: ""
+            token = localUserAuthDataRepository.getLoginToken() ?: "",
+            includeClientsTopics = localUserAuthDataRepository.getAssociatedClientId() != null,
+            includeEmployeeTopics = localUserAuthDataRepository.getAssociatedEmployeeId() != null
         )
         if (result is Resource.Success) {
             _availableTopics.update {
@@ -131,9 +133,9 @@ class NotificationsSettingsViewModel @Inject constructor(
         }
     }
     private suspend fun loadSelectedTopics() {
-        val result = notificationsApiRepository.getTopicsForClient(
+        val result = notificationsApiRepository.getTopicsForPerson(
             token = localUserAuthDataRepository.getLoginToken() ?: "",
-            clientId = localUserAuthDataRepository.getAssociatedUserId() ?: ""
+            personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
         )
         _selectedTopics.update { result.data ?: emptyList() }
     }
@@ -143,9 +145,9 @@ class NotificationsSettingsViewModel @Inject constructor(
             _state.update {
                 it.copy(isUploading = true)
             }
-            notificationsApiRepository.setClientNotificationsStatus(
+            notificationsApiRepository.setPersonNotificationStatus(
                 token = localUserAuthDataRepository.getLoginToken() ?: "",
-                clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                 newStatus = isNotificationsEnabled.value.data ?: false
             )
             if (isNotificationsOnDeviceEnabled.value) {
@@ -154,7 +156,7 @@ class NotificationsSettingsViewModel @Inject constructor(
                 notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(true)
                 notificationsApiRepository.updateFcmToken(
                     authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                    clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                    personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                     token = newToken
                 )
             } else {
@@ -163,16 +165,16 @@ class NotificationsSettingsViewModel @Inject constructor(
                 if (token !== null && isWasEnabledBefore) {
                     notificationsApiRepository.updateFcmToken(
                         authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                        clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                        personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                         token = token,
                         isExclude = true
                     )
                     notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(false)
                 }
             }
-            notificationsApiRepository.setTopicsForClient(
+            notificationsApiRepository.setTopicsForPerson(
                 token = localUserAuthDataRepository.getLoginToken() ?: "",
-                clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                 newTopicsList = selectedTopics.value
             )
             notificationsLocalSettingRepository.setIsNotificationsSetupComplete(status = true)

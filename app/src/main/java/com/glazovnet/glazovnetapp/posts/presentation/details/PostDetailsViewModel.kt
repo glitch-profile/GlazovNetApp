@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
@@ -24,12 +25,15 @@ import javax.inject.Inject
 @HiltViewModel
 class PostDetailsViewModel @Inject constructor(
     private val postsApiRepository: PostsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<PostModel>())
     val state = _state.asStateFlow()
-    val isAdmin = userAuthDataRepository.getIsUserAsAdmin()
+
+    private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
+    private val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
+    val isEmployeeWithNewsRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.NEWS)
 
     private val _messageState = MutableStateFlow(MessageNotificationState())
     val messageState = _messageState.asStateFlow()
@@ -42,7 +46,7 @@ class PostDetailsViewModel @Inject constructor(
             }
             val result = postsApiRepository.getPostById(
                 postId = postId,
-                token = userAuthDataRepository.getLoginToken() ?: ""
+                token = loginToken
             )
             when (result) {
                 is Resource.Success -> {
@@ -62,8 +66,9 @@ class PostDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isUploading = true) }
             val result = postsApiRepository.deletePostById(
-                token = userAuthDataRepository.getLoginToken() ?: "",
-                postId = postId
+                token = loginToken,
+                postId = postId,
+                employeeId = employeeId
             )
             when (result) {
                 is Resource.Success -> {

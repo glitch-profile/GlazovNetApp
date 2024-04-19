@@ -11,12 +11,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ImageModelDto
+import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.usecases.UtilsUseCase
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
-import com.glazovnet.glazovnetapp.posts.domain.usecases.PostsUseCase
+import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,8 +38,9 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class EditPostViewModel @Inject constructor(
-    private val utilsUseCase: UtilsUseCase,
-    private val postsUseCase: PostsUseCase
+    localUserAuthDataRepository: LocalUserAuthDataRepository,
+    private val postsApiRepository: PostsApiRepository,
+    private val utilsUseCase: UtilsUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<PostModel>())
@@ -55,11 +57,18 @@ class EditPostViewModel @Inject constructor(
     val messageState = _messageState.asStateFlow()
     private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
+    private val employeeId = localUserAuthDataRepository.getAssociatedEmployeeId() ?: ""
+    private val loginToken = localUserAuthDataRepository.getLoginToken() ?: ""
+
     fun loadPostData(postId: String?) {
         if (postId !== null) {
             viewModelScope.launch {
                 _state.update { it.copy(isLoading = true, stringResourceId = null, message = null) }
-                when (val result = postsUseCase.getPostById(postId)) {
+                val result = postsApiRepository.getPostById(
+                    postId = postId,
+                    token = loginToken
+                )
+                when (result) {
                     is Resource.Success -> {
                         _state.update { it.copy(data = result.data) }
                         _postTitle.update { result.data?.title ?: "" }
@@ -121,7 +130,10 @@ class EditPostViewModel @Inject constructor(
                         image = image
                     )
                 }
-                when (val result = postsUseCase.updatePost(postToUpload)) {
+                val result = postsApiRepository.editPost(
+                    postToUpload, loginToken, employeeId
+                )
+                when (result) {
                     is Resource.Success -> {
                         showMessage(
                             titleRes = R.string.edit_post_edit_result_success_title,
@@ -163,7 +175,10 @@ class EditPostViewModel @Inject constructor(
                     text = postText,
                     image = image
                 )
-                when (val result = postsUseCase.addPost(postToUpload)) {
+                val result = postsApiRepository.addPost(
+                    postToUpload, loginToken, employeeId
+                )
+                when (result) {
                     is Resource.Success -> {
                         showMessage(
                             titleRes = R.string.edit_post_add_result_success_title,

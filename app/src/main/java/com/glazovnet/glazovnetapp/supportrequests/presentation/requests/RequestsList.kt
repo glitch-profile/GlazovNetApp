@@ -61,7 +61,7 @@ fun RequestsListScreen(
 ) {
 
     val state = viewModel.state.collectAsState()
-    val isAdmin = viewModel.isAdmin
+    val isEmployeeWithRole = viewModel.isEmployeeWithRole
 
     val lazyListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -104,9 +104,9 @@ fun RequestsListScreen(
                 }
             },
             actions = {
-                AnimatedVisibility(visible = !state.value.isLoading && !isAdmin) {
+                AnimatedVisibility(visible = !state.value.isLoading && !isEmployeeWithRole) {
                     IconButton(onClick = {
-                        if (!state.value.isLoading && !isAdmin) viewModel.loadRequests()
+                        if (!state.value.isLoading && !isEmployeeWithRole) viewModel.loadRequests()
                     }) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
@@ -114,7 +114,7 @@ fun RequestsListScreen(
                         )
                     }
                 }
-                if (!isAdmin) {
+                if (!isEmployeeWithRole) {
                     IconButton(onClick = { onAddNewRequestClicked.invoke() }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -161,7 +161,7 @@ fun RequestsListScreen(
                                         modifier = Modifier
                                             .padding(top = 8.dp),
                                         data = it,
-                                        showAdditionInfo = isAdmin,
+                                        showAdditionInfo = isEmployeeWithRole,
                                         onClick = onRequestClicked
                                     )
                                 }
@@ -193,7 +193,7 @@ fun RequestsListScreen(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        if (isAdmin) {
+                        if (isEmployeeWithRole) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.request_screen_no_request_found_admin_text),
@@ -240,13 +240,13 @@ fun RequestsListScreen(
                                 shape = MaterialTheme.shapes.small,
                                 onClick = onAddNewRequestClicked
                             ) {
-                                Text(text = "Автоматический помощник")
+                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_autoguide_button))
                             }
                             TextButton(
                                 shape = MaterialTheme.shapes.small,
                                 onClick = onAddNewRequestClicked
                             ) {
-                                Text(text = "Пропустить и создать запрос")
+                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_manual_request_button))
                             }
                         }
                     }

@@ -10,6 +10,8 @@ class HomeScreenViewModel @Inject constructor(
     localUserAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
-    val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
+    val hasEmployeeAccess = localUserAuthDataRepository.getAssociatedEmployeeId() != null
+    val employeeRoles = localUserAuthDataRepository.getEmployeeRoles() ?: emptyList()
+    val hasClientAccess = localUserAuthDataRepository.getAssociatedClientId() != null
 
 }

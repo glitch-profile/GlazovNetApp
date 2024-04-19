@@ -58,13 +58,13 @@ fun TariffsListScreen(
     val tariffsState = viewModel.tariffsState.collectAsState()
     val detailsSheetState = viewModel.sheetData.collectAsState()
 
-    val isUserAdmin = viewModel.isUserAdmin
+    val isUserIsClient = viewModel.isUserIsClient
 
     val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
     DetailsSheet(
         isSheetOpen = isSheetOpen.value,
         tariffModel = detailsSheetState.value,
-        isUserAdmin = isUserAdmin,
+        isUserIsClient = isUserIsClient,
         onConnectTariffClicked = {
 
         },
@@ -209,7 +209,7 @@ private fun TariffsList(
 private fun DetailsSheet(
     isSheetOpen: Boolean,
     tariffModel: TariffModel?,
-    isUserAdmin: Boolean,
+    isUserIsClient: Boolean,
     onConnectTariffClicked: (tariffId: String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -310,7 +310,7 @@ private fun DetailsSheet(
                             text = tariffModel.prepaidTrafficDescription
                         )
                     }
-                    if (tariffModel.category !== TariffType.Archive && !isUserAdmin) {
+                    if (tariffModel.category !== TariffType.Archive && isUserIsClient) {
                         Divider(
                             modifier = Modifier
                                 .padding(vertical = 8.dp)

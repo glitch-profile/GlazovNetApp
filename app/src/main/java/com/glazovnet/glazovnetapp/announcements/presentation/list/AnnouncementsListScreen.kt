@@ -47,7 +47,7 @@ fun AnnouncementsListScreen(
     viewModel: AnnouncementsListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isUserAdmin = viewModel.isUserAdmin
+    val isEmployeeWithRole = viewModel.isEmployeeWithRole
 
     val lazyListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -85,7 +85,7 @@ fun AnnouncementsListScreen(
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
                 }
-                if (isUserAdmin) {
+                if (isEmployeeWithRole) {
                     IconButton(onClick = { onCreateNewAnnouncementClicked.invoke() }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add new announcement")
                     }
@@ -124,7 +124,7 @@ fun AnnouncementsListScreen(
                                 modifier = Modifier
                                     .padding(top = 8.dp),
                                 announcement = it,
-                                showAddressCount = isUserAdmin,
+                                showAddressCount = isEmployeeWithRole,
                                 onCardClicked = {
                                     //TODO
                                 }

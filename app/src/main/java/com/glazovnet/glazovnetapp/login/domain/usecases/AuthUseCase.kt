@@ -17,31 +17,30 @@ class AuthUseCase @Inject constructor(
 ) {
     suspend fun login(
         login: String,
-        password: String,
-        asAdmin: Boolean
+        password: String
     ): Resource<AuthResponse> {
         val authData = AuthDataDto(
             username = login,
-            password = password,
-            asAdmin = asAdmin
+            password = password
         )
         val loginResult = loginApiRepository.login(authData)
         if (loginResult is Resource.Success) {
             val authResponse = loginResult.data!!
-            localUserAuthDataRepository.setLoginToken(authResponse.token, true)
-            localUserAuthDataRepository.setAssociatedUserId(authResponse.userId, true)
-            localUserAuthDataRepository.setIsUserAsAdmin(authResponse.isAdmin, true)
             localUserAuthDataRepository.setSavedUserLogin(login)
+            localUserAuthDataRepository.setLoginToken(authResponse.token)
+            localUserAuthDataRepository.setAssociatedPersonId(authResponse.personId)
+            localUserAuthDataRepository.setAssociatedClientId(authResponse.clientId)
+            localUserAuthDataRepository.setAssociatedEmployeeId(authResponse.employeeId)
+            localUserAuthDataRepository.setEmployeeRoles(authResponse.employeeRoles)
 
             //configuring notifications
             val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()
             val isNotificationsEnabledOnDevice = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
-            val isLoggingInAsAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
-            if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isLoggingInAsAdmin) {
+            if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice) {
                 val lastKnownFcmToken = notificationsLocalSettingRepository.getLastKnownFcmToken()
                 notificationsApiRepository.updateFcmToken(
                     authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                    clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                    personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                     token = lastKnownFcmToken!!
                 )
             }
@@ -53,20 +52,21 @@ class AuthUseCase @Inject constructor(
         //configuring notifications
         val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()
         val isNotificationsEnabledOnDevice = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
-        val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
-        if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice && !isAdmin) {
+        if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice) {
             //TODO Replace to removeUserFcmToken
             val result = notificationsApiRepository.updateFcmToken(
                 authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                clientId = localUserAuthDataRepository.getAssociatedUserId() ?: "",
+                personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                 token = notificationsLocalSettingRepository.getLastKnownFcmToken()!!,
                 isExclude = true
             )
         }
 
         //configuring auth local data
-        localUserAuthDataRepository.setLoginToken(null, true)
-        localUserAuthDataRepository.setAssociatedUserId(null, true)
-        localUserAuthDataRepository.setIsUserAsAdmin(isAdmin = false, true)
+        localUserAuthDataRepository.setLoginToken(null)
+        localUserAuthDataRepository.setAssociatedPersonId(null)
+        localUserAuthDataRepository.setAssociatedClientId(null)
+        localUserAuthDataRepository.setAssociatedEmployeeId(null)
+        localUserAuthDataRepository.setEmployeeRoles(null)
     }
 }

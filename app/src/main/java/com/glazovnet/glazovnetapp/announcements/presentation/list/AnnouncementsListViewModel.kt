@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
 import com.glazovnet.glazovnetapp.announcements.domain.repository.AnnouncementsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,26 +18,31 @@ import javax.inject.Inject
 @HiltViewModel
 class AnnouncementsListViewModel @Inject constructor(
     private val announcementsApiRepository: AnnouncementsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<List<AnnouncementModel>>())
     val state = _state.asStateFlow()
 
-    val isUserAdmin = userAuthDataRepository.getIsUserAsAdmin()
+    val isEmployeeWithRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.ANNOUNCEMENTS)
+    private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
+    private val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
+    private val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
 
     fun loadAnnouncements() {
         viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true, message = null, stringResourceId = null)
             }
-            val token = userAuthDataRepository.getLoginToken() ?: ""
-            val result = if (isUserAdmin) {
-                announcementsApiRepository.getAllAnnouncements(token)
+            val result = if (isEmployeeWithRole) {
+                announcementsApiRepository.getAllAnnouncements(
+                    token = loginToken,
+                    employeeId = employeeId
+                )
             } else {
                 announcementsApiRepository.getAnnouncementsForClient(
-                    token = token,
-                    userId = userAuthDataRepository.getAssociatedUserId() ?: ""
+                    token = loginToken,
+                    clientId = clientId
                 )
             }
             when (result) {
