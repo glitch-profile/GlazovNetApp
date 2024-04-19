@@ -251,6 +251,8 @@
     <string name="notification_channel_chat_description">Notifications about new messages in the chat room</string>
     <string name="notification_channel_account_warnings_name">Account warnings</string>
     <string name="notification_channel_account_warnings_description">Alerts on events in your personal account</string>
+    <string name="notification_channel_service_posts_title">Service posts</string>
+    <string name="notification_channel_service_posts_description">Notifications of urgent service news</string>
     <string name="notification_channel_others_name">Other</string>
     <string name="notification_channel_others_description">Uncategorized notifications</string>
 
@@ -259,6 +261,8 @@
     <string name="notifications_new_tariff_title">Meet the new tariff - %s</string>
     <string name="notifications_new_tariff_body">Maybe that would be good for you?</string>
     <string name="notifications_new_announcement_title">Attention! An important announcement has appeared!</string>
+    <string name="notifications_new_service_post_title">There is a new service post available!</string>
+    <string name="notifications_new_service_post_title_with_arg">New service post | %s</string>
     <string name="notifications_new_announcement_body">%s\nFor more information, see the Announcements section</string>
     <string name="notifications_new_message_title">New message | %s</string>
 

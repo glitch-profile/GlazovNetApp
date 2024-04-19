@@ -255,6 +255,8 @@
     <string name="notification_channel_chat_description">Уведомления о новых сообщениях в чате</string>
     <string name="notification_channel_account_warnings_name">Уведомления из личного кабинета</string>
     <string name="notification_channel_account_warnings_description">Предупреждения о событиях в личном кабинете</string>
+    <string name="notification_channel_service_posts_title">Служебные новости</string>
+    <string name="notification_channel_service_posts_description">Уведомленияя о срочных служебных постах</string>
     <string name="notification_channel_others_name">Прочее</string>
     <string name="notification_channel_others_description">Уведомления без категории</string>
 
@@ -264,5 +266,7 @@
     <string name="notifications_new_tariff_body">Возможно, он подойдет именно Вам?</string>
     <string name="notifications_new_announcement_title">Внимание! Появилось важное объявление!</string>
     <string name="notifications_new_announcement_body">%s\nПодробности в разделе объявлений</string>
+    <string name="notifications_new_service_post_title">Появилась новая служебная запись!</string>
+    <string name="notifications_new_service_post_title_with_arg">Появилась новая служебная запись | %s</string>
     <string name="notifications_new_message_title">Новое сообщение | %s</string>
 </resources>
