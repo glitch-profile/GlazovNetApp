@@ -9,6 +9,6 @@ data class AuthResponse(
     val token: String,
     val personId: String,
     val clientId: String?,
-    val employeeId: String,
+    val employeeId: String?,
     val employeeRoles: List<String>?
 )

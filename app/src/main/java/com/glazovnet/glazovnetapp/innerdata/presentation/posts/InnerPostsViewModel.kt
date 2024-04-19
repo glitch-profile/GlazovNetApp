@@ -27,7 +27,6 @@ class InnerPostsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private val userToken = authDataRepository.getLoginToken() ?: ""
-    val isAdmin = authDataRepository.getIsUserAsAdmin()
 
     init {
         loadPosts()

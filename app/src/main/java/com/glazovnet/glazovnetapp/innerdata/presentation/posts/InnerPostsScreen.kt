@@ -47,7 +47,6 @@ fun InnerPostsScreen(
     viewModel: InnerPostsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isUserAnAdmin = viewModel.isAdmin
 
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()

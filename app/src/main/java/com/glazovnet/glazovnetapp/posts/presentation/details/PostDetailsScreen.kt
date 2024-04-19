@@ -195,7 +195,7 @@ private fun BottomActionBar(
             ) {
                 Text(text = stringResource(id = R.string.reusable_text_edit))
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             TextButton(
                 modifier = Modifier
                     .fillMaxWidth()
