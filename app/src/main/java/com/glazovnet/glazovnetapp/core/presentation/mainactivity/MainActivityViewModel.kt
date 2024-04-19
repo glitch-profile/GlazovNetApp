@@ -70,7 +70,7 @@ class MainActivityViewModel @Inject constructor(
 
     private fun getStartDestination(): String {
         val isUserSignedIn =  with(userAuthDataRepository) {
-            getLoginToken() != null && getAssociatedUserId() != null
+            getLoginToken() != null && getAssociatedPersonId() != null
         }
         return if (isUserSignedIn) "home-screen" else "login-screen"
     }

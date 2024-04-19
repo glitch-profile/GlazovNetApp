@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateRequestViewModel @Inject constructor(
     private val requestsApiRepository: RequestsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<SupportRequestModel>())
@@ -41,6 +41,9 @@ class CreateRequestViewModel @Inject constructor(
     val messageState = _messageState.asStateFlow()
     private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
+    private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
+    private val personId = userAuthDataRepository.getAssociatedPersonId() ?: ""
+
     fun addRequest() {
         viewModelScope.launch {
             val title = requestTitle.value
@@ -50,16 +53,15 @@ class CreateRequestViewModel @Inject constructor(
                 _state.update {
                     it.copy(isUploading = true)
                 }
-                val userId = userAuthDataRepository.getAssociatedUserId() ?: ""
                 val request = SupportRequestModel(
-                    creatorId = userId,
+                    creatorId = personId,
                     title = title.trim(),
                     description = description.trim(),
                     isNotificationsEnabled = isReceiveNotifications
                 )
                 val result = requestsApiRepository.addRequest(
                     newRequest = request,
-                    token = userAuthDataRepository.getLoginToken() ?: ""
+                    token = loginToken
                 )
                 when (result) {
                     is Resource.Success -> {

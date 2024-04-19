@@ -2,8 +2,8 @@ package com.glazovnet.glazovnetapp.core.data.repositoryimpl
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -3,10 +3,11 @@ package com.glazovnet.glazovnetapp.supportrequests.presentation.requests
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
-import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportRequestsUseCase
+import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,18 +19,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RequestsViewModel @Inject constructor(
-    private val supportRequestsUseCase: SupportRequestsUseCase,
-    private val localUserAuthDataRepository: LocalUserAuthDataRepository
+    private val requestsApiRepository: RequestsApiRepository,
+    localUserAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
-    val isAdmin = localUserAuthDataRepository.getIsUserAsAdmin()
+    val isEmployeeWithRole = localUserAuthDataRepository.getEmployeeHasRole(EmployeeRoles.SUPPORT_CHAT)
+    private val loginToken = localUserAuthDataRepository.getLoginToken() ?: ""
+    private val personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
+    private val clientId = localUserAuthDataRepository.getAssociatedClientId()
+    private val employeeId = localUserAuthDataRepository.getAssociatedEmployeeId()
+
 
     private val _state = MutableStateFlow(ScreenState<List<SupportRequestModel>>())
     val state = _state.asStateFlow()
 
     fun loadRequests() {
         //user don't need to connect to socket. He just need to see his requests
-        if (isAdmin) connectToSocket()
+        if (isEmployeeWithRole) connectToSocket()
         else getAllRequests()
     }
 
@@ -42,8 +48,12 @@ class RequestsViewModel @Inject constructor(
                     message = null
                 )
             }
-            val result = if (isAdmin) supportRequestsUseCase.getAllRequests()
-            else supportRequestsUseCase.getRequestsForClient()
+            val result = if (isEmployeeWithRole) {
+                requestsApiRepository.getAllRequests(loginToken, employeeId ?: "")
+            }
+            else {
+                requestsApiRepository.getRequestsForClient(loginToken, clientId ?: "")
+            }
             when (result) {
                 is Resource.Success -> {
                     _state.update {
@@ -69,9 +79,9 @@ class RequestsViewModel @Inject constructor(
     private fun connectToSocket() {
         getAllRequests()
         viewModelScope.launch {
-            when (val result = supportRequestsUseCase.initRequestsSocket()) {
+            when (val result = requestsApiRepository.initRequestsSocket(loginToken, personId)) {
                 is Resource.Success -> {
-                    supportRequestsUseCase.observeRequests()
+                    requestsApiRepository.observeRequests()
                         .onEach {request ->
                             val newRequestsList = state.value.data!!.toMutableList().apply {
                                 if (this.any { it.id == request.id }) {
@@ -99,9 +109,9 @@ class RequestsViewModel @Inject constructor(
     }
 
     fun disconnect() {
-        if (isAdmin) {
+        if (isEmployeeWithRole) {
             viewModelScope.launch {
-                supportRequestsUseCase.disconnect()
+                requestsApiRepository.closeRequestsConnection()
             }
         }
     }

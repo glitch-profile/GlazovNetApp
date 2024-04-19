@@ -7,9 +7,6 @@ import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.glazovnet.glazovnetapp.login.domain.usecases.AuthUseCase
 import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsApiRepository
 import com.glazovnet.glazovnetapp.settings.notifications.domain.repository.NotificationsLocalSettingRepository
-import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
-import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportChatUseCase
-import com.glazovnet.glazovnetapp.supportrequests.domain.usecase.SupportRequestsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,21 +42,4 @@ object UseCaseModule {
         return UtilsUseCase(utilsApiRepository, localUserAuthDataRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideRequestsUseCase(
-        requestsApiRepository: RequestsApiRepository,
-        localUserAuthDataRepository: LocalUserAuthDataRepository
-    ): SupportRequestsUseCase {
-        return SupportRequestsUseCase(requestsApiRepository, localUserAuthDataRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSupportChatUseCase(
-        requestsApiRepository: RequestsApiRepository,
-        localUserAuthDataRepository: LocalUserAuthDataRepository
-    ): SupportChatUseCase {
-        return SupportChatUseCase(requestsApiRepository, localUserAuthDataRepository)
-    }
 }

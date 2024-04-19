@@ -7,6 +7,7 @@ import com.glazovnet.glazovnetapp.announcements.domain.model.AddressFilterElemen
 import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
 import com.glazovnet.glazovnetapp.announcements.domain.repository.AnnouncementsApiRepository
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
+import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.MessageNotificationState
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
@@ -32,7 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateAnnouncementViewModel @Inject constructor(
     private val announcementsApiRepository: AnnouncementsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ScreenState<Unit>())
@@ -55,6 +56,11 @@ class CreateAnnouncementViewModel @Inject constructor(
 
     private val _isSheetOpen = MutableStateFlow(false)
     val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
+
+    val isEmployeeWithAnnouncementsRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.ANNOUNCEMENTS)
+    val isEmployeeWithAddressesRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.ADDRESSES)
+    val loginToken = userAuthDataRepository.getLoginToken() ?: ""
+    val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
 
     private val _citiesSearchText = MutableStateFlow("")
     private val citiesSearchJob = _citiesSearchText
@@ -145,8 +151,9 @@ class CreateAnnouncementViewModel @Inject constructor(
                 text = announcementText.value
             )
             val result = announcementsApiRepository.addAnnouncement(
-                announcementModel = announcementToCreate,
-                token = userAuthDataRepository.getLoginToken() ?: ""
+                token = loginToken,
+                employeeId = employeeId,
+                announcementModel = announcementToCreate
             )
             when (result) {
                 is Resource.Success -> {
@@ -173,9 +180,10 @@ class CreateAnnouncementViewModel @Inject constructor(
         viewModelScope.launch {
             if (city.isNotBlank() && street.isNotBlank()) {
                 val addresses = announcementsApiRepository.getAddresses(
+                    token = loginToken,
+                    employeeId = employeeId,
                     cityName = city,
-                    streetName = street,
-                    token = userAuthDataRepository.getLoginToken() ?: ""
+                    streetName = street
                 )
                 _addressesState.update {
                     when (addresses) {
@@ -217,8 +225,9 @@ class CreateAnnouncementViewModel @Inject constructor(
                 )
             }
             val result = announcementsApiRepository.getCitiesWithName(
-                cityName = "",
-                token = userAuthDataRepository.getLoginToken() ?: ""
+                token = loginToken,
+                employeeId = employeeId,
+                cityName = ""
             )
             _citiesList.update {
                 when (result) {

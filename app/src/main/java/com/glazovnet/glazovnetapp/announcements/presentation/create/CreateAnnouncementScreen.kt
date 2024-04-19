@@ -62,6 +62,8 @@ fun CreateAnnouncementScreen(
 
     val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
 
+    val isEmployeeHasAddressesRole = viewModel.isEmployeeWithAddressesRole
+
     AddressesSheet(
         isSheetOpen = isSheetOpen.value,
         citiesList = citiesList.value,
@@ -169,38 +171,41 @@ fun CreateAnnouncementScreen(
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                //TODO: Rework addresses buttons
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
+
+                if (isEmployeeHasAddressesRole) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    //TODO: Rework addresses buttons
+                    Row(
                         modifier = Modifier
-                            .weight(1f),
-                        text = stringResource(id = R.string.add_announcement_screen_address_description),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    IconButton(onClick = {
-                        viewModel.showBottomSheet()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Add address"
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .weight(1f),
+                            text = stringResource(id = R.string.add_announcement_screen_address_description),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        IconButton(onClick = {
+                            viewModel.showBottomSheet()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Add address"
+                            )
+                        }
                     }
+                    Spacer(modifier = (Modifier.height(4.dp)))
+                    SelectedAddressesScreen(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        addresses = selectedAddresses.value,
+                        onAddressClicked = {}
+                    )
                 }
-                Spacer(modifier = (Modifier.height(4.dp)))
-                SelectedAddressesScreen(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    addresses = selectedAddresses.value,
-                    onAddressClicked = {}
-                )
             }
             BottomActionBar(
                 onConfirmButtonClick = { viewModel.createAnnouncement() },

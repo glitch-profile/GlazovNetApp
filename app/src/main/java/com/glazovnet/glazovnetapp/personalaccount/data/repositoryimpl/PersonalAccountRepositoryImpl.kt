@@ -12,7 +12,6 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.header
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import javax.inject.Named
 
@@ -22,11 +21,11 @@ class PersonalAccountRepositoryImpl(
     @Named("RestClient") private val client: HttpClient
 ): PersonalAccountRepository {
 
-    override suspend fun getClientData(token: String, userId: String): Resource<ClientInfo> {
+    override suspend fun getClientData(token: String, clientId: String): Resource<ClientInfo> {
         return try {
             val response: ApiResponseDto<ClientInfoDto> = client.get("$PATH/info") {
                 bearerAuth(token)
-                header("client_id", userId)
+                header("client_id", clientId)
             }.body()
             if (response.status) {
                 Resource.Success(
@@ -42,14 +41,14 @@ class PersonalAccountRepositoryImpl(
 
     override suspend fun changePassword(
         token: String,
-        userId: String,
+        personId: String,
         oldPassword: String,
         newPassword: String
     ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$PATH/update-password") {
                 bearerAuth(token)
-                header("client_id", userId)
+                header("person_id", personId)
                 header("old_password", oldPassword)
                 header("new_password", newPassword)
             }.body()
@@ -65,13 +64,13 @@ class PersonalAccountRepositoryImpl(
 
     override suspend fun changeTariff(
         token: String,
-        userId: String,
+        clientId: String,
         newTariffId: String
     ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$PATH/update-password") {
                 bearerAuth(token)
-                header("client_id", userId)
+                header("client_id", clientId)
                 header("tariff_id", newTariffId)
             }.body()
             if (response.status) {
@@ -84,13 +83,29 @@ class PersonalAccountRepositoryImpl(
         }
     }
 
-    override suspend fun addFunds(token: String, userId: String, amount: Double, note: String?): Resource<Unit> {
+    override suspend fun blockAccount(token: String, clientId: String): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/block") {
+                bearerAuth(token)
+                header("client_id", clientId)
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
+            } else Resource.Error(
+                stringResourceId = R.string.api_response_server_error
+            )
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun addFunds(token: String, clientId: String, amount: Double, note: String?): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$PATH/add-funds") {
                 bearerAuth(token)
-                header("client_id", userId)
+                header("client_id", clientId)
                 header("amount", amount)
-                parameter("note", note)
+                header("note", note)
             }.body()
             if (response.status) {
                 Resource.Success(Unit)

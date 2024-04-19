@@ -58,8 +58,8 @@ fun RequestDetailsScreen(
     viewModel: RequestDetailsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
-    val isAdmin = viewModel.isAdmin
-    val userId = viewModel.userId
+    val isEmployeeWithRole = viewModel.isEmployeeWithRole
+    val employeeId = viewModel.employeeId
 
     LaunchedEffect(key1 = null) {
         viewModel.loadRequestDetails(requestId)
@@ -145,7 +145,7 @@ fun RequestDetailsScreen(
                         text = stringResource(id = R.string.request_details_screen_additional_info_text),
                         maxLines = 2
                     )
-                    if (isAdmin) {
+                    if (isEmployeeWithRole) {
                         AdditionalTextInfo(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -169,7 +169,7 @@ fun RequestDetailsScreen(
                         title = stringResource(id = R.string.request_details_screen_request_status_text),
                         text = stringResource(id = state.value.data!!.status.stringResourceRequestStatus)
                     )
-                    if (isAdmin) {
+                    if (isEmployeeWithRole) {
                         AdditionalTextInfo(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -177,7 +177,7 @@ fun RequestDetailsScreen(
                             title = stringResource(id = R.string.request_details_screen_assigned_supporter_text),
                             text = when (state.value.data!!.associatedSupportId) {
                                 null -> stringResource(id = R.string.request_details_screen_assigned_supporter_no)
-                                userId -> stringResource(id = R.string.request_details_screen_assigned_supporter_you)
+                                employeeId -> stringResource(id = R.string.request_details_screen_assigned_supporter_you)
                                 else -> stringResource(id = R.string.request_details_screen_assigned_supporter_someone)
                             }
                         )
@@ -197,8 +197,8 @@ fun RequestDetailsScreen(
                             viewModel.changeRequestStatus(newStatus)
                         },
                         isButtonsEnabled = !state.value.isLoading && !state.value.isUploading,
-                        isAdmin = isAdmin,
-                        userId = userId,
+                        isAdmin = isEmployeeWithRole,
+                        employeeId = employeeId,
                         request = state.value.data!!
                     )
                 }
@@ -254,7 +254,7 @@ private fun ButtonsMenu(
     onChangeStatusButtonPressed: (RequestStatus) -> Unit,
     isButtonsEnabled: Boolean,
     isAdmin: Boolean,
-    userId: String,
+    employeeId: String,
     request: SupportRequestModel
 ) {
     Column(
@@ -291,7 +291,7 @@ private fun ButtonsMenu(
                     Text(text = stringResource(id = R.string.request_details_screen_assign_text))
                 }
             } else if (request.status == RequestStatus.Active
-                && request.associatedSupportId == userId
+                && request.associatedSupportId == employeeId
             ) {
                 Button(
                     modifier = Modifier
