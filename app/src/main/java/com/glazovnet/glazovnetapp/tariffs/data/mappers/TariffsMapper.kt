@@ -15,7 +15,7 @@ fun TariffModelDto.toTariffModel(): TariffModel {
         costPerMonth = costPerMonth,
         prepaidTraffic = this.prepaidTraffic,
         prepaidTrafficDescription = this.prepaidTrafficDescription,
-        isForOrganisation = this.isForOrganisation
+        isForOrganization = this.isForOrganization
     )
 }
 
@@ -29,6 +29,6 @@ fun TariffModel.toTariffModelDto(): TariffModelDto {
         costPerMonth = costPerMonth,
         prepaidTraffic = this.prepaidTraffic,
         prepaidTrafficDescription = this.prepaidTrafficDescription,
-        isForOrganisation = this.isForOrganisation
+        isForOrganization = this.isForOrganization
     )
 }

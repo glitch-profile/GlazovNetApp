@@ -11,20 +11,65 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "api/tariffs"
-private const val INNER_TARIFFS_PATH = "api/inner/tariffs"
 
 class TariffsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): TariffsApiRepository {
 
-    override suspend fun getAllTariffs(token: String): Resource<List<TariffModel>> {
+    override suspend fun getAllTariffs(
+        token: String,
+        showOrganizationTariffs: Boolean
+    ): Resource<List<TariffModel>> {
         return try {
-//            val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/"){
-            val response: ApiResponseDto<List<TariffModelDto>> = client.get(INNER_TARIFFS_PATH){
+            val response: ApiResponseDto<List<TariffModelDto>> = client.get(PATH){
+                header("is_for_organization", showOrganizationTariffs)
+                bearerAuth(token)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.map { it.toTariffModel() }
+                )
+            } else {
+                Resource.Error(
+                    stringResourceId = R.string.api_response_server_error,
+                    message = response.message
+                )
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun getActiveTariffs(token: String, showOrganizationTariffs: Boolean): Resource<List<TariffModel>> {
+        return try {
+            val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/active"){
+                header("is_for_organization", showOrganizationTariffs)
+                bearerAuth(token)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.map { it.toTariffModel() }
+                )
+            } else {
+                Resource.Error(
+                    stringResourceId = R.string.api_response_server_error,
+                    message = response.message
+                )
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun getArchiveTariffs(token: String, showOrganizationTariffs: Boolean): Resource<List<TariffModel>> {
+        return try {
+            val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/archive"){
+                header("is_for_organization", showOrganizationTariffs)
                 bearerAuth(token)
             }.body()
             if (response.status) {

@@ -6,7 +6,18 @@ import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 interface TariffsApiRepository {
 
     suspend fun getAllTariffs(
-        token: String
+        token: String,
+        showOrganizationTariffs: Boolean
+    ): Resource<List<TariffModel>>
+
+    suspend fun getActiveTariffs(
+        token: String,
+        showOrganizationTariffs: Boolean
+    ): Resource<List<TariffModel>>
+
+    suspend fun getArchiveTariffs(
+        token: String,
+        showOrganizationTariffs: Boolean
     ): Resource<List<TariffModel>>
 
     suspend fun getTariffById(

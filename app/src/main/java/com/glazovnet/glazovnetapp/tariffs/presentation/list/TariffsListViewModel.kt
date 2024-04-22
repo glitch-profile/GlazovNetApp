@@ -22,7 +22,7 @@ class TariffsListViewModel @Inject constructor(
 ): ViewModel() {
 
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
-
+    private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()
@@ -32,13 +32,14 @@ class TariffsListViewModel @Inject constructor(
     private val _isSheetOpen = MutableStateFlow(false)
     val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
 
-    fun loadTariffs() {
+    fun loadActiveTariffs() {
         viewModelScope.launch {
             _tariffsState.update {
                 it.copy(isLoading = true, stringResourceId = null, message = null)
             }
-            val result = tariffsApiRepository.getAllTariffs(
-                token = userAuthDataRepository.getLoginToken() ?: ""
+            val result = tariffsApiRepository.getActiveTariffs(
+                token = userAuthDataRepository.getLoginToken() ?: "",
+                showOrganizationTariffs = isUserIsEmployee
             )
             when (result) {
                 is Resource.Success -> {

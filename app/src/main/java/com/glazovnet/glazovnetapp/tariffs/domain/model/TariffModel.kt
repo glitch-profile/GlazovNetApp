@@ -9,5 +9,5 @@ data class TariffModel(
     val costPerMonth: Int,
     val prepaidTraffic: Int?,
     val prepaidTrafficDescription: String?,
-    val isForOrganisation: Boolean
+    val isForOrganization: Boolean
 )
