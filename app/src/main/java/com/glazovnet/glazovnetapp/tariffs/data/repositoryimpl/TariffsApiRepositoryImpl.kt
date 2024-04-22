@@ -15,6 +15,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 private const val PATH = "api/tariffs"
+private const val INNER_TARIFFS_PATH = "api/inner/tariffs"
 
 class TariffsApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
@@ -22,7 +23,8 @@ class TariffsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTariffs(token: String): Resource<List<TariffModel>> {
         return try {
-            val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/"){
+//            val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/"){
+            val response: ApiResponseDto<List<TariffModelDto>> = client.get(INNER_TARIFFS_PATH){
                 bearerAuth(token)
             }.body()
             if (response.status) {

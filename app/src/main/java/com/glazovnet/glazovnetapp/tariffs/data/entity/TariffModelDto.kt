@@ -13,5 +13,6 @@ data class TariffModelDto(
     val maxSpeed: Int,
     val costPerMonth: Int,
     val prepaidTraffic: Int?,
-    val prepaidTrafficDescription: String?
+    val prepaidTrafficDescription: String?,
+    val isForOrganisation: Boolean
 )

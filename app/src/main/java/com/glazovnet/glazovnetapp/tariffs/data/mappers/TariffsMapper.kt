@@ -14,7 +14,8 @@ fun TariffModelDto.toTariffModel(): TariffModel {
         maxSpeed = maxSpeed,
         costPerMonth = costPerMonth,
         prepaidTraffic = this.prepaidTraffic,
-        prepaidTrafficDescription = this.prepaidTrafficDescription
+        prepaidTrafficDescription = this.prepaidTrafficDescription,
+        isForOrganisation = this.isForOrganisation
     )
 }
 
@@ -27,6 +28,7 @@ fun TariffModel.toTariffModelDto(): TariffModelDto {
         maxSpeed = maxSpeed,
         costPerMonth = costPerMonth,
         prepaidTraffic = this.prepaidTraffic,
-        prepaidTrafficDescription = this.prepaidTrafficDescription
+        prepaidTrafficDescription = this.prepaidTrafficDescription,
+        isForOrganisation = this.isForOrganisation
     )
 }
