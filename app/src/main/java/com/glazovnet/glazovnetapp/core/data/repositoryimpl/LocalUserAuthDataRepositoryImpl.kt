@@ -54,7 +54,7 @@ class LocalUserAuthDataRepositoryImpl @Inject constructor(
 
     private var associatedClientId: String? = null
     override fun getAssociatedClientId(): String? {
-        return associatedPersonId ?: kotlin.run {
+        return associatedClientId ?: kotlin.run {
             associatedClientId = preferences.getString(CLIENT_ID_NAME, null)
             associatedClientId
         }

@@ -28,9 +28,9 @@ class InnerPostsViewModel @Inject constructor(
 
     private val userToken = authDataRepository.getLoginToken() ?: ""
 
-    init {
-        loadPosts()
-    }
+//    init {
+//        loadPosts()
+//    }
 
     fun loadPosts() {
         viewModelScope.launch {

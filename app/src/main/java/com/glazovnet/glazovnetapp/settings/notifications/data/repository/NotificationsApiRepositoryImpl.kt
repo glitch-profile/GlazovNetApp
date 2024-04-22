@@ -127,7 +127,7 @@ class NotificationsApiRepositoryImpl @Inject constructor(
             val result: ApiResponseDto<Unit> = client.put("$PATH/update-person-subscribed-topics") {
                 bearerAuth(token)
                 header("person_id", personId)
-                parameter("topics", newTopicsList.joinToString(","))
+                if (newTopicsList.isNotEmpty()) parameter("topics", newTopicsList.joinToString(","))
             }.body()
             if (result.status) {
                 Resource.Success(
@@ -154,9 +154,7 @@ class NotificationsApiRepositoryImpl @Inject constructor(
                 bearerAuth(authToken)
                 header("person_id", personId)
                 header("fcm_token", token)
-                    .apply {
-                        if (isExclude) parameter("exclude", true)
-                    }
+                if (isExclude) parameter("exclude", true)
             }.body()
             if (result.status) {
                 Resource.Success(

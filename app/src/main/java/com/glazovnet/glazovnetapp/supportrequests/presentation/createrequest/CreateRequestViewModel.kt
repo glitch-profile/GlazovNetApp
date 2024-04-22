@@ -42,7 +42,7 @@ class CreateRequestViewModel @Inject constructor(
     private val messageScope = CoroutineScope(Dispatchers.Default + Job())
 
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
-    private val personId = userAuthDataRepository.getAssociatedPersonId() ?: ""
+    private val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
 
     fun addRequest() {
         viewModelScope.launch {
@@ -54,7 +54,7 @@ class CreateRequestViewModel @Inject constructor(
                     it.copy(isUploading = true)
                 }
                 val request = SupportRequestModel(
-                    creatorId = personId,
+                    creatorClientId = clientId,
                     title = title.trim(),
                     description = description.trim(),
                     isNotificationsEnabled = isReceiveNotifications

@@ -192,7 +192,7 @@ class RequestsApiRepositoryImpl @Inject constructor(
         employeeId: String
     ): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$token/set-helper") {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-helper") {
                 bearerAuth(token)
                 header("employee_id", employeeId)
             }.body()

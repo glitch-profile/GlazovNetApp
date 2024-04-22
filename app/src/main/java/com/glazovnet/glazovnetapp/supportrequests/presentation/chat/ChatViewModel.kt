@@ -104,11 +104,11 @@ class ChatViewModel @Inject constructor(
                     this.add(
                         index = result.data.size,
                         MessageModel(
-                            senderId = request.value!!.creatorId,
+                            senderId = request.value!!.creatorPersonId,
                             senderName = request.value!!.creatorName,
                             text = request.value!!.description,
                             timestamp = request.value!!.creationDate,
-                            isOwnMessage = personId == request.value!!.creatorId
+                            isOwnMessage = personId == request.value!!.creatorPersonId
                         )
                     )
                 }

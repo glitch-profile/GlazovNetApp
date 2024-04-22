@@ -12,7 +12,8 @@ fun SupportRequestModel.toSupportRequestDto(): SupportRequestDto {
     val convertedCreationDate = this.creationDate?.toEpochSecond() ?: 0L
     return SupportRequestDto(
         id = this.id,
-        creatorId = this.creatorId,
+        creatorPersonId = this.creatorPersonId,
+        creatorClientId = this.creatorClientId,
         creatorName = this.creatorName,
         associatedSupportId = this.associatedSupportId,
         title = this.title,
@@ -30,7 +31,8 @@ fun SupportRequestDto.toSupportRequestModel(): SupportRequestModel {
     )
     return SupportRequestModel(
         id = this.id,
-        creatorId = this.creatorId,
+        creatorPersonId = this.creatorPersonId,
+        creatorClientId = this.creatorClientId,
         creatorName = this.creatorName,
         associatedSupportId = this.associatedSupportId,
         title = this.title,
