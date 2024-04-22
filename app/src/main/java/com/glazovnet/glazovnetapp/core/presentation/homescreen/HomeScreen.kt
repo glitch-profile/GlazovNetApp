@@ -365,7 +365,7 @@ private fun ScreenContents(
             composable("inner-posts-screen") {
                 InnerPostsScreen(
                     onNavigationButtonClicked = {
-                        navController.popBackStack()
+                        toggleNavigationDrawer.invoke()
                     }
                 )
             }
