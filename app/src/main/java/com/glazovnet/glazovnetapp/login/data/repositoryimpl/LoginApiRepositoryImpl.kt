@@ -37,4 +37,13 @@ class LoginApiRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun loginAsGuest(): Resource<AuthResponse> {
+        return try {
+            val response: ApiResponseDto<AuthResponse> = client.post("$LOGIN_PATH/guest").body()
+            if (response.status) Resource.Success(data = response.data)
+                else Resource.Error(R.string.api_response_server_error, response.message)
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
 }

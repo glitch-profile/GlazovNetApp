@@ -14,7 +14,7 @@
     <string name="login_screen_password_text">Пароль</string>
     <string name="login_remember_user_text">Запомнить меня</string>
     <string name="login_screen_login_as_user_button">Войти</string>
-    <string name="login_screen_login_as_admin_button">Администратор</string>
+    <string name="login_screen_login_as_guest_button">Войти как гость</string>
     <string name="login_screen_error_title">Не удалось войти</string>
     <string name="login_screen_fields_are_empty_error_message">Введите ваши логин и пароль</string>
     <string name="login_response_user_not_found">Пользователь не найден</string>

@@ -19,12 +19,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -212,13 +214,29 @@ private fun ActionButtonsForm(
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
+            .fillMaxWidth()
     ) {
+        TextButton(
+            modifier = Modifier
+                .height(48.dp),
+            shape = MaterialTheme.shapes.small,
+            onClick = {
+                viewModel.loginAsGuest(
+                    onLoginSuccessfully = {
+                        onNavigateToHomeScreen.invoke()
+                    }
+                )
+            }
+        ) {
+            Text(text = stringResource(id = R.string.login_screen_login_as_guest_button))
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
         Button(
             modifier = Modifier
-                .height(48.dp)
-                .fillMaxWidth(),
+                .weight(1f)
+                .height(48.dp),
             shape = MaterialTheme.shapes.small,
             onClick = { 
                 viewModel.login(
@@ -231,5 +249,6 @@ private fun ActionButtonsForm(
         ) {
             Text(text = stringResource(id = R.string.login_screen_login_as_user_button))
         }
+
     }
 }

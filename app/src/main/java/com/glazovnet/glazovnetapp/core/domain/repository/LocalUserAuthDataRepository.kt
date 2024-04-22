@@ -10,6 +10,9 @@ interface LocalUserAuthDataRepository {
     fun getSavedUserLogin(): String?
     fun setSavedUserLogin(login: String?)
 
+//    fun getIsLoggedAsGuest(): Boolean
+//    fun setIsLoggedAsGuest(status: Boolean)
+
     fun getLoginToken(): String?
     fun setLoginToken(loginToken: String?)
 

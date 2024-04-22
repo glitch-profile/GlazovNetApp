@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.settings.core.presentation.components.SettingsSectorButton
 
@@ -35,8 +36,11 @@ fun SettingsScreen(
     onNavigationButtonPressed: () -> Unit,
     onNavigateToNotificationsScreen: () -> Unit,
     onNavigateToAppearanceScreen: () -> Unit,
-    onNavigateToInfoScreen: () -> Unit
+    onNavigateToInfoScreen: () -> Unit,
+    viewModel: SettingsScreenViewModel = hiltViewModel()
 ) {
+    val isLoggedInAsGuest = viewModel.isUserLoggedInAsGuest
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,12 +79,14 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.small)
             ) {
-                SettingsSectorButton(
-                    title = stringResource(id = R.string.notifications_settings_screen_name),
-                    description = stringResource(id = R.string.settings_screen_notifications_description),
-                    icon = Icons.Default.Notifications,
-                    onClick = onNavigateToNotificationsScreen
-                )
+                if (!isLoggedInAsGuest) {
+                    SettingsSectorButton(
+                        title = stringResource(id = R.string.notifications_settings_screen_name),
+                        description = stringResource(id = R.string.settings_screen_notifications_description),
+                        icon = Icons.Default.Notifications,
+                        onClick = onNavigateToNotificationsScreen
+                    )
+                }
                 SettingsSectorButton(
                     title = stringResource(id = R.string.appearance_settings_screen_name),
                     description = stringResource(id = R.string.settings_screen_appearance_description),

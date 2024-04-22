@@ -13,7 +13,7 @@
     <string name="login_screen_password_text">Password</string>
     <string name="login_remember_user_text">Remember me</string>
     <string name="login_screen_login_as_user_button">Login</string>
-    <string name="login_screen_login_as_admin_button">Administrator</string>
+    <string name="login_screen_login_as_guest_button">Login as guest</string>
     <string name="login_screen_error_title">Unable to login</string>
     <string name="login_screen_fields_are_empty_error_message">Enter your login and password</string>
     <string name="login_response_user_not_found">User not found</string>

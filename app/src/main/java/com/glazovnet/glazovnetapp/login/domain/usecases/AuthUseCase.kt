@@ -48,6 +48,16 @@ class AuthUseCase @Inject constructor(
         return loginResult
     }
 
+    suspend fun loginAsGuest(): Resource<AuthResponse> {
+        val loginResult = loginApiRepository.loginAsGuest()
+        if (loginResult is Resource.Success) {
+            val authResponse = loginResult.data!!
+            localUserAuthDataRepository.setLoginToken(authResponse.token)
+            localUserAuthDataRepository.setAssociatedPersonId(authResponse.personId)
+        }
+        return loginResult
+    }
+
     suspend fun logout() {
         //configuring notifications
         val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()

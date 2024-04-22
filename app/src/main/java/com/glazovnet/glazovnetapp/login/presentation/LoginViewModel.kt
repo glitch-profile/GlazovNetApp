@@ -116,6 +116,40 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun loginAsGuest(onLoginSuccessfully: () -> Unit) {
+        viewModelScope.launch {
+            _loginState.update {
+                it.copy(
+                    isLoading = true,
+                    message = null,
+                    stringResourceId = null
+                )
+            }
+            when (val result = authUseCase.loginAsGuest()) {
+                is Resource.Success -> {
+                    _loginState.update {
+                        it.copy(
+                            isLoading = false
+                        )
+                    }
+                    onLoginSuccessfully.invoke()
+                }
+                is Resource.Error -> {
+                    _loginState.update {
+                        it.copy(
+                            isLoading = false,
+                            stringResourceId = result.stringResourceId,
+                            message = result.message
+                        )
+                    }
+                    showMessage(
+                        messageRes = result.stringResourceId!!
+                    )
+                }
+            }
+        }
+    }
+
     private fun showMessage(titleRes: Int = R.string.login_screen_error_title, messageRes: Int) {
         messageScope.coroutineContext.cancelChildren()
         messageScope.launch {

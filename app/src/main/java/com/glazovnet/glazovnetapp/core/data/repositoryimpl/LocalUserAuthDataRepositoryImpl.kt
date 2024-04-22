@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 private const val PREFERENCE_NAME = "userAuthData"
 private const val USER_LOGIN = "userLogin"
+private const val USER_AS_GUEST = "loggedInAsGuest"
 private const val LOGIN_TOKEN_NAME = "loginToken"
 private const val PERSON_ID_NAME = "personId"
 private const val CLIENT_ID_NAME = "clientId"
@@ -39,6 +40,18 @@ class LocalUserAuthDataRepositoryImpl @Inject constructor(
         savedLoginToken = loginToken
         preferences.edit().putString(LOGIN_TOKEN_NAME, loginToken).apply()
     }
+
+//    private var isLoggedAsGuest: Boolean? = null
+//    override fun getIsLoggedAsGuest(): Boolean {
+//        return isLoggedAsGuest ?: kotlin.run {
+//            isLoggedAsGuest = preferences.getBoolean(USER_AS_GUEST, false)
+//            isLoggedAsGuest!!
+//        }
+//    }
+//    override fun setIsLoggedAsGuest(status: Boolean) {
+//        isLoggedAsGuest = status
+//        preferences.edit().putBoolean(USER_AS_GUEST, status).apply()
+//    }
 
     private var associatedPersonId: String? = null
     override fun getAssociatedPersonId(): String? {

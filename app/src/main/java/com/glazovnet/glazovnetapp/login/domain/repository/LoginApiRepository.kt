@@ -8,4 +8,6 @@ interface LoginApiRepository {
 
     suspend fun login(authData: AuthDataDto): Resource<AuthResponse>
 
+    suspend fun loginAsGuest(): Resource<AuthResponse>
+
 }
