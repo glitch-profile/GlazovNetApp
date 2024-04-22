@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.tariffs.presentation.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -74,7 +76,7 @@ fun TariffsListScreen(
     )
 
     LaunchedEffect(null) {
-        viewModel.loadTariffs()
+        viewModel.loadActiveTariffs()
     }
 
     Column(
@@ -101,7 +103,7 @@ fun TariffsListScreen(
             actions = {
                 AnimatedVisibility(visible = !tariffsState.value.isLoading) {
                     IconButton(onClick = {
-                        if (!tariffsState.value.isLoading) viewModel.loadTariffs()
+                        if (!tariffsState.value.isLoading) viewModel.loadActiveTariffs()
                     }) {
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = "Update page")
                     }
@@ -127,7 +129,8 @@ fun TariffsListScreen(
             } else if (tariffsState.value.data != null) {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .weight(1f)
                         .nestedScroll(scrollBehavior.nestedScrollConnection),
                     content = {
                         items(
@@ -147,6 +150,11 @@ fun TariffsListScreen(
                         item {
                             Spacer(modifier = Modifier.navigationBarsPadding())
                         }
+                    }
+                )
+                TariffsArchiveButtonBottomBar(
+                    onOpenTariffsArchiveClicked = {
+                        //TODO
                     }
                 )
             }
@@ -332,6 +340,30 @@ private fun DetailsSheet(
                     Spacer(modifier = Modifier.navigationBarsPadding())
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun TariffsArchiveButtonBottomBar(
+    onOpenTariffsArchiveClicked: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .navigationBarsPadding()
+            .imePadding(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            modifier = Modifier
+                .height(48.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
+            onClick = { onOpenTariffsArchiveClicked.invoke() },
+        ) {
+            Text(text = stringResource(id = R.string.tariffs_list_open_tariffs_archive_button_text))
         }
     }
 }
