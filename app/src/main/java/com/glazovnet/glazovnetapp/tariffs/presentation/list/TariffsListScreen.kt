@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -44,8 +45,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.AdditionalTextInfo
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
+import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 
@@ -58,9 +60,19 @@ fun TariffsListScreen(
 ) {
 
     val tariffsState = viewModel.tariffsState.collectAsState()
+    val archiveTariffsState = viewModel.archiveTariffsState.collectAsState()
     val detailsSheetState = viewModel.sheetData.collectAsState()
 
     val isUserIsClient = viewModel.isUserIsClient
+
+    val isArchiveSheetOpen = viewModel.isArchiveSheetOpen.collectAsState()
+    ArchiveTariffsSheet(
+        isSheetOpen = isArchiveSheetOpen.value,
+        archiveScreenState = archiveTariffsState.value,
+        onDismiss = {
+            viewModel.hideArchive()
+        }
+    )
 
     val isSheetOpen = viewModel.isDetailsSheetOpen.collectAsState()
     DetailsSheet(
@@ -116,11 +128,7 @@ fun TariffsListScreen(
                 .fillMaxSize()
         ) {
             if (tariffsState.value.isLoading && tariffsState.value.data == null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (tariffsState.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = tariffsState.value.stringResourceId,
@@ -154,7 +162,7 @@ fun TariffsListScreen(
                 )
                 TariffsArchiveButtonBottomBar(
                     onOpenTariffsArchiveClicked = {
-                        //TODO
+                        viewModel.showArchive()
                     }
                 )
             }
@@ -192,7 +200,6 @@ private fun TariffsList(
                    .padding(top = 4.dp),
                text = tariffs.size.toString(),
                style = MaterialTheme.typography.titleSmall,
-//               fontWeight = FontWeight.Bold,
                color = MaterialTheme.colorScheme.onSurfaceVariant
            )
        }
@@ -297,8 +304,9 @@ private fun DetailsSheet(
                             title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
                             text = pluralStringResource(
                                 id = R.plurals.tariff_card_prepaid_traffic_value,
-                                count = tariffModel.prepaidTraffic / 1024,
-                                formatArgs = arrayOf(tariffModel.prepaidTraffic / 1024))
+                                count = tariffModel.prepaidTraffic.toInt(),
+                                tariffModel.prepaidTraffic / 1024
+                            )
                         )
                     } else {
                         AdditionalTextInfo(
@@ -364,6 +372,75 @@ private fun TariffsArchiveButtonBottomBar(
             onClick = { onOpenTariffsArchiveClicked.invoke() },
         ) {
             Text(text = stringResource(id = R.string.tariffs_list_open_tariffs_archive_button_text))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ArchiveTariffsSheet(
+    isSheetOpen: Boolean,
+    archiveScreenState: ScreenState<List<TariffModel>>,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            modifier = Modifier
+                .statusBarsPadding()
+                .fillMaxSize(),
+            sheetState = sheetState,
+            onDismissRequest = onDismiss,
+            windowInsets = WindowInsets(0.dp)
+        ) {
+            if (archiveScreenState.isLoading && archiveScreenState.data == null) {
+                LoadingComponent()
+            } else if (archiveScreenState.stringResourceId != null) {
+                RequestErrorScreen(
+                    messageStringResource = archiveScreenState.stringResourceId,
+                    additionalMessage = archiveScreenState.message
+                )
+            } else if (archiveScreenState.data != null) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    content = {
+                        item {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.tariffs_list_tariffs_archive_text),
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    modifier = Modifier
+                                        .padding(top = 4.dp),
+                                    text = archiveScreenState.data.size.toString(),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        items(
+                            items = archiveScreenState.data,
+                            key = { it.id }
+                        ) {
+                            TariffCard(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                tariff = it,
+                                onCardClicked = {}
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 }

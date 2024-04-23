@@ -18,19 +18,25 @@ import javax.inject.Inject
 @HiltViewModel
 class TariffsListViewModel @Inject constructor(
     private val tariffsApiRepository: TariffsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository
+    userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
+    private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
     private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
     private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
     val tariffsState = _tariffsState.asStateFlow()
+    private val _archiveTariffsState = MutableStateFlow(ScreenState<List<TariffModel>>())
+    val archiveTariffsState = _archiveTariffsState.asStateFlow()
 
     private val _sheetData = MutableStateFlow<TariffModel?>(null)
     val sheetData = _sheetData.asStateFlow()
     private val _isSheetOpen = MutableStateFlow(false)
     val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
+
+    private val _isArchiveSheetOpen = MutableStateFlow(false)
+    val isArchiveSheetOpen = _isArchiveSheetOpen.asStateFlow()
 
     fun loadActiveTariffs() {
         viewModelScope.launch {
@@ -38,7 +44,7 @@ class TariffsListViewModel @Inject constructor(
                 it.copy(isLoading = true, stringResourceId = null, message = null)
             }
             val result = tariffsApiRepository.getActiveTariffs(
-                token = userAuthDataRepository.getLoginToken() ?: "",
+                token = loginToken,
                 showOrganizationTariffs = isUserIsEmployee
             )
             when (result) {
@@ -58,6 +64,38 @@ class TariffsListViewModel @Inject constructor(
 
     private fun splitTariffs(tariffs: List<TariffModel>): Map<TariffType, List<TariffModel>> {
         return tariffs.groupBy { it.category }
+    }
+
+    private fun loadArchiveTariffs() {
+        viewModelScope.launch {
+            _archiveTariffsState.update {
+                it.copy(isLoading = true, stringResourceId = null, message = null)
+            }
+            val tariffs = tariffsApiRepository.getArchiveTariffs(
+                token = loginToken,
+                showOrganizationTariffs = isUserIsEmployee
+            )
+            when (tariffs) {
+                is Resource.Success -> {
+                    _archiveTariffsState.update { it.copy(data = tariffs.data!!) }
+                }
+                is Resource.Error -> {
+                    _archiveTariffsState.update {
+                        it.copy(stringResourceId = tariffs.stringResourceId, message = tariffs.message)
+                    }
+                }
+            }
+            _archiveTariffsState.update { it.copy(isLoading = false) }
+        }
+    }
+
+    fun showArchive() {
+        loadArchiveTariffs()
+        _isArchiveSheetOpen.update { true }
+    }
+
+    fun hideArchive() {
+        _isArchiveSheetOpen.update { false }
     }
 
     private fun getTariffById(tariffId: String): TariffModel? {

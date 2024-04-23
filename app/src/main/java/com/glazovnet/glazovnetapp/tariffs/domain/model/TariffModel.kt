@@ -5,9 +5,9 @@ data class TariffModel(
     val name: String,
     val description: String?,
     val category: TariffType,
-    val maxSpeed: Int,
+    val maxSpeed: Int, // megabits/second
     val costPerMonth: Int,
-    val prepaidTraffic: Int?,
+    val prepaidTraffic: Long?, // gigabytes
     val prepaidTrafficDescription: String?,
     val isForOrganization: Boolean
 )

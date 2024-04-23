@@ -91,6 +91,7 @@
     <!-- TARIFFS SCREEN -->
     <string name="tariffs_list_screen_name">Tariffs</string>
     <string name="tariffs_list_open_tariffs_archive_button_text">Open tariffs archive</string>
+    <string name="tariffs_list_tariffs_archive_text">Tariffs archive</string>
     <string name="tariffs_list_loading_failed_text">Failed to load</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->

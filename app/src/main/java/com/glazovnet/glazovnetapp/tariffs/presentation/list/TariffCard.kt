@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.tariffs.presentation.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ fun TariffCard(
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surface)
             .clickable { onCardClicked.invoke(tariff.id) }
     ) {
         Row(

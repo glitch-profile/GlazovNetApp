@@ -92,6 +92,7 @@
     <!-- TARIFFS SCREEN -->
     <string name="tariffs_list_screen_name">Тарифы</string>
     <string name="tariffs_list_open_tariffs_archive_button_text">Открыть архив тарифов</string>
+    <string name="tariffs_list_tariffs_archive_text">Архив тарифов</string>
     <string name="tariffs_list_loading_failed_text">Не удалось загрузить</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
