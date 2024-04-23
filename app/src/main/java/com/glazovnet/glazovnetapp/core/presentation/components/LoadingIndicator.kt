@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
 
+@Deprecated("Use loading component instead", level = DeprecationLevel.WARNING)
 @Composable
 fun LoadingIndicator(
     modifier: Modifier = Modifier,
