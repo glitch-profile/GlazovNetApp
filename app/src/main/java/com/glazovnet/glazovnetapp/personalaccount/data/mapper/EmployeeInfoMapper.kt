@@ -16,6 +16,7 @@ fun EmployeeInfoDto.toEmployeeModel(): EmployeeModel {
     return EmployeeModel(
         accountCreationDate = creationDate,
         averageRating = averageRating,
+        numberOfRatings = this.numberOfRatings,
         roles = this.roles
     )
 }
