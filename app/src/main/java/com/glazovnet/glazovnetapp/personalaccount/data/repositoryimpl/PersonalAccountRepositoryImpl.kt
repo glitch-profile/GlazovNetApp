@@ -4,8 +4,14 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.ClientInfoDto
-import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toClientInfo
-import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientInfo
+import com.glazovnet.glazovnetapp.personalaccount.data.entity.EmployeeInfoDto
+import com.glazovnet.glazovnetapp.personalaccount.data.entity.PersonInfoDto
+import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toClientModel
+import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toEmployeeModel
+import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toPersonModel
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -22,15 +28,54 @@ class PersonalAccountRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
 ): PersonalAccountRepository {
 
-    override suspend fun getClientData(token: String, clientId: String): Resource<ClientInfo> {
+    override suspend fun getClientData(token: String, clientId: String): Resource<ClientModel> {
         return try {
-            val response: ApiResponseDto<ClientInfoDto> = client.get("$PATH/info") {
+            val response: ApiResponseDto<ClientInfoDto> = client.get("$PATH/client-info") {
                 bearerAuth(token)
                 header("client_id", clientId)
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.toClientInfo()
+                    data = response.data.toClientModel()
+                )
+            } else Resource.Error(
+                stringResourceId = R.string.personal_account_user_not_found_error
+            )
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun getPersonData(token: String, personId: String): Resource<PersonModel> {
+        return try {
+            val response: ApiResponseDto<PersonInfoDto> = client.get("$PATH/person-info") {
+                bearerAuth(token)
+                header("person_id", personId)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.toPersonModel()
+                )
+            } else Resource.Error(
+                stringResourceId = R.string.personal_account_user_not_found_error
+            )
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun getEmployeeData(
+        token: String,
+        employeeId: String
+    ): Resource<EmployeeModel> {
+        return try {
+            val response: ApiResponseDto<EmployeeInfoDto> = client.get("$PATH/employee-info") {
+                bearerAuth(token)
+                header("employee_id", employeeId)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.toEmployeeModel()
                 )
             } else Resource.Error(
                 stringResourceId = R.string.personal_account_user_not_found_error
