@@ -3,7 +3,7 @@ package com.glazovnet.glazovnetapp.personalaccount.presentation
 import androidx.lifecycle.ViewModel
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
-import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientInfo
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository
@@ -16,15 +16,15 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val personalAccountRepository: PersonalAccountRepository,
     private val tariffsApiRepository: TariffsApiRepository,
-    private val userAuthDataRepository: LocalUserAuthDataRepository,
+     userAuthDataRepository: LocalUserAuthDataRepository,
 ): ViewModel() {
 
-    private val _state = MutableStateFlow(ScreenState<ClientInfo>())
+    private val _state = MutableStateFlow(ScreenState<ClientModel>())
     val state = _state.asStateFlow()
 
     private val _tariffData = MutableStateFlow(ScreenState<TariffModel>())
     val tariffData = _tariffData.asStateFlow()
 
-    val userToken = userAuthDataRepository.getLoginToken()
+    private val userToken = userAuthDataRepository.getLoginToken()
 
 }

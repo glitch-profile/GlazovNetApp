@@ -129,6 +129,18 @@
     <string name="personal_account_change_password_failed_title">Unable to update password</string>
     <string name="personal_account_change_password_failed_message">Incorrect user password</string>
     <string name="personal_account_change_tariff_failed_title">Unable to update tariff</string>
+    <!-- TOP ACCOUNT BAR -->
+    <string name="personal_account_morning_text">Good morning</string>
+    <string name="personal_account_afternoon_text">Afternoon</string>
+    <string name="personal_account_evening_text">Good evening</string>
+    <string name="personal_account_night_text">Good night</string>
+    <string name="personal_account_current_balance_title">Balance</string>
+    <string name="personal_account_current_tariff_title">Current tariff</string>
+    <string name="personal_account_debit_remaining_days_title">Remaining time</string>
+    <plurals name="personal_account_debit_remaining_days_value">
+        <item quantity="one">%d day</item>
+        <item quantity="many">%d days</item>
+    </plurals>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>

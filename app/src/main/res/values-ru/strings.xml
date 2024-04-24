@@ -130,6 +130,19 @@
     <string name="personal_account_change_password_failed_title">Не удалось обновить пароль</string>
     <string name="personal_account_change_password_failed_message">Введен неверный пароль пользователя</string>
     <string name="personal_account_change_tariff_failed_title">Не удалось обновить тариф</string>
+    <!-- TOP ACCOUNT BAR -->
+    <string name="personal_account_morning_text">Доброе утро</string>
+    <string name="personal_account_afternoon_text">Добрый день</string>
+    <string name="personal_account_evening_text">Добрый вечер</string>
+    <string name="personal_account_night_text">Доброй ночи</string>
+    <string name="personal_account_current_balance_title">Ваш баланс</string>
+    <string name="personal_account_current_tariff_title">Текущий тариф</string>
+    <string name="personal_account_debit_remaining_days_title">До списания</string>
+    <plurals name="personal_account_debit_remaining_days_value">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+    </plurals>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
