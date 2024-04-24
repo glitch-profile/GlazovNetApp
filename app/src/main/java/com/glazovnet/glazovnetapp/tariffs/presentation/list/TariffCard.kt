@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,24 +49,33 @@ fun TariffCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    text = stringResource(id = R.string.tariff_card_max_speed_text, tariff.maxSpeed),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    softWrap = true,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-//                if (tariff.description != null) {
-//                    Text(
-//                        text = tariff.description,
-//                        style = MaterialTheme.typography.bodySmall,
-//                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                        softWrap = true,
-//                        maxLines = 2,
-//                        overflow = TextOverflow.Ellipsis
-//                    )
-//                }
+                if (tariff.prepaidTraffic != null) {
+                    Text(
+                        text = buildString { 
+                            append(pluralStringResource(
+                                id = R.plurals.tariff_card_prepaid_traffic_value,
+                                count = tariff.prepaidTraffic.toInt(),
+                                tariff.prepaidTraffic.toInt()
+                            ))
+                            append(" ")
+                            append(stringResource(id = R.string.tariff_card_of_prepaid_traffic))
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        softWrap = true,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.tariff_card_max_speed_text, tariff.maxSpeed),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        softWrap = true,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
             Spacer(modifier = Modifier.width(8.dp))
             Row(

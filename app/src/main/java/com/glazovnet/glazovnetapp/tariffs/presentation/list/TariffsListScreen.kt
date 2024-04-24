@@ -281,11 +281,15 @@ private fun DetailsSheet(
                     AdditionalTextInfo(
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 4.dp),
-                        title = stringResource(id = R.string.tariff_card_maximum_speed_details_text),
-                        text = stringResource(
-                            id = R.string.tariff_card_max_speed_value,
-                            formatArgs = arrayOf(tariffModel.maxSpeed)
-                        )
+                        title = stringResource(id = R.string.tariff_card_speed_limit_details_text),
+                        text = if (tariffModel.maxSpeed == 0) {
+                            stringResource(id = R.string.tariff_card_speed_limit_none_value)
+                        } else {
+                            stringResource(
+                                id = R.string.tariff_card_speed_limit_value,
+                                formatArgs = arrayOf(tariffModel.maxSpeed)
+                            )
+                        }
                     )
                     AdditionalTextInfo(
                         modifier = Modifier
@@ -305,7 +309,7 @@ private fun DetailsSheet(
                             text = pluralStringResource(
                                 id = R.plurals.tariff_card_prepaid_traffic_value,
                                 count = tariffModel.prepaidTraffic.toInt(),
-                                tariffModel.prepaidTraffic / 1024
+                                tariffModel.prepaidTraffic.toInt()
                             )
                         )
                     } else {

@@ -12,7 +12,7 @@ fun TariffModelDto.toTariffModel(): TariffModel {
         category = TariffType.fromTariffTypeCode(this.categoryCode),
         maxSpeed = maxSpeed / 1024,
         costPerMonth = costPerMonth,
-        prepaidTraffic = this.prepaidTraffic?.div(1024),
+        prepaidTraffic = this.prepaidTraffic?.div(1024 * 1024),
         prepaidTrafficDescription = this.prepaidTrafficDescription,
         isForOrganization = this.isForOrganization
     )
