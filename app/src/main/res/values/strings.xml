@@ -211,20 +211,27 @@
     
     <!-- TARIFF CARD -->
     <string name="tariff_card_month_text">month</string>
-    <string name="tariff_card_max_speed_text">Speed up to %d Mbits/s</string>
+    <string name="tariff_card_max_speed_megabits_text">Speed up to %d Mbits/s</string>
+    <string name="tariff_card_max_speed_kilobits_text">Speed up to %d Kbits/s</string>
     <string name="tariff_card_of_prepaid_traffic">of traffic</string>
     <!-- DETAILS -->
-    <plurals name="tariff_card_prepaid_traffic_value">
+    <plurals name="tariff_card_prepaid_traffic_gigabytes_value">
         <item quantity="one">%d gigabyte</item>
         <item quantity="many">%d gigabytes</item>
         <item quantity="other">%d gigabytes</item>
+    </plurals>
+    <plurals name="tariff_card_prepaid_traffic_megabytes_value">
+        <item quantity="one">%d megabyte</item>
+        <item quantity="many">%d megabytes</item>
+        <item quantity="other">%d megabytes</item>
     </plurals>
     <plurals name="tariff_card_cost_value">
         <item quantity="one">%d ruble</item>
         <item quantity="many">%d rubles</item>
         <item quantity="other">%d rubles</item>
     </plurals>
-    <string name="tariff_card_speed_limit_value">Up to %d Mbits/s</string>
+    <string name="tariff_card_speed_limit_megabits_value">Up to %d Mbits/s</string>
+    <string name="tariff_card_speed_limit_kilobits_value">Up to %d Kbits/s</string>
     <string name="tariff_card_speed_limit_none_value">No limit</string>
     <string name="tariff_card_cost_text">Cost per month</string>
     <string name="tariff_card_speed_limit_details_text">Speed limit</string>

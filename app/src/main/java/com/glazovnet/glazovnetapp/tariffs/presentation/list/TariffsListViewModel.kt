@@ -6,7 +6,6 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
-import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,8 +24,13 @@ class TariffsListViewModel @Inject constructor(
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
     private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
-    private val _tariffsState = MutableStateFlow(ScreenState<Map<TariffType, List<TariffModel>>>())
+    private val _tariffsState = MutableStateFlow(ScreenState<List<TariffModel>>())
     val tariffsState = _tariffsState.asStateFlow()
+    private val _unlimitedTariffs = MutableStateFlow<List<TariffModel>>(emptyList())
+    val unlimitedTariffs = _unlimitedTariffs.asStateFlow()
+    private val _limitedTariffs = MutableStateFlow<List<TariffModel>>(emptyList())
+    val limitedTariffs = _limitedTariffs.asStateFlow()
+
     private val _archiveTariffsState = MutableStateFlow(ScreenState<List<TariffModel>>())
     val archiveTariffsState = _archiveTariffsState.asStateFlow()
 
@@ -49,8 +53,8 @@ class TariffsListViewModel @Inject constructor(
             )
             when (result) {
                 is Resource.Success -> {
-                    val tariffs = splitTariffs(result.data!!)
-                    _tariffsState.update { it.copy(data = tariffs) }
+                    splitTariffs(result.data!!)
+                    _tariffsState.update { it.copy(data = result.data) }
                 }
                 is Resource.Error -> {
                     _tariffsState.update {
@@ -62,8 +66,10 @@ class TariffsListViewModel @Inject constructor(
         }
     }
 
-    private fun splitTariffs(tariffs: List<TariffModel>): Map<TariffType, List<TariffModel>> {
-        return tariffs.groupBy { it.category }
+    private fun splitTariffs(tariffs: List<TariffModel>) {
+        val groupedTariffs = tariffs.groupBy { it.prepaidTraffic == null }
+        _unlimitedTariffs.update { groupedTariffs[true] ?: emptyList() }
+        _limitedTariffs.update { groupedTariffs[false] ?: emptyList() }
     }
 
     private fun loadArchiveTariffs() {
@@ -99,7 +105,7 @@ class TariffsListViewModel @Inject constructor(
     }
 
     private fun getTariffById(tariffId: String): TariffModel? {
-        val tariffsList = tariffsState.value.data?.values?.flatten()
+        val tariffsList = tariffsState.value.data
         return tariffsList?.find { it.id == tariffId }
     }
 

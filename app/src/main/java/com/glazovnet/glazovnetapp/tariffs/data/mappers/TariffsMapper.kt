@@ -2,18 +2,17 @@ package com.glazovnet.glazovnetapp.tariffs.data.mappers
 
 import com.glazovnet.glazovnetapp.tariffs.data.entity.TariffModelDto
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
-import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 
 fun TariffModelDto.toTariffModel(): TariffModel {
     return TariffModel(
         id = id,
         name = name,
         description = description,
-        category = TariffType.fromTariffTypeCode(this.categoryCode),
-        maxSpeed = maxSpeed / 1024,
+        maxSpeed = maxSpeed,
         costPerMonth = costPerMonth,
-        prepaidTraffic = this.prepaidTraffic?.div(1024 * 1024),
+        prepaidTraffic = this.prepaidTraffic?.div(1024), //converting to megabytes
         prepaidTrafficDescription = this.prepaidTrafficDescription,
+        isActive = this.isActive,
         isForOrganization = this.isForOrganization
     )
 }

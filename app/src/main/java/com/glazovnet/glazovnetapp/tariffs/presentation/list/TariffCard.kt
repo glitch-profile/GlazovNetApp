@@ -51,12 +51,20 @@ fun TariffCard(
                 )
                 if (tariff.prepaidTraffic != null) {
                     Text(
-                        text = buildString { 
-                            append(pluralStringResource(
-                                id = R.plurals.tariff_card_prepaid_traffic_value,
-                                count = tariff.prepaidTraffic.toInt(),
-                                tariff.prepaidTraffic.toInt()
-                            ))
+                        text = buildString {
+                            if (tariff.prepaidTraffic < 1024) {
+                                append(pluralStringResource(
+                                    id = R.plurals.tariff_card_prepaid_traffic_megabytes_value,
+                                    count = tariff.prepaidTraffic.toInt(),
+                                    tariff.prepaidTraffic.toInt()
+                                ))
+                            } else {
+                                append(pluralStringResource(
+                                    id = R.plurals.tariff_card_prepaid_traffic_gigabytes_value,
+                                    count = tariff.prepaidTraffic.toInt() / 1024,
+                                    tariff.prepaidTraffic.toInt() / 1024
+                                ))
+                            }
                             append(" ")
                             append(stringResource(id = R.string.tariff_card_of_prepaid_traffic))
                         },
@@ -68,7 +76,8 @@ fun TariffCard(
                     )
                 } else {
                     Text(
-                        text = stringResource(id = R.string.tariff_card_max_speed_text, tariff.maxSpeed),
+                        text = if (tariff.maxSpeed < 1024) stringResource(id = R.string.tariff_card_max_speed_kilobits_text, tariff.maxSpeed)
+                        else stringResource(id = R.string.tariff_card_max_speed_megabits_text, tariff.maxSpeed / 1024),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         softWrap = true,

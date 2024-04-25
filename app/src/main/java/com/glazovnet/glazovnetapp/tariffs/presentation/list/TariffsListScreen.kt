@@ -49,7 +49,6 @@ import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
-import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +59,9 @@ fun TariffsListScreen(
 ) {
 
     val tariffsState = viewModel.tariffsState.collectAsState()
+    val unlimitedTariffs = viewModel.unlimitedTariffs.collectAsState()
+    val limitedTariffs = viewModel.limitedTariffs.collectAsState()
+
     val archiveTariffsState = viewModel.archiveTariffsState.collectAsState()
     val detailsSheetState = viewModel.sheetData.collectAsState()
 
@@ -141,19 +143,46 @@ fun TariffsListScreen(
                         .weight(1f)
                         .nestedScroll(scrollBehavior.nestedScrollConnection),
                     content = {
+                        item {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            TariffsGroupTitle(
+                                text = stringResource(id = R.string.tariff_type_unlimited_name),
+                                tariffsCount = unlimitedTariffs.value.size
+                            )
+                        }
                         items(
-                            items = tariffsState.value.data!!.toList(),
-                            key = { it.first.toString() }
+                            items = unlimitedTariffs.value,
+                            key = { it.id }
                         ) {
-                                TariffsList(
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp),
-                                    tariffType = it.first,
-                                    tariffs = it.second,
-                                    onTariffClicked = {tariffId ->
-                                        viewModel.showDetails(tariffId)
-                                    }
+                            TariffCard(
+                                tariff = it,
+                                onCardClicked = {tariffId ->
+                                    viewModel.showDetails(tariffId)
+                                }
+                            )
+                        }
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                TariffsGroupTitle(
+                                    text = stringResource(id = R.string.tariff_type_limited_name),
+                                    tariffsCount = limitedTariffs.value.size
                                 )
+                            }
+                        }
+                        items(
+                            items = limitedTariffs.value,
+                            key = {it.id}
+                        ) {
+                            TariffCard(
+                                tariff = it,
+                                onCardClicked = {tariffId ->
+                                    viewModel.showDetails(tariffId)
+                                }
+                            )
                         }
                         item {
                             Spacer(modifier = Modifier.navigationBarsPadding())
@@ -172,51 +201,30 @@ fun TariffsListScreen(
 }
 
 @Composable
-private fun TariffsList(
-    modifier: Modifier = Modifier,
-    tariffType: TariffType,
-    tariffs: List<TariffModel>,
-    onTariffClicked: (tariffId: String) -> Unit
+private fun TariffsGroupTitle(
+    text: String,
+    tariffsCount: Int
 ) {
-   Column(
-       modifier = modifier
-           .fillMaxWidth(),
-   ) {
-       Row(
-           modifier = Modifier
-               .fillMaxWidth()
-               .padding(horizontal = 16.dp),
-           verticalAlignment = Alignment.CenterVertically
-       ) {
-           Text(
-               text = stringResource(id = tariffType.stringResourceName),
-               style = MaterialTheme.typography.headlineSmall,
-//               fontWeight = FontWeight.Bold,
-               color = MaterialTheme.colorScheme.onSurface
-           )
-           Spacer(modifier = Modifier.width(8.dp))
-           Text(
-               modifier = Modifier
-                   .padding(top = 4.dp),
-               text = tariffs.size.toString(),
-               style = MaterialTheme.typography.titleSmall,
-               color = MaterialTheme.colorScheme.onSurfaceVariant
-           )
-       }
-       Column(
-           modifier = Modifier
-               .fillMaxWidth()
-       ) {
-           tariffs.forEach {tariff ->
-               TariffCard(
-                   modifier = Modifier
-                       .fillMaxWidth(),
-                   tariff = tariff,
-                   onCardClicked = onTariffClicked
-               )
-           }
-       }
-   }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            modifier = Modifier
+                .padding(top = 4.dp),
+            text = tariffsCount.toString(),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -285,10 +293,17 @@ private fun DetailsSheet(
                         text = if (tariffModel.maxSpeed == 0) {
                             stringResource(id = R.string.tariff_card_speed_limit_none_value)
                         } else {
-                            stringResource(
-                                id = R.string.tariff_card_speed_limit_value,
-                                formatArgs = arrayOf(tariffModel.maxSpeed)
-                            )
+                            if (tariffModel.maxSpeed < 1024) {
+                                stringResource(
+                                    id = R.string.tariff_card_speed_limit_kilobits_value,
+                                    tariffModel.maxSpeed
+                                )
+                            } else {
+                                stringResource(
+                                    id = R.string.tariff_card_speed_limit_megabits_value,
+                                    tariffModel.maxSpeed / 1024
+                                )
+                            }
                         }
                     )
                     AdditionalTextInfo(
@@ -306,11 +321,19 @@ private fun DetailsSheet(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 4.dp),
                             title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
-                            text = pluralStringResource(
-                                id = R.plurals.tariff_card_prepaid_traffic_value,
-                                count = tariffModel.prepaidTraffic.toInt(),
-                                tariffModel.prepaidTraffic.toInt()
-                            )
+                            text = if (tariffModel.prepaidTraffic < 1024) {
+                                pluralStringResource(
+                                    id = R.plurals.tariff_card_prepaid_traffic_megabytes_value,
+                                    count = tariffModel.prepaidTraffic.toInt(),
+                                    tariffModel.prepaidTraffic.toInt()
+                                )
+                            } else {
+                                pluralStringResource(
+                                    id = R.plurals.tariff_card_prepaid_traffic_gigabytes_value,
+                                    count = tariffModel.prepaidTraffic.toInt() / 1024,
+                                    tariffModel.prepaidTraffic.toInt() / 1024
+                                )
+                            }
                         )
                     } else {
                         AdditionalTextInfo(
@@ -330,7 +353,7 @@ private fun DetailsSheet(
                             text = tariffModel.prepaidTrafficDescription
                         )
                     }
-                    if (tariffModel.category !== TariffType.Archive && isUserIsClient) {
+                    if (tariffModel.isActive && isUserIsClient) {
                         Divider(
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
