@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.JumpToTopButton
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.launch
@@ -99,11 +100,7 @@ fun AnnouncementsListScreen(
                 .clipToBounds()
         ) {
             if (state.value.isLoading && state.value.data == null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (state.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = state.value.stringResourceId,

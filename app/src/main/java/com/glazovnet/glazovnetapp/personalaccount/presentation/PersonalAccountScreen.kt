@@ -67,7 +67,9 @@ fun PersonalAccountScreen(
             actions = {
                 AnimatedVisibility(visible = !accountState.value.isLoading) {
                     IconButton(onClick = {
-                        if (!accountState.value.isLoading)  {  } // TODO
+                        if (!accountState.value.isLoading)  {
+                            viewModel.loadUserInfo()
+                        }
                     }) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
@@ -81,14 +83,14 @@ fun PersonalAccountScreen(
                 containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
             )
         )
-        if (accountState.value.isLoading && accountState.value.data == null) {
+        if (accountState.value.isLoading && accountState.value.personInfo == null) {
             LoadingComponent()
-        } else if (accountState.value.stringResourceId != null) {
+        } else if (accountState.value.stringResourceMessage != null) {
             RequestErrorScreen(
-                messageStringResource = accountState.value.stringResourceId,
+                messageStringResource = accountState.value.stringResourceMessage,
                 additionalMessage = accountState.value.message
             )
-        } else if (accountState.value.data != null) {
+        } else if (accountState.value.personInfo != null) { // if personInfo != null, then all important info should be already loaded
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -103,11 +105,11 @@ fun PersonalAccountScreen(
                 ) {
                     val welcomeTextRes = remember {
                         val currentTime = LocalDateTime.now(ZoneId.systemDefault()).hour
-                        if (IntRange(5, 12).contains(currentTime)) {
+                        if (IntRange(6, 11).contains(currentTime)) {
                             R.string.personal_account_morning_text
-                        } else if (IntRange(13, 18).contains(currentTime)) {
+                        } else if (IntRange(12, 17).contains(currentTime)) {
                             R.string.personal_account_afternoon_text
-                        } else if (IntRange(19, 22).contains(currentTime)) {
+                        } else if (IntRange(18, 21).contains(currentTime)) {
                             R.string.personal_account_evening_text
                         } else {
                             R.string.personal_account_night_text

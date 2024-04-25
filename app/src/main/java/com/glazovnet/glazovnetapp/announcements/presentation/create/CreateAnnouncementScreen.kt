@@ -163,16 +163,15 @@ fun CreateAnnouncementScreen(
                         imeAction = ImeAction.Done
                     )
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    modifier = Modifier
-                        .padding(start = 32.dp, end = 16.dp),
-                    text = stringResource(id = R.string.add_announcement_screen_address_title),
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.titleMedium
-                )
-
                 if (isEmployeeHasAddressesRole) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 32.dp, end = 16.dp),
+                        text = stringResource(id = R.string.add_announcement_screen_address_title),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     //TODO: Rework addresses buttons
                     Row(
