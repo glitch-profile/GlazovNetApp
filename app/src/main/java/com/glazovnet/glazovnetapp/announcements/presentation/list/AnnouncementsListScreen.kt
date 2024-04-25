@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +35,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.JumpToTopButton
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.launch
 

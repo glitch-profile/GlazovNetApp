@@ -11,6 +11,6 @@ data class PersonInfoDto(
     val middleName: String,
     val login: String,
     val password: String,
-    val profileAvatar: String,
+    val profileAvatar: String?,
     val isNotificationsEnabled: Boolean
 )
