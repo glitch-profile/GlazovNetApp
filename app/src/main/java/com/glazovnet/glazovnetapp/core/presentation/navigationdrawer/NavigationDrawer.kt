@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
@@ -52,15 +53,26 @@ fun NavigationDrawer(
             },
             isSelected = selectedItemIndexed == 0
         )
+        if (isUserIsClient || isUserIsEmployee) {
+            NavigationDrawerItem(
+                text = stringResource(id = R.string.personal_account_screen_name),
+                icon = Icons.Default.Person,
+                onClick = {
+                    onNavigateOnHomeScreen.invoke("personal-account-graph")
+                    selectedItemIndexed = 1
+                },
+                isSelected = selectedItemIndexed == 1
+            )
+        }
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.SUPPORT_CHAT)) {
             NavigationDrawerItem(
                 text = stringResource(id = R.string.request_screen_name),
                 icon = Icons.Default.Build,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("support-graph")
-                    selectedItemIndexed = 1
+                    selectedItemIndexed = 2
                 },
-                isSelected = selectedItemIndexed == 1
+                isSelected = selectedItemIndexed == 2
             )
         }
         NavigationDrawerItem(
@@ -68,9 +80,9 @@ fun NavigationDrawer(
             icon = Icons.Default.Menu,
             onClick = {
                 onNavigateOnHomeScreen.invoke("tariffs-graph")
-                selectedItemIndexed = 2
+                selectedItemIndexed = 3
             },
-            isSelected = selectedItemIndexed == 2
+            isSelected = selectedItemIndexed == 3
         )
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.ANNOUNCEMENTS)) {
             NavigationDrawerItem(
@@ -78,9 +90,9 @@ fun NavigationDrawer(
                 icon = Icons.Default.Notifications,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("announcements-graph")
-                    selectedItemIndexed = 3
+                    selectedItemIndexed = 4
                 },
-                isSelected = selectedItemIndexed == 3
+                isSelected = selectedItemIndexed == 4
             )
         }
         if (isUserIsEmployee) {
@@ -89,9 +101,9 @@ fun NavigationDrawer(
                 icon = Icons.Default.Lock,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("service-graph")
-                    selectedItemIndexed = 4
+                    selectedItemIndexed = 5
                 },
-                isSelected = selectedItemIndexed == 4
+                isSelected = selectedItemIndexed == 5
             )
         }
         NavigationDrawerItem(
@@ -99,9 +111,9 @@ fun NavigationDrawer(
             icon = Icons.Default.Settings,
             onClick = {
                 onNavigateOnHomeScreen.invoke("settings-graph")
-                selectedItemIndexed = 5
+                selectedItemIndexed = 6
             },
-            isSelected = selectedItemIndexed == 5
+            isSelected = selectedItemIndexed == 6
         )
         Divider(
             modifier = Modifier

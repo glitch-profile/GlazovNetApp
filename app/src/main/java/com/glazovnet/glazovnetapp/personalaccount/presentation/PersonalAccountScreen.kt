@@ -116,10 +116,12 @@ fun PersonalAccountScreen(
                         }
                     }
                     Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
                         text = buildString {
                             append(stringResource(welcomeTextRes))
                             append(", ")
-                            append("Name")
+                            append(accountState.value.personInfo!!.firstName)
                         },
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
