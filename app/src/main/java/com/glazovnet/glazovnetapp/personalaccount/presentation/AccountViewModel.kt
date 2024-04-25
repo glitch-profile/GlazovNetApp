@@ -54,9 +54,10 @@ class AccountViewModel @Inject constructor(
                         isLoading = false,
                         personInfo = person,
                         clientInfo = client,
-                        employeeModel = employee
+                        employeeInfo = employee
                     )
                 }
+                loadTariff()
             } catch (e: UserRequestError) {
                 _state.update {
                     it.copy(
@@ -66,6 +67,22 @@ class AccountViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private suspend fun loadTariff() {
+        if (state.value.clientInfo != null) {
+            _tariffData.update {
+                it.copy(isLoading = true)
+            }
+            val result = tariffsApiRepository.getTariffById(
+                token = userToken,
+                tariffId = state.value.clientInfo!!.tariffId
+            )
+            if (result is Resource.Success) {
+                _tariffData.update { it.copy(data = result.data!!) }
+            }
+            _tariffData.update { it.copy(isLoading = false) }
         }
     }
 

@@ -134,12 +134,27 @@
     <string name="personal_account_afternoon_text">Afternoon</string>
     <string name="personal_account_evening_text">Good evening</string>
     <string name="personal_account_night_text">Good night</string>
-    <string name="personal_account_current_balance_title">Balance</string>
-    <string name="personal_account_current_tariff_title">Current tariff</string>
-    <string name="personal_account_debit_remaining_days_title">Remaining time</string>
-    <plurals name="personal_account_debit_remaining_days_value">
+    <string name="personal_account_top_bar_current_balance_title">Balance</string>
+    <string name="personal_account_top_bar_current_tariff_title">Tariff</string>
+    <string name="personal_account_top_bar_current_tariff_load_error_text">Error</string>
+    <string name="personal_account_top_bar_payment_remaining_days_title">Payment in</string>
+    <string name="personal_account_top_bar_payment_remaining_days_less_than_hour_text">Less a hour</string>
+    <string name="personal_account_top_bar_notification_title">Notifications</string>
+    <string name="personal_account_top_bar_notification_enabled_text">Enabled</string>
+    <string name="personal_account_top_bar_notification_disabled_text">Disabled</string>
+    <string name="personal_account_top_bar_employee_rating_title">Rating</string>
+    <string name="personal_account_top_bar_employee_rating_none_text">None</string>
+    <string name="personal_account_top_bar_employee_rating_great_text">Excellent</string>
+    <string name="personal_account_top_bar_employee_rating_good_text">Good</string>
+    <string name="personal_account_top_bar_employee_rating_acceptable_text">Acceptable</string>
+    <string name="personal_account_top_bar_employee_rating_bad_text">Low</string>
+    <plurals name="personal_account_top_bar_payment_remaining_days_value">
         <item quantity="one">%d day</item>
         <item quantity="many">%d days</item>
+    </plurals>
+    <plurals name="personal_account_top_bar_payment_remaining_hours_value">
+        <item quantity="one">%d hour</item>
+        <item quantity="many">%d hours</item>
     </plurals>
 
     <!-- SETTINGS SCREEN -->

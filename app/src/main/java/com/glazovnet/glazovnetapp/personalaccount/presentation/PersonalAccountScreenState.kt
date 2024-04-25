@@ -11,5 +11,5 @@ data class PersonalAccountScreenState(
     val message: String? = null,
     val personInfo: PersonModel? = null,
     val clientInfo: ClientModel? = null,
-    val employeeModel: EmployeeModel? = null
+    val employeeInfo: EmployeeModel? = null
 )
