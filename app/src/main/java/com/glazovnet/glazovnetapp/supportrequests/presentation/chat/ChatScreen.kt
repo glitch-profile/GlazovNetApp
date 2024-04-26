@@ -236,25 +236,31 @@ private fun MessagesList(
                         key = messages[index].id
                     ) {
                         with(messages[index]) {
-                            ChatBubble(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        top = topPadding,
-                                        bottom = 4.dp
-                                    )
-                                    .animateItemPlacement(
-                                        animationSpec = tween(durationMillis = 300)
-                                    ),
-                                senderName = this.senderName,
-                                text = this.text,
-                                timestamp = this.timestamp,
-                                isOwnMessage = this.isOwnMessage,
-                                isSameSender = isSameSender,
-                                maxBubbleWidth = 280.dp
-                            )
+                            if (this.senderId.isNotEmpty()) {
+                                ChatBubble(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            top = topPadding,
+                                            bottom = 4.dp
+                                        )
+                                        .animateItemPlacement(
+                                            animationSpec = tween(durationMillis = 300)
+                                        ),
+                                    senderName = this.senderName,
+                                    text = this.text,
+                                    timestamp = this.timestamp,
+                                    isOwnMessage = this.isOwnMessage,
+                                    isSameSender = isSameSender,
+                                    maxBubbleWidth = 280.dp
+                                )
+                            } else {
+                                AlarmMessage(
+                                    messageCode = this.text
+                                )
+                            }
                         }
                     }
                 }

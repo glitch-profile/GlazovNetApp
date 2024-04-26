@@ -219,11 +219,13 @@
     <string name="request_chat_message_placeholder_text">Сообщение</string>
     <string name="request_chat_no_messages_found">Здесь пока нет сообщений!</string>
     <string name="request_chat_messages_not_allowed_title">Отправка сообщений недоступна</string>
-    <string name="request_chat_messages_not_allowed_description">Данный запрос был закрыт</string>
+    <string name="request_chat_messages_not_allowed_description">Запрос закрыт</string>
     <string name="request_chat_jump_to_bottom_text">Вернуться вниз</string>
     <string name="request_chat_cant_connect_to_chat_error_title">Невозможно подключиться к чату</string>
     <string name="request_chat_cant_send_message_error_title">Невозможно отправить сообщение</string>
     <string name="request_chat_pinned_problem_description_title">Описание проблемы</string>
+    <string name="request_chat_alarm_request_closed_text">Данный запрос был закрыт</string>
+    <string name="request_chat_alarm_request_reopened_text">Запрос был открыт повторно</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Статус:</string>

@@ -220,6 +220,8 @@
     <string name="request_chat_cant_connect_to_chat_error_title">Unable to connect to chat</string>
     <string name="request_chat_cant_send_message_error_title">Unable to send message</string>
     <string name="request_chat_pinned_problem_description_title">Problem description</string>
+    <string name="request_chat_alarm_request_closed_text">This request has been closed</string>
+    <string name="request_chat_alarm_request_reopened_text">This request has been reopened</string>
 
     <!-- REQUEST CARD -->
     <string name="request_card_status_text">Status:</string>
