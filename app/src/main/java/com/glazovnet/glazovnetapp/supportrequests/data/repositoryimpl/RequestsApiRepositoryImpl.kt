@@ -4,14 +4,12 @@ import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
+import com.glazovnet.glazovnetapp.supportrequests.data.entity.IncomingSupportRequestDto
 import com.glazovnet.glazovnetapp.supportrequests.data.entity.MessageModelDto
 import com.glazovnet.glazovnetapp.supportrequests.data.entity.SupportRequestDto
 import com.glazovnet.glazovnetapp.supportrequests.data.mappers.toMessageModel
-import com.glazovnet.glazovnetapp.supportrequests.data.mappers.toSupportRequestDto
 import com.glazovnet.glazovnetapp.supportrequests.data.mappers.toSupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
-import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
-import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus.Companion.convertToIntCode
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
 import io.ktor.client.HttpClient
@@ -146,13 +144,22 @@ class RequestsApiRepositoryImpl @Inject constructor(
 
     override suspend fun addRequest(
         token: String,
-        newRequest: SupportRequestModel
-    ): Resource<SupportRequestModel?> {
+        clientId: String,
+        title: String,
+        description: String,
+        isNotificationsEnabled: Boolean
+    ): Resource<SupportRequestModel> {
         return try {
+            val body = IncomingSupportRequestDto(
+                creatorClientId = clientId,
+                title = title,
+                description = description,
+                isNotificationsEnabled = isNotificationsEnabled
+            )
             val response: ApiResponseDto<SupportRequestDto> = client.post("$PATH/create-request") {
                 bearerAuth(token)
                 contentType(ContentType.Application.Json)
-                setBody(newRequest.toSupportRequestDto())
+                setBody(body)
             }.body()
             if (response.status) {
                 Resource.Success(data = response.data.toSupportRequestModel())
@@ -164,17 +171,35 @@ class RequestsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun changeRequestStatus(
+    override suspend fun closeRequest(
         token: String,
         requestId: String,
-        newStatus: RequestStatus,
         employeeId: String
     ): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/set-status") {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/close") {
                 bearerAuth(token)
-                header("new_status", newStatus.convertToIntCode())
                 header("employee_id", employeeId)
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
+            } else {
+                Resource.Error(R.string.api_response_server_error, response.message)
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun reopenRequest(
+        token: String,
+        requestId: String,
+        clientId: String
+    ): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/requests/$requestId/reopen") {
+                bearerAuth(token)
+                header("client_id", clientId)
             }.body()
             if (response.status) {
                 Resource.Success(Unit)
