@@ -250,7 +250,7 @@ private fun MessagesList(
                                     ),
                                 senderName = this.senderName,
                                 text = this.text,
-                                timestamp = this.timestamp!!,
+                                timestamp = this.timestamp,
                                 isOwnMessage = this.isOwnMessage,
                                 isSameSender = isSameSender,
                                 maxBubbleWidth = 280.dp

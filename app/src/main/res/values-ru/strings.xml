@@ -137,7 +137,7 @@
     <string name="personal_account_afternoon_text">Добрый день</string>
     <string name="personal_account_evening_text">Добрый вечер</string>
     <string name="personal_account_night_text">Доброй ночи</string>
-    <string name="personal_account_top_bar_account_number_title">№ договора</string>
+    <string name="personal_account_top_bar_account_number_title">Лицевой счет</string>
     <string name="personal_account_top_bar_current_balance_title">Баланс</string>
     <string name="personal_account_top_bar_current_tariff_title">Тариф</string>
     <string name="personal_account_top_bar_current_tariff_load_error_text">Ошибка</string>
@@ -156,11 +156,13 @@
         <item quantity="one">%d день</item>
         <item quantity="few">%d дня</item>
         <item quantity="many">%d дней</item>
+        <item quantity="other">%d дней</item>
     </plurals>
     <plurals name="personal_account_top_bar_payment_remaining_hours_value">
         <item quantity="one">%d час</item>
         <item quantity="few">%d часа</item>
         <item quantity="many">%d часов</item>
+        <item quantity="other">%d часов</item>
     </plurals>
 
     <!-- SETTINGS SCREEN -->

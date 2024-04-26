@@ -42,7 +42,7 @@ class InnerPostsViewModel @Inject constructor(
                     val currentDate = LocalDate.now(ZoneId.systemDefault())
                     //splitting data into today and earlier creation date lists
                     val todayPosts = result.data!!.filter { it.creationDate.toLocalDate() == currentDate }
-                    val earlierPosts = result.data!!.toMutableList().apply {
+                    val earlierPosts = result.data.toMutableList().apply {
                         this.removeAll(todayPosts)
                         toImmutableList()
                     }

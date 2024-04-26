@@ -24,10 +24,6 @@ private const val CHANNEL_ID = "other"
 
 class PushNotificationService: FirebaseMessagingService() {
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-    }
-
     @SuppressLint("DiscouragedApi")
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)

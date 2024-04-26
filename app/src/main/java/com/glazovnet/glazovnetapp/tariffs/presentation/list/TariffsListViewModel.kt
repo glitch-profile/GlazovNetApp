@@ -24,7 +24,7 @@ class TariffsListViewModel @Inject constructor(
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
     private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
-    private val _tariffsState = MutableStateFlow(ScreenState<List<TariffModel>>())
+    private val _tariffsState = MutableStateFlow(ScreenState<Unit>())
     val tariffsState = _tariffsState.asStateFlow()
     private val _unlimitedTariffs = MutableStateFlow<List<TariffModel>>(emptyList())
     val unlimitedTariffs = _unlimitedTariffs.asStateFlow()
@@ -54,7 +54,7 @@ class TariffsListViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     splitTariffs(result.data!!)
-                    _tariffsState.update { it.copy(data = result.data) }
+                    _tariffsState.update { it.copy(data = Unit) }
                 }
                 is Resource.Error -> {
                     _tariffsState.update {
@@ -105,8 +105,8 @@ class TariffsListViewModel @Inject constructor(
     }
 
     private fun getTariffById(tariffId: String): TariffModel? {
-        val tariffsList = tariffsState.value.data
-        return tariffsList?.find { it.id == tariffId }
+        val tariffsList = unlimitedTariffs.value + limitedTariffs.value
+        return tariffsList.find { it.id == tariffId }
     }
 
     fun showDetails(tariffId: String) {

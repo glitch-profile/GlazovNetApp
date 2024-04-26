@@ -33,6 +33,10 @@ class ChatViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<List<MessageModel>>())
     val state = _state.asStateFlow()
+    private val _oldMessages = MutableStateFlow<List<MessageModel>>(emptyList())
+    val oldMessages = _oldMessages.asStateFlow() // messages before request reopening
+    private val _newMessages = MutableStateFlow<List<MessageModel>>(emptyList())
+    val newMessages = _newMessages.asStateFlow() // messages after request reopening
     private val _request = MutableStateFlow<SupportRequestModel?>(null)
     val request = _request.asStateFlow()
 
@@ -73,6 +77,11 @@ class ChatViewModel @Inject constructor(
                             }
                             _state.update { it.copy(data = newMessageList) }
                         }
+//                        if (state.value.data != null) {
+//                            val newMessageList = newMessages.value.toMutableList().apply {
+//                                add(0, message)
+//                            }
+//                        }
                     }.launchIn(viewModelScope)
             }
             is Resource.Error -> {
@@ -112,6 +121,7 @@ class ChatViewModel @Inject constructor(
                         )
                     )
                 }
+                splitMessages(messagesList)
                 _state.update { it.copy(data = messagesList) }
             }
             is Resource.Error -> {
@@ -134,6 +144,15 @@ class ChatViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun splitMessages(messagesList: List<MessageModel>) {
+        val currentRequest = request.value!!
+        if (currentRequest.reopenDate != null) {
+            val groupedMessages = messagesList.groupBy { it.timestamp.isBefore(currentRequest.reopenDate) }
+            _oldMessages.update { groupedMessages[true] ?: emptyList() }
+            _newMessages.update { groupedMessages[false] ?: emptyList() }
+        } else _newMessages.update { messagesList }
     }
 
     private suspend fun loadRequest(requestId: String) {

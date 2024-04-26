@@ -154,10 +154,12 @@
     <plurals name="personal_account_top_bar_payment_remaining_days_value">
         <item quantity="one">%d day</item>
         <item quantity="many">%d days</item>
+        <item quantity="other">%d days</item>
     </plurals>
     <plurals name="personal_account_top_bar_payment_remaining_hours_value">
         <item quantity="one">%d hour</item>
         <item quantity="many">%d hours</item>
+        <item quantity="other">%d hours</item>
     </plurals>
 
     <!-- SETTINGS SCREEN -->
