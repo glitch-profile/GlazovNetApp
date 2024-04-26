@@ -53,15 +53,12 @@ class CreateRequestViewModel @Inject constructor(
                 _state.update {
                     it.copy(isUploading = true)
                 }
-                val request = SupportRequestModel(
-                    creatorClientId = clientId,
+                val result = requestsApiRepository.addRequest(
+                    token = loginToken,
+                    clientId = clientId,
                     title = title.trim(),
                     description = description.trim(),
                     isNotificationsEnabled = isReceiveNotifications
-                )
-                val result = requestsApiRepository.addRequest(
-                    newRequest = request,
-                    token = loginToken
                 )
                 when (result) {
                     is Resource.Success -> {

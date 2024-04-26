@@ -47,7 +47,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.JumpToTopButton
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.launch
 
@@ -130,11 +130,7 @@ fun RequestsListScreen(
                 .fillMaxSize()
         ) {
             if (state.value.isLoading && state.value.data == null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (state.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = state.value.stringResourceId,

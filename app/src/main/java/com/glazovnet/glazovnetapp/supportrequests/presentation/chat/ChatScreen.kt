@@ -66,7 +66,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
@@ -131,11 +131,7 @@ fun ChatScreen(
             )
         )
         if (state.value.isLoading) {
-            LoadingIndicator(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-            )
+            LoadingComponent()
         } else if (state.value.stringResourceId != null) {
             RequestErrorScreen(
                 messageStringResource = state.value.stringResourceId,

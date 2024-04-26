@@ -63,6 +63,7 @@
     <string name="request_details_screen_additional_info_text">Дополнительно</string>
     <string name="request_details_screen_creator_name">Запрос от</string>
     <string name="request_details_screen_creation_date_text">Запрос создан</string>
+    <string name="request_details_screen_reopen_date_text">Запрос открыт повторно</string>
     <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>
     <string name="request_details_screen_request_status_text">Текущий статус запроса</string>
     <string name="request_details_screen_assigned_supporter_text">Текущий помощник</string>
@@ -71,6 +72,7 @@
     <string name="request_details_screen_assigned_supporter_you">Вы</string>
     <string name="request_details_screen_open_chat_text">Открыть чат</string>
     <string name="request_details_screen_mark_as_solved_text">Закрыть запрос</string>
+    <string name="request_details_screen_reopen_request_text">Открыть запрос повторно</string>
     <string name="request_details_screen_assign_text">Позаботиться об этом</string>
 
     <!-- CREATE REQUEST SCREEN -->
@@ -135,6 +137,7 @@
     <string name="personal_account_afternoon_text">Добрый день</string>
     <string name="personal_account_evening_text">Добрый вечер</string>
     <string name="personal_account_night_text">Доброй ночи</string>
+    <string name="personal_account_top_bar_account_number_title">№ договора</string>
     <string name="personal_account_top_bar_current_balance_title">Баланс</string>
     <string name="personal_account_top_bar_current_tariff_title">Тариф</string>
     <string name="personal_account_top_bar_current_tariff_load_error_text">Ошибка</string>
@@ -286,9 +289,8 @@
     <string name="reusable_text_or">или</string>
 
     <!-- TARIFFS TYPES -->
-    <string name="tariff_type_unlimited_name">Безлимитный</string>
-    <string name="tariff_type_limited_name">Помегабайтный</string>
-    <string name="tariff_type_archive_name">Архив</string>
+    <string name="tariff_type_unlimited_name">Безлимитные</string>
+    <string name="tariff_type_limited_name">Помегабайтные</string>
 
     <!--NOTIFICATION CHANNELS -->
     <string name="notification_channel_posts_name">Новости</string>

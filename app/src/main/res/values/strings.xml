@@ -62,6 +62,7 @@
     <string name="request_details_screen_additional_info_text">Additional info</string>
     <string name="request_details_screen_creator_name">Request by</string>
     <string name="request_details_screen_creation_date_text">Request created at</string>
+    <string name="request_details_screen_reopen_date_text">Request re-opened at</string>
     <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>
     <string name="request_details_screen_request_status_text">Current request status is</string>
     <string name="request_details_screen_assigned_supporter_text">Current assistant</string>
@@ -70,6 +71,7 @@
     <string name="request_details_screen_assigned_supporter_you">You</string>
     <string name="request_details_screen_open_chat_text">Open in chat</string>
     <string name="request_details_screen_mark_as_solved_text">Mark as solved</string>
+    <string name="request_details_screen_reopen_request_text">Re-open the request</string>
     <string name="request_details_screen_assign_text">Take care of that</string>
 
     <!-- CREATE REQUEST SCREEN -->
@@ -134,6 +136,7 @@
     <string name="personal_account_afternoon_text">Afternoon</string>
     <string name="personal_account_evening_text">Good evening</string>
     <string name="personal_account_night_text">Good night</string>
+    <string name="personal_account_top_bar_account_number_title">Account No.</string>
     <string name="personal_account_top_bar_current_balance_title">Balance</string>
     <string name="personal_account_top_bar_current_tariff_title">Tariff</string>
     <string name="personal_account_top_bar_current_tariff_load_error_text">Error</string>
@@ -281,7 +284,6 @@
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>
     <string name="tariff_type_limited_name">Limited</string>
-    <string name="tariff_type_archive_name">Archive</string>
 
     <!--NOTIFICATION CHANNELS -->
     <string name="notification_channel_posts_name">News</string>

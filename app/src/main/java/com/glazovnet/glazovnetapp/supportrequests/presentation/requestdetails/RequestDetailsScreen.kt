@@ -44,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.utils.getLocalizedOffsetString
 import com.glazovnet.glazovnetapp.core.presentation.components.AdditionalTextInfo
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
@@ -59,6 +59,7 @@ fun RequestDetailsScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val isEmployeeWithRole = viewModel.isEmployeeWithRole
+    val clientId = viewModel.clientId
     val employeeId = viewModel.employeeId
 
     LaunchedEffect(key1 = null) {
@@ -103,11 +104,7 @@ fun RequestDetailsScreen(
                 .fillMaxSize()
         ) {
             if (state.value.isLoading && state.value.data == null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (state.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = state.value.stringResourceId,
@@ -159,9 +156,17 @@ fun RequestDetailsScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 4.dp),
                         title = stringResource(id = R.string.request_details_screen_creation_date_text),
-                        text = state.value.data!!.creationDate?.getLocalizedOffsetString()
-                            ?: "unknown"
+                        text = state.value.data!!.creationDate.getLocalizedOffsetString()
                     )
+                    if (state.value.data!!.reopenDate != null) {
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.request_details_screen_reopen_date_text),
+                            text = state.value.data!!.reopenDate!!.getLocalizedOffsetString()
+                        )
+                    }
                     AdditionalTextInfo(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -193,11 +198,15 @@ fun RequestDetailsScreen(
                         onAssignSupporterButtonPressed = {
                             viewModel.assignSupporter()
                         },
-                        onChangeStatusButtonPressed = { newStatus ->
-                            viewModel.changeRequestStatus(newStatus)
+                        onCloseRequestButtonPressed = {
+                            viewModel.closeRequest()
+                        },
+                        onReopenRequestButtonClicked = {
+                            viewModel.reopenRequest()
                         },
                         isButtonsEnabled = !state.value.isLoading && !state.value.isUploading,
-                        isAdmin = isEmployeeWithRole,
+                        clientId = clientId,
+                        isEmployeeWithRole = isEmployeeWithRole,
                         employeeId = employeeId,
                         request = state.value.data!!
                     )
@@ -251,9 +260,11 @@ private fun ButtonsMenu(
     modifier: Modifier = Modifier,
     onOpenChatButtonPressed: () -> Unit,
     onAssignSupporterButtonPressed: () -> Unit,
-    onChangeStatusButtonPressed: (RequestStatus) -> Unit,
+    onCloseRequestButtonPressed: () -> Unit,
+    onReopenRequestButtonClicked: () -> Unit,
     isButtonsEnabled: Boolean,
-    isAdmin: Boolean,
+    isEmployeeWithRole: Boolean,
+    clientId: String,
     employeeId: String,
     request: SupportRequestModel
 ) {
@@ -275,7 +286,22 @@ private fun ButtonsMenu(
         ) {
             Text(text = stringResource(id = R.string.request_details_screen_open_chat_text))
         }
-        if (isAdmin) {
+        if (clientId == request.creatorClientId && request.status == RequestStatus.Solved) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
+                onClick = {
+                    onReopenRequestButtonClicked.invoke()
+                },
+                enabled = isButtonsEnabled
+            ) {
+                Text(text = stringResource(id = R.string.request_details_screen_reopen_request_text))
+            }
+        }
+        if (isEmployeeWithRole) {
             Spacer(modifier = Modifier.height(8.dp))
             if (request.associatedSupportId == null) {
                 Button(
@@ -299,7 +325,7 @@ private fun ButtonsMenu(
                         .fillMaxWidth(),
                     shape = MaterialTheme.shapes.small,
                     onClick = {
-                        onChangeStatusButtonPressed.invoke(RequestStatus.Solved)
+                        onCloseRequestButtonPressed.invoke()
                     },
                     enabled = isButtonsEnabled
                 ) {

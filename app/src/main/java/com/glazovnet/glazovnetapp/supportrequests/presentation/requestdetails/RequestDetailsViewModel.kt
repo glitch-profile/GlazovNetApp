@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.OffsetDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,11 +27,10 @@ class RequestDetailsViewModel @Inject constructor(
     private val _state = MutableStateFlow(ScreenState<SupportRequestModel>())
     val state = _state.asStateFlow()
 
-    val isEmployeeWithRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.SUPPORT_CHAT)
     val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
-    private val personId = userAuthDataRepository.getAssociatedPersonId() ?: ""
-    private val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
+    val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
+    val isEmployeeWithRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.SUPPORT_CHAT)
 
     fun loadRequestDetails(requestId: String) {
         viewModelScope.launch {
@@ -62,18 +63,18 @@ class RequestDetailsViewModel @Inject constructor(
         }
     }
 
-    fun changeRequestStatus(newStatus: RequestStatus) {
+    fun closeRequest() {
         viewModelScope.launch {
             val currentRequest = state.value.data
+            val newStatus = RequestStatus.Solved
             if (currentRequest !== null && currentRequest.status !== newStatus) {
                 _state.update { it.copy(isUploading = true) }
                 val updatedRequest = currentRequest.copy(
                     status = newStatus
                 )
-                val result = requestsApiRepository.changeRequestStatus(
+                val result = requestsApiRepository.closeRequest(
                     token = loginToken,
                     requestId = currentRequest.id,
-                    newStatus = newStatus,
                     employeeId = employeeId
                 )
                 if (result is Resource.Success) _state.update { it.copy(updatedRequest) }
@@ -102,6 +103,29 @@ class RequestDetailsViewModel @Inject constructor(
                     else _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
                     _state.update { it.copy(isUploading = false) }
                 }
+            }
+        }
+    }
+
+    fun reopenRequest() {
+        viewModelScope.launch {
+            _state.update { it.copy(isUploading = true) }
+            val currentRequest = state.value.data
+            if (currentRequest != null) {
+                val result = requestsApiRepository.reopenRequest(
+                    token = loginToken,
+                    requestId = currentRequest.id,
+                    clientId = clientId
+                )
+                if (result is Resource.Success) {
+                    val updatedRequest = currentRequest.copy(
+                        status = RequestStatus.NotReviewed,
+                        associatedSupportId = null,
+                        reopenDate = OffsetDateTime.now(ZoneId.systemDefault())
+                    )
+                    _state.update { it.copy(data = updatedRequest) }
+                } else _state.update { it.copy(message = result.message, stringResourceId = result.stringResourceId) }
+                _state.update { it.copy(isUploading = false) }
             }
         }
     }

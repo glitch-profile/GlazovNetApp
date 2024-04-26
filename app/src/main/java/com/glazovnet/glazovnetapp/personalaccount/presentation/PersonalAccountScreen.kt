@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -168,6 +169,14 @@ private fun TopBarComponent(
         ) {
             Spacer(modifier = Modifier.width(8.dp))
             if (accountState.clientInfo != null) {
+                PersonalAccountTopBarCard(
+                    modifier = Modifier
+                        .padding(start = 8.dp),
+                    title = stringResource(id = R.string.personal_account_top_bar_account_number_title),
+                    text = accountState.clientInfo.accountNumber,
+                    icon = Icons.Default.Person,
+                    onCardClicked = { TODO() }
+                )
                 val balanceFormatted = String.format("%.2f", accountState.clientInfo.balance)
                 PersonalAccountTopBarCard(
                     modifier = Modifier
@@ -233,11 +242,11 @@ private fun TopBarComponent(
                 onCardClicked = { TODO() }
             )
             if (accountState.employeeInfo != null) {
-                val ratingText = if (accountState.employeeInfo.averageRating > 4.5f)
+                val ratingText = if (accountState.employeeInfo.averageRating >= 4.5f)
                     stringResource(id = R.string.personal_account_top_bar_employee_rating_great_text)
-                else if (accountState.employeeInfo.averageRating > 3.5f)
+                else if (accountState.employeeInfo.averageRating >= 3.5f)
                     stringResource(id = R.string.personal_account_top_bar_employee_rating_good_text)
-                else if (accountState.employeeInfo.averageRating > 2.5f)
+                else if (accountState.employeeInfo.averageRating >= 2.5f)
                     stringResource(id = R.string.personal_account_top_bar_employee_rating_acceptable_text)
                 else if (accountState.employeeInfo.averageRating == 0f)
                     stringResource(id = R.string.personal_account_top_bar_employee_rating_none_text)

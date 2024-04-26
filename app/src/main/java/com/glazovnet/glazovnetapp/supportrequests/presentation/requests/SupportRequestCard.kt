@@ -98,22 +98,12 @@ fun SupportRequestCard(
                 text = buildAnnotatedString {
                     append(stringResource(id = R.string.request_card_creation_date_text) + " ")
                     withStyle(MaterialTheme.typography.titleSmall.toSpanStyle()) {
-                        append(data.creationDate?.getLocalizedOffsetString() ?: "unknown")
+                        append(data.creationDate.getLocalizedOffsetString())
                     }
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
-//            Text(
-//                text = buildAnnotatedString {
-//                    append(stringResource(id = R.string.request_card_status_text) + " ")
-//                    withStyle(MaterialTheme.typography.titleSmall.toSpanStyle()) {
-//                        append(stringResource(id = data.status.stringResourceRequestStatus))
-//                    }
-//                },
-//                style = MaterialTheme.typography.bodyMedium,
-//                color = MaterialTheme.colorScheme.onPrimaryContainer
-//            )
         }
     }
 }

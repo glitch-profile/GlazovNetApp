@@ -13,6 +13,7 @@ data class SupportRequestDto(
     val description: String,
     val messages: List<MessageModelDto> = emptyList(),
     val creationDate: Long,
+    val reopenDate: Long?,
     val isNotificationsEnabled: Boolean,
     val status: Int
 )
