@@ -180,8 +180,8 @@
     <string name="personal_account_info_employee_creation_date_title">Employee account creation date</string>
     <string name="personal_account_info_employee_rating_title">Rating in technical support</string>
     <!-- INFO VALUES -->
-    <string name="personal_account_values_notifications_enabled_text">Notifications enabled</string>
-    <string name="personal_account_values_notifications_disabled_text">Notifications disabled</string>
+    <string name="personal_account_values_notifications_enabled_text">Enabled</string>
+    <string name="personal_account_values_notifications_disabled_text">Disabled</string>
     <string name="personal_account_values_account_active_text">Account is active</string>
     <string name="personal_account_values_account_locked_text">Account is locked</string>
     <string name="personal_account_values_ratings_count_prefix_text">Based on</string>
@@ -190,6 +190,17 @@
         <item quantity="many">%d ratings</item>
         <item quantity="other">%d ratings</item>
     </plurals>
+    <!-- ACTIONS -->
+    <string name="personal_account_actions_hide_password">Hide password</string>
+    <string name="personal_account_actions_show_password">Show password</string>
+    <string name="personal_account_actions_edit_notification_settings">Edit</string>
+    <string name="personal_account_actions_show_balance_history">Show history</string>
+    <string name="personal_account_actions_add_funds">Add funds</string>
+    <string name="personal_account_actions_add_funds_description">Pay via ЮMoney</string>
+    <string name="personal_account_actions_edit_password">Edit password</string>
+    <string name="personal_account_actions_edit_password_description">Set a new password for your account</string>
+    <string name="personal_account_actions_edit_tariff">Change</string>
+    <string name="personal_account_actions_lock_account">Lock</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
@@ -312,7 +323,6 @@
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>
     <string name="reusable_unexpected_error_occurred">Error occurred</string>
-    <string name="reusable_text_or">or</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>

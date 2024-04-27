@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,13 +17,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,6 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.pluralStringResource
@@ -51,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.utils.getLocalizedOffsetString
+import com.glazovnet.glazovnetapp.core.presentation.components.CheckedButton
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
@@ -135,61 +143,104 @@ fun PersonalAccountScreen(
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium
                 )
-                if (accountState.value.clientInfo != null) {
-                    with(accountState.value.clientInfo!!) {
-                        AccountInfoSector(
-                            title = stringResource(id = R.string.personal_account_info_account_number_title),
-                            text = this.accountNumber
-                        )
-                        AccountInfoSector(
-                            title = stringResource(id = R.string.personal_account_info_account_status_title),
-                            text = if (this.isAccountActive) stringResource(id = R.string.personal_account_values_account_active_text)
-                            else stringResource(id = R.string.personal_account_values_account_locked_text)
-                        )
-                    }
-                }
-                with(accountState.value.personInfo!!) {
-                    AccountInfoSector(
-                        title = stringResource(id = R.string.personal_account_info_user_full_name_title),
-                        text = "${this.lastName} ${this.firstName} ${this.middleName}"
-                    )
-                    AccountInfoSector(
-                        title = stringResource(id = R.string.personal_account_info_notification_settings_title),
-                        text = if (this.isNotificationsEnabled) stringResource(id = R.string.personal_account_values_notifications_enabled_text)
-                        else stringResource(id = R.string.personal_account_values_notifications_disabled_text),
-                        onClick = {
-                            //TODO
-                        },
-                        clickIcon = Icons.Default.ArrowForward
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                        text = stringResource(id = R.string.personal_account_info_security_sector_title),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    AccountInfoSector(
-                        title = stringResource(id = R.string.personal_account_info_user_login_title),
-                        text = this.login
-                    )
-                    var isPasswordVisible by remember {
-                        mutableStateOf(false)
-                    }
-                    val passwordMasked by remember {
-                        derivedStateOf {
-                            accountState.value.personInfo!!.password.map { '•' }.joinToString("")
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                ) {
+                    if (accountState.value.clientInfo != null) {
+                        with(accountState.value.clientInfo!!) {
+                            AccountInfoComponent(
+                                icon = Icons.Default.AccountCircle,
+                                title = stringResource(id = R.string.personal_account_info_account_number_title),
+                                text = this.accountNumber
+                            )
+                            AccountInfoComponentWithAction(
+                                icon = Icons.Default.Settings,
+                                title = stringResource(id = R.string.personal_account_info_account_status_title),
+                                text = if (this.isAccountActive) stringResource(id = R.string.personal_account_values_account_active_text)
+                                else stringResource(id = R.string.personal_account_values_account_locked_text),
+                                actionTitle = stringResource(id = R.string.personal_account_actions_lock_account),
+                                onActionClick = {
+                                    // TODO
+                                }
+                            )
+                        }
+                        with(accountState.value.personInfo!!) {
+                            AccountInfoComponent(
+                                icon = Icons.Default.Person,
+                                title = stringResource(id = R.string.personal_account_info_user_full_name_title),
+                                text = "${this.lastName} ${this.firstName} ${this.middleName}"
+                            )
+                            AccountInfoComponentWithAction(
+                                icon = Icons.Default.Notifications,
+                                title = stringResource(id = R.string.personal_account_info_notification_settings_title),
+                                text = if (this.isNotificationsEnabled) stringResource(id = R.string.personal_account_values_notifications_enabled_text)
+                                else stringResource(id = R.string.personal_account_values_notifications_disabled_text),
+                                actionTitle = stringResource(id = R.string.personal_account_actions_edit_notification_settings),
+                                onActionClick = {
+                                    //TODO
+                                }
+                            )
                         }
                     }
-                    AccountInfoSector(
-                        title = stringResource(id = R.string.personal_account_info_user_password_title),
-                        text = if (isPasswordVisible) this.password else passwordMasked,
-                        onClick = {
-                            isPasswordVisible = !isPasswordVisible
-                        },
-                        clickIcon = Icons.Default.Info
-                    )
                 }
+                Text(
+                    modifier = Modifier
+                        .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                    text = stringResource(id = R.string.personal_account_info_security_sector_title),
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                ) {
+                    with(accountState.value.personInfo!!) {
+                        AccountInfoComponent(
+                            icon = Icons.Default.Person,
+                            title = stringResource(id = R.string.personal_account_info_user_login_title),
+                            text = this.login
+                        )
+                        var isPasswordVisible by remember {
+                            mutableStateOf(false)
+                        }
+                        val passwordMasked by remember {
+                            derivedStateOf {
+                                accountState.value.personInfo!!.password.map { '•' }.joinToString("")
+                            }
+                        }
+                        AccountInfoComponentWithAction(
+                            icon = Icons.Default.Lock,
+                            title = stringResource(id = R.string.personal_account_info_user_password_title),
+                            text = if (isPasswordVisible) this.password else passwordMasked,
+                            onActionClick = {
+                                isPasswordVisible = !isPasswordVisible
+                            },
+                            actionTitle = if (isPasswordVisible) stringResource(id = R.string.personal_account_actions_hide_password)
+                            else stringResource(id = R.string.personal_account_actions_show_password)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                CheckedButton(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(MaterialTheme.shapes.small),
+                    title = stringResource(id = R.string.personal_account_actions_edit_password),
+                    description = stringResource(id = R.string.personal_account_actions_edit_password_description),
+                    isChecked = true,
+                    titleMaxLines = 1,
+                    descriptionMaxLines = 1,
+                    onStateChanges = {
+                        // TODO
+                    }
+                )
                 if (accountState.value.clientInfo != null) {
                     Text(
                         modifier = Modifier
@@ -198,20 +249,49 @@ fun PersonalAccountScreen(
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleMedium
                     )
-                    with(accountState.value.clientInfo!!) {
-                        AccountInfoSector(
-                            title = stringResource(id = R.string.personal_account_info_client_creation_date_title),
-                            text = this.accountCreationDate.getLocalizedOffsetString()
-                        )
-                        AccountInfoSector(
-                            title = stringResource(id = R.string.personal_account_info_nearest_debit_date_title),
-                            text = this.debitDate.getLocalizedOffsetString()
-                        )
-                        AccountInfoSector(
-                            title = stringResource(id = R.string.personal_account_info_balance_title),
-                            text = String.format("%.2f", this.balance) + " ₽"
-                        )
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.small)
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                    ) {
+                        with(accountState.value.clientInfo!!) {
+                            AccountInfoComponent(
+                                icon = Icons.Default.DateRange,
+                                title = stringResource(id = R.string.personal_account_info_client_creation_date_title),
+                                text = this.accountCreationDate.getLocalizedOffsetString()
+                            )
+                            AccountInfoComponent(
+                                icon = Icons.Default.DateRange,
+                                title = stringResource(id = R.string.personal_account_info_nearest_debit_date_title),
+                                text = this.debitDate.getLocalizedOffsetString()
+                            )
+                            AccountInfoComponentWithAction(
+                                icon = Icons.Default.Info,
+                                title = stringResource(id = R.string.personal_account_info_balance_title),
+                                text = String.format("%.2f", this.balance) + " ₽",
+                                actionTitle = stringResource(id = R.string.personal_account_actions_show_balance_history),
+                                onActionClick = {
+                                    //TODO
+                                }
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    CheckedButton(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .clip(MaterialTheme.shapes.small),
+                        title = stringResource(id = R.string.personal_account_actions_add_funds),
+                        description = stringResource(id = R.string.personal_account_actions_add_funds_description),
+                        isChecked = true,
+                        titleMaxLines = 1,
+                        descriptionMaxLines = 1,
+                        onStateChanges = {
+                            // TODO
+                        }
+                    )
                     if (tariffState.value.data != null) {
                         Text(
                             modifier = Modifier
@@ -220,19 +300,33 @@ fun PersonalAccountScreen(
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium
                         )
-                        with(tariffState.value.data!!) {
-                            AccountInfoSector(
-                                title = stringResource(id = R.string.personal_account_info_tariff_name_title),
-                                text = this.name
-                            )
-                            AccountInfoSector(
-                                title = stringResource(id = R.string.personal_account_info_tariff_cost_title),
-                                text = pluralStringResource(
-                                    id = R.plurals.tariff_card_cost_value,
-                                    count = this.costPerMonth,
-                                    this.costPerMonth
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .clip(MaterialTheme.shapes.small)
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                        ) {
+                            with(tariffState.value.data!!) {
+                                AccountInfoComponentWithAction(
+                                    icon = Icons.Default.List,
+                                    title = stringResource(id = R.string.personal_account_info_tariff_name_title),
+                                    text = this.name,
+                                    actionTitle = stringResource(id = R.string.personal_account_actions_edit_tariff),
+                                    onActionClick = {
+                                        //TODO
+                                    }
                                 )
-                            )
+                                AccountInfoComponent(
+                                    icon = Icons.Default.Info,
+                                    title = stringResource(id = R.string.personal_account_info_tariff_cost_title),
+                                    text = pluralStringResource(
+                                        id = R.plurals.tariff_card_cost_value,
+                                        count = this.costPerMonth,
+                                        this.costPerMonth
+                                    )
+                                )
+                            }
                         }
                     }
                     if (accountState.value.employeeInfo != null) {
@@ -243,26 +337,36 @@ fun PersonalAccountScreen(
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium
                         )
-                        with(accountState.value.employeeInfo!!) {
-                            AccountInfoSector(
-                                title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
-                                text = this.accountCreationDate.getLocalizedOffsetString()
-                            )
-                            if (this.numberOfRatings != 0) {
-                                val ratingFormatted = String.format("%.2f", this.averageRating)
-                                val numberOfRatings = this.numberOfRatings
-                                AccountInfoSector(
-                                    title = stringResource(id = R.string.personal_account_info_employee_rating_title),
-                                    text = buildString {
-                                        append("$ratingFormatted | ")
-                                        append("${stringResource(id = R.string.personal_account_values_ratings_count_prefix_text)} ")
-                                        append(pluralStringResource(
-                                            id = R.plurals.personal_account_values_ratings_count_text,
-                                            count = numberOfRatings,
-                                            numberOfRatings
-                                        ))
-                                    }
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .clip(MaterialTheme.shapes.small)
+                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                        ) {
+                            with(accountState.value.employeeInfo!!) {
+                                AccountInfoComponent(
+                                    icon = Icons.Default.DateRange,
+                                    title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
+                                    text = this.accountCreationDate.getLocalizedOffsetString()
                                 )
+                                if (this.numberOfRatings != 0) {
+                                    val ratingFormatted = String.format("%.2f", this.averageRating)
+                                    val numberOfRatings = this.numberOfRatings
+                                    AccountInfoComponent(
+                                        icon = Icons.Default.ThumbUp,
+                                        title = stringResource(id = R.string.personal_account_info_employee_rating_title),
+                                        text = buildString {
+                                            append("$ratingFormatted | ")
+                                            append("${stringResource(id = R.string.personal_account_values_ratings_count_prefix_text)} ")
+                                            append(pluralStringResource(
+                                                id = R.plurals.personal_account_values_ratings_count_text,
+                                                count = numberOfRatings,
+                                                numberOfRatings
+                                            ))
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
@@ -415,24 +519,23 @@ private fun TopBarComponent(
 }
 
 @Composable
-private fun AccountInfoSector(
+private fun AccountInfoComponent(
+    icon: ImageVector,
     title: String,
-    text: String,
-    onClick: (() -> Unit)? = null,
-    clickIcon: ImageVector? = null
+    text: String
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(
-                enabled = onClick != null,
-                onClick = {
-                    onClick?.invoke()
-                }
-            )
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(
+            imageVector = icon, 
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.width(16.dp))
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -452,11 +555,59 @@ private fun AccountInfoSector(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        if (clickIcon != null) {
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                imageVector = clickIcon,
-                contentDescription = null
+    }
+}
+
+@Composable
+private fun AccountInfoComponentWithAction(
+    icon: ImageVector,
+    title: String,
+    text: String,
+    actionTitle: String,
+    onActionClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = text,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Box(
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .clickable { onActionClick.invoke() }
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = actionTitle,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

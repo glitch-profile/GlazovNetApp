@@ -184,8 +184,8 @@
     <string name="personal_account_info_employee_creation_date_title">Дата создания аккаунта</string>
     <string name="personal_account_info_employee_rating_title">Рейтинг в техподдержке</string>
     <!-- INFO VALUES -->
-    <string name="personal_account_values_notifications_enabled_text">Уведомления включены</string>
-    <string name="personal_account_values_notifications_disabled_text">Уведомления отключены</string>
+    <string name="personal_account_values_notifications_enabled_text">Включены</string>
+    <string name="personal_account_values_notifications_disabled_text">Отключены</string>
     <string name="personal_account_values_account_active_text">Договор активен</string>
     <string name="personal_account_values_account_locked_text">Договор заблокирован</string>
     <string name="personal_account_values_ratings_count_prefix_text">На основе</string>
@@ -195,6 +195,18 @@
         <item quantity="many">%d голосов</item>
         <item quantity="other">%d голосов</item>
     </plurals>
+    <!-- ACTIONS -->
+    <string name="personal_account_actions_hide_password">Спрятать пароль</string>
+    <string name="personal_account_actions_show_password">Показать пароль</string>
+    <string name="personal_account_actions_edit_notification_settings">Изменить</string>
+    <string name="personal_account_actions_show_balance_history">Показать историю</string>
+    <string name="personal_account_actions_add_funds">Пополнить баланс</string>
+    <string name="personal_account_actions_add_funds_description">Оплатить через ЮMoney</string>
+    <string name="personal_account_actions_edit_password">Сменить пароль</string>
+    <string name="personal_account_actions_edit_password_description">Установить новый пароль для аккаунта</string>
+    <string name="personal_account_actions_edit_tariff">Сменить</string>
+    <string name="personal_account_actions_lock_account">Заблокировать</string>
+
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
@@ -321,7 +333,6 @@
     <string name="reusable_text_save">Сохранить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
     <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
-    <string name="reusable_text_or">или</string>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Безлимитные</string>
