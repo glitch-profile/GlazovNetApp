@@ -20,7 +20,6 @@ fun AlarmMessage(
     messageCode: String
 ) {
     val alarmTextRes = remember {
-        println("test calculation")
         when (messageCode) {
             "request_closed" -> R.string.request_chat_alarm_request_closed_text
             "request_reopened" -> R.string.request_chat_alarm_request_reopened_text

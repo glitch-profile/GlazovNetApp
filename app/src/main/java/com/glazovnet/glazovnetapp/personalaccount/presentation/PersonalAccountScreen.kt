@@ -204,7 +204,6 @@ private fun TopBarComponent(
                 val hoursDifference = derivedStateOf {
                     val payOffDay = accountState.clientInfo.debitDate
                     val now = OffsetDateTime.now(ZoneId.systemDefault())
-                    println(now)
                     Duration.between(now, payOffDay).toHours().toInt().absoluteValue
                 }
                 val daysRemaining = hoursDifference.value / 24
