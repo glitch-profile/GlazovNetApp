@@ -164,6 +164,37 @@
         <item quantity="many">%d часов</item>
         <item quantity="other">%d часов</item>
     </plurals>
+    <!-- INFO TITLES -->
+    <string name="personal_account_info_general_sector_title">Общая информация</string>
+    <string name="personal_account_info_account_number_title">Номер лицевого счета</string>
+    <string name="personal_account_info_account_status_title">Статус лицевого счёта</string>
+    <string name="personal_account_info_user_full_name_title">ФИО пользователя</string>
+    <string name="personal_account_info_notification_settings_title">Статус уведомлений</string>
+    <string name="personal_account_info_security_sector_title">Безопасность</string>
+    <string name="personal_account_info_user_login_title">Логин</string>
+    <string name="personal_account_info_user_password_title">Пароль</string>
+    <string name="personal_account_info_client_information_sector_title">Информация о клиенте</string>
+    <string name="personal_account_info_client_creation_date_title">Дата заключения договора</string>
+    <string name="personal_account_info_nearest_debit_date_title">Ближайшая дата списания средств</string>
+    <string name="personal_account_info_balance_title">Баланс</string>
+    <string name="personal_account_info_connected_tariff_sector_title">Подключенный тариф</string>
+    <string name="personal_account_info_tariff_name_title">Название тарифа</string>
+    <string name="personal_account_info_tariff_cost_title">Стоимость в месяц</string>
+    <string name="personal_account_info_employee_info_sector_title">Информация о работнике</string>
+    <string name="personal_account_info_employee_creation_date_title">Дата создания аккаунта</string>
+    <string name="personal_account_info_employee_rating_title">Рейтинг в техподдержке</string>
+    <!-- INFO VALUES -->
+    <string name="personal_account_values_notifications_enabled_text">Уведомления включены</string>
+    <string name="personal_account_values_notifications_disabled_text">Уведомления отключены</string>
+    <string name="personal_account_values_account_active_text">Договор активен</string>
+    <string name="personal_account_values_account_locked_text">Договор заблокирован</string>
+    <string name="personal_account_values_ratings_count_prefix_text">На основе</string>
+    <plurals name="personal_account_values_ratings_count_text">
+        <item quantity="one">%d голоса</item>
+        <item quantity="few">%d голосов</item>
+        <item quantity="many">%d голосов</item>
+        <item quantity="other">%d голосов</item>
+    </plurals>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>

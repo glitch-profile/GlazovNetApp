@@ -161,6 +161,35 @@
         <item quantity="many">%d hours</item>
         <item quantity="other">%d hours</item>
     </plurals>
+    <string name="personal_account_info_general_sector_title">General information</string>
+    <string name="personal_account_info_account_number_title">Personal account number</string>
+    <string name="personal_account_info_account_status_title">Account status</string>
+    <string name="personal_account_info_user_full_name_title">User\'s full name</string>
+    <string name="personal_account_info_notification_settings_title">Notifications status</string>
+    <string name="personal_account_info_security_sector_title">Security</string>
+    <string name="personal_account_info_user_login_title">Login</string>
+    <string name="personal_account_info_user_password_title">Password</string>
+    <string name="personal_account_info_client_information_sector_title">Client information</string>
+    <string name="personal_account_info_client_creation_date_title">Personal account creation date</string>
+    <string name="personal_account_info_nearest_debit_date_title">Nearest date of debit</string>
+    <string name="personal_account_info_balance_title">Balance</string>
+    <string name="personal_account_info_connected_tariff_sector_title">Connected tariff</string>
+    <string name="personal_account_info_tariff_name_title">Tariff name</string>
+    <string name="personal_account_info_tariff_cost_title">Cost per month</string>
+    <string name="personal_account_info_employee_info_sector_title">Employee information</string>
+    <string name="personal_account_info_employee_creation_date_title">Employee account creation date</string>
+    <string name="personal_account_info_employee_rating_title">Rating in technical support</string>
+    <!-- INFO VALUES -->
+    <string name="personal_account_values_notifications_enabled_text">Notifications enabled</string>
+    <string name="personal_account_values_notifications_disabled_text">Notifications disabled</string>
+    <string name="personal_account_values_account_active_text">Account is active</string>
+    <string name="personal_account_values_account_locked_text">Account is locked</string>
+    <string name="personal_account_values_ratings_count_prefix_text">Based on</string>
+    <plurals name="personal_account_values_ratings_count_text">
+        <item quantity="one">%d rating</item>
+        <item quantity="many">%d ratings</item>
+        <item quantity="other">%d ratings</item>
+    </plurals>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>

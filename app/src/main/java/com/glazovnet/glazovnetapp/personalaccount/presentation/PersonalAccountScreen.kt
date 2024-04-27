@@ -2,6 +2,7 @@ package com.glazovnet.glazovnetapp.personalaccount.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,11 +10,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
@@ -32,8 +35,13 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -42,6 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
+import com.glazovnet.glazovnetapp.core.domain.utils.getLocalizedOffsetString
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
@@ -119,6 +128,147 @@ fun PersonalAccountScreen(
                     accountState = accountState.value,
                     tariffState = tariffState.value
                 )
+                Text(
+                    modifier = Modifier
+                        .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                    text = stringResource(id = R.string.personal_account_info_general_sector_title),
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                if (accountState.value.clientInfo != null) {
+                    with(accountState.value.clientInfo!!) {
+                        AccountInfoSector(
+                            title = stringResource(id = R.string.personal_account_info_account_number_title),
+                            text = this.accountNumber
+                        )
+                        AccountInfoSector(
+                            title = stringResource(id = R.string.personal_account_info_account_status_title),
+                            text = if (this.isAccountActive) stringResource(id = R.string.personal_account_values_account_active_text)
+                            else stringResource(id = R.string.personal_account_values_account_locked_text)
+                        )
+                    }
+                }
+                with(accountState.value.personInfo!!) {
+                    AccountInfoSector(
+                        title = stringResource(id = R.string.personal_account_info_user_full_name_title),
+                        text = "${this.lastName} ${this.firstName} ${this.middleName}"
+                    )
+                    AccountInfoSector(
+                        title = stringResource(id = R.string.personal_account_info_notification_settings_title),
+                        text = if (this.isNotificationsEnabled) stringResource(id = R.string.personal_account_values_notifications_enabled_text)
+                        else stringResource(id = R.string.personal_account_values_notifications_disabled_text),
+                        onClick = {
+                            //TODO
+                        },
+                        clickIcon = Icons.Default.ArrowForward
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                        text = stringResource(id = R.string.personal_account_info_security_sector_title),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    AccountInfoSector(
+                        title = stringResource(id = R.string.personal_account_info_user_login_title),
+                        text = this.login
+                    )
+                    var isPasswordVisible by remember {
+                        mutableStateOf(false)
+                    }
+                    val passwordMasked by remember {
+                        derivedStateOf {
+                            accountState.value.personInfo!!.password.map { '•' }.joinToString("")
+                        }
+                    }
+                    AccountInfoSector(
+                        title = stringResource(id = R.string.personal_account_info_user_password_title),
+                        text = if (isPasswordVisible) this.password else passwordMasked,
+                        onClick = {
+                            isPasswordVisible = !isPasswordVisible
+                        },
+                        clickIcon = Icons.Default.Info
+                    )
+                }
+                if (accountState.value.clientInfo != null) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                        text = stringResource(id = R.string.personal_account_info_client_information_sector_title),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    with(accountState.value.clientInfo!!) {
+                        AccountInfoSector(
+                            title = stringResource(id = R.string.personal_account_info_client_creation_date_title),
+                            text = this.accountCreationDate.getLocalizedOffsetString()
+                        )
+                        AccountInfoSector(
+                            title = stringResource(id = R.string.personal_account_info_nearest_debit_date_title),
+                            text = this.debitDate.getLocalizedOffsetString()
+                        )
+                        AccountInfoSector(
+                            title = stringResource(id = R.string.personal_account_info_balance_title),
+                            text = String.format("%.2f", this.balance) + " ₽"
+                        )
+                    }
+                    if (tariffState.value.data != null) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                            text = stringResource(id = R.string.personal_account_info_connected_tariff_sector_title),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        with(tariffState.value.data!!) {
+                            AccountInfoSector(
+                                title = stringResource(id = R.string.personal_account_info_tariff_name_title),
+                                text = this.name
+                            )
+                            AccountInfoSector(
+                                title = stringResource(id = R.string.personal_account_info_tariff_cost_title),
+                                text = pluralStringResource(
+                                    id = R.plurals.tariff_card_cost_value,
+                                    count = this.costPerMonth,
+                                    this.costPerMonth
+                                )
+                            )
+                        }
+                    }
+                    if (accountState.value.employeeInfo != null) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                            text = stringResource(id = R.string.personal_account_info_employee_info_sector_title),
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        with(accountState.value.employeeInfo!!) {
+                            AccountInfoSector(
+                                title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
+                                text = this.accountCreationDate.getLocalizedOffsetString()
+                            )
+                            if (this.numberOfRatings != 0) {
+                                val ratingFormatted = String.format("%.2f", this.averageRating)
+                                val numberOfRatings = this.numberOfRatings
+                                AccountInfoSector(
+                                    title = stringResource(id = R.string.personal_account_info_employee_rating_title),
+                                    text = buildString {
+                                        append("$ratingFormatted | ")
+                                        append("${stringResource(id = R.string.personal_account_values_ratings_count_prefix_text)} ")
+                                        append(pluralStringResource(
+                                            id = R.plurals.personal_account_values_ratings_count_text,
+                                            count = numberOfRatings,
+                                            numberOfRatings
+                                        ))
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.navigationBarsPadding())
             }
         }
     }
@@ -201,7 +351,7 @@ private fun TopBarComponent(
                     icon = Icons.Default.Menu,
                     onCardClicked = { TODO() }
                 )
-                val hoursDifference = derivedStateOf {
+                val hoursDifference = derivedStateOf { //TODO: rework to reduce calculations
                     val payOffDay = accountState.clientInfo.debitDate
                     val now = OffsetDateTime.now(ZoneId.systemDefault())
                     Duration.between(now, payOffDay).toHours().toInt().absoluteValue
@@ -260,6 +410,54 @@ private fun TopBarComponent(
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
+        }
+    }
+}
+
+@Composable
+private fun AccountInfoSector(
+    title: String,
+    text: String,
+    onClick: (() -> Unit)? = null,
+    clickIcon: ImageVector? = null
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                enabled = onClick != null,
+                onClick = {
+                    onClick?.invoke()
+                }
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = text,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        if (clickIcon != null) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Icon(
+                imageVector = clickIcon,
+                contentDescription = null
+            )
         }
     }
 }
