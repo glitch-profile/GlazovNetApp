@@ -167,7 +167,7 @@
     <!-- INFO TITLES -->
     <string name="personal_account_info_general_sector_title">Общая информация</string>
     <string name="personal_account_info_account_number_title">Номер лицевого счета</string>
-    <string name="personal_account_info_account_status_title">Статус лицевого счёта</string>
+    <string name="personal_account_info_account_status_title">Статус договора</string>
     <string name="personal_account_info_user_full_name_title">ФИО пользователя</string>
     <string name="personal_account_info_notification_settings_title">Статус уведомлений</string>
     <string name="personal_account_info_security_sector_title">Безопасность</string>
@@ -186,8 +186,8 @@
     <!-- INFO VALUES -->
     <string name="personal_account_values_notifications_enabled_text">Включены</string>
     <string name="personal_account_values_notifications_disabled_text">Отключены</string>
-    <string name="personal_account_values_account_active_text">Договор активен</string>
-    <string name="personal_account_values_account_locked_text">Договор заблокирован</string>
+    <string name="personal_account_values_account_active_text">Активен</string>
+    <string name="personal_account_values_account_locked_text">Заблокирован</string>
     <string name="personal_account_values_ratings_count_prefix_text">На основе</string>
     <plurals name="personal_account_values_ratings_count_text">
         <item quantity="one">%d голоса</item>
