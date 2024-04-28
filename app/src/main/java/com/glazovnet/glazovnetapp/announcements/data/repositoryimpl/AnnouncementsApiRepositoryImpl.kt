@@ -35,7 +35,7 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
         employeeId: String
     ): Resource<List<AnnouncementModel>> {
         return try {
-            val response: ApiResponseDto<List<AnnouncementModelDto>> = client.get("$ANNOUNCEMENTS_PATH/") {
+            val response: ApiResponseDto<List<AnnouncementModelDto>> = client.get(ANNOUNCEMENTS_PATH) {
                 bearerAuth(token)
                 header("employee_id", employeeId)
             }.body()
@@ -74,7 +74,7 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
         announcementModel: AnnouncementModel
     ): Resource<AnnouncementModel?> {
         return try {
-            val response: ApiResponseDto<AnnouncementModelDto> = client.post("$ANNOUNCEMENTS_PATH/create") {
+            val response: ApiResponseDto<AnnouncementModelDto?> = client.post("$ANNOUNCEMENTS_PATH/create") {
                 bearerAuth(token)
                 header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
@@ -82,7 +82,7 @@ class AnnouncementsApiRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.toAnnouncementModel()
+                    data = response.data!!.toAnnouncementModel()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
