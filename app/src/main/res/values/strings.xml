@@ -165,6 +165,7 @@
     <string name="personal_account_info_account_number_title">Personal account number</string>
     <string name="personal_account_info_account_status_title">Account status</string>
     <string name="personal_account_info_user_full_name_title">User\'s full name</string>
+    <string name="personal_account_info_user_address_title">Service delivery address</string>
     <string name="personal_account_info_notification_settings_title">Notifications status</string>
     <string name="personal_account_info_security_sector_title">Security</string>
     <string name="personal_account_info_user_login_title">Login</string>

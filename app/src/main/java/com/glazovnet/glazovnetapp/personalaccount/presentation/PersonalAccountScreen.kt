@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
@@ -65,6 +66,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,6 +167,11 @@ fun PersonalAccountScreen(
                                     // TODO
                                 }
                             )
+                            AccountInfoComponent(
+                                icon = Icons.Default.LocationOn,
+                                title = stringResource(id = R.string.personal_account_info_user_address_title),
+                                text = this.address
+                            )
                         }
                         with(accountState.value.personInfo!!) {
                             AccountInfoComponent(
@@ -258,7 +265,8 @@ fun PersonalAccountScreen(
                             AccountInfoComponent(
                                 icon = Icons.Default.DateRange,
                                 title = stringResource(id = R.string.personal_account_info_client_creation_date_title),
-                                text = this.accountCreationDate.getLocalizedOffsetString()
+                                text = this.accountCreationDate.toLocalDate().format(
+                                    DateTimeFormatter.ofPattern("dd MMMM yyyy"))
                             )
                             AccountInfoComponent(
                                 icon = Icons.Default.DateRange,
@@ -346,7 +354,9 @@ fun PersonalAccountScreen(
                                 AccountInfoComponent(
                                     icon = Icons.Default.DateRange,
                                     title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
-                                    text = this.accountCreationDate.getLocalizedOffsetString()
+                                    text = this.accountCreationDate.toLocalDate().format(
+                                        DateTimeFormatter.ofPattern("dd MMMM yyyy")
+                                    )
                                 )
                                 if (this.numberOfRatings != 0) {
                                     val ratingFormatted = String.format("%.2f", this.averageRating)

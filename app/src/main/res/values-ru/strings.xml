@@ -169,6 +169,7 @@
     <string name="personal_account_info_account_number_title">Номер лицевого счета</string>
     <string name="personal_account_info_account_status_title">Статус договора</string>
     <string name="personal_account_info_user_full_name_title">ФИО пользователя</string>
+    <string name="personal_account_info_user_address_title">Адрес оказания услуг</string>
     <string name="personal_account_info_notification_settings_title">Статус уведомлений</string>
     <string name="personal_account_info_security_sector_title">Безопасность</string>
     <string name="personal_account_info_user_login_title">Логин</string>
