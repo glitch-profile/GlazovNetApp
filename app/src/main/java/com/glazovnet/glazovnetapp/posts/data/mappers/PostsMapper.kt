@@ -26,15 +26,3 @@ fun PostModelDto.toPostModelDto(): PostModel {
         image = this.image
     )
 }
-
-fun PostModel.toPostModelDto(): PostModelDto {
-    val postCreationDate = this.creationDateTime?.toEpochSecond() ?: 0L
-    return PostModelDto(
-        id = this.id,
-        title = this.title,
-        creationDate = postCreationDate,
-        lastEditDate = null,
-        text = this.text,
-        image = this.image
-    )
-}

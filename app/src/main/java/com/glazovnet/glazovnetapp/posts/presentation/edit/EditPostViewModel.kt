@@ -114,24 +114,20 @@ class EditPostViewModel @Inject constructor(
             _state.update {
                 it.copy(isUploading = true)
             }
-            val isNeedToUpdateImage = state.value.data!!.image?.imageUrl !== imageUri.toString()
+            val currentPost = state.value.data!!
+            val isNeedToUpdateImage = currentPost.image?.imageUrl !== imageUri.toString()
             val image = if (isNeedToUpdateImage) {
                 if (imageUri !== null) uploadImageToServer(context, imageUri)
                 else null
             } else state.value.data!!.image
             if ((imageUri !== null) == (image !== null)) {
-                val postToUpload = with(state.value.data!!) {
-                    PostModel(
-                        id = id,
-                        title = postTitle,
-                        text = postText,
-                        creationDateTime = creationDateTime,
-                        lastEditDate = null,
-                        image = image
-                    )
-                }
                 val result = postsApiRepository.editPost(
-                    postToUpload, loginToken, employeeId
+                    token = loginToken,
+                    employeeId = employeeId,
+                    postId = currentPost.id,
+                    title = postTitle,
+                    text = postText,
+                    image = image
                 )
                 when (result) {
                     is Resource.Success -> {
@@ -170,13 +166,12 @@ class EditPostViewModel @Inject constructor(
             val image = if (imageUri != null) uploadImageToServer(context, imageUri)
             else null
             if ((imageUri !== null) == (image !== null)) {
-                val postToUpload = PostModel(
+                val result = postsApiRepository.addPost(
+                    token = loginToken,
+                    employeeId = employeeId,
                     title = postTitle,
                     text = postText,
                     image = image
-                )
-                val result = postsApiRepository.addPost(
-                    postToUpload, loginToken, employeeId
                 )
                 when (result) {
                     is Resource.Success -> {

@@ -1,5 +1,6 @@
 package com.glazovnet.glazovnetapp.posts.domain.repository
 
+import com.glazovnet.glazovnetapp.core.data.utils.ImageModelDto
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
 
@@ -21,15 +22,20 @@ interface PostsApiRepository {
     ): Resource<PostModel?>
 
     suspend fun addPost(
-        postModel: PostModel,
         token: String,
-        employeeId: String
+        employeeId: String,
+        title: String,
+        text: String,
+        image: ImageModelDto?
     ): Resource<PostModel?>
 
     suspend fun editPost(
-        postModel: PostModel,
         token: String,
-        employeeId: String
+        employeeId: String,
+        postId: String,
+        title: String,
+        text: String,
+        image: ImageModelDto?
     ): Resource<Unit>
 
     suspend fun deletePostById(

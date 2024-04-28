@@ -2,7 +2,9 @@ package com.glazovnet.glazovnetapp.posts.data.repositoryimpl
 
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ApiResponseDto
+import com.glazovnet.glazovnetapp.core.data.utils.ImageModelDto
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
+import com.glazovnet.glazovnetapp.posts.data.entity.AddPostModelDto
 import com.glazovnet.glazovnetapp.posts.data.entity.PostModelDto
 import com.glazovnet.glazovnetapp.posts.data.mappers.toPostModelDto
 import com.glazovnet.glazovnetapp.posts.domain.model.PostModel
@@ -29,7 +31,7 @@ class PostsApiRepositoryImpl @Inject constructor(
 ): PostsApiRepository {
     override suspend fun getAllPosts(token: String): Resource<List<PostModel>> {
         return try {
-            val response: ApiResponseDto<List<PostModelDto>> = client.get("$PATH/") {
+            val response: ApiResponseDto<List<PostModelDto>> = client.get(PATH) {
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -66,12 +68,12 @@ class PostsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getPostById(postId: String, token: String): Resource<PostModel?> {
         return try {
-            val response: ApiResponseDto<List<PostModelDto>> = client.get("$PATH/$postId"){
+            val response: ApiResponseDto<PostModelDto?> = client.get("$PATH/$postId"){
                 bearerAuth(token)
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModelDto()
+                    data = response.data!!.toPostModelDto()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -79,17 +81,29 @@ class PostsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addPost(postModel: PostModel, token: String, employeeId: String): Resource<PostModel?> {
+    override suspend fun addPost(
+        token: String,
+        employeeId: String,
+        title: String,
+        text: String,
+        image: ImageModelDto?
+    ): Resource<PostModel?> {
         return try {
-            val response: ApiResponseDto<List<PostModelDto>> = client.post("$PATH/add") {
+            val postModel = AddPostModelDto(
+                id = null,
+                title = title,
+                text = text,
+                image = image
+            )
+            val response: ApiResponseDto<PostModelDto?> = client.post("$PATH/add") {
                 bearerAuth(token)
                 header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
-                setBody(postModel.toPostModelDto())
+                setBody(postModel)
             }.body()
             if (response.status) {
                 Resource.Success(
-                    data = response.data.firstOrNull()?.toPostModelDto()
+                    data = response.data!!.toPostModelDto()
                 )
             } else Resource.Error(R.string.api_response_server_error, response.message)
         } catch (e: Exception) {
@@ -98,16 +112,25 @@ class PostsApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editPost(
-        postModel: PostModel,
         token: String,
-        employeeId: String
+        employeeId: String,
+        postId: String,
+        title: String,
+        text: String,
+        image: ImageModelDto?
     ): Resource<Unit> {
         return try {
+            val postModel = AddPostModelDto(
+                id = postId,
+                title = title,
+                text = text,
+                image = image
+            )
             val response: ApiResponseDto<Unit> = client.put("$PATH/edit") {
                 bearerAuth(token)
                 header("employee_id", employeeId)
                 contentType(ContentType.Application.Json)
-                setBody(postModel.toPostModelDto())
+                setBody(postModel)
             }.body()
             if (response.status) {
                 Resource.Success(
