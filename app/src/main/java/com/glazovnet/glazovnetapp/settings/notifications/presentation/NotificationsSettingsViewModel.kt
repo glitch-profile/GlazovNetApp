@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationsSettingsViewModel @Inject constructor(
-    private val localUserAuthDataRepository: LocalUserAuthDataRepository,
+    localUserAuthDataRepository: LocalUserAuthDataRepository,
     private val notificationsLocalSettingRepository: NotificationsLocalSettingRepository,
     private val notificationsApiRepository: NotificationsApiRepository
 ): ViewModel() {
@@ -38,6 +38,11 @@ class NotificationsSettingsViewModel @Inject constructor(
     val selectedTopics = _selectedTopics.asStateFlow()
     private val _isNotificationsPermissionGranted = MutableStateFlow(true)
     val isNotificationsPermissionGranted = _isNotificationsPermissionGranted.asStateFlow()
+
+    private val loginToken = localUserAuthDataRepository.getLoginToken() ?: ""
+    private val personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
+    private val clientId = localUserAuthDataRepository.getAssociatedClientId()
+    private val employeeId = localUserAuthDataRepository.getAssociatedEmployeeId()
 
     init {
         viewModelScope.launch {
@@ -97,8 +102,8 @@ class NotificationsSettingsViewModel @Inject constructor(
 
     private suspend fun loadClientNotificationsStatus() {
         val result = notificationsApiRepository.getPersonNotificationStatus(
-            token = localUserAuthDataRepository.getLoginToken() ?: "",
-            personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
+            token = loginToken,
+            personId = personId
         )
         if (result is Resource.Success) {
             _isNotificationsEnabled.update {
@@ -115,9 +120,9 @@ class NotificationsSettingsViewModel @Inject constructor(
     }
     private suspend fun loadAvailableTopics() {
         val result = notificationsApiRepository.getAvailableTopics(
-            token = localUserAuthDataRepository.getLoginToken() ?: "",
-            includeClientsTopics = localUserAuthDataRepository.getAssociatedClientId() != null,
-            includeEmployeeTopics = localUserAuthDataRepository.getAssociatedEmployeeId() != null
+            token = loginToken,
+            clientId = clientId,
+            employeeId = employeeId
         )
         if (result is Resource.Success) {
             _availableTopics.update {
@@ -134,8 +139,8 @@ class NotificationsSettingsViewModel @Inject constructor(
     }
     private suspend fun loadSelectedTopics() {
         val result = notificationsApiRepository.getTopicsForPerson(
-            token = localUserAuthDataRepository.getLoginToken() ?: "",
-            personId = localUserAuthDataRepository.getAssociatedPersonId() ?: ""
+            token = loginToken,
+            personId = personId
         )
         _selectedTopics.update { result.data ?: emptyList() }
     }
@@ -146,8 +151,8 @@ class NotificationsSettingsViewModel @Inject constructor(
                 it.copy(isUploading = true)
             }
             notificationsApiRepository.setPersonNotificationStatus(
-                token = localUserAuthDataRepository.getLoginToken() ?: "",
-                personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
+                token = loginToken,
+                personId = personId,
                 newStatus = isNotificationsEnabled.value.data ?: false
             )
             if (isNotificationsOnDeviceEnabled.value) {
@@ -155,8 +160,8 @@ class NotificationsSettingsViewModel @Inject constructor(
                 notificationsLocalSettingRepository.setLastKnownFcmToken(newToken)
                 notificationsLocalSettingRepository.setIsNotificationsEnabledOnDevice(true)
                 notificationsApiRepository.updateFcmToken(
-                    authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                    personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
+                    authToken = loginToken,
+                    personId = personId,
                     token = newToken
                 )
             } else {
@@ -164,8 +169,8 @@ class NotificationsSettingsViewModel @Inject constructor(
                 val isWasEnabledBefore = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
                 if (token !== null && isWasEnabledBefore) {
                     notificationsApiRepository.updateFcmToken(
-                        authToken = localUserAuthDataRepository.getLoginToken() ?: "",
-                        personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
+                        authToken = loginToken,
+                        personId = personId,
                         token = token,
                         isExclude = true
                     )
@@ -173,8 +178,10 @@ class NotificationsSettingsViewModel @Inject constructor(
                 }
             }
             notificationsApiRepository.setTopicsForPerson(
-                token = localUserAuthDataRepository.getLoginToken() ?: "",
-                personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
+                token = loginToken,
+                personId = personId,
+                clientId = clientId,
+                employeeId = employeeId,
                 newTopicsList = selectedTopics.value
             )
             notificationsLocalSettingRepository.setIsNotificationsSetupComplete(status = true)

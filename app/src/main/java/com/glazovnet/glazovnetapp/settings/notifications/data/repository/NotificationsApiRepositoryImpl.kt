@@ -25,14 +25,14 @@ class NotificationsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getAvailableTopics(
         token: String,
-        includeClientsTopics: Boolean,
-        includeEmployeeTopics: Boolean
+        clientId: String?,
+        employeeId: String?
     ): Resource<List<NotificationTopicModel>> {
         return try {
-            val result: ApiResponseDto<List<NotificationTopicDto>> = client.get("$PATH/get-topics") {
+            val result: ApiResponseDto<List<NotificationTopicDto>> = client.get("$PATH/topics") {
                 bearerAuth(token)
-                header("include_client", includeClientsTopics)
-                header("include_employee", includeEmployeeTopics)
+                header("client_id", clientId)
+                header("employee_id", employeeId)
             }.body()
             if (result.status) {
                 Resource.Success(
@@ -42,7 +42,6 @@ class NotificationsApiRepositoryImpl @Inject constructor(
                 stringResourceId = R.string.api_response_error
             )
         } catch (e: Exception) {
-            println(e)
             Resource.Error(
                 stringResourceId = R.string.api_response_unknown_error
             )
@@ -99,7 +98,7 @@ class NotificationsApiRepositoryImpl @Inject constructor(
         newStatus: Boolean
     ): Resource<Unit> {
         return try {
-            val result: ApiResponseDto<Unit> = client.put("$PATH/set-person-notification-status") {
+            val result: ApiResponseDto<Unit> = client.put("$PATH/set-person-notifications-status") {
                 bearerAuth(token)
                 header("person_id", personId)
                 parameter("status", newStatus)
@@ -121,12 +120,16 @@ class NotificationsApiRepositoryImpl @Inject constructor(
     override suspend fun setTopicsForPerson(
         token: String,
         personId: String,
+        clientId: String?,
+        employeeId: String?,
         newTopicsList: List<String>
     ): Resource<Unit> {
         return try {
             val result: ApiResponseDto<Unit> = client.put("$PATH/update-person-subscribed-topics") {
                 bearerAuth(token)
                 header("person_id", personId)
+                header("client_id", clientId)
+                header("employee_id", employeeId)
                 if (newTopicsList.isNotEmpty()) parameter("topics", newTopicsList.joinToString(","))
             }.body()
             if (result.status) {

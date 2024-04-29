@@ -7,8 +7,8 @@ interface NotificationsApiRepository {
 
     suspend fun getAvailableTopics(
         token: String,
-        includeClientsTopics: Boolean,
-        includeEmployeeTopics: Boolean
+        clientId: String?,
+        employeeId: String?
     ): Resource<List<NotificationTopicModel>>
 
     suspend fun getPersonNotificationStatus(
@@ -30,6 +30,8 @@ interface NotificationsApiRepository {
     suspend fun setTopicsForPerson(
         token: String,
         personId: String,
+        clientId: String?,
+        employeeId: String?,
         newTopicsList: List<String>
     ): Resource<Unit>
 
