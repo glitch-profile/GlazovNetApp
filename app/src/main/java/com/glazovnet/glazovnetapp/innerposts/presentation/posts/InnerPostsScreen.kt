@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.innerdata.presentation.posts
+package com.glazovnet.glazovnetapp.innerposts.presentation.posts
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box

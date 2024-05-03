@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.innerdata.data.entity
+package com.glazovnet.glazovnetapp.innerposts.data.entity
 
 import kotlinx.serialization.Serializable
 

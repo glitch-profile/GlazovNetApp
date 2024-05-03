@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.innerdata.presentation.posts
+package com.glazovnet.glazovnetapp.innerposts.presentation.posts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

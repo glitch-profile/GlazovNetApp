@@ -1,4 +1,4 @@
-package com.glazovnet.glazovnetapp.innerdata.domain.model
+package com.glazovnet.glazovnetapp.innerposts.domain.model
 
 import java.time.OffsetDateTime
 

@@ -6,8 +6,8 @@ import com.glazovnet.glazovnetapp.core.data.repositoryimpl.LocalUserAuthDataRepo
 import com.glazovnet.glazovnetapp.core.data.repositoryimpl.UtilsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.repository.UtilsApiRepository
-import com.glazovnet.glazovnetapp.innerdata.data.repositories.InnerPostsRepositoryImpl
-import com.glazovnet.glazovnetapp.innerdata.domain.repository.InnerPostsRepository
+import com.glazovnet.glazovnetapp.innerposts.data.repositories.InnerPostsRepositoryImpl
+import com.glazovnet.glazovnetapp.innerposts.domain.repository.InnerPostsRepository
 import com.glazovnet.glazovnetapp.login.data.repositoryimpl.LoginApiRepositoryImpl
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
 import com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl.PersonalAccountRepositoryImpl

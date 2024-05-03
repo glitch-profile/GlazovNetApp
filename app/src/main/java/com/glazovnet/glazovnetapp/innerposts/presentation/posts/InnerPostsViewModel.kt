@@ -1,12 +1,12 @@
-package com.glazovnet.glazovnetapp.innerdata.presentation.posts
+package com.glazovnet.glazovnetapp.innerposts.presentation.posts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
-import com.glazovnet.glazovnetapp.innerdata.domain.model.InnerPostModel
-import com.glazovnet.glazovnetapp.innerdata.domain.repository.InnerPostsRepository
+import com.glazovnet.glazovnetapp.innerposts.domain.model.InnerPostModel
+import com.glazovnet.glazovnetapp.innerposts.domain.repository.InnerPostsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

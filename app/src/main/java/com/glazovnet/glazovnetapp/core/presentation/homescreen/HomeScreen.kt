@@ -36,7 +36,7 @@ import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnoun
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawerState
-import com.glazovnet.glazovnetapp.innerdata.presentation.posts.InnerPostsScreen
+import com.glazovnet.glazovnetapp.innerposts.presentation.posts.InnerPostsScreen
 import com.glazovnet.glazovnetapp.personalaccount.presentation.PersonalAccountScreen
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen

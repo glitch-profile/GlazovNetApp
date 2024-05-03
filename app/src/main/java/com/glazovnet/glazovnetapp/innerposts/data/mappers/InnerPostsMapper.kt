@@ -1,7 +1,7 @@
-package com.glazovnet.glazovnetapp.innerdata.data.mappers
+package com.glazovnet.glazovnetapp.innerposts.data.mappers
 
-import com.glazovnet.glazovnetapp.innerdata.data.entity.InnerPostModelDto
-import com.glazovnet.glazovnetapp.innerdata.domain.model.InnerPostModel
+import com.glazovnet.glazovnetapp.innerposts.data.entity.InnerPostModelDto
+import com.glazovnet.glazovnetapp.innerposts.domain.model.InnerPostModel
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
