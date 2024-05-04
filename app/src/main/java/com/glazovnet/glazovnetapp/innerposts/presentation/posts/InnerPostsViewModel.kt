@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
@@ -28,10 +27,6 @@ class InnerPostsViewModel @Inject constructor(
 
     private val userToken = authDataRepository.getLoginToken() ?: ""
 
-//    init {
-//        loadPosts()
-//    }
-
     fun loadPosts() {
         viewModelScope.launch {
             _state.update {
@@ -41,11 +36,9 @@ class InnerPostsViewModel @Inject constructor(
                 is Resource.Success -> {
                     val currentDate = LocalDate.now(ZoneId.systemDefault())
                     //splitting data into today and earlier creation date lists
-                    val todayPosts = result.data!!.filter { it.creationDate.toLocalDate() == currentDate }
-                    val earlierPosts = result.data.toMutableList().apply {
-                        this.removeAll(todayPosts)
-                        toImmutableList()
-                    }
+                    val groupedPosts = result.data!!.groupBy { it.creationDate.toLocalDate() == currentDate }
+                    val todayPosts = groupedPosts[true] ?: emptyList()
+                    val earlierPosts = groupedPosts[false] ?: emptyList()
                     val postLists = listOf(
                         todayPosts,
                         earlierPosts

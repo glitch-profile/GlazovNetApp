@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.MessageNotification
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.posts.presentation.components.FilledImagePicker
@@ -97,11 +97,7 @@ fun EditPostScreen(
                     .weight(1f)
             ) {
                 if (state.value.isLoading) {
-                    LoadingIndicator(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    )
+                    LoadingComponent()
                 } else if (state.value.stringResourceId != null) {
                     RequestErrorScreen(
                         messageStringResource = state.value.stringResourceId,

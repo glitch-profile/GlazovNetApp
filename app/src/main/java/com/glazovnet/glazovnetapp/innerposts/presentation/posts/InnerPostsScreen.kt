@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -13,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.JumpToTopButton
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import kotlinx.coroutines.launch
 
@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun InnerPostsScreen(
     onNavigationButtonClicked: () -> Unit,
+    onAddNewInnerPostClicked: () -> Unit,
     viewModel: InnerPostsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
@@ -87,6 +88,12 @@ fun InnerPostsScreen(
                         )
                     }
                 }
+                IconButton(onClick = onAddNewInnerPostClicked) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add new service post"
+                    )
+                }
             },
             scrollBehavior = scrollBehavior
         )
@@ -96,11 +103,7 @@ fun InnerPostsScreen(
                 .clipToBounds()
         ) {
             if (state.value.isLoading && state.value.data == null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (state.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = state.value.stringResourceId,

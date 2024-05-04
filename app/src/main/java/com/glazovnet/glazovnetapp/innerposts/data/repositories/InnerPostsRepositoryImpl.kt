@@ -43,7 +43,7 @@ class InnerPostsRepositoryImpl @Inject constructor(
     override suspend fun addInnerPost(token: String, title: String, text: String): Resource<InnerPostModel?> {
         return  try {
             val postToAdd = AddInnerPostModelDto(
-                title = title,
+                title = title.ifEmpty { null },
                 text = text
             )
             val response: ApiResponseDto<InnerPostModelDto?> = client.post("$PATH/create") {
