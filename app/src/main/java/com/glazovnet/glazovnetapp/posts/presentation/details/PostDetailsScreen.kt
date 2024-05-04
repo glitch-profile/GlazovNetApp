@@ -37,7 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.domain.utils.getLocalizedOffsetString
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,11 +84,7 @@ fun PostDetailsScreen(
                 .fillMaxSize()
         ) {
             if (state.value.isLoading && state.value.data != null) {
-                LoadingIndicator(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+                LoadingComponent()
             } else if (state.value.stringResourceId != null) {
                 RequestErrorScreen(
                     messageStringResource = state.value.stringResourceId,
@@ -114,7 +110,7 @@ fun PostDetailsScreen(
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         text = buildAnnotatedString {
-                            append(state.value.data!!.creationDateTime!!.getLocalizedOffsetString())
+                            append(state.value.data!!.creationDateTime.getLocalizedOffsetString())
                             state.value.data!!.lastEditDate?.let { editDate ->
                                 append(" | ")
                                 append(stringResource(id = R.string.post_details_screen_updated_text_short) + " ")

@@ -34,7 +34,6 @@ fun MessageNotification(
     title: String,
     additionText: String,
     icon: ImageVector? = null,
-    onDismiss: () -> Unit = {}
 ) {
 
     val transition = updateTransition(

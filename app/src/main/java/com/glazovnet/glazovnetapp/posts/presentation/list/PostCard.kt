@@ -44,7 +44,7 @@ fun PostCard(
             .background(MaterialTheme.colorScheme.primaryContainer)
     ) {
         if (post.image != null) {
-            val imageAspectRatio = post.image.imageWidth.toFloat() / post.image.imageHeight.toFloat()
+//            val imageAspectRatio = post.image.imageWidth.toFloat() / post.image.imageHeight.toFloat()
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,7 +72,7 @@ fun PostCard(
                         if (post.lastEditDate != null) {
                             append(stringResource(id = R.string.post_details_screen_updated_text_long) + " | ")
                         }
-                        append(post.creationDateTime!!.getLocalizedOffsetString())
+                        append(post.creationDateTime.getLocalizedOffsetString())
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -95,7 +95,7 @@ fun PostCard(
                     if (post.lastEditDate != null) {
                         append(stringResource(id = R.string.post_details_screen_updated_text_long) + " | ")
                     }
-                    append(post.creationDateTime!!.getLocalizedOffsetString())
+                    append(post.creationDateTime.getLocalizedOffsetString())
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

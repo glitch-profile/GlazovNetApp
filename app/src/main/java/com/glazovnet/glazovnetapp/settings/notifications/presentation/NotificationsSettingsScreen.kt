@@ -48,13 +48,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.CheckedButton
 import com.glazovnet.glazovnetapp.core.presentation.components.DesignedSwitchButton
-import com.glazovnet.glazovnetapp.core.presentation.components.LoadingIndicator
+import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsSettingsScreen(
-    modifier: Modifier = Modifier,
     onNavigationButtonPressed: () -> Unit,
     viewModel: NotificationsSettingsViewModel = hiltViewModel()
 ) {
@@ -127,11 +126,7 @@ fun NotificationsSettingsScreen(
                     .weight(1f)
             ) {
                 if (state.value.isLoading) {
-                    LoadingIndicator(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    )
+                    LoadingComponent()
                 } else if (state.value.stringResourceId != null) {
                     RequestErrorScreen(
                         messageStringResource = state.value.stringResourceId,
@@ -179,8 +174,6 @@ fun NotificationsSettingsScreen(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             Spacer(modifier = Modifier.height(8.dp))
                             PermissionScreen(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
                                 isPermissionsGranted = isPermissionsGranted.value,
                                 isNotificationsEnabled = isNotificationsOnDeviceEnabled.value,
                                 onRequestPermissionClick = {
@@ -269,7 +262,6 @@ private fun BottomActionBar(
 
 @Composable
 fun PermissionScreen(
-    modifier: Modifier = Modifier,
     isPermissionsGranted: Boolean,
     isNotificationsEnabled: Boolean,
     onRequestPermissionClick: () -> Unit
@@ -282,6 +274,7 @@ fun PermissionScreen(
     ) {
         CheckedButton(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .clip(MaterialTheme.shapes.small),
             title = stringResource(id = R.string.notifications_settings_screen_grant_permission),

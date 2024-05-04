@@ -28,14 +28,11 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -49,13 +46,13 @@ fun DesignedSwitchButton(
     isChecked: Boolean,
     onStateChanges: (status: Boolean) -> Unit,
 ) {
-    var showAdditionInfo by remember {
-        mutableStateOf(false)
-    }
+//    var showAdditionInfo by remember {
+//        mutableStateOf(false)
+//    }
 
     val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-    val scope = rememberCoroutineScope()
-    val haptic = LocalHapticFeedback.current
+//    val scope = rememberCoroutineScope()
+//    val haptic = LocalHapticFeedback.current
     Row(
         modifier = modifier
             .combinedClickable(

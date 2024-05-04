@@ -28,7 +28,6 @@ import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 
 @Composable
 fun NavigationDrawer(
-    modifier: Modifier = Modifier,
     isUserIsClient: Boolean,
     isUserIsEmployee: Boolean,
     employeeRoles: List<EmployeeRoles>,
