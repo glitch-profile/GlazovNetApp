@@ -36,6 +36,7 @@ import com.glazovnet.glazovnetapp.announcements.presentation.create.CreateAnnoun
 import com.glazovnet.glazovnetapp.announcements.presentation.list.AnnouncementsListScreen
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawer
 import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationDrawerState
+import com.glazovnet.glazovnetapp.innerposts.presentation.create.CreateInnerPostScreen
 import com.glazovnet.glazovnetapp.innerposts.presentation.posts.InnerPostsScreen
 import com.glazovnet.glazovnetapp.personalaccount.presentation.PersonalAccountScreen
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
@@ -384,6 +385,16 @@ private fun ScreenContents(
                 InnerPostsScreen(
                     onNavigationButtonClicked = {
                         toggleNavigationDrawer.invoke()
+                    },
+                    onAddNewInnerPostClicked = {
+                        navController.navigate("add-inner-post-screen")
+                    }
+                )
+            }
+            composable("add-inner-post-screen") {
+                CreateInnerPostScreen(
+                    onBackPressed = {
+                        navController.popBackStack()
                     }
                 )
             }

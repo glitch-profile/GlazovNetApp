@@ -97,7 +97,7 @@ fun NavigationDrawer(
         }
         if (isUserIsEmployee) {
             NavigationDrawerItem(
-                text = stringResource(id = R.string.service_screen_name),
+                text = stringResource(id = R.string.inner_posts_screen_name),
                 icon = Icons.Default.Lock,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("service-graph")
