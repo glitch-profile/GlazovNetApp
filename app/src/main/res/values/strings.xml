@@ -117,13 +117,17 @@
     <string name="add_announcement_screen_result_success_message">Announcement has been saved</string>
     <string name="add_announcement_screen_result_error_title">Unable to create announcement</string>
 
-    <!-- SERVICE SCREEN -->
-    <string name="service_screen_name">Service</string>
+    <!-- INNER POSTS SCREEN -->
     <string name="inner_posts_screen_name">Service posts</string>
     <string name="inner_posts_for_today_title">News for today</string>
     <string name="inner_posts_for_today_not_found_text">It looks like there\'s been no news today.</string>
     <string name="inner_posts_earlier_title">News for the past period</string>
     <string name="inner_posts_earlier_not_found_text">No news for the past period was found</string>
+
+    <!-- ADD INNER POST SCREEN -->
+    <string name="add_inner_post_screen_name">Create inner post</string>
+    <string name="add_inner_post_post_title_title">Title (optional)</string>
+    <string name="add_inner_post_post_text_title">Description</string>
 
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Personal account</string>

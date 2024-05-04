@@ -119,12 +119,16 @@
     <string name="add_announcement_screen_result_error_title">Не удалось создать объявление</string>
 
     <!-- SERVICE SCREEN -->
-    <string name="service_screen_name">Служебное</string>
     <string name="inner_posts_screen_name">Служебные новости</string>
     <string name="inner_posts_for_today_title">Новости за сегодня</string>
     <string name="inner_posts_for_today_not_found_text">Похоже, что за сегодня новостей пока нет</string>
     <string name="inner_posts_earlier_title">Новости за прошедший период</string>
     <string name="inner_posts_earlier_not_found_text">Новостей за прошедший период не обнаружено</string>
+
+    <!-- ADD INNER POST SCREEN -->
+    <string name="add_inner_post_screen_name">Добавить служебный пост</string>
+    <string name="add_inner_post_post_title_title">Заголовок (необязательно)</string>
+    <string name="add_inner_post_post_text_title">Описание</string>
 
     <!-- PERSONAL ACCOUNT SCREEN -->
     <string name="personal_account_screen_name">Личный кабинет</string>
