@@ -9,6 +9,8 @@ import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.services.domain.model.ServiceModel
+import com.glazovnet.glazovnetapp.services.domain.repository.ServicesApiRepository
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val personalAccountRepository: PersonalAccountRepository,
     private val tariffsApiRepository: TariffsApiRepository,
-     userAuthDataRepository: LocalUserAuthDataRepository,
+    private val servicesApiRepository: ServicesApiRepository,
+    userAuthDataRepository: LocalUserAuthDataRepository,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(PersonalAccountScreenState())
@@ -30,6 +33,9 @@ class AccountViewModel @Inject constructor(
 
     private val _tariffData = MutableStateFlow(ScreenState<TariffModel>())
     val tariffData = _tariffData.asStateFlow()
+
+    private val _servicesData = MutableStateFlow(ScreenState<List<ServiceModel>>())
+    val servicesData = _servicesData.asStateFlow()
 
     private val userToken = userAuthDataRepository.getLoginToken() ?: ""
     private val personId = userAuthDataRepository.getAssociatedPersonId()
@@ -58,6 +64,7 @@ class AccountViewModel @Inject constructor(
                     )
                 }
                 loadTariff()
+                loadServices()
             } catch (e: UserRequestError) {
                 _state.update {
                     it.copy(
@@ -83,6 +90,26 @@ class AccountViewModel @Inject constructor(
                 _tariffData.update { it.copy(data = result.data!!) }
             }
             _tariffData.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private suspend fun loadServices() {
+        if (state.value.clientInfo != null) {
+            _servicesData.update {
+                it.copy(isLoading = true)
+            }
+            val result = servicesApiRepository.getConnectedServices(
+                token = userToken,
+                clientId = clientId ?: ""
+            )
+            println(result)
+            println(result.message)
+            if (result is Resource.Success) {
+                _servicesData.update {
+                    it.copy(data = result.data!!)
+                }
+            }
+            _servicesData.update { it.copy(isLoading = false) }
         }
     }
 

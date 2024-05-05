@@ -181,6 +181,8 @@
     <string name="personal_account_info_connected_tariff_sector_title">Connected tariff</string>
     <string name="personal_account_info_tariff_name_title">Tariff name</string>
     <string name="personal_account_info_tariff_cost_title">Cost per month</string>
+    <string name="personal_account_info_connected_services_sector_title">Connected services</string>
+    <string name="personal_account_info_services_status_title">Status of connected services</string>
     <string name="personal_account_info_employee_info_sector_title">Employee information</string>
     <string name="personal_account_info_employee_creation_date_title">Employee account creation date</string>
     <string name="personal_account_info_employee_rating_title">Rating in technical support</string>
@@ -189,6 +191,7 @@
     <string name="personal_account_values_notifications_disabled_text">Disabled</string>
     <string name="personal_account_values_account_active_text">Account is active</string>
     <string name="personal_account_values_account_locked_text">Account is locked</string>
+    <string name="personal_account_values_no_services_text">You don\'t have connected services</string>
     <string name="personal_account_values_ratings_count_prefix_text">Based on</string>
     <plurals name="personal_account_values_ratings_count_text">
         <item quantity="one">%d rating</item>
@@ -206,6 +209,8 @@
     <string name="personal_account_actions_edit_password_description">Set a new password for your account</string>
     <string name="personal_account_actions_edit_tariff">Change</string>
     <string name="personal_account_actions_lock_account">Lock</string>
+    <string name="personal_account_action_manage_connected_services">Open services screen</string>
+    <string name="personal_account_action_manage_connected_services_description">Manage additional services</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>

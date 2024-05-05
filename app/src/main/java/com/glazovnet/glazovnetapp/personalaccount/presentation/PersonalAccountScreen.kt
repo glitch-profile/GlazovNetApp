@@ -81,6 +81,7 @@ fun PersonalAccountScreen(
     ) {
         val accountState = viewModel.state.collectAsState()
         val tariffState = viewModel.tariffData.collectAsState()
+        val servicesState = viewModel.servicesData.collectAsState()
 
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         TopAppBar(
@@ -335,11 +336,11 @@ fun PersonalAccountScreen(
                             }
                         }
                     }
-                    if (accountState.value.employeeInfo != null) {
+                    if (servicesState.value.data != null) {
                         Text(
                             modifier = Modifier
                                 .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                            text = stringResource(id = R.string.personal_account_info_employee_info_sector_title),
+                            text = stringResource(id = R.string.personal_account_info_connected_services_sector_title),
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -350,31 +351,71 @@ fun PersonalAccountScreen(
                                 .clip(MaterialTheme.shapes.small)
                                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                         ) {
-                            with(accountState.value.employeeInfo!!) {
-                                AccountInfoComponent(
-                                    icon = Icons.Default.DateRange,
-                                    title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
-                                    text = this.accountCreationDate.toLocalDate().format(
-                                        DateTimeFormatter.ofPattern("dd MMMM yyyy")
-                                    )
-                                )
-                                if (this.numberOfRatings != 0) {
-                                    val ratingFormatted = String.format("%.2f", this.averageRating)
-                                    val numberOfRatings = this.numberOfRatings
+                            with(servicesState.value.data!!) {
+                                if (this.isEmpty()) {
                                     AccountInfoComponent(
-                                        icon = Icons.Default.ThumbUp,
-                                        title = stringResource(id = R.string.personal_account_info_employee_rating_title),
-                                        text = buildString {
-                                            append("$ratingFormatted | ")
-                                            append("${stringResource(id = R.string.personal_account_values_ratings_count_prefix_text)} ")
-                                            append(pluralStringResource(
-                                                id = R.plurals.personal_account_values_ratings_count_text,
-                                                count = numberOfRatings,
-                                                numberOfRatings
-                                            ))
-                                        }
+                                        icon = Icons.Default.Info,
+                                        title = stringResource(id = R.string.personal_account_info_services_status_title),
+                                        text = stringResource(id = R.string.personal_account_values_no_services_text)
                                     )
                                 }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CheckedButton(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .clip(MaterialTheme.shapes.small),
+                            title = stringResource(id = R.string.personal_account_action_manage_connected_services),
+                            description = stringResource(id = R.string.personal_account_action_manage_connected_services_description),
+                            isChecked = true,
+                            titleMaxLines = 1,
+                            descriptionMaxLines = 1,
+                            onStateChanges = {
+                                // TODO
+                            }
+                        )
+                    }
+                }
+                if (accountState.value.employeeInfo != null) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                        text = stringResource(id = R.string.personal_account_info_employee_info_sector_title),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .clip(MaterialTheme.shapes.small)
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                    ) {
+                        with(accountState.value.employeeInfo!!) {
+                            AccountInfoComponent(
+                                icon = Icons.Default.DateRange,
+                                title = stringResource(id = R.string.personal_account_info_employee_creation_date_title),
+                                text = this.accountCreationDate.toLocalDate().format(
+                                    DateTimeFormatter.ofPattern("dd MMMM yyyy")
+                                )
+                            )
+                            if (this.numberOfRatings != 0) {
+                                val ratingFormatted = String.format("%.2f", this.averageRating)
+                                val numberOfRatings = this.numberOfRatings
+                                AccountInfoComponent(
+                                    icon = Icons.Default.ThumbUp,
+                                    title = stringResource(id = R.string.personal_account_info_employee_rating_title),
+                                    text = buildString {
+                                        append("$ratingFormatted | ")
+                                        append("${stringResource(id = R.string.personal_account_values_ratings_count_prefix_text)} ")
+                                        append(pluralStringResource(
+                                            id = R.plurals.personal_account_values_ratings_count_text,
+                                            count = numberOfRatings,
+                                            numberOfRatings
+                                        ))
+                                    }
+                                )
                             }
                         }
                     }

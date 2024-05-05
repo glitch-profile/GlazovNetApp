@@ -185,6 +185,8 @@
     <string name="personal_account_info_connected_tariff_sector_title">Подключенный тариф</string>
     <string name="personal_account_info_tariff_name_title">Название тарифа</string>
     <string name="personal_account_info_tariff_cost_title">Стоимость в месяц</string>
+    <string name="personal_account_info_connected_services_sector_title">Подключенные услуги</string>
+    <string name="personal_account_info_services_status_title">Статус подключенных услуг</string>
     <string name="personal_account_info_employee_info_sector_title">Информация о работнике</string>
     <string name="personal_account_info_employee_creation_date_title">Дата создания аккаунта</string>
     <string name="personal_account_info_employee_rating_title">Рейтинг в техподдержке</string>
@@ -193,6 +195,7 @@
     <string name="personal_account_values_notifications_disabled_text">Отключены</string>
     <string name="personal_account_values_account_active_text">Активен</string>
     <string name="personal_account_values_account_locked_text">Заблокирован</string>
+    <string name="personal_account_values_no_services_text">У вас нет подключенных услуг</string>
     <string name="personal_account_values_ratings_count_prefix_text">На основе</string>
     <plurals name="personal_account_values_ratings_count_text">
         <item quantity="one">%d голоса</item>
@@ -211,6 +214,8 @@
     <string name="personal_account_actions_edit_password_description">Установить новый пароль для аккаунта</string>
     <string name="personal_account_actions_edit_tariff">Сменить</string>
     <string name="personal_account_actions_lock_account">Заблокировать</string>
+    <string name="personal_account_action_manage_connected_services">Открыть меню услуг</string>
+    <string name="personal_account_action_manage_connected_services_description">Управлять дополнительными услуги</string>
 
 
     <!-- SETTINGS SCREEN -->
