@@ -26,7 +26,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -230,19 +229,25 @@ fun RequestsListScreen(
 //                                textAlign = TextAlign.Center
 //                            )
                             Spacer(modifier = Modifier.height(16.dp))
+//                            Button(
+////                                modifier = Modifier
+////                                    .height(48.dp),
+//                                shape = MaterialTheme.shapes.small,
+//                                onClick = onAddNewRequestClicked
+//                            ) {
+//                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_autoguide_button))
+//                            }
+//                            TextButton(
+//                                shape = MaterialTheme.shapes.small,
+//                                onClick = onAddNewRequestClicked
+//                            ) {
+//                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_manual_request_button))
+//                            }
                             Button(
-//                                modifier = Modifier
-//                                    .height(48.dp),
                                 shape = MaterialTheme.shapes.small,
                                 onClick = onAddNewRequestClicked
                             ) {
-                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_autoguide_button))
-                            }
-                            TextButton(
-                                shape = MaterialTheme.shapes.small,
-                                onClick = onAddNewRequestClicked
-                            ) {
-                                Text(text = stringResource(id = R.string.request_screen_no_request_found_user_manual_request_button))
+                                Text(text = stringResource(id = R.string.request_screen_add_request_button_text))
                             }
                         }
                     }
