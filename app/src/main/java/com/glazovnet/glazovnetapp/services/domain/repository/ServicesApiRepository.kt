@@ -3,7 +3,7 @@ package com.glazovnet.glazovnetapp.services.domain.repository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.services.domain.model.ServiceModel
 
-interface ServicesRepository {
+interface ServicesApiRepository {
 
     suspend fun getAllServices(token: String): Resource<List<ServiceModel>>
 

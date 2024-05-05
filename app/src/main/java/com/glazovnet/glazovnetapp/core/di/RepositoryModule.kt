@@ -14,8 +14,8 @@ import com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl.PersonalAc
 import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
 import com.glazovnet.glazovnetapp.posts.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
-import com.glazovnet.glazovnetapp.services.data.repository.ServicesRepositoryImpl
-import com.glazovnet.glazovnetapp.services.domain.repository.ServicesRepository
+import com.glazovnet.glazovnetapp.services.data.repository.ServicesApiRepositoryImpl
+import com.glazovnet.glazovnetapp.services.domain.repository.ServicesApiRepository
 import com.glazovnet.glazovnetapp.settings.appearance.data.AppearanceSettingsRepositoryImpl
 import com.glazovnet.glazovnetapp.settings.appearance.domain.AppearanceSettingsRepository
 import com.glazovnet.glazovnetapp.settings.notifications.data.repository.NotificationsApiRepositoryImpl
@@ -111,6 +111,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsServicesRepository(
-        servicesRepositoryImpl: ServicesRepositoryImpl
-    ): ServicesRepository
+        servicesRepositoryImpl: ServicesApiRepositoryImpl
+    ): ServicesApiRepository
 }

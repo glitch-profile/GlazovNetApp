@@ -6,10 +6,11 @@ import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.services.data.entity.ServiceModelDto
 import com.glazovnet.glazovnetapp.services.data.mapper.toServiceModel
 import com.glazovnet.glazovnetapp.services.domain.model.ServiceModel
-import com.glazovnet.glazovnetapp.services.domain.repository.ServicesRepository
+import com.glazovnet.glazovnetapp.services.domain.repository.ServicesApiRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.put
 import javax.inject.Inject
@@ -17,13 +18,13 @@ import javax.inject.Named
 
 private const val PATH = "/api/services"
 
-class ServicesRepositoryImpl @Inject constructor(
+class ServicesApiRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
-): ServicesRepository {
+): ServicesApiRepository {
 
     override suspend fun getAllServices(token: String): Resource<List<ServiceModel>> {
         return try {
-            val response: ApiResponseDto<List<ServiceModelDto>> = client.put(PATH) {
+            val response: ApiResponseDto<List<ServiceModelDto>> = client.get(PATH) {
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -43,7 +44,7 @@ class ServicesRepositoryImpl @Inject constructor(
         clientId: String
     ): Resource<List<ServiceModel>> {
         return try {
-            val response: ApiResponseDto<List<ServiceModelDto>> = client.put("$PATH/connected-for-client") {
+            val response: ApiResponseDto<List<ServiceModelDto>> = client.get("$PATH/connected-for-client") {
                 bearerAuth(token)
                 header("client_id", clientId)
             }.body()
@@ -64,7 +65,7 @@ class ServicesRepositoryImpl @Inject constructor(
         clientId: String
     ): Resource<List<String>> {
         return try {
-            val response: ApiResponseDto<List<String>> = client.put("$PATH/connected-for-client/ids") {
+            val response: ApiResponseDto<List<String>> = client.get("$PATH/connected-for-client/ids") {
                 bearerAuth(token)
                 header("client_id", clientId)
             }.body()
