@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
@@ -83,15 +84,26 @@ fun NavigationDrawer(
             },
             isSelected = selectedItemIndexed == 3
         )
+        if (isUserIsClient) {
+            NavigationDrawerItem(
+                text = stringResource(id = R.string.services_screen_name),
+                icon = Icons.Default.List,
+                onClick = {
+                    onNavigateOnHomeScreen.invoke("services-graph")
+                    selectedItemIndexed = 4
+                },
+                isSelected = selectedItemIndexed == 4
+            )
+        }
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.ANNOUNCEMENTS)) {
             NavigationDrawerItem(
                 text = stringResource(id = R.string.announcement_list_screen_name),
                 icon = Icons.Default.Notifications,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("announcements-graph")
-                    selectedItemIndexed = 4
+                    selectedItemIndexed = 5
                 },
-                isSelected = selectedItemIndexed == 4
+                isSelected = selectedItemIndexed == 5
             )
         }
         if (isUserIsEmployee) {
@@ -100,9 +112,9 @@ fun NavigationDrawer(
                 icon = Icons.Default.Lock,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("service-graph")
-                    selectedItemIndexed = 5
+                    selectedItemIndexed = 6
                 },
-                isSelected = selectedItemIndexed == 5
+                isSelected = selectedItemIndexed == 6
             )
         }
         NavigationDrawerItem(
@@ -110,9 +122,9 @@ fun NavigationDrawer(
             icon = Icons.Default.Settings,
             onClick = {
                 onNavigateOnHomeScreen.invoke("settings-graph")
-                selectedItemIndexed = 6
+                selectedItemIndexed = 7
             },
-            isSelected = selectedItemIndexed == 6
+            isSelected = selectedItemIndexed == 7
         )
         Divider(
             modifier = Modifier

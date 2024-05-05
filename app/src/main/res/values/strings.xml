@@ -212,6 +212,11 @@
     <string name="personal_account_action_manage_connected_services">Open services screen</string>
     <string name="personal_account_action_manage_connected_services_description">Manage additional services</string>
 
+    <!-- SERVICES SCREEN -->
+    <string name="services_screen_name">Additional services</string>
+    <string name="services_screen_all_services_sector_title">All services</string>
+    <string name="services_screen_unavailable_services_sector_title">Temporal unavailable services</string>
+
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
     <string name="settings_screen_general_settings_title">General</string>

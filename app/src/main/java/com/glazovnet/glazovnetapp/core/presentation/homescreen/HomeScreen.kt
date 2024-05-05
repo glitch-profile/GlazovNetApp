@@ -42,6 +42,7 @@ import com.glazovnet.glazovnetapp.personalaccount.presentation.PersonalAccountSc
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
+import com.glazovnet.glazovnetapp.services.presentation.ServicesScreen
 import com.glazovnet.glazovnetapp.settings.appearance.presentation.AppearanceSettingsScreen
 import com.glazovnet.glazovnetapp.settings.core.presentation.mainscreen.SettingsScreen
 import com.glazovnet.glazovnetapp.settings.notifications.presentation.NotificationsSettingsScreen
@@ -346,6 +347,18 @@ private fun ScreenContents(
                 TariffsListScreen(
                     optionalTariffId = tariffId,
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }
+                )
+            }
+        }
+        navigation(
+            startDestination = "services-screen",
+            route = "services-graph"
+        ) {
+            composable("services-screen") {
+                ServicesScreen(
+                    onNavigationButtonPressed = {
+                        toggleNavigationDrawer.invoke()
+                    }
                 )
             }
         }

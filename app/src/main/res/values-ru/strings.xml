@@ -215,8 +215,12 @@
     <string name="personal_account_actions_edit_tariff">Сменить</string>
     <string name="personal_account_actions_lock_account">Заблокировать</string>
     <string name="personal_account_action_manage_connected_services">Открыть меню услуг</string>
-    <string name="personal_account_action_manage_connected_services_description">Управлять дополнительными услуги</string>
+    <string name="personal_account_action_manage_connected_services_description">Управлять дополнительными услугами</string>
 
+    <!-- SERVICES SCREEN -->
+    <string name="services_screen_name">Дополнительные услуги</string>
+    <string name="services_screen_all_services_sector_title">Все услуги</string>
+    <string name="services_screen_unavailable_services_sector_title">Временно недоступные услуги</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
