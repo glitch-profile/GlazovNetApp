@@ -182,7 +182,7 @@
     <string name="personal_account_info_tariff_name_title">Tariff name</string>
     <string name="personal_account_info_tariff_cost_title">Cost per month</string>
     <string name="personal_account_info_connected_services_sector_title">Connected services</string>
-    <string name="personal_account_info_services_status_title">Status of connected services</string>
+    <string name="personal_account_info_services_status_title">Status of additional services</string>
     <string name="personal_account_info_employee_info_sector_title">Employee information</string>
     <string name="personal_account_info_employee_creation_date_title">Employee account creation date</string>
     <string name="personal_account_info_employee_rating_title">Rating in technical support</string>
@@ -197,6 +197,11 @@
         <item quantity="one">%d rating</item>
         <item quantity="many">%d ratings</item>
         <item quantity="other">%d ratings</item>
+    </plurals>
+    <plurals name="personal_account_values_connected_services_count_text">
+        <item quantity="one">%d service connected</item>
+        <item quantity="many">%d services connected</item>
+        <item quantity="other">%d services connected</item>
     </plurals>
     <!-- ACTIONS -->
     <string name="personal_account_actions_hide_password">Hide password</string>
@@ -216,6 +221,18 @@
     <string name="services_screen_name">Additional services</string>
     <string name="services_screen_all_services_sector_title">All services</string>
     <string name="services_screen_unavailable_services_sector_title">Temporal unavailable services</string>
+    <!-- DETAILS -->
+    <string name="services_screen_details_title">Are you sure?</string>
+    <string name="services_screen_details_connect_description">You are activating an additional service</string>
+    <string name="services_screen_details_disconnect_description">You are disconnecting an additional service</string>
+    <string name="services_screen_details_service_name">Service name</string>
+    <string name="services_screen_details_service_description_title">Service description</string>
+    <string name="services_screen_details_payment_policy_title">Payment policy</string>
+    <string name="services_screen_details_payment_policy_instant_description">Payment of %s upon connection, further - at the end of the billing month</string>
+    <string name="services_screen_details_payment_policy_pending_description">Payment at the end of the billing month</string>
+    <string name="services_screen_details_connect_button_text">Connect additional service</string>
+    <string name="services_screen_details_disconnect_button_text">Disconnect additional service</string>
+
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Settings</string>
@@ -302,15 +319,9 @@
         <item quantity="many">%d megabytes</item>
         <item quantity="other">%d megabytes</item>
     </plurals>
-    <plurals name="tariff_card_cost_value">
-        <item quantity="one">%d ruble</item>
-        <item quantity="many">%d rubles</item>
-        <item quantity="other">%d rubles</item>
-    </plurals>
     <string name="tariff_card_speed_limit_megabits_value">Up to %d Mbits/s</string>
     <string name="tariff_card_speed_limit_kilobits_value">Up to %d Kbits/s</string>
     <string name="tariff_card_speed_limit_none_value">No limit</string>
-    <string name="tariff_card_cost_text">Cost per month</string>
     <string name="tariff_card_speed_limit_details_text">Speed limit</string>
     <string name="tariff_card_prepaid_traffic_amount_text">Prepaid traffic amount</string>
     <string name="tariff_card_prepaid_traffic_unlimited_text">Unlimited</string>
@@ -338,6 +349,14 @@
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>
     <string name="reusable_unexpected_error_occurred">Error occurred</string>
+    <!-- PAYMENT RELATED -->
+    <string name="reusable_payment_cost_per_month_text">Cost per month</string>
+    <string name="reusable_payment_cost_free_text">Free</string>
+    <plurals name="reusable_payment_cost_value">
+        <item quantity="one">%d ruble</item>
+        <item quantity="many">%d rubles</item>
+        <item quantity="other">%d rubles</item>
+    </plurals>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Unlimited</string>

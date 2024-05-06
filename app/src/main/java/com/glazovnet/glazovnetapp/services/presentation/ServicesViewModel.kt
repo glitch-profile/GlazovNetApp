@@ -27,6 +27,9 @@ class ServicesViewModel @Inject constructor(
     private val _unavailableServices = MutableStateFlow<List<ServiceModel>>(emptyList())
     val unavailableServices = _unavailableServices.asStateFlow()
 
+    private val _currentOpenService = MutableStateFlow<ServiceDetailsModel?>(null)
+    val currentOpenService = _currentOpenService.asStateFlow()
+
     private val _connectedServices = MutableStateFlow(emptyList<String>())
     val connectedServices = _connectedServices.asStateFlow()
 
@@ -72,6 +75,20 @@ class ServicesViewModel @Inject constructor(
         }
     }
 
+    fun openDetailsScreen(serviceId: String) {
+        val service = availableServices.value.first { it.id == serviceId }
+        val isConnected = connectedServices.value.contains(service.id)
+        _currentOpenService.update {
+            ServiceDetailsModel(
+                service = service,
+                isServiceConnected = isConnected
+            )
+        }
+    }
+    fun closeDetailsScreen() {
+        _currentOpenService.update { null }
+    }
+
     fun connectService(serviceId: String) {
         viewModelScope.launch {
             _state.update {
@@ -84,6 +101,7 @@ class ServicesViewModel @Inject constructor(
             )
             if (result is Resource.Success) {
                 addConnectedServiceId(serviceId)
+                closeDetailsScreen()
             } else {
                 _state.update {
                     it.copy(message = result.message, stringResourceId = result.stringResourceId)
@@ -107,6 +125,7 @@ class ServicesViewModel @Inject constructor(
             )
             if (result is Resource.Success) {
                 removeConnectedServiceId(serviceId)
+                closeDetailsScreen()
             } else {
                 _state.update {
                     it.copy(message = result.message, stringResourceId = result.stringResourceId)

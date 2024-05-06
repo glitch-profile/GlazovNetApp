@@ -13,7 +13,8 @@ fun ServiceModelDto.toServiceModel(): ServiceModel {
         id = this.id,
         name = name,
         description = description,
-        cost = this.costPerMonth,
+        costPerMonth = this.costPerMonth,
+        connectionCost = this.connectionCost,
         isActive = isActive
     )
 }

@@ -186,7 +186,7 @@
     <string name="personal_account_info_tariff_name_title">Название тарифа</string>
     <string name="personal_account_info_tariff_cost_title">Стоимость в месяц</string>
     <string name="personal_account_info_connected_services_sector_title">Подключенные услуги</string>
-    <string name="personal_account_info_services_status_title">Статус подключенных услуг</string>
+    <string name="personal_account_info_services_status_title">Статус дополнительных услуг</string>
     <string name="personal_account_info_employee_info_sector_title">Информация о работнике</string>
     <string name="personal_account_info_employee_creation_date_title">Дата создания аккаунта</string>
     <string name="personal_account_info_employee_rating_title">Рейтинг в техподдержке</string>
@@ -202,6 +202,12 @@
         <item quantity="few">%d голосов</item>
         <item quantity="many">%d голосов</item>
         <item quantity="other">%d голосов</item>
+    </plurals>
+    <plurals name="personal_account_values_connected_services_count_text">
+        <item quantity="one">Подключена %d услуга</item>
+        <item quantity="few">Подключено %d услуги</item>
+        <item quantity="many">Подключено %d услуг</item>
+        <item quantity="other">Подключено %d услуги</item>
     </plurals>
     <!-- ACTIONS -->
     <string name="personal_account_actions_hide_password">Спрятать пароль</string>
@@ -221,6 +227,18 @@
     <string name="services_screen_name">Дополнительные услуги</string>
     <string name="services_screen_all_services_sector_title">Все услуги</string>
     <string name="services_screen_unavailable_services_sector_title">Временно недоступные услуги</string>
+    <!-- DETAILS -->
+    <string name="services_screen_details_title">Вы уверены?</string>
+    <string name="services_screen_details_connect_description">Вы активируете дополнительную услугу</string>
+    <string name="services_screen_details_disconnect_description">Вы отключаете дополнительную услугу</string>
+    <string name="services_screen_details_service_name">Название услуги</string>
+    <string name="services_screen_details_service_description_title">Описание услуги</string>
+    <string name="services_screen_details_payment_policy_title">Политика списания</string>
+    <string name="services_screen_details_payment_policy_instant_description">Оплата %s при подключении, далее - по окончании расчетного месяца</string>
+    <string name="services_screen_details_payment_policy_pending_description">Оплата по окончании расчётного месяца</string>
+    <string name="services_screen_details_connect_button_text">Подключить дополнительную услугу</string>
+    <string name="services_screen_details_disconnect_button_text">Отключить дополнительную услугу</string>
+
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
@@ -310,16 +328,9 @@
         <item quantity="many">%d мегабайт</item>
         <item quantity="other">%d мегабайт</item>
     </plurals>
-    <plurals name="tariff_card_cost_value">
-        <item quantity="one">%d рубль</item>
-        <item quantity="few">%d рубля</item>
-        <item quantity="many">%d рублей</item>
-        <item quantity="other">%d рублей</item>
-    </plurals>
     <string name="tariff_card_speed_limit_megabits_value">До %d Мбит в секунду</string>
     <string name="tariff_card_speed_limit_kilobits_value">До %d Кбит в секунду</string>
     <string name="tariff_card_speed_limit_none_value">Без ограничений</string>
-    <string name="tariff_card_cost_text">Стоимость в месяц</string>
     <string name="tariff_card_speed_limit_details_text">Ограничение скорости</string>
     <string name="tariff_card_prepaid_traffic_amount_text">Предоплаченный трафик</string>
     <string name="tariff_card_prepaid_traffic_unlimited_text">Безлимит</string>
@@ -347,6 +358,16 @@
     <string name="reusable_text_save">Сохранить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
     <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
+
+    <!-- PAYMENT RELATED -->
+    <string name="reusable_payment_cost_per_month_text">Стоимость в месяц</string>
+    <string name="reusable_payment_cost_free_text">Бесплатно</string>
+    <plurals name="reusable_payment_cost_value">
+        <item quantity="one">%d рубль</item>
+        <item quantity="few">%d рубля</item>
+        <item quantity="many">%d рублей</item>
+        <item quantity="other">%d рублей</item>
+    </plurals>
 
     <!-- TARIFFS TYPES -->
     <string name="tariff_type_unlimited_name">Безлимитные</string>
