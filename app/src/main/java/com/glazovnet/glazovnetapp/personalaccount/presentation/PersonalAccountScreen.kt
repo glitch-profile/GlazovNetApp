@@ -73,6 +73,9 @@ import kotlin.math.absoluteValue
 @Composable
 fun PersonalAccountScreen(
     onNavigationButtonPressed: () -> Unit,
+    onOpenNotificationsSettings: () -> Unit,
+    onOpenTariffsScreen: () -> Unit,
+    onOpenServicesScreen: () -> Unit,
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     Column(
@@ -186,9 +189,7 @@ fun PersonalAccountScreen(
                                 text = if (this.isNotificationsEnabled) stringResource(id = R.string.personal_account_values_notifications_enabled_text)
                                 else stringResource(id = R.string.personal_account_values_notifications_disabled_text),
                                 actionTitle = stringResource(id = R.string.personal_account_actions_edit_notification_settings),
-                                onActionClick = {
-                                    //TODO
-                                }
+                                onActionClick = onOpenNotificationsSettings
                             )
                         }
                     }
@@ -320,21 +321,33 @@ fun PersonalAccountScreen(
                                     title = stringResource(id = R.string.personal_account_info_tariff_name_title),
                                     text = this.name,
                                     actionTitle = stringResource(id = R.string.personal_account_actions_edit_tariff),
-                                    onActionClick = {
-                                        //TODO
-                                    }
+                                    onActionClick = onOpenTariffsScreen
                                 )
                                 AccountInfoComponent(
                                     icon = Icons.Default.Info,
                                     title = stringResource(id = R.string.personal_account_info_tariff_cost_title),
                                     text = pluralStringResource(
-                                        id = R.plurals.tariff_card_cost_value,
+                                        id = R.plurals.reusable_payment_cost_value,
                                         count = this.costPerMonth,
                                         this.costPerMonth
                                     )
                                 )
                             }
                         }
+//                        Spacer(modifier = Modifier.height(8.dp))
+//                        CheckedButton(
+//                            modifier = Modifier
+//                                .padding(horizontal = 16.dp)
+//                                .clip(MaterialTheme.shapes.small),
+//                            title = "Открыть список тарифов",
+//                            description = "Сменить подключенный тариф",
+//                            isChecked = true,
+//                            titleMaxLines = 1,
+//                            descriptionMaxLines = 1,
+//                            onStateChanges = {
+//                                // TODO
+//                            }
+//                        )
                     }
                     if (servicesState.value.data != null) {
                         Text(
@@ -352,13 +365,19 @@ fun PersonalAccountScreen(
                                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                         ) {
                             with(servicesState.value.data!!) {
-                                if (this.isEmpty()) {
-                                    AccountInfoComponent(
-                                        icon = Icons.Default.Info,
-                                        title = stringResource(id = R.string.personal_account_info_services_status_title),
-                                        text = stringResource(id = R.string.personal_account_values_no_services_text)
-                                    )
-                                }
+                                AccountInfoComponent(
+                                    icon = Icons.Default.Info,
+                                    title = stringResource(id = R.string.personal_account_info_services_status_title),
+                                    text = if (this.isEmpty()) {
+                                        stringResource(id = R.string.personal_account_values_no_services_text)
+                                    } else {
+                                        pluralStringResource(
+                                            id = R.plurals.personal_account_values_connected_services_count_text,
+                                            count = this.size,
+                                            this.size
+                                        )
+                                    }
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.height(8.dp))
@@ -372,7 +391,7 @@ fun PersonalAccountScreen(
                             titleMaxLines = 1,
                             descriptionMaxLines = 1,
                             onStateChanges = {
-                                // TODO
+                                onOpenServicesScreen.invoke()
                             }
                         )
                     }

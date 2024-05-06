@@ -111,7 +111,7 @@ fun HomeScreen(
             isUserIsEmployee = isUserIsEmployee,
             employeeRoles = employeeRoles,
             onNavigateOnHomeScreen = { route ->
-                val currentRoute = secondaryNavController.currentBackStackEntry?.destination?.route
+                val currentRoute = secondaryNavController.currentBackStackEntry?.destination?.parent?.route
                 secondaryNavController.navigate(route) {
                     if (currentRoute != null) {
                         popUpTo(currentRoute) {inclusive = true}
@@ -264,10 +264,10 @@ private fun ScreenContents(
 
                     },
                     onOpenTariffsScreen = {
-
+                        navController.navigate("tariffs-graph")
                     },
                     onOpenServicesScreen = {
-
+                        navController.navigate("services-graph")
                     }
                 )
             }

@@ -309,9 +309,9 @@ private fun DetailsSheet(
                     AdditionalTextInfo(
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 4.dp),
-                        title = stringResource(id = R.string.tariff_card_cost_text),
+                        title = stringResource(id = R.string.reusable_payment_cost_per_month_text),
                         text = pluralStringResource(
-                            id = R.plurals.tariff_card_cost_value,
+                            id = R.plurals.reusable_payment_cost_value,
                             count = tariffModel.costPerMonth,
                             formatArgs = arrayOf(tariffModel.costPerMonth)
                         )
