@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
@@ -78,6 +79,7 @@ fun HomeScreen(
             LocalConfiguration.current.screenWidthDp.dp.roundToPx().toFloat() * 0.7f
         }
         val secondaryNavController = rememberNavController()
+        val navControllerRoute = secondaryNavController.currentBackStackEntryAsState()
         val translationX = remember {
             Animatable(0f)
         }
@@ -104,6 +106,7 @@ fun HomeScreen(
         }
 
         NavigationDrawer(
+            currentScreenRoute = navControllerRoute.value?.destination?.parent?.route ?: "",
             isUserIsClient = isUserIsClient,
             isUserIsEmployee = isUserIsEmployee,
             employeeRoles = employeeRoles,
@@ -256,7 +259,16 @@ private fun ScreenContents(
                 )
             ) {
                 PersonalAccountScreen(
-                    onNavigationButtonPressed = toggleNavigationDrawer
+                    onNavigationButtonPressed = toggleNavigationDrawer,
+                    onOpenNotificationsSettings = {
+
+                    },
+                    onOpenTariffsScreen = {
+
+                    },
+                    onOpenServicesScreen = {
+
+                    }
                 )
             }
         }
@@ -392,7 +404,7 @@ private fun ScreenContents(
         }
         navigation(
             startDestination = "inner-posts-screen",
-            route = "service-graph"
+            route = "inner-posts-graph"
         ) {
             composable("inner-posts-screen") {
                 InnerPostsScreen(

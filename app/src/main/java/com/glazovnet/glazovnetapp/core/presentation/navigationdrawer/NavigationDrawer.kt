@@ -17,10 +17,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,29 +25,27 @@ import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 
 @Composable
 fun NavigationDrawer(
+    currentScreenRoute: String,
     isUserIsClient: Boolean,
     isUserIsEmployee: Boolean,
     employeeRoles: List<EmployeeRoles>,
     onNavigateOnHomeScreen: (route: String) -> Unit,
     onNavigateOnMainScreen: (route: String) -> Unit
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        var selectedItemIndexed by rememberSaveable {
-            mutableIntStateOf(0)
-        }
         NavigationDrawerItem(
             text = stringResource(id = R.string.posts_list_screen_name),
             icon = Icons.Default.DateRange,
             onClick = {
                 onNavigateOnHomeScreen.invoke("posts-graph")
-                selectedItemIndexed = 0
             },
-            isSelected = selectedItemIndexed == 0
+            isSelected = currentScreenRoute == "posts-graph"
         )
         if (isUserIsClient || isUserIsEmployee) {
             NavigationDrawerItem(
@@ -59,9 +53,8 @@ fun NavigationDrawer(
                 icon = Icons.Default.Person,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("personal-account-graph")
-                    selectedItemIndexed = 1
                 },
-                isSelected = selectedItemIndexed == 1
+                isSelected = currentScreenRoute == "personal-account-graph"
             )
         }
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.SUPPORT_CHAT)) {
@@ -70,9 +63,8 @@ fun NavigationDrawer(
                 icon = Icons.Default.Build,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("support-graph")
-                    selectedItemIndexed = 2
                 },
-                isSelected = selectedItemIndexed == 2
+                isSelected = currentScreenRoute == "support-graph"
             )
         }
         NavigationDrawerItem(
@@ -80,9 +72,8 @@ fun NavigationDrawer(
             icon = Icons.Default.Menu,
             onClick = {
                 onNavigateOnHomeScreen.invoke("tariffs-graph")
-                selectedItemIndexed = 3
             },
-            isSelected = selectedItemIndexed == 3
+            isSelected = currentScreenRoute == "tariffs-graph"
         )
         if (isUserIsClient) {
             NavigationDrawerItem(
@@ -90,9 +81,8 @@ fun NavigationDrawer(
                 icon = Icons.Default.List,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("services-graph")
-                    selectedItemIndexed = 4
                 },
-                isSelected = selectedItemIndexed == 4
+                isSelected = currentScreenRoute == "services-graph"
             )
         }
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.ANNOUNCEMENTS)) {
@@ -101,9 +91,8 @@ fun NavigationDrawer(
                 icon = Icons.Default.Notifications,
                 onClick = {
                     onNavigateOnHomeScreen.invoke("announcements-graph")
-                    selectedItemIndexed = 5
                 },
-                isSelected = selectedItemIndexed == 5
+                isSelected = currentScreenRoute == "announcements-graph"
             )
         }
         if (isUserIsEmployee) {
@@ -111,10 +100,9 @@ fun NavigationDrawer(
                 text = stringResource(id = R.string.inner_posts_screen_name),
                 icon = Icons.Default.Lock,
                 onClick = {
-                    onNavigateOnHomeScreen.invoke("service-graph")
-                    selectedItemIndexed = 6
+                    onNavigateOnHomeScreen.invoke("inner-posts-graph")
                 },
-                isSelected = selectedItemIndexed == 6
+                isSelected = currentScreenRoute == "inner-posts-graph"
             )
         }
         NavigationDrawerItem(
@@ -122,9 +110,8 @@ fun NavigationDrawer(
             icon = Icons.Default.Settings,
             onClick = {
                 onNavigateOnHomeScreen.invoke("settings-graph")
-                selectedItemIndexed = 7
             },
-            isSelected = selectedItemIndexed == 7
+            isSelected = currentScreenRoute == "settings-graph"
         )
         Divider(
             modifier = Modifier
