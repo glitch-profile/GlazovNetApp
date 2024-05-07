@@ -157,7 +157,7 @@ class NotificationsApiRepositoryImpl @Inject constructor(
                 bearerAuth(authToken)
                 header("person_id", personId)
                 header("fcm_token", token)
-                if (isExclude) parameter("exclude", true)
+                parameter("exclude", isExclude)
             }.body()
             if (result.status) {
                 Resource.Success(
