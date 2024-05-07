@@ -67,8 +67,11 @@ fun CreateAnnouncementScreen(
     AddressesSheet(
         isSheetOpen = isSheetOpen.value,
         citiesList = citiesList.value,
-        onSearchTextChanged = { cityName, streetName ->
-            viewModel.updateSearch(cityName, streetName)
+        onCitiesSearchChanges = {
+            viewModel.updateCitySearch(it)
+        },
+        onStreetsSearchChanges = {
+            viewModel.updateStreetSearch(it)
         },
         addressesState = foundAddresses.value,
         onAddressClicked = {

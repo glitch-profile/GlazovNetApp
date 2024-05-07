@@ -36,7 +36,8 @@ import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 fun AddressesSheet(
     isSheetOpen: Boolean,
     citiesList: ScreenState<List<String>>,
-    onSearchTextChanged: (cityName: String, streetName: String) -> Unit,
+    onCitiesSearchChanges: (cityName: String) -> Unit,
+    onStreetsSearchChanges: (streetName: String) -> Unit,
     addressesState: List<AddressState>,
     onAddressClicked: (addressState: AddressState) -> Unit,
     onDismiss: () -> Unit
@@ -101,7 +102,7 @@ fun AddressesSheet(
                                     onClick = {
                                         selectedCityIndex = index
                                         city = cities[index]
-                                        onSearchTextChanged(city, street)
+                                        onCitiesSearchChanges(city)
                                     },
                                     isSelected = selectedCityIndex == index
                                 )
@@ -124,7 +125,7 @@ fun AddressesSheet(
                     value = street,
                     onValueChange = {
                         street = it
-                        onSearchTextChanged(city, street)
+                        onStreetsSearchChanges(street)
                     },
                     placeholder = stringResource(id = R.string.add_announcement_screen_streets_placeholder),
                     singleLine = true

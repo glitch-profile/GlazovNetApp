@@ -107,14 +107,15 @@ class CreateAnnouncementViewModel @Inject constructor(
         _announcementText.update { text }
     }
 
-    fun updateSearch(
-        citySearch: String,
+    fun updateCitySearch(
+        citySearch: String
+    ) {
+        _citiesSearchText.update { citySearch }
+    }
+    fun updateStreetSearch(
         streetSearch: String
     ) {
-        viewModelScope.launch {
-            _citiesSearchText.update { citySearch }
-            _streetsSearchText.update { streetSearch }
-        }
+        _streetsSearchText.update { streetSearch }
     }
 
     fun changeSelectionOfAddressElement(
@@ -229,14 +230,19 @@ class CreateAnnouncementViewModel @Inject constructor(
                 employeeId = employeeId,
                 cityName = ""
             )
-            _citiesList.update {
-                when (result) {
-                    is Resource.Success -> {
+            when (result) {
+                is Resource.Success -> {
+                    _citiesList.update {
                         it.copy(
                             data = result.data ?: emptyList()
                         )
                     }
-                    is Resource.Error -> {
+                    if (result.data!!.isNotEmpty()) {
+                        _citiesSearchText.update { result.data.first() }
+                    }
+                }
+                is Resource.Error -> {
+                    _citiesList.update {
                         it.copy(
                             stringResourceId = result.stringResourceId,
                         )

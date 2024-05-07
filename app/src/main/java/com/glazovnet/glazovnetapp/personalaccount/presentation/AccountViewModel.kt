@@ -102,8 +102,6 @@ class AccountViewModel @Inject constructor(
                 token = userToken,
                 clientId = clientId ?: ""
             )
-            println(result)
-            println(result.message)
             if (result is Resource.Success) {
                 _servicesData.update {
                     it.copy(data = result.data!!)
