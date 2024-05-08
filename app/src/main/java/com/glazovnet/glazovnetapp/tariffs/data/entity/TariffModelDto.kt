@@ -8,7 +8,6 @@ import kotlinx.serialization.Serializable
 data class TariffModelDto(
     val id: String = "",
     val name: String,
-    val description: String? = null,
     val maxSpeed: Int, // kilobits/s
     val costPerMonth: Int,
     val prepaidTraffic: Long?, // kilobytes

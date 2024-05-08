@@ -38,7 +38,7 @@ class TariffsListViewModel @Inject constructor(
     private val _archiveTariffsState = MutableStateFlow(ScreenState<List<TariffModel>>())
     val archiveTariffsState = _archiveTariffsState.asStateFlow()
 
-    private val _sheetData = MutableStateFlow<TariffModel?>(null)
+    private val _sheetData = MutableStateFlow<TariffDetailsModel?>(null)
     val sheetData = _sheetData.asStateFlow()
 
     private val _isArchiveSheetOpen = MutableStateFlow(false)
@@ -169,8 +169,45 @@ class TariffsListViewModel @Inject constructor(
     }
 
     fun showDetails(tariffId: String) {
-        _sheetData.update {
-            getTariffById(tariffId)
+        val connectedTariffsInfo = connectedTariffInfo.value
+        if (connectedTariffsInfo != null) {
+            when (tariffId) {
+                connectedTariffsInfo.currentTariff.id -> {
+                    _sheetData.update {
+                        TariffDetailsModel(
+                            tariff = connectedTariffsInfo.currentTariff,
+                            isCurrentTariff = true,
+                            isPendingTariff = false
+                        )
+                    }
+                }
+                connectedTariffsInfo.pendingTariff?.id -> {
+                    _sheetData.update {
+                        TariffDetailsModel(
+                            tariff = connectedTariffsInfo.pendingTariff,
+                            isCurrentTariff = false,
+                            isPendingTariff = true
+                        )
+                    }
+                }
+                else -> {
+                    _sheetData.update {
+                        TariffDetailsModel(
+                            tariff = getTariffById(tariffId)!!,
+                            isCurrentTariff = false,
+                            isPendingTariff = false
+                        )
+                    }
+                }
+            }
+        } else {
+            _sheetData.update {
+                TariffDetailsModel(
+                    tariff = getTariffById(tariffId)!!,
+                    isCurrentTariff = false,
+                    isPendingTariff = false
+                )
+            }
         }
     }
 

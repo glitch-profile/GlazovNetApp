@@ -100,6 +100,23 @@
     <string name="tariffs_list_pending_sector_title">Подключится с %s</string>
     <string name="tariffs_list_unlimited_sector_title">Безлимитные тарифы</string>
     <string name="tariffs_list_limited_sector_title">Помегабайтные тарифы</string>
+    <!-- DETAILS | TEXT -->
+    <string name="tariff_details_information_title">Подробности</string>
+    <string name="tariff_details_current_tariff_description_title">Текущий тариф</string>
+    <string name="tariff_details_planned_tariff_description_title">Запланированный тариф</string>
+    <string name="tariff_details_unlimited_tariff_description_title">Безлимитный тариф</string>
+    <string name="tariff_details_limited_tariff_description_title">Помегабайтный тариф</string>
+    <string name="tariff_details_tariff_name_text">Наименование тарифа</string>
+    <string name="tariff_details_speed_limit_details_text">Ограничение скорости</string>
+    <string name="tariff_details_prepaid_traffic_amount_text">Предоплаченный трафик</string>
+    <string name="tariff_details_prepaid_traffic_unlimited_text">Безлимит</string>
+    <string name="tariff_details_connect_from_unknown_billing_date_action">Подключить со следующей расчётной даты</string>
+    <string name="tariff_details_connect_from_billing_date_action">Подключить с %s</string>
+    <string name="tariff_details_cancel_pending_tariff_action">Отменить переключение тарифа</string>
+    <!-- DETAILS | VALUES -->
+    <string name="tariff_details_speed_limit_megabits_value">До %d Мбит в секунду</string>
+    <string name="tariff_details_speed_limit_kilobits_value">До %d Кбит в секунду</string>
+    <string name="tariff_details_speed_limit_none_value">Без ограничений</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Объявления</string>
@@ -189,6 +206,7 @@
     <string name="personal_account_info_connected_tariff_sector_title">Подключенный тариф</string>
     <string name="personal_account_info_tariff_name_title">Название тарифа</string>
     <string name="personal_account_info_tariff_cost_title">Стоимость в месяц</string>
+    <string name="personal_account_info_pending_tariff_title">Будет подключен %s</string>
     <string name="personal_account_info_connected_services_sector_title">Подключенные услуги</string>
     <string name="personal_account_info_services_status_title">Статус дополнительных услуг</string>
     <string name="personal_account_info_employee_info_sector_title">Информация о работнике</string>
@@ -315,7 +333,7 @@
     <string name="chat_bubble_screen_sender_name_self">Вы</string>
 
     <!-- TARIFF CARD -->
-    <string name="tariff_card_month_text">месяц</string>
+    <string name="tariff_card_month_text">в месяц</string>
     <string name="tariff_card_max_speed_megabits_text">Скорость до %d мегабит в секунду</string>
     <string name="tariff_card_max_speed_kilobits_text">Скорость до %d килобит в секунду</string>
     <string name="tariff_card_of_prepaid_traffic">трафика</string>
@@ -332,13 +350,6 @@
         <item quantity="many">%d мегабайт</item>
         <item quantity="other">%d мегабайт</item>
     </plurals>
-    <string name="tariff_card_speed_limit_megabits_value">До %d Мбит в секунду</string>
-    <string name="tariff_card_speed_limit_kilobits_value">До %d Кбит в секунду</string>
-    <string name="tariff_card_speed_limit_none_value">Без ограничений</string>
-    <string name="tariff_card_speed_limit_details_text">Ограничение скорости</string>
-    <string name="tariff_card_prepaid_traffic_amount_text">Предоплаченный трафик</string>
-    <string name="tariff_card_prepaid_traffic_unlimited_text">Безлимит</string>
-    <string name="tariff_card_connect_from_billing_date">Подключить со следующей расчётной даты</string>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>

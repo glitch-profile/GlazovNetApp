@@ -31,8 +31,10 @@ class AccountViewModel @Inject constructor(
     private val _state = MutableStateFlow(PersonalAccountScreenState())
     val state = _state.asStateFlow()
 
-    private val _tariffData = MutableStateFlow(ScreenState<TariffModel>())
-    val tariffData = _tariffData.asStateFlow()
+    private val _currentTariffData = MutableStateFlow(ScreenState<TariffModel>())
+    val currentTariff = _currentTariffData.asStateFlow()
+    private val _pendingTariffData = MutableStateFlow(ScreenState<TariffModel>())
+    val pendingTariff = _pendingTariffData.asStateFlow()
 
     private val _servicesData = MutableStateFlow(ScreenState<List<ServiceModel>>())
     val servicesData = _servicesData.asStateFlow()
@@ -79,17 +81,28 @@ class AccountViewModel @Inject constructor(
 
     private suspend fun loadTariff() {
         if (state.value.clientInfo != null) {
-            _tariffData.update {
+            _currentTariffData.update {
                 it.copy(isLoading = true)
             }
-            val result = tariffsApiRepository.getTariffById(
+            val currentTariff = tariffsApiRepository.getTariffById(
                 token = userToken,
                 tariffId = state.value.clientInfo!!.tariffId
             )
-            if (result is Resource.Success) {
-                _tariffData.update { it.copy(data = result.data!!) }
+            if (currentTariff is Resource.Success) {
+                _currentTariffData.update { it.copy(data = currentTariff.data!!) }
             }
-            _tariffData.update { it.copy(isLoading = false) }
+            _currentTariffData.update { it.copy(isLoading = false) }
+            if (state.value.clientInfo!!.pendingTariffId != null) {
+                _pendingTariffData.update { it.copy(isLoading = true) }
+                val pendingTariff = tariffsApiRepository.getTariffById(
+                    token = userToken,
+                    tariffId = state.value.clientInfo!!.pendingTariffId!!
+                )
+                if (pendingTariff is Resource.Success) {
+                    _pendingTariffData.update { it.copy(data = pendingTariff.data!!) }
+                }
+                _pendingTariffData.update { it.copy(isLoading = false) }
+            } else _pendingTariffData.update { it.copy(data = null) }
         }
     }
 

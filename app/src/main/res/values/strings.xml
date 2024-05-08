@@ -99,6 +99,23 @@
     <string name="tariffs_list_pending_sector_title">Connecting from %s</string>
     <string name="tariffs_list_unlimited_sector_title">Unlimited tariffs</string>
     <string name="tariffs_list_limited_sector_title">Limited tariffs</string>
+    <!-- DETAILS | TEXT -->
+    <string name="tariff_details_information_title">Description</string>
+    <string name="tariff_details_current_tariff_description_title">Current tariff</string>
+    <string name="tariff_details_planned_tariff_description_title">Pending tariff</string>
+    <string name="tariff_details_unlimited_tariff_description_title">Unlimited tariff</string>
+    <string name="tariff_details_limited_tariff_description_title">Limited tariff</string>
+    <string name="tariff_details_tariff_name_text">Tariff name</string>
+    <string name="tariff_details_speed_limit_details_text">Speed limit</string>
+    <string name="tariff_details_prepaid_traffic_amount_text">Prepaid traffic amount</string>
+    <string name="tariff_details_prepaid_traffic_unlimited_text">Unlimited</string>
+    <string name="tariff_details_connect_from_unknown_billing_date_action">Connect from next billing date</string>
+    <string name="tariff_details_connect_from_billing_date_action">Connect from %s</string>
+    <string name="tariff_details_cancel_pending_tariff_action">Cancel tariff switching</string>
+    <!-- DETAILS | VALUES -->
+    <string name="tariff_details_speed_limit_megabits_value">Up to %d Mbits/s</string>
+    <string name="tariff_details_speed_limit_kilobits_value">Up to %d Kbits/s</string>
+    <string name="tariff_details_speed_limit_none_value">No limit</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Announcements</string>
@@ -185,6 +202,7 @@
     <string name="personal_account_info_connected_tariff_sector_title">Connected tariff</string>
     <string name="personal_account_info_tariff_name_title">Tariff name</string>
     <string name="personal_account_info_tariff_cost_title">Cost per month</string>
+    <string name="personal_account_info_pending_tariff_title">Will be activated on %s</string>
     <string name="personal_account_info_connected_services_sector_title">Connected services</string>
     <string name="personal_account_info_services_status_title">Status of additional services</string>
     <string name="personal_account_info_employee_info_sector_title">Employee information</string>
@@ -308,7 +326,7 @@
     <string name="chat_bubble_screen_sender_name_self">You</string>
     
     <!-- TARIFF CARD -->
-    <string name="tariff_card_month_text">month</string>
+    <string name="tariff_card_month_text">per month</string>
     <string name="tariff_card_max_speed_megabits_text">Speed up to %d Mbits/s</string>
     <string name="tariff_card_max_speed_kilobits_text">Speed up to %d Kbits/s</string>
     <string name="tariff_card_of_prepaid_traffic">of traffic</string>
@@ -323,13 +341,6 @@
         <item quantity="many">%d megabytes</item>
         <item quantity="other">%d megabytes</item>
     </plurals>
-    <string name="tariff_card_speed_limit_megabits_value">Up to %d Mbits/s</string>
-    <string name="tariff_card_speed_limit_kilobits_value">Up to %d Kbits/s</string>
-    <string name="tariff_card_speed_limit_none_value">No limit</string>
-    <string name="tariff_card_speed_limit_details_text">Speed limit</string>
-    <string name="tariff_card_prepaid_traffic_amount_text">Prepaid traffic amount</string>
-    <string name="tariff_card_prepaid_traffic_unlimited_text">Unlimited</string>
-    <string name="tariff_card_connect_from_billing_date">Connect from next billing date</string>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>

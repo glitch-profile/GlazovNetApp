@@ -24,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,15 +43,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
-import com.glazovnet.glazovnetapp.core.presentation.components.AdditionalTextInfo
+import com.glazovnet.glazovnetapp.core.presentation.components.AdditionalVerticalInfo
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +82,8 @@ fun TariffsListScreen(
     )
 
     DetailsSheet(
-        tariffModel = detailsSheetState.value,
+        tariffDetails = detailsSheetState.value,
+        billingDate = currentClientsTariffData.value?.billingDate,
         isChangingInProgress = tariffsState.value.isUploading,
         isUserIsClient = isUserIsClient,
         onConnectTariffClicked = {
@@ -166,7 +166,9 @@ fun TariffsListScreen(
                         ) {
                             TariffCardV3(
                                 tariff = currentClientsTariffData.value!!.currentTariff,
-                                onCardClicked = {}
+                                onCardClicked = {
+                                    viewModel.showDetails(it)
+                                }
                             )
                         }
                         if (currentClientsTariffData.value!!.pendingTariff != null) {
@@ -189,7 +191,9 @@ fun TariffsListScreen(
                             ) {
                                 TariffCardV3(
                                     tariff = currentClientsTariffData.value!!.pendingTariff!!,
-                                    onCardClicked = {}
+                                    onCardClicked = {
+                                        viewModel.showDetails(it)
+                                    }
                                 )
                             }
                         }
@@ -245,58 +249,6 @@ fun TariffsListScreen(
                         }
                     }
                 }
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .weight(1f)
-//                        .nestedScroll(scrollBehavior.nestedScrollConnection),
-//                    content = {
-//                        item {
-//                            Spacer(modifier = Modifier.height(8.dp))
-//                            TariffsGroupTitle(
-//                                text = stringResource(id = R.string.tariff_type_unlimited_name),
-//                                tariffsCount = unlimitedTariffs.value.size
-//                            )
-//                        }
-//                        items(
-//                            items = unlimitedTariffs.value,
-//                            key = { it.id }
-//                        ) {
-//                            TariffCardV2(
-//                                tariff = it,
-//                                onCardClicked = {tariffId ->
-//                                    viewModel.showDetails(tariffId)
-//                                }
-//                            )
-//                        }
-//                        item {
-//                            Column(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                            ) {
-//                                Spacer(modifier = Modifier.height(8.dp))
-//                                TariffsGroupTitle(
-//                                    text = stringResource(id = R.string.tariff_type_limited_name),
-//                                    tariffsCount = limitedTariffs.value.size
-//                                )
-//                            }
-//                        }
-//                        items(
-//                            items = limitedTariffs.value,
-//                            key = {it.id}
-//                        ) {
-//                            TariffCardV2(
-//                                tariff = it,
-//                                onCardClicked = {tariffId ->
-//                                    viewModel.showDetails(tariffId)
-//                                }
-//                            )
-//                        }
-//                        item {
-//                            Spacer(modifier = Modifier.navigationBarsPadding())
-//                        }
-//                    }
-//                )
                 TariffsArchiveButtonBottomBar(
                     onOpenTariffsArchiveClicked = {
                         viewModel.showArchive()
@@ -338,14 +290,15 @@ private fun TariffsGroupTitle(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsSheet(
-    tariffModel: TariffModel?,
+    tariffDetails: TariffDetailsModel?,
+    billingDate: OffsetDateTime?,
     isChangingInProgress: Boolean,
     isUserIsClient: Boolean,
-    onConnectTariffClicked: (tariffId: String) -> Unit,
+    onConnectTariffClicked: (tariffId: String?) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
-    if (tariffModel != null) {
+    if (tariffDetails != null) {
+        val sheetState = rememberModalBottomSheetState()
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = onDismiss,
@@ -354,116 +307,117 @@ private fun DetailsSheet(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                //verticalArrangement = Arrangement.Bottom
+                    .padding(horizontal = 16.dp)
+                    .navigationBarsPadding()
             ) {
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    text = tariffModel.name
+                    text = stringResource(id = R.string.tariff_details_information_title),
+                    style = MaterialTheme.typography.headlineMedium
                 )
-                if (tariffModel.description != null) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        text = tariffModel.description
-                    )
-                }
-                AdditionalTextInfo(
+                val descriptionText = if (tariffDetails.isCurrentTariff) stringResource(id = R.string.tariff_details_current_tariff_description_title)
+                else if (tariffDetails.isPendingTariff) stringResource(id = R.string.tariff_details_planned_tariff_description_title)
+                else if (tariffDetails.tariff.prepaidTraffic != null) stringResource(id = R.string.tariff_details_limited_tariff_description_title)
+                else stringResource(id = R.string.tariff_details_unlimited_tariff_description_title)
+                Text(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                    title = stringResource(id = R.string.tariff_card_speed_limit_details_text),
-                    text = if (tariffModel.maxSpeed == 0) {
-                        stringResource(id = R.string.tariff_card_speed_limit_none_value)
+                        .fillMaxWidth(),
+                    text = descriptionText,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                AdditionalVerticalInfo(
+                    title = tariffDetails.tariff.name,
+                    description = stringResource(id = R.string.tariff_details_tariff_name_text)
+                )
+                val maxTariffSpeedText = if (tariffDetails.tariff.maxSpeed == 0) {
+                    stringResource(id = R.string.tariff_details_speed_limit_none_value)
+                } else {
+                    if (tariffDetails.tariff.maxSpeed < 1024) {
+                        stringResource(
+                            id = R.string.tariff_details_speed_limit_kilobits_value,
+                            tariffDetails.tariff.maxSpeed
+                        )
                     } else {
-                        if (tariffModel.maxSpeed < 1024) {
-                            stringResource(
-                                id = R.string.tariff_card_speed_limit_kilobits_value,
-                                tariffModel.maxSpeed
-                            )
-                        } else {
-                            stringResource(
-                                id = R.string.tariff_card_speed_limit_megabits_value,
-                                tariffModel.maxSpeed / 1024
-                            )
-                        }
+                        stringResource(
+                            id = R.string.tariff_details_speed_limit_megabits_value,
+                            tariffDetails.tariff.maxSpeed / 1024
+                        )
                     }
+                }
+                AdditionalVerticalInfo(
+                    title = maxTariffSpeedText,
+                    description = stringResource(id = R.string.tariff_details_speed_limit_details_text)
                 )
-                AdditionalTextInfo(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                    title = stringResource(id = R.string.reusable_payment_cost_per_month_text),
-                    text = pluralStringResource(
+                AdditionalVerticalInfo(
+                    title = pluralStringResource(
                         id = R.plurals.reusable_payment_cost_value,
-                        count = tariffModel.costPerMonth,
-                        formatArgs = arrayOf(tariffModel.costPerMonth)
-                    )
+                        count = tariffDetails.tariff.costPerMonth,
+                        tariffDetails.tariff.costPerMonth
+                    ),
+                    description = stringResource(id = R.string.reusable_payment_cost_per_month_text)
                 )
-                if (tariffModel.prepaidTraffic !== null) {
-                    AdditionalTextInfo(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
-                        text = if (tariffModel.prepaidTraffic < 1024) {
+                if (tariffDetails.tariff.prepaidTraffic !== null) {
+                    AdditionalVerticalInfo(
+                        title = if (tariffDetails.tariff.prepaidTraffic < 1024) {
                             pluralStringResource(
                                 id = R.plurals.tariff_card_prepaid_traffic_megabytes_value,
-                                count = tariffModel.prepaidTraffic.toInt(),
-                                tariffModel.prepaidTraffic.toInt()
+                                count = tariffDetails.tariff.prepaidTraffic.toInt(),
+                                tariffDetails.tariff.prepaidTraffic.toInt()
                             )
                         } else {
                             pluralStringResource(
                                 id = R.plurals.tariff_card_prepaid_traffic_gigabytes_value,
-                                count = tariffModel.prepaidTraffic.toInt() / 1024,
-                                tariffModel.prepaidTraffic.toInt() / 1024
+                                count = tariffDetails.tariff.prepaidTraffic.toInt() / 1024,
+                                tariffDetails.tariff.prepaidTraffic.toInt() / 1024
                             )
-                        }
+                        },
+                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_text)
                     )
                 } else {
-                    AdditionalTextInfo(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        title = stringResource(id = R.string.tariff_card_prepaid_traffic_amount_text),
-                        text = stringResource(id = R.string.tariff_card_prepaid_traffic_unlimited_text)
+                    AdditionalVerticalInfo(
+                        title = stringResource(id = R.string.tariff_details_prepaid_traffic_unlimited_text),
+                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_text)
                     )
                 }
-                if (tariffModel.prepaidTrafficDescription !== null) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        text = tariffModel.prepaidTrafficDescription
-                    )
-                }
-                if (tariffModel.isActive && isUserIsClient) {
-                    Divider(
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .fillMaxWidth()
-                    )
+//                if (tariffDetails.tariff.prepaidTrafficDescription !== null) {
+//                    Text(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(horizontal = 16.dp, vertical = 4.dp),
+//                        style = MaterialTheme.typography.bodyMedium,
+//                        color = MaterialTheme.colorScheme.onSurface,
+//                        text = tariffDetails.tariff.prepaidTrafficDescription
+//                    )
+//                }
+                if (tariffDetails.tariff.isActive && isUserIsClient && !tariffDetails.isCurrentTariff) {
+                    Spacer(modifier = Modifier.height(4.dp))
                     Button(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                            .padding(vertical = 8.dp)
                             .height(48.dp),
                         shape = MaterialTheme.shapes.small,
                         onClick = {
-                            onConnectTariffClicked.invoke(tariffModel.id)
+                            if (tariffDetails.isPendingTariff) {
+                                onConnectTariffClicked.invoke(null)
+                            } else {
+                                onConnectTariffClicked.invoke(tariffDetails.tariff.id)
+                            }
                         },
                         enabled = !isChangingInProgress
                     ) {
-                        Text(text = stringResource(id = R.string.tariff_card_connect_from_billing_date)) //TODO(Change billing date to actual number)
+                        Text(
+                            if (tariffDetails.isPendingTariff) {
+                                stringResource(id = R.string.tariff_details_cancel_pending_tariff_action)
+                            } else {
+                                val billingDateText = billingDate?.format(DateTimeFormatter.ofPattern("dd MMMM"))
+                                if (billingDateText != null) {
+                                    stringResource(id = R.string.tariff_details_connect_from_billing_date_action, billingDateText)
+                                } else stringResource(id = R.string.tariff_details_connect_from_unknown_billing_date_action)
+                            }
+                        )
                     }
                 }
-                Spacer(modifier = Modifier.navigationBarsPadding())
             }
         }
     }

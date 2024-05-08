@@ -7,7 +7,6 @@ fun TariffModelDto.toTariffModel(): TariffModel {
     return TariffModel(
         id = id,
         name = name,
-        description = description,
         maxSpeed = maxSpeed,
         costPerMonth = costPerMonth,
         prepaidTraffic = this.prepaidTraffic?.div(1024), //converting to megabytes

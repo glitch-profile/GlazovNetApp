@@ -83,7 +83,8 @@ fun PersonalAccountScreen(
             .fillMaxSize()
     ) {
         val accountState = viewModel.state.collectAsState()
-        val tariffState = viewModel.tariffData.collectAsState()
+        val currentTariffState = viewModel.currentTariff.collectAsState()
+        val pendingTariffState = viewModel.pendingTariff.collectAsState()
         val servicesState = viewModel.servicesData.collectAsState()
 
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -138,7 +139,7 @@ fun PersonalAccountScreen(
             ) {
                 TopBarComponent(
                     accountState = accountState.value,
-                    tariffState = tariffState.value
+                    tariffState = currentTariffState.value
                 )
                 Text(
                     modifier = Modifier
@@ -300,7 +301,7 @@ fun PersonalAccountScreen(
                             // TODO
                         }
                     )
-                    if (tariffState.value.data != null) {
+                    if (currentTariffState.value.data != null) {
                         Text(
                             modifier = Modifier
                                 .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
@@ -315,7 +316,7 @@ fun PersonalAccountScreen(
                                 .clip(MaterialTheme.shapes.small)
                                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                         ) {
-                            with(tariffState.value.data!!) {
+                            with(currentTariffState.value.data!!) {
                                 AccountInfoComponentWithAction(
                                     icon = Icons.Default.List,
                                     title = stringResource(id = R.string.personal_account_info_tariff_name_title),
@@ -332,6 +333,16 @@ fun PersonalAccountScreen(
                                         this.costPerMonth
                                     )
                                 )
+                                if (pendingTariffState.value.data != null) {
+                                    val billingDateString = accountState.value.clientInfo!!.debitDate.format(
+                                        DateTimeFormatter.ofPattern("dd MMMM")
+                                    )
+                                    AccountInfoComponent(
+                                        icon = Icons.Default.List,
+                                        title = stringResource(id = R.string.personal_account_info_pending_tariff_title, billingDateString),
+                                        text = pendingTariffState.value.data!!.name
+                                    )
+                                }
                             }
                         }
 //                        Spacer(modifier = Modifier.height(8.dp))
@@ -497,7 +508,9 @@ private fun TopBarComponent(
                     title = stringResource(id = R.string.personal_account_top_bar_account_number_title),
                     text = accountState.clientInfo.accountNumber,
                     icon = Icons.Default.Person,
-                    onCardClicked = { TODO() }
+                    onCardClicked = {
+                        //TODO()
+                    }
                 )
                 val balanceFormatted = String.format("%.2f", accountState.clientInfo.balance)
                 PersonalAccountTopBarCard(
@@ -506,7 +519,9 @@ private fun TopBarComponent(
                     title = stringResource(id = R.string.personal_account_top_bar_current_balance_title),
                     text = "$balanceFormatted ₽",
                     icon = Icons.Default.Info,
-                    onCardClicked = { TODO() }
+                    onCardClicked = {
+                        //TODO()
+                    }
                 )
                 val tariffCardText = if (tariffState.isLoading && tariffState.data == null) {
                     stringResource(id = R.string.reusable_text_loading)
@@ -521,7 +536,9 @@ private fun TopBarComponent(
                     title = stringResource(id = R.string.personal_account_top_bar_current_tariff_title),
                     text = tariffCardText,
                     icon = Icons.Default.Menu,
-                    onCardClicked = { TODO() }
+                    onCardClicked = {
+                        //TODO()
+                    }
                 )
                 val hoursDifference = derivedStateOf { //TODO: rework to reduce calculations
                     val payOffDay = accountState.clientInfo.debitDate
@@ -549,7 +566,9 @@ private fun TopBarComponent(
                         } else stringResource(id = R.string.personal_account_top_bar_payment_remaining_days_less_than_hour_text)
                     },
                     icon = Icons.Default.DateRange,
-                    onCardClicked = { TODO() }
+                    onCardClicked = {
+                        //TODO()
+                    }
                 )
             }
             PersonalAccountTopBarCard(
@@ -560,7 +579,9 @@ private fun TopBarComponent(
                     stringResource(id = R.string.personal_account_top_bar_notification_enabled_text)
                 else stringResource(id = R.string.personal_account_top_bar_notification_disabled_text),
                 icon = Icons.Default.Notifications,
-                onCardClicked = { TODO() }
+                onCardClicked = {
+                    //TODO()
+                }
             )
             if (accountState.employeeInfo != null) {
                 val ratingText = if (accountState.employeeInfo.averageRating >= 4.5f)
@@ -578,7 +599,9 @@ private fun TopBarComponent(
                     title = stringResource(id = R.string.personal_account_top_bar_employee_rating_title),
                     text = ratingText,
                     icon = Icons.Default.ThumbUp,
-                    onCardClicked = { TODO() }
+                    onCardClicked = {
+                        //TODO()
+                    }
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
