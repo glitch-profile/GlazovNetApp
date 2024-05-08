@@ -417,6 +417,8 @@ private fun DetailsSheet(
                             }
                         )
                     }
+                } else {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
