@@ -22,6 +22,7 @@ fun ClientInfoDto.toClientModel(): ClientModel {
     return ClientModel(
         accountNumber = this.accountNumber,
         tariffId = this.tariffId,
+        pendingTariffId = this.pendingTariffId,
         address = addressString,
         balance = this.balance,
         accountCreationDate = parsedAccountCreationDate,

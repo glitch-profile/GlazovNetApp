@@ -9,6 +9,7 @@ data class ClientInfoDto(
     val accountNumber: String,
     val address: ClientAddressDto,
     val tariffId: String,
+    val pendingTariffId: String?,
     val balance: Float,
     val accountCreationDate: Long,
     val debitDate: Long,

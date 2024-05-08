@@ -32,7 +32,7 @@ interface PersonalAccountRepository {
     suspend fun changeTariff(
         token: String,
         clientId: String,
-        newTariffId: String
+        newTariffId: String?
     ): Resource<Unit>
 
     suspend fun blockAccount(

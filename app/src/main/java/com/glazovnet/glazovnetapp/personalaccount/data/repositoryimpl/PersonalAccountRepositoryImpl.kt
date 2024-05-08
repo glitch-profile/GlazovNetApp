@@ -111,10 +111,10 @@ class PersonalAccountRepositoryImpl @Inject constructor(
     override suspend fun changeTariff(
         token: String,
         clientId: String,
-        newTariffId: String
+        newTariffId: String?
     ): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/update-password") {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/update-tariff") {
                 bearerAuth(token)
                 header("client_id", clientId)
                 header("tariff_id", newTariffId)
