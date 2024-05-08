@@ -96,6 +96,10 @@
     <string name="tariffs_list_open_tariffs_archive_button_text">Открыть архив тарифов</string>
     <string name="tariffs_list_tariffs_archive_text">Архив тарифов</string>
     <string name="tariffs_list_loading_failed_text">Не удалось загрузить</string>
+    <string name="tariffs_list_current_sector_title">Текущий тариф</string>
+    <string name="tariffs_list_pending_sector_title">Подключится с %s</string>
+    <string name="tariffs_list_unlimited_sector_title">Безлимитные тарифы</string>
+    <string name="tariffs_list_limited_sector_title">Помегабайтные тарифы</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Объявления</string>
@@ -368,10 +372,6 @@
         <item quantity="many">%d рублей</item>
         <item quantity="other">%d рублей</item>
     </plurals>
-
-    <!-- TARIFFS TYPES -->
-    <string name="tariff_type_unlimited_name">Безлимитные</string>
-    <string name="tariff_type_limited_name">Помегабайтные</string>
 
     <!--NOTIFICATION CHANNELS -->
     <string name="notification_channel_posts_name">Новости</string>

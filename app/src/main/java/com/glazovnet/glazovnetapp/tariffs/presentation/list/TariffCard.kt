@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
@@ -133,5 +135,152 @@ fun TariffCard(
 //                overflow = TextOverflow.Ellipsis
 //            )
 //        }
+    }
+}
+
+@Composable
+fun TariffCardV2(
+    tariff: TariffModel,
+    onCardClicked: (tariffId: String) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCardClicked.invoke(tariff.id) }
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                modifier = Modifier
+                    .weight(1f),
+                text = tariff.name,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = buildAnnotatedString {
+                    append("₽${tariff.costPerMonth}")
+                    withStyle(MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onSurfaceVariant).toSpanStyle()) {
+                        append("/" + stringResource(id = R.string.tariff_card_month_text))
+                    }
+                },
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        val descriptionText = if (tariff.prepaidTraffic != null) {
+            buildString {
+                if (tariff.prepaidTraffic < 1024) {
+                    append(pluralStringResource(
+                        id = R.plurals.tariff_card_prepaid_traffic_megabytes_value,
+                        count = tariff.prepaidTraffic.toInt(),
+                        tariff.prepaidTraffic.toInt()
+                    ))
+                } else {
+                    append(pluralStringResource(
+                        id = R.plurals.tariff_card_prepaid_traffic_gigabytes_value,
+                        count = tariff.prepaidTraffic.toInt() / 1024,
+                        tariff.prepaidTraffic.toInt() / 1024
+                    ))
+                }
+                append(" ")
+                append(stringResource(id = R.string.tariff_card_of_prepaid_traffic))
+            }
+        } else {
+            if (tariff.maxSpeed < 1024) stringResource(id = R.string.tariff_card_max_speed_kilobits_text, tariff.maxSpeed)
+            else stringResource(id = R.string.tariff_card_max_speed_megabits_text, tariff.maxSpeed / 1024)
+        }
+        Text(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = descriptionText,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+fun TariffCardV3(
+    tariff: TariffModel,
+    onCardClicked: (tariffId: String) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCardClicked.invoke(tariff.id) }
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = tariff.name,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            val descriptionText = if (tariff.prepaidTraffic != null) {
+                buildString {
+                    if (tariff.prepaidTraffic < 1024) {
+                        append(pluralStringResource(
+                            id = R.plurals.tariff_card_prepaid_traffic_megabytes_value,
+                            count = tariff.prepaidTraffic.toInt(),
+                            tariff.prepaidTraffic.toInt()
+                        ))
+                    } else {
+                        append(pluralStringResource(
+                            id = R.plurals.tariff_card_prepaid_traffic_gigabytes_value,
+                            count = tariff.prepaidTraffic.toInt() / 1024,
+                            tariff.prepaidTraffic.toInt() / 1024
+                        ))
+                    }
+                    append(" ")
+                    append(stringResource(id = R.string.tariff_card_of_prepaid_traffic))
+                }
+            } else {
+                if (tariff.maxSpeed < 1024) stringResource(id = R.string.tariff_card_max_speed_kilobits_text, tariff.maxSpeed)
+                else stringResource(id = R.string.tariff_card_max_speed_megabits_text, tariff.maxSpeed / 1024)
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = descriptionText,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
+            Text(
+                text = "₽${tariff.costPerMonth}",
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(id = R.string.tariff_card_month_text),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }

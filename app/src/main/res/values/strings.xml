@@ -95,6 +95,10 @@
     <string name="tariffs_list_open_tariffs_archive_button_text">Open tariffs archive</string>
     <string name="tariffs_list_tariffs_archive_text">Tariffs archive</string>
     <string name="tariffs_list_loading_failed_text">Failed to load</string>
+    <string name="tariffs_list_current_sector_title">Current tariff</string>
+    <string name="tariffs_list_pending_sector_title">Connecting from %s</string>
+    <string name="tariffs_list_unlimited_sector_title">Unlimited tariffs</string>
+    <string name="tariffs_list_limited_sector_title">Limited tariffs</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
     <string name="announcement_list_screen_name">Announcements</string>
@@ -357,10 +361,6 @@
         <item quantity="many">%d rubles</item>
         <item quantity="other">%d rubles</item>
     </plurals>
-
-    <!-- TARIFFS TYPES -->
-    <string name="tariff_type_unlimited_name">Unlimited</string>
-    <string name="tariff_type_limited_name">Limited</string>
 
     <!--NOTIFICATION CHANNELS -->
     <string name="notification_channel_posts_name">News</string>

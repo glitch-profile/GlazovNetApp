@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.tariffs.domain.model.ClientCurrentTariffData
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class TariffsListViewModel @Inject constructor(
     private val tariffsApiRepository: TariffsApiRepository,
+    private val personalAccountRepository: PersonalAccountRepository,
     userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
+    private val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
     private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
@@ -36,11 +40,12 @@ class TariffsListViewModel @Inject constructor(
 
     private val _sheetData = MutableStateFlow<TariffModel?>(null)
     val sheetData = _sheetData.asStateFlow()
-    private val _isSheetOpen = MutableStateFlow(false)
-    val isDetailsSheetOpen = _isSheetOpen.asStateFlow()
 
     private val _isArchiveSheetOpen = MutableStateFlow(false)
     val isArchiveSheetOpen = _isArchiveSheetOpen.asStateFlow()
+
+    private val _connectedTariffInfo = MutableStateFlow<ClientCurrentTariffData?>(null)
+    val connectedTariffInfo =_connectedTariffInfo.asStateFlow()
 
     fun loadActiveTariffs() {
         viewModelScope.launch {
@@ -63,6 +68,7 @@ class TariffsListViewModel @Inject constructor(
                 }
             }
             _tariffsState.update { it.copy(isLoading = false) }
+            loadClientTariffData()
         }
     }
 
@@ -70,6 +76,35 @@ class TariffsListViewModel @Inject constructor(
         val groupedTariffs = tariffs.groupBy { it.prepaidTraffic == null }
         _unlimitedTariffs.update { groupedTariffs[true] ?: emptyList() }
         _limitedTariffs.update { groupedTariffs[false] ?: emptyList() }
+    }
+
+    private suspend fun loadClientTariffData() {
+        if (isUserIsClient) {
+            val result = personalAccountRepository.getClientData(
+                token = loginToken,
+                clientId = clientId
+            ) //TODO
+            if (result is Resource.Success) {
+                val client = result.data!!
+                val currentTariffData = tariffsApiRepository.getTariffById(
+                    tariffId = client.tariffId,
+                    token = loginToken
+                ).data ?: return
+                val pendingTariffData = if (client.pendingTariffId != null) {
+                    tariffsApiRepository.getTariffById(
+                        tariffId = client.pendingTariffId,
+                        token = loginToken
+                    ).data
+                } else null
+                _connectedTariffInfo.update {
+                    ClientCurrentTariffData(
+                        currentTariff = currentTariffData,
+                        pendingTariff = pendingTariffData,
+                        billingDate = client.debitDate
+                    )
+                }
+            }
+        } else _connectedTariffInfo.update { null }
     }
 
     private fun loadArchiveTariffs() {
@@ -95,6 +130,30 @@ class TariffsListViewModel @Inject constructor(
         }
     }
 
+    fun connectTariff(tariffId: String?) {
+        if (tariffId !== connectedTariffInfo.value?.pendingTariff?.id) {
+            viewModelScope.launch {
+                _tariffsState.update { it.copy(isUploading = true) }
+                val result = personalAccountRepository.changeTariff(
+                    token = loginToken,
+                    clientId = clientId,
+                    newTariffId = tariffId
+                )
+                if (result is Resource.Success) {
+                    val tariff = if (tariffId != null) getTariffById(tariffId) else null
+                    _connectedTariffInfo.update { it?.copy(pendingTariff = tariff) }
+                    closeSheet()
+                } else {
+                    _tariffsState.update {
+                        it.copy(message = result.message, stringResourceId = result.stringResourceId)
+                    }
+                    closeSheet()
+                }
+                _tariffsState.update { it.copy(isUploading = false) }
+            }
+        }
+    }
+
     fun showArchive() {
         loadArchiveTariffs()
         _isArchiveSheetOpen.update { true }
@@ -113,10 +172,9 @@ class TariffsListViewModel @Inject constructor(
         _sheetData.update {
             getTariffById(tariffId)
         }
-        _isSheetOpen.update { true }
     }
 
     fun closeSheet() {
-        _isSheetOpen.update { false }
+        _sheetData.update { null }
     }
 }
