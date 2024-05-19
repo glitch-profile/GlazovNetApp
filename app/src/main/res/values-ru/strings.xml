@@ -119,7 +119,7 @@
     <string name="tariff_details_speed_limit_none_value">Без ограничений</string>
 
     <!-- ANNOUNCEMENTS SCREEN -->
-    <string name="announcement_list_screen_name">Объявления</string>
+    <string name="announcement_list_screen_name">Рассылки</string>
 
     <!-- ADD ANNOUNCEMENTS SCREEN -->
     <string name="add_announcement_screen_name">Создать объявление</string>
