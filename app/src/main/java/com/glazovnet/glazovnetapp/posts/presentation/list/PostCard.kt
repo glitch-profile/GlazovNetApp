@@ -49,11 +49,12 @@ fun PostCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f)
+                    .padding(8.dp)
             ) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(MaterialTheme.shapes.medium),
+                        .clip(MaterialTheme.shapes.small),
                     model = post.image.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
@@ -62,10 +63,10 @@ fun PostCard(
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .padding(16.dp)
+                        .padding(8.dp)
                         .background(
                             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
-                            shape = MaterialTheme.shapes.small
+                            shape = MaterialTheme.shapes.extraSmall
                         )
                         .padding(8.dp),
                     text = buildAnnotatedString {
@@ -79,7 +80,7 @@ fun PostCard(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
+//        Spacer(modifier = Modifier.height(8.dp))
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = post.title,
