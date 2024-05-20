@@ -106,9 +106,9 @@
     <string name="tariff_details_planned_tariff_description_title">Запланированный тариф</string>
     <string name="tariff_details_unlimited_tariff_description_title">Безлимитный тариф</string>
     <string name="tariff_details_limited_tariff_description_title">Помегабайтный тариф</string>
-    <string name="tariff_details_tariff_name_text">Наименование тарифа</string>
-    <string name="tariff_details_speed_limit_details_text">Ограничение скорости</string>
-    <string name="tariff_details_prepaid_traffic_amount_text">Предоплаченный трафик</string>
+    <string name="tariff_details_tariff_name_title">Наименование тарифа</string>
+    <string name="tariff_details_speed_limit_details_title">Ограничение скорости</string>
+    <string name="tariff_details_prepaid_traffic_amount_title">Предоплаченный трафик</string>
     <string name="tariff_details_prepaid_traffic_unlimited_text">Безлимит</string>
     <string name="tariff_details_connect_from_unknown_billing_date_action">Подключить со следующей расчётной даты</string>
     <string name="tariff_details_connect_from_billing_date_action">Подключить с %s</string>

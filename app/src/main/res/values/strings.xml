@@ -105,9 +105,9 @@
     <string name="tariff_details_planned_tariff_description_title">Pending tariff</string>
     <string name="tariff_details_unlimited_tariff_description_title">Unlimited tariff</string>
     <string name="tariff_details_limited_tariff_description_title">Limited tariff</string>
-    <string name="tariff_details_tariff_name_text">Tariff name</string>
-    <string name="tariff_details_speed_limit_details_text">Speed limit</string>
-    <string name="tariff_details_prepaid_traffic_amount_text">Prepaid traffic amount</string>
+    <string name="tariff_details_tariff_name_title">Tariff name</string>
+    <string name="tariff_details_speed_limit_details_title">Speed limit</string>
+    <string name="tariff_details_prepaid_traffic_amount_title">Prepaid traffic amount</string>
     <string name="tariff_details_prepaid_traffic_unlimited_text">Unlimited</string>
     <string name="tariff_details_connect_from_unknown_billing_date_action">Connect from next billing date</string>
     <string name="tariff_details_connect_from_billing_date_action">Connect from %s</string>
