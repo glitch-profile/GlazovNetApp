@@ -366,14 +366,7 @@ private fun ScreenContents(
             startDestination = "services-screen",
             route = "services-graph"
         ) {
-            composable(
-                route = "services-screen",
-                deepLinks = listOf(
-                    navDeepLink {
-                        uriPattern = "$DEEPLINK_PREFIX/service-posts"
-                    }
-                )
-            ) {
+            composable(route = "services-screen") {
                 ServicesScreen(
                     onNavigationButtonPressed = {
                         toggleNavigationDrawer.invoke()
@@ -413,7 +406,14 @@ private fun ScreenContents(
             startDestination = "inner-posts-screen",
             route = "inner-posts-graph"
         ) {
-            composable("inner-posts-screen") {
+            composable(
+                route = "inner-posts-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/service-posts"
+                    }
+                )
+            ) {
                 InnerPostsScreen(
                     onNavigationButtonClicked = {
                         toggleNavigationDrawer.invoke()
