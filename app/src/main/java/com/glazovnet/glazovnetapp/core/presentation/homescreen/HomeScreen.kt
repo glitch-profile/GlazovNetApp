@@ -364,7 +364,12 @@ private fun ScreenContents(
         }
         navigation(
             startDestination = "services-screen",
-            route = "services-graph"
+            route = "services-graph",
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "$DEEPLINK_PREFIX/service-posts"
+                }
+            )
         ) {
             composable("services-screen") {
                 ServicesScreen(

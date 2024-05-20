@@ -395,8 +395,8 @@
     <string name="notifications_new_post_title">New post | %s</string>
     <string name="notifications_new_tariff_title">Meet the new tariff - %s</string>
     <string name="notifications_new_tariff_body">Maybe that would be good for you?</string>
-    <string name="notifications_new_announcement_title">Attention! An important announcement has appeared!</string>
-    <string name="notifications_new_service_post_title">There is a new service post available!</string>
+    <string name="notifications_new_announcement_title">Attention! An important announcement has appeared</string>
+    <string name="notifications_new_service_post_title">There is a new service post available</string>
     <string name="notifications_new_service_post_title_with_arg">New service post | %s</string>
     <string name="notifications_new_announcement_body">%s\nFor more information, see the Announcements section</string>
     <string name="notifications_new_message_title">New message | %s</string>
