@@ -12,6 +12,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.put
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,11 +24,11 @@ class TariffsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTariffs(
         token: String,
-        showOrganizationTariffs: Boolean
+        clientId: String?
     ): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get(PATH){
-                header("is_for_organization", showOrganizationTariffs)
+                header("client_id", clientId)
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -45,10 +46,13 @@ class TariffsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getActiveTariffs(token: String, showOrganizationTariffs: Boolean): Resource<List<TariffModel>> {
+    override suspend fun getActiveTariffs(
+        token: String,
+        clientId: String?
+    ): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/active"){
-                header("is_for_organization", showOrganizationTariffs)
+                header("client_id", clientId)
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -66,10 +70,10 @@ class TariffsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getArchiveTariffs(token: String, showOrganizationTariffs: Boolean): Resource<List<TariffModel>> {
+    override suspend fun getArchiveTariffs(token: String, clientId: String?): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/archive"){
-                header("is_for_organization", showOrganizationTariffs)
+                header("client_id", clientId)
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -102,6 +106,27 @@ class TariffsApiRepositoryImpl @Inject constructor(
                     message = response.message
                 )
             }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun changeTariff(
+        token: String,
+        clientId: String,
+        newTariffId: String?
+    ): Resource<Unit> {
+        return try {
+            val response: ApiResponseDto<Unit> = client.put("$PATH/update-tariff-for-client") {
+                bearerAuth(token)
+                header("client_id", clientId)
+                header("tariff_id", newTariffId)
+            }.body()
+            if (response.status) {
+                Resource.Success(Unit)
+            } else Resource.Error(
+                stringResourceId = R.string.api_response_server_error
+            )
         } catch (e: Exception) {
             Resource.generateFromApiResponseError(e)
         }

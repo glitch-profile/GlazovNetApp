@@ -4,6 +4,7 @@ import java.time.OffsetDateTime
 
 data class ClientModel(
     val accountNumber: String,
+    val connectedOrganizationName: String?,
     val tariffId: String,
     val pendingTariffId: String?,
     val address: String,

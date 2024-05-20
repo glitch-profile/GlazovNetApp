@@ -346,9 +346,9 @@ private fun ScreenContents(
             composable(
                 route = "tariffs-list-screen",
                 deepLinks = listOf(
-                    navDeepLink {
-                        uriPattern = "$DEEPLINK_PREFIX/tariffs/{tariffId}"
-                    },
+//                    navDeepLink {
+//                        uriPattern = "$DEEPLINK_PREFIX/tariffs/{tariffId}"
+//                    },
                     navDeepLink {
                         uriPattern = "$DEEPLINK_PREFIX/tariffs-list"
                     }
@@ -357,7 +357,7 @@ private fun ScreenContents(
             ) {
                 val tariffId = it.arguments?.getString("tariffId")
                 TariffsListScreen(
-                    optionalTariffId = tariffId,
+//                    optionalTariffId = tariffId,
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }
                 )
             }

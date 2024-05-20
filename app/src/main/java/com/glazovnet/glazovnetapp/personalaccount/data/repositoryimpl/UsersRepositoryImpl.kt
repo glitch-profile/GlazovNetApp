@@ -12,7 +12,7 @@ import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toPersonModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
-import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.UsersRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
@@ -22,15 +22,17 @@ import io.ktor.client.request.put
 import javax.inject.Inject
 import javax.inject.Named
 
-private const val PATH = "/api/account"
+private const val PERSONS_PATH = "/api/persons"
+private const val CLIENTS_PATH = "/api/clients"
+private const val EMPLOYEES_PATH = "/api/employees"
 
-class PersonalAccountRepositoryImpl @Inject constructor(
+class UsersRepositoryImpl @Inject constructor(
     @Named("RestClient") private val client: HttpClient
-): PersonalAccountRepository {
+): UsersRepository {
 
     override suspend fun getClientData(token: String, clientId: String): Resource<ClientModel> {
         return try {
-            val response: ApiResponseDto<ClientInfoDto> = client.get("$PATH/client-info") {
+            val response: ApiResponseDto<ClientInfoDto> = client.get("$CLIENTS_PATH/info") {
                 bearerAuth(token)
                 header("client_id", clientId)
             }.body()
@@ -48,7 +50,7 @@ class PersonalAccountRepositoryImpl @Inject constructor(
 
     override suspend fun getPersonData(token: String, personId: String): Resource<PersonModel> {
         return try {
-            val response: ApiResponseDto<PersonInfoDto> = client.get("$PATH/person-info") {
+            val response: ApiResponseDto<PersonInfoDto> = client.get("$PERSONS_PATH/info") {
                 bearerAuth(token)
                 header("person_id", personId)
             }.body()
@@ -69,7 +71,7 @@ class PersonalAccountRepositoryImpl @Inject constructor(
         employeeId: String
     ): Resource<EmployeeModel> {
         return try {
-            val response: ApiResponseDto<EmployeeInfoDto> = client.get("$PATH/employee-info") {
+            val response: ApiResponseDto<EmployeeInfoDto> = client.get("$EMPLOYEES_PATH/info") {
                 bearerAuth(token)
                 header("employee_id", employeeId)
             }.body()
@@ -92,7 +94,7 @@ class PersonalAccountRepositoryImpl @Inject constructor(
         newPassword: String
     ): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/update-password") {
+            val response: ApiResponseDto<Unit> = client.put("$PERSONS_PATH/update-password") {
                 bearerAuth(token)
                 header("person_id", personId)
                 header("old_password", oldPassword)
@@ -108,30 +110,9 @@ class PersonalAccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun changeTariff(
-        token: String,
-        clientId: String,
-        newTariffId: String?
-    ): Resource<Unit> {
-        return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/update-tariff") {
-                bearerAuth(token)
-                header("client_id", clientId)
-                header("tariff_id", newTariffId)
-            }.body()
-            if (response.status) {
-                Resource.Success(Unit)
-            } else Resource.Error(
-                stringResourceId = R.string.api_response_server_error
-            )
-        } catch (e: Exception) {
-            Resource.generateFromApiResponseError(e)
-        }
-    }
-
     override suspend fun blockAccount(token: String, clientId: String): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/block") {
+            val response: ApiResponseDto<Unit> = client.put("$CLIENTS_PATH/block") {
                 bearerAuth(token)
                 header("client_id", clientId)
             }.body()
@@ -147,7 +128,7 @@ class PersonalAccountRepositoryImpl @Inject constructor(
 
     override suspend fun addFunds(token: String, clientId: String, amount: Double, note: String?): Resource<Unit> {
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$PATH/add-funds") {
+            val response: ApiResponseDto<Unit> = client.put("$CLIENTS_PATH/add-funds") {
                 bearerAuth(token)
                 header("client_id", clientId)
                 header("amount", amount)

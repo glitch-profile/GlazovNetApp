@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
-import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.UsersRepository
 import com.glazovnet.glazovnetapp.tariffs.domain.model.ClientCurrentTariffData
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import com.glazovnet.glazovnetapp.tariffs.domain.repository.TariffsApiRepository
@@ -19,14 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TariffsListViewModel @Inject constructor(
     private val tariffsApiRepository: TariffsApiRepository,
-    private val personalAccountRepository: PersonalAccountRepository,
+    private val usersRepository: UsersRepository,
     userAuthDataRepository: LocalUserAuthDataRepository
 ): ViewModel() {
 
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
     private val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
     val isUserIsClient = userAuthDataRepository.getAssociatedClientId() != null
-    private val isUserIsEmployee = userAuthDataRepository.getAssociatedEmployeeId() != null
 
     private val _tariffsState = MutableStateFlow(ScreenState<Unit>())
     val tariffsState = _tariffsState.asStateFlow()
@@ -54,7 +53,7 @@ class TariffsListViewModel @Inject constructor(
             }
             val result = tariffsApiRepository.getActiveTariffs(
                 token = loginToken,
-                showOrganizationTariffs = isUserIsEmployee
+                clientId = if (isUserIsClient) clientId else null
             )
             when (result) {
                 is Resource.Success -> {
@@ -80,7 +79,7 @@ class TariffsListViewModel @Inject constructor(
 
     private suspend fun loadClientTariffData() {
         if (isUserIsClient) {
-            val result = personalAccountRepository.getClientData(
+            val result = usersRepository.getClientData(
                 token = loginToken,
                 clientId = clientId
             ) //TODO
@@ -114,7 +113,7 @@ class TariffsListViewModel @Inject constructor(
             }
             val tariffs = tariffsApiRepository.getArchiveTariffs(
                 token = loginToken,
-                showOrganizationTariffs = isUserIsEmployee
+                clientId = if (isUserIsClient) clientId else null
             )
             when (tariffs) {
                 is Resource.Success -> {
@@ -134,7 +133,7 @@ class TariffsListViewModel @Inject constructor(
         if (tariffId !== connectedTariffInfo.value?.pendingTariff?.id) {
             viewModelScope.launch {
                 _tariffsState.update { it.copy(isUploading = true) }
-                val result = personalAccountRepository.changeTariff(
+                val result = tariffsApiRepository.changeTariff(
                     token = loginToken,
                     clientId = clientId,
                     newTariffId = tariffId

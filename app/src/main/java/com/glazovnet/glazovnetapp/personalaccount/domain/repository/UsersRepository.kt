@@ -5,7 +5,7 @@ import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
 
-interface PersonalAccountRepository {
+interface UsersRepository {
 
     suspend fun getPersonData(
         token: String,
@@ -27,12 +27,6 @@ interface PersonalAccountRepository {
         personId: String,
         oldPassword: String,
         newPassword: String
-    ): Resource<Unit>
-
-    suspend fun changeTariff(
-        token: String,
-        clientId: String,
-        newTariffId: String?
     ): Resource<Unit>
 
     suspend fun blockAccount(

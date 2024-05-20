@@ -8,7 +8,7 @@ import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
-import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.UsersRepository
 import com.glazovnet.glazovnetapp.services.domain.model.ServiceModel
 import com.glazovnet.glazovnetapp.services.domain.repository.ServicesApiRepository
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val personalAccountRepository: PersonalAccountRepository,
+    private val usersRepository: UsersRepository,
     private val tariffsApiRepository: TariffsApiRepository,
     private val servicesApiRepository: ServicesApiRepository,
     userAuthDataRepository: LocalUserAuthDataRepository,
@@ -125,7 +125,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private suspend fun loadPersonInfo(): PersonModel? {
-        val result = personalAccountRepository.getPersonData(
+        val result = usersRepository.getPersonData(
             token = userToken,
             personId = personId ?: "" //TODO: this shouldn't be null. rework later
         )
@@ -138,7 +138,7 @@ class AccountViewModel @Inject constructor(
 
     private suspend fun loadClientInfo(): ClientModel? {
         return if (clientId != null) {
-            val result = personalAccountRepository.getClientData(
+            val result = usersRepository.getClientData(
                 token = userToken,
                 clientId = clientId
             )
@@ -152,7 +152,7 @@ class AccountViewModel @Inject constructor(
 
     private suspend fun loadEmployeeInfo(): EmployeeModel? {
         return if (employeeId != null) {
-            val result = personalAccountRepository.getEmployeeData(
+            val result = usersRepository.getEmployeeData(
                 token = userToken,
                 employeeId = employeeId
             )

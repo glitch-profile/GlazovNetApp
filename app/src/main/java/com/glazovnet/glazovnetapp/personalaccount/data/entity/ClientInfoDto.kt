@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Keep
 data class ClientInfoDto(
     val accountNumber: String,
+    val connectedOrganizationName: String?,
     val address: ClientAddressDto,
     val tariffId: String,
     val pendingTariffId: String?,

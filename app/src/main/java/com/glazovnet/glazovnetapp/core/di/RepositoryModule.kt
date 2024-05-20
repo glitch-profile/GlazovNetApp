@@ -10,8 +10,8 @@ import com.glazovnet.glazovnetapp.innerposts.data.repositories.InnerPostsReposit
 import com.glazovnet.glazovnetapp.innerposts.domain.repository.InnerPostsRepository
 import com.glazovnet.glazovnetapp.login.data.repositoryimpl.LoginApiRepositoryImpl
 import com.glazovnet.glazovnetapp.login.domain.repository.LoginApiRepository
-import com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl.PersonalAccountRepositoryImpl
-import com.glazovnet.glazovnetapp.personalaccount.domain.repository.PersonalAccountRepository
+import com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl.UsersRepositoryImpl
+import com.glazovnet.glazovnetapp.personalaccount.domain.repository.UsersRepository
 import com.glazovnet.glazovnetapp.posts.data.repositoryimpl.PostsApiRepositoryImpl
 import com.glazovnet.glazovnetapp.posts.domain.repository.PostsApiRepository
 import com.glazovnet.glazovnetapp.services.data.repository.ServicesApiRepositoryImpl
@@ -99,8 +99,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsPersonalAccountRepository(
-        personalAccountRepositoryImpl: PersonalAccountRepositoryImpl
-    ): PersonalAccountRepository
+        personalAccountRepositoryImpl: UsersRepositoryImpl
+    ): UsersRepository
 
     @Binds
     @Singleton

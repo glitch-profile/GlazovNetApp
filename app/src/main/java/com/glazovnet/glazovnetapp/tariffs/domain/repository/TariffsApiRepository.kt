@@ -7,22 +7,28 @@ interface TariffsApiRepository {
 
     suspend fun getAllTariffs(
         token: String,
-        showOrganizationTariffs: Boolean
+        clientId: String?
     ): Resource<List<TariffModel>>
 
     suspend fun getActiveTariffs(
         token: String,
-        showOrganizationTariffs: Boolean
+        clientId: String?
     ): Resource<List<TariffModel>>
 
     suspend fun getArchiveTariffs(
         token: String,
-        showOrganizationTariffs: Boolean
+        clientId: String?
     ): Resource<List<TariffModel>>
 
     suspend fun getTariffById(
         tariffId: String,
         token: String
     ): Resource<TariffModel?>
+
+    suspend fun changeTariff(
+        token: String,
+        clientId: String,
+        newTariffId: String?
+    ): Resource<Unit>
 
 }

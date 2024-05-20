@@ -57,7 +57,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TariffsListScreen(
-    optionalTariffId: String?,
+//    optionalTariffId: String?,
     onNavigationButtonPressed: () -> Unit,
     viewModel: TariffsListViewModel = hiltViewModel()
 ) {
