@@ -112,6 +112,8 @@
     <string name="tariff_details_connect_from_unknown_billing_date_action">Connect from next billing date</string>
     <string name="tariff_details_connect_from_billing_date_action">Connect from %s</string>
     <string name="tariff_details_cancel_pending_tariff_action">Cancel tariff switching</string>
+    <string name="tariff_details_not_intended_for_organizations">Not available for organizations</string>
+    <string name="tariff_details_not_intended_for_clients">Only for organizations</string>
     <!-- DETAILS | VALUES -->
     <string name="tariff_details_speed_limit_megabits_value">Up to %d Mbits/s</string>
     <string name="tariff_details_speed_limit_kilobits_value">Up to %d Kbits/s</string>

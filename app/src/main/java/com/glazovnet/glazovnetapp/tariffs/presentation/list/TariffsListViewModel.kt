@@ -1,6 +1,5 @@
 package com.glazovnet.glazovnetapp.tariffs.presentation.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataRepository
@@ -128,7 +127,6 @@ class TariffsListViewModel @Inject constructor(
                 if (result is Resource.Success) {
                     _isClientAsOrganization.update { result.data!!.connectedOrganizationName != null }
                 } else _isClientAsOrganization.update { false }
-                Log.i("TAG", "is client as organization - ${isClientAsOrganization.value}")
             }
         }
     }

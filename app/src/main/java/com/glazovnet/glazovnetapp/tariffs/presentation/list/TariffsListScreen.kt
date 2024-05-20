@@ -356,8 +356,8 @@ private fun DetailsSheet(
                     )
                 }
                 if (tariffDetails.tariff.isActive && isUserIsClient && !tariffDetails.isCurrentTariff) {
+                    Spacer(modifier = Modifier.height(4.dp))
                     if (tariffDetails.tariff.isForOrganization == isUserAsOrganization) {
-                        Spacer(modifier = Modifier.height(4.dp))
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -384,7 +384,22 @@ private fun DetailsSheet(
                                 }
                             )
                         }
-                    } else Spacer(modifier = Modifier.height(16.dp))
+                    } else {
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .height(48.dp),
+                            shape = MaterialTheme.shapes.small,
+                            enabled = false,
+                            onClick = {}
+                        ) {
+                            Text(
+                                text = if (isUserAsOrganization) stringResource(id = R.string.tariff_details_not_intended_for_organizations)
+                                else stringResource(id = R.string.tariff_details_not_intended_for_clients)
+                            )
+                        }
+                    }
                 } else {
                     Spacer(modifier = Modifier.height(16.dp))
                 }

@@ -113,6 +113,8 @@
     <string name="tariff_details_connect_from_unknown_billing_date_action">Подключить со следующей расчётной даты</string>
     <string name="tariff_details_connect_from_billing_date_action">Подключить с %s</string>
     <string name="tariff_details_cancel_pending_tariff_action">Отменить переключение тарифа</string>
+    <string name="tariff_details_not_intended_for_organizations">Недоступно для организации</string>
+    <string name="tariff_details_not_intended_for_clients">Только для организации</string>
     <!-- DETAILS | VALUES -->
     <string name="tariff_details_speed_limit_megabits_value">До %d Мбит в секунду</string>
     <string name="tariff_details_speed_limit_kilobits_value">До %d Кбит в секунду</string>
