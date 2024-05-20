@@ -24,11 +24,13 @@ class TariffsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTariffs(
         token: String,
-        clientId: String?
+        clientId: String?,
+        employeeId: String?
     ): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get(PATH){
                 header("client_id", clientId)
+                header("employee_id", employeeId)
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -48,11 +50,13 @@ class TariffsApiRepositoryImpl @Inject constructor(
 
     override suspend fun getActiveTariffs(
         token: String,
-        clientId: String?
+        clientId: String?,
+        employeeId: String?
     ): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/active"){
                 header("client_id", clientId)
+                header("employee_id", employeeId)
                 bearerAuth(token)
             }.body()
             if (response.status) {
@@ -70,10 +74,15 @@ class TariffsApiRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getArchiveTariffs(token: String, clientId: String?): Resource<List<TariffModel>> {
+    override suspend fun getArchiveTariffs(
+        token: String,
+        clientId: String?,
+        employeeId: String?
+    ): Resource<List<TariffModel>> {
         return try {
             val response: ApiResponseDto<List<TariffModelDto>> = client.get("$PATH/archive"){
                 header("client_id", clientId)
+                header("employee_id", employeeId)
                 bearerAuth(token)
             }.body()
             if (response.status) {

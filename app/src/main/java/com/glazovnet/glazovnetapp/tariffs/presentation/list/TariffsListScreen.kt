@@ -71,6 +71,7 @@ fun TariffsListScreen(
     val detailsSheetState = viewModel.sheetData.collectAsState()
 
     val isUserIsClient = viewModel.isUserIsClient
+    val isClientAsOrganization = viewModel.isClientAsOrganization.collectAsState()
 
     val isArchiveSheetOpen = viewModel.isArchiveSheetOpen.collectAsState()
     ArchiveTariffsSheet(
@@ -86,6 +87,7 @@ fun TariffsListScreen(
         billingDate = currentClientsTariffData.value?.billingDate,
         isChangingInProgress = tariffsState.value.isUploading,
         isUserIsClient = isUserIsClient,
+        isUserAsOrganization = isClientAsOrganization.value,
         onConnectTariffClicked = {
             viewModel.connectTariff(it)
         },
@@ -260,33 +262,6 @@ fun TariffsListScreen(
 
 }
 
-@Composable
-private fun TariffsGroupTitle(
-    text: String,
-    tariffsCount: Int
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            modifier = Modifier
-                .padding(top = 4.dp),
-            text = tariffsCount.toString(),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsSheet(
@@ -294,6 +269,7 @@ private fun DetailsSheet(
     billingDate: OffsetDateTime?,
     isChangingInProgress: Boolean,
     isUserIsClient: Boolean,
+    isUserAsOrganization: Boolean,
     onConnectTariffClicked: (tariffId: String?) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -327,7 +303,7 @@ private fun DetailsSheet(
                 Spacer(modifier = Modifier.height(12.dp))
                 AdditionalVerticalInfo(
                     title = tariffDetails.tariff.name,
-                    description = stringResource(id = R.string.tariff_details_tariff_name_text)
+                    description = stringResource(id = R.string.tariff_details_tariff_name_title)
                 )
                 val maxTariffSpeedText = if (tariffDetails.tariff.maxSpeed == 0) {
                     stringResource(id = R.string.tariff_details_speed_limit_none_value)
@@ -346,7 +322,7 @@ private fun DetailsSheet(
                 }
                 AdditionalVerticalInfo(
                     title = maxTariffSpeedText,
-                    description = stringResource(id = R.string.tariff_details_speed_limit_details_text)
+                    description = stringResource(id = R.string.tariff_details_speed_limit_details_title)
                 )
                 AdditionalVerticalInfo(
                     title = pluralStringResource(
@@ -371,52 +347,44 @@ private fun DetailsSheet(
                                 tariffDetails.tariff.prepaidTraffic.toInt() / 1024
                             )
                         },
-                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_text)
+                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_title)
                     )
                 } else {
                     AdditionalVerticalInfo(
                         title = stringResource(id = R.string.tariff_details_prepaid_traffic_unlimited_text),
-                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_text)
+                        description = stringResource(id = R.string.tariff_details_prepaid_traffic_amount_title)
                     )
                 }
-//                if (tariffDetails.tariff.prepaidTrafficDescription !== null) {
-//                    Text(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(horizontal = 16.dp, vertical = 4.dp),
-//                        style = MaterialTheme.typography.bodyMedium,
-//                        color = MaterialTheme.colorScheme.onSurface,
-//                        text = tariffDetails.tariff.prepaidTrafficDescription
-//                    )
-//                }
                 if (tariffDetails.tariff.isActive && isUserIsClient && !tariffDetails.isCurrentTariff) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                            .height(48.dp),
-                        shape = MaterialTheme.shapes.small,
-                        onClick = {
-                            if (tariffDetails.isPendingTariff) {
-                                onConnectTariffClicked.invoke(null)
-                            } else {
-                                onConnectTariffClicked.invoke(tariffDetails.tariff.id)
-                            }
-                        },
-                        enabled = !isChangingInProgress
-                    ) {
-                        Text(
-                            if (tariffDetails.isPendingTariff) {
-                                stringResource(id = R.string.tariff_details_cancel_pending_tariff_action)
-                            } else {
-                                val billingDateText = billingDate?.format(DateTimeFormatter.ofPattern("dd MMMM"))
-                                if (billingDateText != null) {
-                                    stringResource(id = R.string.tariff_details_connect_from_billing_date_action, billingDateText)
-                                } else stringResource(id = R.string.tariff_details_connect_from_unknown_billing_date_action)
-                            }
-                        )
-                    }
+                    if (tariffDetails.tariff.isForOrganization == isUserAsOrganization) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .height(48.dp),
+                            shape = MaterialTheme.shapes.small,
+                            onClick = {
+                                if (tariffDetails.isPendingTariff) {
+                                    onConnectTariffClicked.invoke(null)
+                                } else {
+                                    onConnectTariffClicked.invoke(tariffDetails.tariff.id)
+                                }
+                            },
+                            enabled = !isChangingInProgress
+                        ) {
+                            Text(
+                                if (tariffDetails.isPendingTariff) {
+                                    stringResource(id = R.string.tariff_details_cancel_pending_tariff_action)
+                                } else {
+                                    val billingDateText = billingDate?.format(DateTimeFormatter.ofPattern("dd MMMM"))
+                                    if (billingDateText != null) {
+                                        stringResource(id = R.string.tariff_details_connect_from_billing_date_action, billingDateText)
+                                    } else stringResource(id = R.string.tariff_details_connect_from_unknown_billing_date_action)
+                                }
+                            )
+                        }
+                    } else Spacer(modifier = Modifier.height(16.dp))
                 } else {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
