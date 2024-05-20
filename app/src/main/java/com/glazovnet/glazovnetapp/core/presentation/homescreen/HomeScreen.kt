@@ -364,14 +364,16 @@ private fun ScreenContents(
         }
         navigation(
             startDestination = "services-screen",
-            route = "services-graph",
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = "$DEEPLINK_PREFIX/service-posts"
-                }
-            )
+            route = "services-graph"
         ) {
-            composable("services-screen") {
+            composable(
+                route = "services-screen",
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = "$DEEPLINK_PREFIX/service-posts"
+                    }
+                )
+            ) {
                 ServicesScreen(
                     onNavigationButtonPressed = {
                         toggleNavigationDrawer.invoke()
