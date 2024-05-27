@@ -398,7 +398,7 @@
     <string name="notification_channel_account_warnings_name">Уведомления из личного кабинета</string>
     <string name="notification_channel_account_warnings_description">Предупреждения о событиях в личном кабинете</string>
     <string name="notification_channel_service_posts_title">Служебные новости</string>
-    <string name="notification_channel_service_posts_description">Уведомленияя о срочных служебных постах</string>
+    <string name="notification_channel_service_posts_description">Уведомления о срочных служебных постах</string>
     <string name="notification_channel_others_name">Прочее</string>
     <string name="notification_channel_others_description">Уведомления без категории</string>
 

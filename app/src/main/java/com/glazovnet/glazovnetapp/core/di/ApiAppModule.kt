@@ -14,9 +14,9 @@ import kotlinx.serialization.json.Json
 import javax.inject.Named
 import javax.inject.Singleton
 
-private const val BASE_URL = "82.179.120.0:8080" //notebook
+//private const val BASE_URL = "82.179.120.0:8080" //notebook
 //private const val BASE_URL = "192.168.1.150:8080" //notebook local
-//private const val BASE_URL = "146.120.105.211:8080" //computer
+private const val BASE_URL = "146.120.105.211:8080" //computer
 
 
 @Module

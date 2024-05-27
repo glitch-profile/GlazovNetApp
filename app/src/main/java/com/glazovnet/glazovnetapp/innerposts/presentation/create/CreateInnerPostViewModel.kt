@@ -30,6 +30,9 @@ class CreateInnerPostViewModel @Inject constructor(
     private val _postText = MutableStateFlow("")
     val postText = _postText.asStateFlow()
 
+    private val _isPostUploading = MutableStateFlow(false)
+    val isPostUploading = _isPostUploading.asStateFlow()
+
     private val userToken = authDataRepository.getLoginToken() ?: ""
 
     private val _messageState = MutableStateFlow(MessageNotificationState())
@@ -45,6 +48,7 @@ class CreateInnerPostViewModel @Inject constructor(
 
     fun createPost() {
         viewModelScope.launch {
+            _isPostUploading.update { true }
             val result = innerPostsRepository.addInnerPost(
                 token = userToken,
                 title = postTitle.value.trim(),
@@ -63,6 +67,7 @@ class CreateInnerPostViewModel @Inject constructor(
                     messageRes = result.stringResourceId!!
                 )
             }
+            _isPostUploading.update { false }
         }
     }
 

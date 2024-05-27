@@ -40,7 +40,7 @@ fun CreateInnerPostScreen(
     onBackPressed: () -> Unit,
     viewModel: CreateInnerPostViewModel = hiltViewModel()
 ) {
-
+    val isPostUploading = viewModel.isPostUploading.collectAsState()
     val messageState = viewModel.messageState.collectAsState()
     val postTitle = viewModel.postTitle.collectAsState()
     val postText = viewModel.postText.collectAsState()
@@ -136,7 +136,7 @@ fun CreateInnerPostScreen(
                 onClick =  {
                     viewModel.createPost()
                 },
-                enabled = postText.value.isNotBlank()
+                enabled = postText.value.isNotBlank() && !isPostUploading.value
             ) {
                 Text(text = stringResource(id = R.string.reusable_text_save))
             }

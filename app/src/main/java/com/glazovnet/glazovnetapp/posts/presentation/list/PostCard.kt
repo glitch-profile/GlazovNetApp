@@ -79,8 +79,9 @@ fun PostCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+        } else {
+            Spacer(modifier = Modifier.height(8.dp))
         }
-//        Spacer(modifier = Modifier.height(8.dp))
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = post.title,
