@@ -53,12 +53,14 @@ fun ServicesScreen(
     val availableServices = viewModel.availableServices.collectAsState()
     val unavailableServices = viewModel.unavailableServices.collectAsState()
 
+    val isUserAsClient = viewModel.clientId != null
     val connectedServices = viewModel.connectedServices.collectAsState()
 
     val currentOpenService = viewModel.currentOpenService.collectAsState()
     ConnectConfirmationScreen(
         data = currentOpenService.value,
         isConnectionInProgress = state.value.isUploading,
+        isUserAsClient = isUserAsClient,
         onDismiss = {
             viewModel.closeDetailsScreen()
         },
@@ -197,6 +199,7 @@ fun ServicesScreen(
 private fun ConnectConfirmationScreen(
     data: ServiceDetailsModel?,
     isConnectionInProgress: Boolean,
+    isUserAsClient: Boolean,
     onDismiss: () -> Unit,
     onConnectConfirmed: (serviceId: String) -> Unit,
     onDisconnectConfirmed: (serviceId: String) -> Unit
@@ -214,17 +217,30 @@ private fun ConnectConfirmationScreen(
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding()
             ) {
-                Text(
-                    text = stringResource(id = R.string.services_screen_details_title),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = if (data.isServiceConnected) stringResource(id = R.string.services_screen_details_disconnect_description)
-                    else stringResource(id = R.string.services_screen_details_connect_description),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                if (isUserAsClient) {
+                    Text(
+                        text = stringResource(id = R.string.services_screen_details_title),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        text = if (data.isServiceConnected) stringResource(id = R.string.services_screen_details_disconnect_description)
+                        else stringResource(id = R.string.services_screen_details_connect_description),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.services_screen_details_overview_title),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        text = stringResource(id = R.string.services_screen_details_overview_description),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
                 Spacer(modifier = Modifier.height(12.dp))
                 AdditionalVerticalInfo(
                     title = data.service.name,
@@ -263,28 +279,29 @@ private fun ConnectConfirmationScreen(
                         description = stringResource(id = R.string.services_screen_details_payment_policy_title)
                     )
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .height(48.dp),
-                    shape = MaterialTheme.shapes.small,
-                    onClick = {
-                        if (data.isServiceConnected) {
-                            onDisconnectConfirmed.invoke(data.service.id)
-                        } else {
-                            onConnectConfirmed.invoke(data.service.id)
-                        }
-                    },
-                    enabled = !isConnectionInProgress
-                ) {
-                    Text(
-                        text = if (data.isServiceConnected) stringResource(id = R.string.services_screen_details_disconnect_button_text)
-                        else stringResource(id = R.string.services_screen_details_connect_button_text)
-                    )
-                }
+                if (isUserAsClient) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                            .height(48.dp),
+                        shape = MaterialTheme.shapes.small,
+                        onClick = {
+                            if (data.isServiceConnected) {
+                                onDisconnectConfirmed.invoke(data.service.id)
+                            } else {
+                                onConnectConfirmed.invoke(data.service.id)
+                            }
+                        },
+                        enabled = !isConnectionInProgress
+                    ) {
+                        Text(
+                            text = if (data.isServiceConnected) stringResource(id = R.string.services_screen_details_disconnect_button_text)
+                            else stringResource(id = R.string.services_screen_details_connect_button_text)
+                        )
+                    }
+                } else Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

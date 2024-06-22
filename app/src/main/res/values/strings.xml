@@ -246,6 +246,8 @@
     <string name="services_screen_all_services_sector_title">All services</string>
     <string name="services_screen_unavailable_services_sector_title">Temporal unavailable services</string>
     <!-- DETAILS -->
+    <string name="services_screen_details_overview_title">Overview</string>
+    <string name="services_screen_details_overview_description">Service description</string>
     <string name="services_screen_details_title">Are you sure?</string>
     <string name="services_screen_details_connect_description">You are activating an additional service</string>
     <string name="services_screen_details_disconnect_description">You are disconnecting an additional service</string>

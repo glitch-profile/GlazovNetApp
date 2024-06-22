@@ -252,6 +252,8 @@
     <string name="services_screen_all_services_sector_title">Все услуги</string>
     <string name="services_screen_unavailable_services_sector_title">Временно недоступные услуги</string>
     <!-- DETAILS -->
+    <string name="services_screen_details_overview_title">Обзор</string>
+    <string name="services_screen_details_overview_description">Подробная информация</string>
     <string name="services_screen_details_title">Вы уверены?</string>
     <string name="services_screen_details_connect_description">Вы активируете дополнительную услугу</string>
     <string name="services_screen_details_disconnect_description">Вы отключаете дополнительную услугу</string>

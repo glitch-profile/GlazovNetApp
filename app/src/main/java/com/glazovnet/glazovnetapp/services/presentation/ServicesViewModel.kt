@@ -34,7 +34,7 @@ class ServicesViewModel @Inject constructor(
     val connectedServices = _connectedServices.asStateFlow()
 
     private val userToken = localUserAuthDataRepository.getLoginToken() ?: ""
-    private val clientId = localUserAuthDataRepository.getAssociatedClientId() ?: ""
+    val clientId = localUserAuthDataRepository.getAssociatedClientId()
 
     init {
         loadServices()
@@ -66,6 +66,7 @@ class ServicesViewModel @Inject constructor(
     }
 
     private suspend fun getConnectedServices() {
+        if (clientId == null) return
         val result = servicesApiRepository.getConnectedServicesIds(
             token = userToken,
             clientId = clientId
@@ -90,6 +91,7 @@ class ServicesViewModel @Inject constructor(
     }
 
     fun connectService(serviceId: String) {
+        if (clientId == null) return
         viewModelScope.launch {
             _state.update {
                 it.copy(isUploading = true)
@@ -114,6 +116,7 @@ class ServicesViewModel @Inject constructor(
     }
 
     fun disconnectService(serviceId: String) {
+        if (clientId == null) return
         viewModelScope.launch {
             _state.update {
                 it.copy(isUploading = true)

@@ -75,16 +75,14 @@ fun NavigationDrawer(
             },
             isSelected = currentScreenRoute == "tariffs-graph"
         )
-        if (isUserIsClient) {
-            NavigationDrawerItem(
-                text = stringResource(id = R.string.services_screen_name),
-                icon = Icons.Default.List,
-                onClick = {
-                    onNavigateOnHomeScreen.invoke("services-graph")
-                },
-                isSelected = currentScreenRoute == "services-graph"
-            )
-        }
+        NavigationDrawerItem(
+            text = stringResource(id = R.string.services_screen_name),
+            icon = Icons.Default.List,
+            onClick = {
+                onNavigateOnHomeScreen.invoke("services-graph")
+            },
+            isSelected = currentScreenRoute == "services-graph"
+        )
         if (isUserIsClient || employeeRoles.contains(EmployeeRoles.ANNOUNCEMENTS)) {
             NavigationDrawerItem(
                 text = stringResource(id = R.string.announcement_list_screen_name),
