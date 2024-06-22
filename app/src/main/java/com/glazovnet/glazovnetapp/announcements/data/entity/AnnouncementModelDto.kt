@@ -10,5 +10,5 @@ data class AnnouncementModelDto(
     val addressFilters: List<List<String>>,
     val title: String,
     val text: String,
-    val creationDate: String
+    val creationDate: Long
 )

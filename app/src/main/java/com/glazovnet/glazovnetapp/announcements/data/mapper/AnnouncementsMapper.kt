@@ -3,11 +3,13 @@ package com.glazovnet.glazovnetapp.announcements.data.mapper
 import com.glazovnet.glazovnetapp.announcements.data.entity.AnnouncementModelDto
 import com.glazovnet.glazovnetapp.announcements.domain.model.AddressFilterElement
 import com.glazovnet.glazovnetapp.announcements.domain.model.AnnouncementModel
+import java.time.Instant
 import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 fun AnnouncementModel.toAnnouncementModelDto(): AnnouncementModelDto {
-    val announcementCreationDate = this.creationDate?.format(DateTimeFormatter.ISO_DATE_TIME) ?: ""
+    val announcementCreationDate = this.creationDate?.toEpochSecond() ?: 0L
     val filtersList = this.addresses.map { element ->
         listOf(
             element.city.lowercase(),
@@ -25,7 +27,10 @@ fun AnnouncementModel.toAnnouncementModelDto(): AnnouncementModelDto {
 }
 
 fun AnnouncementModelDto.toAnnouncementModel(): AnnouncementModel {
-    val announcementCreationDate = OffsetDateTime.parse(creationDate, DateTimeFormatter.ISO_DATE_TIME)
+    val announcementCreationDate = OffsetDateTime.ofInstant(
+        Instant.ofEpochSecond(this.creationDate),
+        ZoneId.systemDefault()
+    )
     val filtersList = this.addressFilters.mapNotNull { element ->
         try {
             AddressFilterElement(
