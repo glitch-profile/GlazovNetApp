@@ -355,6 +355,13 @@
         <item quantity="other">%d мегабайт</item>
     </plurals>
 
+    <!-- TRANSACTION CARD -->
+    <string name="transaction_card_incoming_transaction_title">Входящий платеж</string>
+    <string name="transaction_card_outcoming_transaction_title">Исходящий платеж</string>
+    <string name="transaction_card_note_empty">Описание не предоставлено</string>
+    <string name="transaction_card_note_new_service">Подключение новой услуги</string>
+    <string name="transaction_card_note_montly_payment">MЕжемесячная оплата счета</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>
     <string name="util_date_time_converter_yesterday">Вчера в </string>

@@ -346,6 +346,13 @@
         <item quantity="other">%d megabytes</item>
     </plurals>
 
+    <!-- TRANSACTION CARD -->
+    <string name="transaction_card_incoming_transaction_title">Incoming payment</string>
+    <string name="transaction_card_outcoming_transaction_title">Outgoing payment</string>
+    <string name="transaction_card_note_empty">Description not provided</string>
+    <string name="transaction_card_note_new_service">Connecting a new service</string>
+    <string name="transaction_card_note_montly_payment">Monthly payment of the bill</string>
+
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Today at</string>
     <string name="util_date_time_converter_yesterday">Yesterday at</string>
