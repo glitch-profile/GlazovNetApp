@@ -5,8 +5,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -106,6 +109,8 @@ fun BalanceHistoryScreen(
                                 stickyHeader {
                                     Text(
                                         modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(MaterialTheme.colorScheme.surface)
                                             .padding(start = 32.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
                                         text = dateTimestamp.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
                                         color = MaterialTheme.colorScheme.primary,
@@ -132,6 +137,10 @@ fun BalanceHistoryScreen(
                                         }
                                     }
                                 }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.navigationBarsPadding())
                             }
                         }
                     )
