@@ -40,6 +40,7 @@ import com.glazovnet.glazovnetapp.core.presentation.navigationdrawer.NavigationD
 import com.glazovnet.glazovnetapp.innerposts.presentation.create.CreateInnerPostScreen
 import com.glazovnet.glazovnetapp.innerposts.presentation.posts.InnerPostsScreen
 import com.glazovnet.glazovnetapp.personalaccount.presentation.PersonalAccountScreen
+import com.glazovnet.glazovnetapp.personalaccount.presentation.balancehistory.BalanceHistoryScreen
 import com.glazovnet.glazovnetapp.posts.presentation.details.PostDetailsScreen
 import com.glazovnet.glazovnetapp.posts.presentation.edit.EditPostScreen
 import com.glazovnet.glazovnetapp.posts.presentation.list.PostsListScreen
@@ -260,6 +261,9 @@ private fun ScreenContents(
             ) {
                 PersonalAccountScreen(
                     onNavigationButtonPressed = toggleNavigationDrawer,
+                    onOpenBalanceHistoryScreen = {
+                        navController.navigate("balance-history-screen")
+                    },
                     onOpenNotificationsSettings = {
 
                     },
@@ -268,6 +272,13 @@ private fun ScreenContents(
                     },
                     onOpenServicesScreen = {
                         navController.navigate("services-graph")
+                    }
+                )
+            }
+            composable("balance-history-screen") {
+                BalanceHistoryScreen(
+                    onBackButtonPressed = {
+                        navController.popBackStack()
                     }
                 )
             }

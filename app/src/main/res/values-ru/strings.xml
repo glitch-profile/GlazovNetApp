@@ -247,6 +247,9 @@
     <string name="personal_account_action_manage_connected_services">Открыть меню услуг</string>
     <string name="personal_account_action_manage_connected_services_description">Управлять дополнительными услугами</string>
 
+    <!-- TRANSACTIONS SCREEN -->
+    <string name="transactions_screen_name">История баланса</string>
+
     <!-- SERVICES SCREEN -->
     <string name="services_screen_name">Дополнительные услуги</string>
     <string name="services_screen_all_services_sector_title">Все услуги</string>
@@ -264,7 +267,6 @@
     <string name="services_screen_details_payment_policy_pending_description">Оплата по окончании расчётного месяца</string>
     <string name="services_screen_details_connect_button_text">Подключить дополнительную услугу</string>
     <string name="services_screen_details_disconnect_button_text">Отключить дополнительную услугу</string>
-
 
     <!-- SETTINGS SCREEN -->
     <string name="settings_screen_name">Настройки</string>
@@ -360,7 +362,7 @@
     <string name="transaction_card_outcoming_transaction_title">Исходящий платеж</string>
     <string name="transaction_card_note_empty">Описание не предоставлено</string>
     <string name="transaction_card_note_new_service">Подключение новой услуги</string>
-    <string name="transaction_card_note_montly_payment">MЕжемесячная оплата счета</string>
+    <string name="transaction_card_note_montly_payment">Ежемесячная оплата счета</string>
 
     <!-- UTILITIES -->
     <string name="util_date_time_converter_today">Сегодня в</string>

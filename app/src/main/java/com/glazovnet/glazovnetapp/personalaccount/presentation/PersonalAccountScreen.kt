@@ -73,6 +73,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun PersonalAccountScreen(
     onNavigationButtonPressed: () -> Unit,
+    onOpenBalanceHistoryScreen: () -> Unit,
     onOpenNotificationsSettings: () -> Unit,
     onOpenTariffsScreen: () -> Unit,
     onOpenServicesScreen: () -> Unit,
@@ -282,7 +283,7 @@ fun PersonalAccountScreen(
                                 text = String.format("%.2f", this.balance) + " ₽",
                                 actionTitle = stringResource(id = R.string.personal_account_actions_show_balance_history),
                                 onActionClick = {
-                                    //TODO
+                                    onOpenBalanceHistoryScreen.invoke()
                                 }
                             )
                         }

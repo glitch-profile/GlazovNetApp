@@ -4,6 +4,7 @@ import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.TransactionModel
 
 interface UsersRepository {
 
@@ -40,5 +41,10 @@ interface UsersRepository {
         amount: Double,
         note: String?
     ): Resource<Unit>
+
+    suspend fun loadBalanceHistory(
+        token: String,
+        clientId: String
+    ): Resource<List<TransactionModel>>
 
 }

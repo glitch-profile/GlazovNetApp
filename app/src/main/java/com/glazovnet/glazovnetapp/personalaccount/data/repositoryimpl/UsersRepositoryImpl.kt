@@ -6,12 +6,15 @@ import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.ClientInfoDto
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.EmployeeInfoDto
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.PersonInfoDto
+import com.glazovnet.glazovnetapp.personalaccount.data.entity.TransactionModelDto
 import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toClientModel
 import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toEmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toPersonModel
+import com.glazovnet.glazovnetapp.personalaccount.data.mapper.toTransactionModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.ClientModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.EmployeeModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.model.PersonModel
+import com.glazovnet.glazovnetapp.personalaccount.domain.model.TransactionModel
 import com.glazovnet.glazovnetapp.personalaccount.domain.repository.UsersRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -136,6 +139,24 @@ class UsersRepositoryImpl @Inject constructor(
             }.body()
             if (response.status) {
                 Resource.Success(Unit)
+            } else Resource.Error(
+                stringResourceId = R.string.api_response_server_error
+            )
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun loadBalanceHistory(token: String, clientId: String): Resource<List<TransactionModel>> {
+        return try {
+            val response: ApiResponseDto<List<TransactionModelDto>> = client.get("$CLIENTS_PATH/balance-history") {
+                bearerAuth(token)
+                header("client_id", clientId)
+            }.body()
+            if (response.status) {
+                Resource.Success(
+                    data = response.data.map { it.toTransactionModel() }
+                )
             } else Resource.Error(
                 stringResourceId = R.string.api_response_server_error
             )
