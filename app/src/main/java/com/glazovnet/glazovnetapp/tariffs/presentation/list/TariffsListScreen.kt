@@ -356,12 +356,11 @@ private fun DetailsSheet(
                     )
                 }
                 if (tariffDetails.tariff.isActive && isUserIsClient && !tariffDetails.isCurrentTariff) {
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     if (tariffDetails.tariff.isForOrganization == isUserAsOrganization) {
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp)
                                 .height(48.dp),
                             shape = MaterialTheme.shapes.small,
                             onClick = {
@@ -388,7 +387,6 @@ private fun DetailsSheet(
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp)
                                 .height(48.dp),
                             shape = MaterialTheme.shapes.small,
                             enabled = false,
@@ -400,6 +398,7 @@ private fun DetailsSheet(
                             )
                         }
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                 } else {
                     Spacer(modifier = Modifier.height(16.dp))
                 }

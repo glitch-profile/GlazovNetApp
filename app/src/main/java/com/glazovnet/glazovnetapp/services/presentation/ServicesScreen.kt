@@ -280,11 +280,10 @@ private fun ConnectConfirmationScreen(
                     )
                 }
                 if (isUserAsClient) {
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
                             .height(48.dp),
                         shape = MaterialTheme.shapes.small,
                         onClick = {
@@ -301,6 +300,7 @@ private fun ConnectConfirmationScreen(
                             else stringResource(id = R.string.services_screen_details_connect_button_text)
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                 } else Spacer(modifier = Modifier.height(16.dp))
             }
         }
