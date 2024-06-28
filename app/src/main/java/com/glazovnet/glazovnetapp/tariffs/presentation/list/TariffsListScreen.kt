@@ -358,7 +358,7 @@ private fun DetailsSheet(
                     )
                 }
                 if (tariffDetails.tariff.isActive && isUserIsClient && !tariffDetails.isCurrentTariff) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     if (tariffDetails.tariff.isForOrganization == isUserAsOrganization) {
                         Button(
                             modifier = Modifier
