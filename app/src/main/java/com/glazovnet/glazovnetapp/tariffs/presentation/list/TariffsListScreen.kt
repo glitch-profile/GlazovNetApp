@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.glazovnet.glazovnetapp.R
@@ -288,7 +289,8 @@ private fun DetailsSheet(
             ) {
                 Text(
                     text = stringResource(id = R.string.tariff_details_information_title),
-                    style = MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
                 )
                 val descriptionText = if (tariffDetails.isCurrentTariff) stringResource(id = R.string.tariff_details_current_tariff_description_title)
                 else if (tariffDetails.isPendingTariff) stringResource(id = R.string.tariff_details_planned_tariff_description_title)
