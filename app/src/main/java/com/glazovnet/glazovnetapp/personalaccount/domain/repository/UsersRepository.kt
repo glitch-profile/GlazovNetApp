@@ -38,7 +38,7 @@ interface UsersRepository {
     suspend fun addFunds(
         token: String,
         clientId: String,
-        amount: Double,
+        amount: Float,
         note: String?
     ): Resource<Unit>
 

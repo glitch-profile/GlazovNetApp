@@ -129,7 +129,12 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addFunds(token: String, clientId: String, amount: Double, note: String?): Resource<Unit> {
+    override suspend fun addFunds(
+        token: String,
+        clientId: String,
+        amount: Float,
+        note: String?
+    ): Resource<Unit> {
         return try {
             val response: ApiResponseDto<Unit> = client.put("$CLIENTS_PATH/add-funds") {
                 bearerAuth(token)
