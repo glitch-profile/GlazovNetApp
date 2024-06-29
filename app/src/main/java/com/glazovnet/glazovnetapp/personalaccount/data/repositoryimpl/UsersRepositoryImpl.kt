@@ -3,6 +3,7 @@ package com.glazovnet.glazovnetapp.personalaccount.data.repositoryimpl
 import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.data.utils.ApiResponseDto
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
+import com.glazovnet.glazovnetapp.personalaccount.data.entity.AddFundsModelDto
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.ClientInfoDto
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.EmployeeInfoDto
 import com.glazovnet.glazovnetapp.personalaccount.data.entity.PersonInfoDto
@@ -21,7 +22,11 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.post
 import io.ktor.client.request.put
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -135,21 +140,26 @@ class UsersRepositoryImpl @Inject constructor(
         amount: Float,
         note: String?
     ): Resource<Unit> {
+        val transactionInfo = AddFundsModelDto(
+            amount = amount,
+            note = note
+        )
         return try {
-            val response: ApiResponseDto<Unit> = client.put("$CLIENTS_PATH/add-funds") {
+            val response: ApiResponseDto<Unit> = client.post("$CLIENTS_PATH/add-funds") {
                 bearerAuth(token)
                 header("client_id", clientId)
-                header("amount", amount)
-                header("note", note)
+                setBody(transactionInfo)
+                contentType(ContentType.Application.Json)
             }.body()
             if (response.status) {
                 Resource.Success(Unit)
             } else Resource.Error(
-                stringResourceId = R.string.api_response_server_error
+                stringResourceId = R.string.api_response_server_error, message = response.message
             )
         } catch (e: Exception) {
             Resource.generateFromApiResponseError(e)
         }
+
     }
 
     override suspend fun loadBalanceHistory(token: String, clientId: String): Resource<List<TransactionModel>> {
