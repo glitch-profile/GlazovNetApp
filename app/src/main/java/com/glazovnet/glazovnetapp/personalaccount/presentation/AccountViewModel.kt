@@ -44,6 +44,9 @@ class AccountViewModel @Inject constructor(
     private val clientId = userAuthDataRepository.getAssociatedClientId()
     private val employeeId = userAuthDataRepository.getAssociatedEmployeeId()
 
+    private val _isPaymentScreenOpen = MutableStateFlow(false)
+    val isPaymentScreenOpen = _isPaymentScreenOpen.asStateFlow()
+
     init {
         loadUserInfo()
     }
@@ -164,6 +167,17 @@ class AccountViewModel @Inject constructor(
         } else null
     }
 
+    //SCREENS INFO
+    fun openPaymentScreen() {
+        _isPaymentScreenOpen.update { true }
+    }
+    fun closePaymentScreen() {
+        _isPaymentScreenOpen.update { false }
+    }
+
+    fun closeAllScreens() {
+        _isPaymentScreenOpen.update { false }
+    }
 }
 
 private class UserRequestError(val stringResource: Int, message: String?): Exception(message)

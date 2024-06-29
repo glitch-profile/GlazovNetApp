@@ -61,6 +61,7 @@ import com.glazovnet.glazovnetapp.core.presentation.components.CheckedButton
 import com.glazovnet.glazovnetapp.core.presentation.components.LoadingComponent
 import com.glazovnet.glazovnetapp.core.presentation.components.RequestErrorScreen
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
+import com.glazovnet.glazovnetapp.personalaccount.presentation.addfunds.AddFundsBottomSheet
 import com.glazovnet.glazovnetapp.tariffs.domain.model.TariffModel
 import java.time.Duration
 import java.time.LocalDateTime
@@ -87,6 +88,17 @@ fun PersonalAccountScreen(
         val currentTariffState = viewModel.currentTariff.collectAsState()
         val pendingTariffState = viewModel.pendingTariff.collectAsState()
         val servicesState = viewModel.servicesData.collectAsState()
+
+        val isPaymentScreenOpen = viewModel.isPaymentScreenOpen.collectAsState()
+        if (accountState.value.clientInfo != null) {
+            AddFundsBottomSheet(
+                isSheetOpen = isPaymentScreenOpen.value,
+                accountNumber = accountState.value.clientInfo!!.accountNumber,
+                clientAddress = accountState.value.clientInfo!!.address,
+                onDismiss = { viewModel.closePaymentScreen() }
+            )
+        }
+
 
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         TopAppBar(
@@ -299,7 +311,7 @@ fun PersonalAccountScreen(
                         titleMaxLines = 1,
                         descriptionMaxLines = 1,
                         onStateChanges = {
-                            // TODO
+                            viewModel.openPaymentScreen()
                         }
                     )
                     if (currentTariffState.value.data != null) {
