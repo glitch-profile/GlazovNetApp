@@ -24,12 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.glazovnet.glazovnetapp.R
 import com.glazovnet.glazovnetapp.core.presentation.components.AdditionalVerticalInfo
 import com.glazovnet.glazovnetapp.core.presentation.components.FilledTextField
 
@@ -51,7 +53,8 @@ fun AddFundsBottomSheet(
         ModalBottomSheet(
             sheetState = sheetState,
             windowInsets = WindowInsets(0.dp),
-            onDismissRequest = onDismiss
+            onDismissRequest = onDismiss,
+//            dragHandle = { Spacer(modifier = Modifier.height(16.dp))}
         ) {
             Column(
                 modifier = Modifier
@@ -61,7 +64,7 @@ fun AddFundsBottomSheet(
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = "Add funds",
+                    text = stringResource(id = R.string.add_funds_title),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -127,14 +130,14 @@ private fun EnterInfoComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = "Fill in the required information",
+            text = stringResource(id = R.string.add_funds_enter_info_description),
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier
                 .padding(start = 32.dp, end = 16.dp),
-            text = "Payment amount",
+            text = stringResource(id = R.string.add_funds_enter_info_payment_amount_title),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium
         )
@@ -145,7 +148,7 @@ private fun EnterInfoComponent(
                 .padding(horizontal = 16.dp),
             value = amount,
             onValueChange = onAmountChanges,
-            placeholder = "Enter the payment amount",
+            placeholder = stringResource(id = R.string.add_funds_enter_info_payment_amount_placeholder),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -156,7 +159,7 @@ private fun EnterInfoComponent(
         Text(
             modifier = Modifier
                 .padding(start = 32.dp, end = 16.dp),
-            text = "Additional Info",
+            text = stringResource(id = R.string.add_funds_enter_info_additional_info_title),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium
         )
@@ -167,7 +170,7 @@ private fun EnterInfoComponent(
                 .padding(horizontal = 16.dp),
             value = additionalText,
             onValueChange = onNoteChanges,
-            placeholder = "Enter additional message",
+            placeholder = stringResource(id = R.string.add_funds_enter_info_additional_info_placeholder),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -189,7 +192,7 @@ private fun EnterInfoComponent(
             onClick = onConfirmClicked,
             enabled = amount.toFloatOrNull() !== null && amount.toFloat() >= 10f
         ) {
-            Text(text = "Continue")
+            Text(text = stringResource(id = R.string.reusable_text_continue))
         }
     }
 }
@@ -211,7 +214,7 @@ private fun CheckInfoComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = "Is this correct?",
+            text = stringResource(id = R.string.add_funds_check_info_description),
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -219,27 +222,27 @@ private fun CheckInfoComponent(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
             title = String.format("%.2f", amount.toFloatOrNull() ?: 0.00) + " ₽",
-            description = "Payment amount"
+            description = stringResource(id = R.string.add_funds_enter_info_payment_amount_title)
         )
         if (additionalText.isNotBlank()) {
             AdditionalVerticalInfo(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
                 title = additionalText,
-                description = "Additional message"
+                description = stringResource(id = R.string.add_funds_enter_info_additional_info_title)
             )
         }
         AdditionalVerticalInfo(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
             title = accountNumber,
-            description = "Account number"
+            description = stringResource(id = R.string.personal_account_info_account_number_title)
         )
         AdditionalVerticalInfo(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
             title = clientAddress,
-            description = "Client address"
+            description = stringResource(id = R.string.personal_account_info_user_address_title)
         )
         Spacer(modifier = Modifier.height(12.dp))
         Row(
@@ -253,7 +256,7 @@ private fun CheckInfoComponent(
                 shape = MaterialTheme.shapes.small,
                 onClick = onBackClicked,
             ) {
-                Text(text = "Change info")
+                Text(text = stringResource(id = R.string.add_funds_check_info_change_info_button))
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
@@ -263,7 +266,7 @@ private fun CheckInfoComponent(
                 shape = MaterialTheme.shapes.small,
                 onClick = onConfirmClicked,
             ) {
-                Text(text = "Confirm")
+                Text(text = stringResource(id = R.string.add_funds_check_info_confirm_button))
             }
         }
     }
@@ -276,28 +279,28 @@ private fun LoadingPaymentComponent() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth(),
-            text = "Completing transaction...",
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+//        Text(
+//            modifier = Modifier
+//                .fillMaxWidth(),
+//            text = "Completing transaction...",
+//            style = MaterialTheme.typography.bodyLarge
+//        )
+//        Spacer(modifier = Modifier.height(12.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 32.dp),
+                .padding(vertical = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularProgressIndicator()
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Processing transaction",
+                text = stringResource(id = R.string.add_funds_loading_confirm_component_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "This can take few seconds!",
+                text = stringResource(id = R.string.add_funds_loading_confirm_component_description),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -309,29 +312,29 @@ private fun LoadingPaymentComponent() {
 private fun TransactionResultComponent(
     isSuccess: Boolean
 ) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        text = "Transaction results",
-        style = MaterialTheme.typography.bodyLarge
-    )
-    Spacer(modifier = Modifier.height(12.dp))
+//    Text(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(horizontal = 16.dp),
+//        text = "Transaction results",
+//        style = MaterialTheme.typography.bodyLarge
+//    )
+//    Spacer(modifier = Modifier.height(12.dp))
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 32.dp),
+            .padding(vertical = 48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = if (isSuccess) "Thanks you!"
-            else "Unable to complete transaction",
+            text = if (isSuccess) stringResource(id = R.string.add_funds_result_component_success_title)
+            else stringResource(id = R.string.add_funds_result_component_error_title),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
-            text = if (isSuccess) "Funds have been credited to your account"
-            else "Please try again later...",
+            text = if (isSuccess) stringResource(id = R.string.add_funds_result_component_success_description)
+            else stringResource(id = R.string.add_funds_result_component_error_description),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

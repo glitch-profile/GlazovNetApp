@@ -240,6 +240,24 @@
     <string name="personal_account_actions_lock_account">Lock</string>
     <string name="personal_account_action_manage_connected_services">Open services screen</string>
     <string name="personal_account_action_manage_connected_services_description">Manage additional services</string>
+    <!-- ADD FUNDS COMPONENT -->
+    <string name="add_funds_title">Add funds</string>
+    <string name="add_funds_enter_info_description">Fill in the required information</string>
+    <string name="add_funds_check_info_description">Is this correct?</string>
+    <string name="add_funds_enter_info_payment_amount_title">Payment amount</string>
+    <string name="add_funds_enter_info_payment_amount_placeholder">Enter the payment amount</string>
+    <string name="add_funds_enter_info_additional_info_title">Additional info</string>
+    <string name="add_funds_enter_info_additional_info_placeholder">Enter the comment</string>
+    <string name="add_funds_check_info_change_info_button">Change info</string>
+    <string name="add_funds_check_info_confirm_button">Confirm</string>
+    <string name="add_funds_loading_confirm_component_title">Processing transaction</string>
+    <string name="add_funds_loading_confirm_component_description">This can take few seconds</string>
+    <string name="add_funds_result_component_success_title">Thanks you!</string>
+    <string name="add_funds_result_component_success_description">Funds have been credited to your account</string>
+    <string name="add_funds_result_component_error_title">Unable to complete transaction</string>
+    <string name="add_funds_result_component_error_description">Please try again later…</string>
+
+
 
     <!-- TRANSACTIONS SCREEN -->
     <string name="transactions_screen_name">Balance history</string>
@@ -374,6 +392,7 @@
     <string name="reusable_text_edit">Edit</string>
     <string name="reusable_text_delete">Delete</string>
     <string name="reusable_text_clear">Clear</string>
+    <string name="reusable_text_continue">Continue</string>
     <string name="reusable_text_save">Save</string>
     <string name="reusable_unable_to_load">Unable to load</string>
     <string name="reusable_unexpected_error_occurred">Error occurred</string>

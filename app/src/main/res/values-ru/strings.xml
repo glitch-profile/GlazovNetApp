@@ -246,6 +246,22 @@
     <string name="personal_account_actions_lock_account">Заблокировать</string>
     <string name="personal_account_action_manage_connected_services">Открыть меню услуг</string>
     <string name="personal_account_action_manage_connected_services_description">Управлять дополнительными услугами</string>
+    <!-- ADD FUNDS COMPONENT -->
+    <string name="add_funds_title">Пополнить баланс</string>
+    <string name="add_funds_enter_info_description">Заполните необходимую информацию</string>
+    <string name="add_funds_check_info_description">Это верно?</string>
+    <string name="add_funds_enter_info_payment_amount_title">Сумма платежа</string>
+    <string name="add_funds_enter_info_payment_amount_placeholder">Введите сумму платежа</string>
+    <string name="add_funds_enter_info_additional_info_title">Дополнительная информация</string>
+    <string name="add_funds_enter_info_additional_info_placeholder">Введите комментарий</string>
+    <string name="add_funds_check_info_change_info_button">Редактировать</string>
+    <string name="add_funds_check_info_confirm_button">Подтвердить</string>
+    <string name="add_funds_loading_confirm_component_title">Обработка платежа</string>
+    <string name="add_funds_loading_confirm_component_description">Это может занять несколько секунд</string>
+    <string name="add_funds_result_component_success_title">Спасибо!</string>
+    <string name="add_funds_result_component_success_description">Средства были зачислены на Ваш аккаунт</string>
+    <string name="add_funds_result_component_error_title">Невозможно завершить платеж</string>
+    <string name="add_funds_result_component_error_description">Пожалуйста, повторите попытку позже…</string>
 
     <!-- TRANSACTIONS SCREEN -->
     <string name="transactions_screen_name">История баланса</string>
@@ -384,6 +400,7 @@
     <string name="reusable_text_delete">Удалить</string>
     <string name="reusable_text_clear">Очистить</string>
     <string name="reusable_text_save">Сохранить</string>
+    <string name="reusable_text_continue">Продолжить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
     <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
 
