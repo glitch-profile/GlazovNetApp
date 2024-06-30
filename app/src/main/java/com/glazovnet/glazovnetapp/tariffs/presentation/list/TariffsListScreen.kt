@@ -472,6 +472,7 @@ private fun ArchiveTariffsSheet(
                                 Text(
                                     text = stringResource(id = R.string.tariffs_list_tariffs_archive_text),
                                     style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))

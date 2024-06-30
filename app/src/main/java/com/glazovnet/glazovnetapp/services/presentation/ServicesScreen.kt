@@ -221,7 +221,8 @@ private fun ConnectConfirmationScreen(
                 if (isUserAsClient) {
                     Text(
                         text = stringResource(id = R.string.services_screen_details_title),
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
                         modifier = Modifier
