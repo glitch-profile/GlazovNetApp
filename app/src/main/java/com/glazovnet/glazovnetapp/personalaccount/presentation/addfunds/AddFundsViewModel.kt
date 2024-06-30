@@ -51,6 +51,12 @@ class AddFundsViewModel @Inject constructor(
         _state.update { screenState }
     }
 
+    fun resetScreen() {
+        _state.update { AddFundsScreenState.EnteringInfo }
+        _amount.update { "" }
+        _additionalNote.update { "" }
+    }
+
     fun setAmount(value: String) {
         val formatted = value.filter { it.isDigit() || it == '.' || it == ',' }.replace(',', '.')
         val parts = formatted.split('.')

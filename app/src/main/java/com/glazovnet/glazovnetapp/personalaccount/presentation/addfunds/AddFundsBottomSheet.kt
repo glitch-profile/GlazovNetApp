@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,12 +50,17 @@ fun AddFundsBottomSheet(
         val amount = viewModel.amount.collectAsState()
         val additionalNote = viewModel.additionalNote.collectAsState()
 
+        LaunchedEffect(null) {
+            if (state.value == AddFundsScreenState.Error || state.value == AddFundsScreenState.Success) {
+                viewModel.resetScreen()
+            }
+        }
+
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         ModalBottomSheet(
             sheetState = sheetState,
             windowInsets = WindowInsets(0.dp),
-            onDismissRequest = onDismiss,
-//            dragHandle = { Spacer(modifier = Modifier.height(16.dp))}
+            onDismissRequest = onDismiss
         ) {
             Column(
                 modifier = Modifier

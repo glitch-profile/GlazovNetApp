@@ -403,7 +403,6 @@
     <string name="reusable_text_continue">Продолжить</string>
     <string name="reusable_unable_to_load">Невозможно загрузить</string>
     <string name="reusable_unexpected_error_occurred">Непредвиденная ошибка</string>
-
     <!-- PAYMENT RELATED -->
     <string name="reusable_payment_cost_per_month_text">Стоимость в месяц</string>
     <string name="reusable_payment_cost_free_text">Бесплатно</string>
