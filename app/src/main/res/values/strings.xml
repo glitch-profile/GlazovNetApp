@@ -59,8 +59,10 @@
 
     <!-- REQUEST DETAILS SCREEN -->
     <string name="request_details_screen_name">Request details</string>
-    <string name="request_details_screen_additional_info_text">Additional info</string>
+    <string name="request_details_screen_creator_info_title">Creator info</string>
+    <string name="request_details_screen_creator_account_number">Account number</string>
     <string name="request_details_screen_creator_name">Request by</string>
+    <string name="request_details_screen_additional_info_text">Additional info</string>
     <string name="request_details_screen_creation_date_text">Request created at</string>
     <string name="request_details_screen_reopen_date_text">Request re-opened at</string>
     <string name="request_details_screen_responsible_assistant_text">Responsible assistant is</string>

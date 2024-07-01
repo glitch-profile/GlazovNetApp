@@ -60,8 +60,10 @@
 
     <!-- REQUEST DETAILS SCREEN -->
     <string name="request_details_screen_name">Подробности запроса</string>
-    <string name="request_details_screen_additional_info_text">Дополнительно</string>
+    <string name="request_details_screen_creator_info_title">Информация о клиенте</string>
+    <string name="request_details_screen_creator_account_number">Номер договора</string>
     <string name="request_details_screen_creator_name">Запрос от</string>
+    <string name="request_details_screen_additional_info_text">Дополнительно</string>
     <string name="request_details_screen_creation_date_text">Запрос создан</string>
     <string name="request_details_screen_reopen_date_text">Запрос открыт повторно</string>
     <string name="request_details_screen_responsible_assistant_text">Ответственный помощник</string>

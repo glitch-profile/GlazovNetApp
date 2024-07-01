@@ -6,6 +6,7 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.utils.EmployeeRoles
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.core.presentation.states.ScreenState
+import com.glazovnet.glazovnetapp.supportrequests.data.entity.RequestCreatorInfoDto
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.RequestStatus
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.repository.RequestsApiRepository
@@ -26,13 +27,20 @@ class RequestDetailsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(ScreenState<SupportRequestModel>())
     val state = _state.asStateFlow()
+    private val _creatorInfo = MutableStateFlow<RequestCreatorInfoDto?>(null)
+    val creatorInfo = _creatorInfo.asStateFlow()
 
     val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
     val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
     val isEmployeeWithRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.SUPPORT_CHAT)
 
-    fun loadRequestDetails(requestId: String) {
+    fun loadRequestInfo(requestId: String) {
+        loadRequestDetails(requestId)
+        loadCreatorInfo(requestId)
+    }
+
+    private fun loadRequestDetails(requestId: String) {
         viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true, message = null, stringResourceId = null)
@@ -60,6 +68,21 @@ class RequestDetailsViewModel @Inject constructor(
                 }
             }
             _state.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun loadCreatorInfo(requestId: String) {
+        if (isEmployeeWithRole) {
+            viewModelScope.launch {
+                val result = requestsApiRepository.getRequestCreatorInfo(
+                    token = loginToken,
+                    requestId = requestId,
+                    employeeId = employeeId
+                )
+                if (result is Resource.Success) {
+                    _creatorInfo.update { result.data }
+                }
+            }
         }
     }
 

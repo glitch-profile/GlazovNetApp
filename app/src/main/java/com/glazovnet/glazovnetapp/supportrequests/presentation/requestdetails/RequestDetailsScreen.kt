@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -58,12 +59,14 @@ fun RequestDetailsScreen(
     viewModel: RequestDetailsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState()
+    val creatorInfo = viewModel.creatorInfo.collectAsState()
+
     val isEmployeeWithRole = viewModel.isEmployeeWithRole
     val clientId = viewModel.clientId
     val employeeId = viewModel.employeeId
 
     LaunchedEffect(key1 = null) {
-        viewModel.loadRequestDetails(requestId)
+        viewModel.loadRequestInfo(requestId)
     }
 
     Column(
@@ -89,7 +92,7 @@ fun RequestDetailsScreen(
             actions = {
                 AnimatedVisibility(visible = !state.value.isLoading) {
                     IconButton(onClick = {
-                        if (!state.value.isLoading) viewModel.loadRequestDetails(requestId)
+                        if (!state.value.isLoading) viewModel.loadRequestInfo(requestId)
                     }) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
@@ -114,6 +117,7 @@ fun RequestDetailsScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
+                        .navigationBarsPadding()
                 ) {
                     Text(
                         modifier = Modifier
@@ -132,6 +136,32 @@ fun RequestDetailsScreen(
                         requestText = state.value.data!!.description
                     )
                     Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+                    if (isEmployeeWithRole) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            text = stringResource(id = R.string.request_details_screen_creator_info_title)
+                        )
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.request_details_screen_creator_account_number),
+                            text = creatorInfo.value?.accountNumber ?: stringResource(id = R.string.reusable_text_loading)
+                        )
+                        AdditionalTextInfo(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            title = stringResource(id = R.string.request_details_screen_creator_name),
+                            text = creatorInfo.value?.fullName ?: stringResource(id = R.string.reusable_text_loading)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -139,18 +169,8 @@ fun RequestDetailsScreen(
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
-                        text = stringResource(id = R.string.request_details_screen_additional_info_text),
-                        maxLines = 2
+                        text = stringResource(id = R.string.request_details_screen_additional_info_text)
                     )
-                    if (isEmployeeWithRole) {
-                        AdditionalTextInfo(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 4.dp),
-                            title = stringResource(id = R.string.request_details_screen_creator_name),
-                            text = state.value.data!!.creatorName
-                        )
-                    }
                     AdditionalTextInfo(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -187,11 +207,12 @@ fun RequestDetailsScreen(
                             }
                         )
                     }
-                    Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+//                    Divider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+                    Spacer(modifier = Modifier.weight(1f))
                     ButtonsMenu(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         onOpenChatButtonPressed = {
                             onOpenChatButtonPressed.invoke(state.value.data?.id ?: "")
                         },
