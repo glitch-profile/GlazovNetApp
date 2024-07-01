@@ -65,8 +65,8 @@ fun AddFundsBottomSheet(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .imePadding()
                     .navigationBarsPadding()
+                    .imePadding()
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),

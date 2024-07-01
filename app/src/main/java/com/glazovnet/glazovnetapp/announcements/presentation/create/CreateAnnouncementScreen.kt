@@ -262,7 +262,7 @@ private fun SelectedAddressesScreen(
                             address = it,
                             isSelected = false
                         ),
-                        onClick = {}
+                        onClick = { onAddressClicked.invoke(it) }
                     )
                 }
             }

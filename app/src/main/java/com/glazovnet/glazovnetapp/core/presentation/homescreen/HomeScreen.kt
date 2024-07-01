@@ -366,7 +366,7 @@ private fun ScreenContents(
                 ),
                 arguments = listOf(navArgument("tariffId") {nullable = true})
             ) {
-                val tariffId = it.arguments?.getString("tariffId")
+//                val tariffId = it.arguments?.getString("tariffId")
                 TariffsListScreen(
 //                    optionalTariffId = tariffId,
                     onNavigationButtonPressed = { toggleNavigationDrawer.invoke() }

@@ -63,8 +63,7 @@ class AuthUseCase @Inject constructor(
         val isNotificationsSetupComplete = notificationsLocalSettingRepository.getIsNotificationsSetupComplete()
         val isNotificationsEnabledOnDevice = notificationsLocalSettingRepository.getIsNotificationsEnabledOnDevice()
         if (isNotificationsSetupComplete && isNotificationsEnabledOnDevice) {
-            //TODO Replace to removeUserFcmToken
-            val result = notificationsApiRepository.updateFcmToken(
+            notificationsApiRepository.updateFcmToken(
                 authToken = localUserAuthDataRepository.getLoginToken() ?: "",
                 personId = localUserAuthDataRepository.getAssociatedPersonId() ?: "",
                 token = notificationsLocalSettingRepository.getLastKnownFcmToken()!!,

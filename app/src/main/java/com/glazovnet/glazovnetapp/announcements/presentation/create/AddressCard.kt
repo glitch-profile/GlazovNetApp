@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AddressCard(
-    modifier: Modifier = Modifier,
     addressState: AddressState,
     onClick: () -> Unit
 ) {
