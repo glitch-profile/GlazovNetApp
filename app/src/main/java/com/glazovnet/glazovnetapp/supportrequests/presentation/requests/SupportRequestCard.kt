@@ -30,7 +30,6 @@ import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestMod
 fun SupportRequestCard(
     modifier: Modifier = Modifier,
     data: SupportRequestModel,
-    showAdditionInfo: Boolean,
     onClick: (requestId: String) -> Unit
 ) {
     Column(
@@ -81,19 +80,19 @@ fun SupportRequestCard(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.End
         ) {
-            if (showAdditionInfo) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = buildAnnotatedString {
-                        append(stringResource(id = R.string.request_card_created_by_text) + " ")
-                        withStyle(MaterialTheme.typography.titleSmall.toSpanStyle()) {
-                            append(data.creatorName)
-                        }
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
+//            if (showAdditionInfo) {
+//                Spacer(modifier = Modifier.height(4.dp))
+//                Text(
+//                    text = buildAnnotatedString {
+//                        append(stringResource(id = R.string.request_card_created_by_text) + " ")
+//                        withStyle(MaterialTheme.typography.titleSmall.toSpanStyle()) {
+//                            append(data.creatorName)
+//                        }
+//                    },
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//            }
             Text(
                 text = buildAnnotatedString {
                     append(stringResource(id = R.string.request_card_creation_date_text) + " ")

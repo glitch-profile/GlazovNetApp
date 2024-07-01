@@ -22,7 +22,6 @@ fun SupportRequestDto.toSupportRequestModel(): SupportRequestModel {
         id = this.id,
         creatorPersonId = this.creatorPersonId,
         creatorClientId = this.creatorClientId,
-        creatorName = this.creatorName,
         associatedSupportId = this.associatedSupportId,
         title = this.title,
         description = this.description,

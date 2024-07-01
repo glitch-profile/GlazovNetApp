@@ -14,7 +14,7 @@ interface RequestsApiRepository {
 
     suspend fun getRequestById(token: String, requestId: String, clientId: String?, employeeId: String?): Resource<SupportRequestModel?>
 
-    suspend fun getRequestCreatorInfo(token: String, requestId: String, employeeId: String): Resource<RequestCreatorInfoDto>
+    suspend fun getRequestCreatorInfo(token: String, requestId: String, personId: String): Resource<RequestCreatorInfoDto>
 
     suspend fun getMessagesForRequest(token: String, requestId: String, clientId: String?, employeeId: String?): Resource<List<MessageModel>>
 

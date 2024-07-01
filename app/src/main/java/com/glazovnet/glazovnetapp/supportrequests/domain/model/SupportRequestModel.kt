@@ -6,7 +6,6 @@ data class SupportRequestModel(
     val id: String,
     val creatorPersonId: String,
     val creatorClientId: String,
-    val creatorName: String,
     val associatedSupportId: String?,
     val title: String,
     val description: String,

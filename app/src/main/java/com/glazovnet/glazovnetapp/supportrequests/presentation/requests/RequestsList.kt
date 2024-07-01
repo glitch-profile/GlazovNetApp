@@ -156,7 +156,6 @@ fun RequestsListScreen(
                                         modifier = Modifier
                                             .padding(top = 8.dp),
                                         data = it,
-                                        showAdditionInfo = isEmployeeWithRole,
                                         onClick = onRequestClicked
                                     )
                                 }

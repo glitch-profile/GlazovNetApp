@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,6 +36,7 @@ class ChatViewModel @Inject constructor(
     val state = _state.asStateFlow()
     private val _request = MutableStateFlow<SupportRequestModel?>(null)
     val request = _request.asStateFlow()
+    private val _requestCreatorName = MutableStateFlow<String?>(null)
 
     private val _messageState = MutableStateFlow(MessageNotificationState())
     val messageState = _messageState.asStateFlow()
@@ -47,7 +49,10 @@ class ChatViewModel @Inject constructor(
 
     fun initChat(requestId: String) {
         viewModelScope.launch {
-            loadRequest(requestId)
+            listOf(
+                launch { loadRequest(requestId) },
+                launch { loadCreatorName(requestId) }
+            ).joinAll() //waiting all tasks for complete
             if (request.value != null) {
                 getMessages(requestId)
                 if (request.value!!.status != RequestStatus.Solved) {
@@ -105,7 +110,7 @@ class ChatViewModel @Inject constructor(
                         index = result.data.size,
                         MessageModel(
                             senderId = request.value!!.creatorPersonId,
-                            senderName = request.value!!.creatorName,
+                            senderName = _requestCreatorName.value!!,
                             text = request.value!!.description,
                             timestamp = request.value!!.creationDate,
                             isOwnMessage = personId == request.value!!.creatorPersonId
@@ -150,6 +155,17 @@ class ChatViewModel @Inject constructor(
                 titleRes = R.string.request_chat_cant_connect_to_chat_error_title,
                 messageRes = result.stringResourceId!!
             )
+        }
+    }
+
+    private suspend fun loadCreatorName(requestId: String) {
+        val result = requestsApiRepository.getRequestCreatorInfo(
+            token = loginToken,
+            requestId = requestId,
+            personId = personId
+        )
+        if (result is Resource.Success) {
+            _requestCreatorName.update { result.data!!.fullName }
         }
     }
 

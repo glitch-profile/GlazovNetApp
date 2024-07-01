@@ -119,12 +119,12 @@ class RequestsApiRepositoryImpl @Inject constructor(
     override suspend fun getRequestCreatorInfo(
         token: String,
         requestId: String,
-        employeeId: String
+        personId: String
     ): Resource<RequestCreatorInfoDto> {
         return try {
             val response: ApiResponseDto<RequestCreatorInfoDto> = client.get("$PATH/requests/$requestId/creator-info") {
                 bearerAuth(token)
-                header("employee_id", employeeId)
+                header("person_id", personId)
             }.body()
             if (response.status) {
                 Resource.Success(response.data)

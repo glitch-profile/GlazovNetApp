@@ -30,9 +30,10 @@ class RequestDetailsViewModel @Inject constructor(
     private val _creatorInfo = MutableStateFlow<RequestCreatorInfoDto?>(null)
     val creatorInfo = _creatorInfo.asStateFlow()
 
-    val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
     private val loginToken = userAuthDataRepository.getLoginToken() ?: ""
     val clientId = userAuthDataRepository.getAssociatedClientId() ?: ""
+    val employeeId = userAuthDataRepository.getAssociatedEmployeeId() ?: ""
+    private val personId = userAuthDataRepository.getAssociatedPersonId() ?: ""
     val isEmployeeWithRole = userAuthDataRepository.getEmployeeHasRole(EmployeeRoles.SUPPORT_CHAT)
 
     fun loadRequestInfo(requestId: String) {
@@ -77,7 +78,7 @@ class RequestDetailsViewModel @Inject constructor(
                 val result = requestsApiRepository.getRequestCreatorInfo(
                     token = loginToken,
                     requestId = requestId,
-                    employeeId = employeeId
+                    personId = personId
                 )
                 if (result is Resource.Success) {
                     _creatorInfo.update { result.data }
