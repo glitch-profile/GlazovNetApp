@@ -6,6 +6,7 @@ import com.glazovnet.glazovnetapp.core.domain.repository.LocalUserAuthDataReposi
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
 import com.glazovnet.glazovnetapp.supportrequests.data.entity.IncomingSupportRequestDto
 import com.glazovnet.glazovnetapp.supportrequests.data.entity.MessageModelDto
+import com.glazovnet.glazovnetapp.supportrequests.data.entity.RequestCreatorInfoDto
 import com.glazovnet.glazovnetapp.supportrequests.data.entity.SupportRequestDto
 import com.glazovnet.glazovnetapp.supportrequests.data.mappers.toMessageModel
 import com.glazovnet.glazovnetapp.supportrequests.data.mappers.toSupportRequestModel
@@ -107,6 +108,26 @@ class RequestsApiRepositoryImpl @Inject constructor(
                 Resource.Success(
                     data = response.data.toSupportRequestModel()
                 )
+            } else {
+                Resource.Error(R.string.api_response_server_error, response.message)
+            }
+        } catch (e: Exception) {
+            Resource.generateFromApiResponseError(e)
+        }
+    }
+
+    override suspend fun getRequestCreatorInfo(
+        token: String,
+        requestId: String,
+        employeeId: String
+    ): Resource<RequestCreatorInfoDto> {
+        return try {
+            val response: ApiResponseDto<RequestCreatorInfoDto> = client.get("$PATH/requests/$requestId/creator-info") {
+                bearerAuth(token)
+                header("employee_id", employeeId)
+            }.body()
+            if (response.status) {
+                Resource.Success(response.data)
             } else {
                 Resource.Error(R.string.api_response_server_error, response.message)
             }

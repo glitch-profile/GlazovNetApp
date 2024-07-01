@@ -1,6 +1,7 @@
 package com.glazovnet.glazovnetapp.supportrequests.domain.repository
 
 import com.glazovnet.glazovnetapp.core.domain.utils.Resource
+import com.glazovnet.glazovnetapp.supportrequests.data.entity.RequestCreatorInfoDto
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.MessageModel
 import com.glazovnet.glazovnetapp.supportrequests.domain.model.SupportRequestModel
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,8 @@ interface RequestsApiRepository {
     suspend fun getRequestsForClient(token: String, clientId: String): Resource<List<SupportRequestModel>>
 
     suspend fun getRequestById(token: String, requestId: String, clientId: String?, employeeId: String?): Resource<SupportRequestModel?>
+
+    suspend fun getRequestCreatorInfo(token: String, requestId: String, employeeId: String): Resource<RequestCreatorInfoDto>
 
     suspend fun getMessagesForRequest(token: String, requestId: String, clientId: String?, employeeId: String?): Resource<List<MessageModel>>
 
